@@ -1,0 +1,6 @@
+{
+    "name": "String",
+    "author": "Tom Barham",
+    "description": "String utility functions",
+    "load": ["string"]
+}

@@ -1,0 +1,7 @@
+{
+    "name": "Cookies",
+    "author": "Tom Barham",
+    "description": "Secure cookies stored in the database",
+    "requires": ["connection"],
+    "load": ["cookies", "cookie"]
+}

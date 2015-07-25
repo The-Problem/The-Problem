@@ -1,0 +1,6 @@
+{
+    "name": "Modules",
+    "author": "Tom Barham",
+    "description": "Classes to manage modules in pages",
+    "load": ["modules", "imodule"]
+}
