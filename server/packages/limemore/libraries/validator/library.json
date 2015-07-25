@@ -1,0 +1,6 @@
+{
+    "name": "Validator",
+    "author": "Tom Barham",
+    "description": "Simple form validation class",
+    "load": ["validator"]
+}

@@ -1,0 +1,6 @@
+{
+    "name": "Timer",
+    "author": "David Walsh",
+    "description": "Simple timing class",
+    "load": ["timer"]
+}

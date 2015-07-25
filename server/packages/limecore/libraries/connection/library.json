@@ -1,0 +1,7 @@
+{
+    "name": "Connection",
+    "author": "Tom Barham",
+    "description": "A class to allow simple connection to MySQL",
+    "requires": ["json", "error"],
+    "load": ["connection", "query"]
+}

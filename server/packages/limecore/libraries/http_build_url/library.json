@@ -1,0 +1,7 @@
+{
+    "name": "http_build_url",
+    "author": "Tom Barham",
+    "description": "Aims to provide the http_build_url() function to environments without pecl_http.",
+    "requires": [],
+    "load": ["http_build_url"]
+}

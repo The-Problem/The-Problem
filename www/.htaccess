@@ -1,0 +1,31 @@
+# GZIP Compression
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript text/javascript
+</IfModule>
+
+# Expires (temporarily disabled)
+#<IfModule mod_expires.c>
+#ExpiresActive on
+#<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+#ExpiresDefault "access plus 1 year"
+#</FilesMatch>
+#</IfModule>
+
+# Content Type
+AddCharset UTF-8 .html .htm .php
+
+# Stop indexes
+Options -Indexes
+
+# Rewrite URLs
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1?%{QUERY_STRING} [L]
+
+# PHP Configuration
+<IfModule php5_module>
+# Change PHP session data
+php_value session.cookie_httponly true
+php_value session.name "limesession"
+</IfModule>

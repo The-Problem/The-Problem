@@ -1,0 +1,7 @@
+{
+    "name": "Image",
+    "author": "Tom Barham",
+    "description": "Basic image class",
+    "load": ["image", "imagecache", "imageprocessor"],
+    "requires": ["json", "string"]
+}

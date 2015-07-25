@@ -1,0 +1,7 @@
+{
+    "name": "Jobs",
+    "author": "Tom Barham",
+    "description": "A class to execute jobs",
+    "requires": [],
+    "load": ["jobs", "ijob"]
+}
