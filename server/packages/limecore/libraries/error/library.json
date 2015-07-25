@@ -1,0 +1,6 @@
+{
+    "name": "Error",
+    "author": "Tom Barham",
+    "description": "Error handling class",
+    "load": ["error"]
+}

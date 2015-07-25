@@ -1,0 +1,7 @@
+{
+    "name": "Color extract",
+    "author": "Csongor Zalatnai",
+    "description": "This class can be used to extract the most common colors used in images",
+    "requires": [],
+    "load": ["colors"]
+}

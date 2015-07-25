@@ -1,0 +1,6 @@
+{
+    "name": "Pages",
+    "author": "Tom Barham",
+    "description": "Classes to display and manage pages",
+    "load": ["ipage", "itemplate", "pages", "templates"]
+}

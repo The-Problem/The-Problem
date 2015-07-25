@@ -1,0 +1,29 @@
+_________          _______    _______  _______  _______  ______   _        _______  _______
+\__   __/|\     /|(  ____ \  (  ____ )(  ____ )(  ___  )(  ___ \ ( \      (  ____ \(       )
+   ) (   | )   ( || (    \/  | (    )|| (    )|| (   ) || (   ) )| (      | (    \/| () () |
+   | |   | (___) || (__      | (____)|| (____)|| |   | || (__/ / | |      | (__    | || || |
+   | |   |  ___  ||  __)     |  _____)|     __)| |   | ||  __ (  | |      |  __)   | |(_)| |
+   | |   | (   ) || (        | (      | (\ (   | |   | || (  \ \ | |      | (      | |   | |
+   | |   | )   ( || (____/\  | )      | ) \ \__| (___) || )___) )| (____/\| (____/\| )   ( |
+   )_(   |/     \|(_______/  |/       |/   \__/(_______)|/ \___/ (_______/(_______/|/     \|
+
+/* TEAM */
+Developer: Paddy Kim
+Site: http://github.com/cmnvb
+Location: Australia
+
+Developer: Darren Fu
+Site: http://github.com/Dr2n
+Location: Australia
+
+LimePHP/Developer: Tom Barham
+Site: http://mrfishie.com
+Location: Australia
+
+/* SITE */
+Last update: 2015/07/25
+Standards: HTML5, CSS3, ES5
+Components: LimePHP
+Software: SublimeText2, PHPStorm, Apache2, PHP, phpMyAdmin, MySQL, ImageMagick
+
+Developed using LimePHP - A lightweight and extendable PHP framework

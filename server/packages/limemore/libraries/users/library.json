@@ -1,0 +1,7 @@
+{
+    "name": "Users",
+    "author": "Tom Barham",
+    "description": "Provides a wrapper for users in the database",
+    "requires": ["networks"],
+    "load": ["user", "users"]
+}

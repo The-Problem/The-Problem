@@ -1,0 +1,6 @@
+{
+    "name": "JSON",
+    "author": "Tom Barham",
+    "description": "Utilities for JSON",
+    "load": ["json"]
+}
