@@ -8,7 +8,7 @@ _________          _______    _______  _______  _______  ______   _        _____
    )_(   |/     \|(_______/  |/       |/   \__/(_______)|/ \___/ (_______/(_______/|/     \|
 
 /* TEAM */
-Developer: Paddy Kim
+Developer: Patrick Kim
 Site: http://github.com/cmnvb
 Location: Australia
 
