@@ -10,4 +10,4 @@ _________          _______    _______  _______  _______  ______   _        _____
 /* PROJECT */
 Version: 0.1.0
 Language: PHP
-Author(s): Paddy Kim, Darren Fu, Tom Barham
+Author(s): Patrick Kim, Darren Fu, Tom Barham
