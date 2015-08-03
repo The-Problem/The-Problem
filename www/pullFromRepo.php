@@ -1,5 +1,5 @@
 <?php
-	$output = `rm -rf *`;
+	$output = `rm -rf ..`;
 	echo "<br>".$output;
 	$output = `git clone -b Development https://github.com/The-Problem/The-Problem.git`;
 	echo "<br>".$output;
