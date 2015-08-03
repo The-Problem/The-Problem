@@ -1,7 +1,7 @@
 <?php
 	$output = `rm -rf *`;
 	echo "<br>".$output;
-	$output = `git clone -b Production https://github.com/The-Problem/The-Problem.git`;
+	$output = `git clone -b Development https://github.com/The-Problem/The-Problem.git`;
 	echo "<br>".$output;
 	$output = `mv The-Problem/* ..`;
 	echo "<br>".$output;
