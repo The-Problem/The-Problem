@@ -21,3 +21,4 @@ class ResPage implements IPage {
         $filepath = Path::getserverfolder("res") . $this->path;
     }
 }
+

@@ -71,10 +71,10 @@ class Library {
                     foreach ($load_d as $l) {
                         $path = Path::implodepath($folder, $l . ".php");
                         
-                        include_once($path);
+                        l_include($path, false);
                     }
                 } else if (file_exists($folder . ".php")) {
-                    require_once($folder . ".php");
+                    l_include($folder . ".php", false);
                 } else throw new Exception("Cannot find any library in '" . $folder . "'");
                 Events::call("libloaded.*", array($name));
                 Events::call("libloaded." . $name);
@@ -111,7 +111,7 @@ class Library {
         $folder = self::$libraries[$base_lib];
         foreach ($file as $f) {
             $filepath = Path::implodepath($folder, $f . ".php");
-            if (file_exists($filepath)) require_once($filepath);
+            if (file_exists($filepath)) l_include($filepath, false);
         }
     }
     
@@ -125,7 +125,7 @@ class Library {
      * @return bool Has the library been loaded?
      */
     public static function loaded($lib) {
-        return in_array($lib, self::$libraries);
+        return in_array($lib, self::$loadedlibs);
     }
     
     private static function json_wrap($url) {

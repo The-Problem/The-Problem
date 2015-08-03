@@ -38,3 +38,4 @@ class ResPage implements IPage {
         echo $contents;
     }
 }
+

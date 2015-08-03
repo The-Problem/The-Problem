@@ -9,9 +9,5 @@
  * @copyright Copyright (c) 2014, mrfishie Studios
  */
 
-/* CONFIG */
-define('SERVER_ROOT', "../server");
-/* END CONFIG */
-
-include(realpath(SERVER_ROOT . "/core/lime.php"));
+include("../server/core/lime.php");
 LimePHP::start();

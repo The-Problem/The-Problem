@@ -55,7 +55,7 @@ class Packages {
         $libraryfile = Path::implodepath($folder, "package.php");
         
         if (!file_exists($libraryfile)) throw new Exception("Cannot find 'package.php' in '" . $folder . "'");
-        include($libraryfile);
+        l_include($libraryfile, false);
         
         $name = basename($folder);
         $classname = ucwords($name) . "Package";

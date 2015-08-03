@@ -83,7 +83,7 @@ class Pages {
                 if (!file_exists($fullurl)) continue;
                 
                 $info = new PageInfo($fp);
-                include_once($fullurl);
+                l_include($fullurl, false);
                 
                 $classname = implode(array_map(function($n) {
                     return ucwords($n);

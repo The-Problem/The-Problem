@@ -40,7 +40,7 @@ class Jobs {
             if (!array_key_exists($job, self::$jobs)) throw new Exception("The job called $job does not exist");
             
             $path = self::$jobs[$job];
-            require_once(Path::implodepath($path, "jobs", $job . ".php"));
+            l_include(Path::implodepath($path, "jobs", $job . ".php"), false);
             if (!class_exists($classname)) throw new Exception("Cannot find class called $classname for job $job");
             if (!in_array("IJob", class_implements($classname))) throw new Exception("Class $classname does not implement IJob for job $job");
             

@@ -12,18 +12,6 @@
 class LimePHP {
     public static $root;
     
-    private static $requiredfiles = array(
-        "core/events/events.php",
-        "core/events/handler.php",
-        "core/packages/packages.php",
-        "core/packages/ipackage.php",
-        "core/packages/resources.php",
-        "core/default/path.php",
-        "core/default/response.php",
-        "core/default/library.php",
-        "core/default/logger.php",
-    );
-    
     /**
      * The version of LimePHP
      */
@@ -43,6 +31,8 @@ class LimePHP {
             self::initialize($packages);
             
             Events::call("start");
+
+            l_include_flush();
         } catch (Exception $ex) {
             self::error($ex);
         }
@@ -55,6 +45,9 @@ class LimePHP {
      */
     public static function initialize($packages = null) {
         try {
+            self::$root = realpath(dirname(dirname(__FILE__)));
+            include('include.php');
+
             if (function_exists('xdebug_disable')) {
                 xdebug_disable();
             }
@@ -62,15 +55,13 @@ class LimePHP {
             set_error_handler(function($errno, $errstr, $errfile, $errline) {
                 if ($errno > E_USER_NOTICE) throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
             });
-            
-            set_include_path(self::$root = realpath(dirname(dirname(__FILE__))));
-            
+
             self::loadrequiredfiles();
             Logger::start();
-            
+
             if (is_null($packages)) $packages = Packages::discover();
             Packages::load($packages);
-            
+
             spl_autoload_register(function($class) {
                 trigger_error("The class $class was not found and is being autoloaded as a package", E_USER_NOTICE);
                 Library::get(strtolower($class));
@@ -99,8 +90,14 @@ class LimePHP {
     }
     
     private static function loadrequiredfiles() {
-        foreach (self::$requiredfiles as $file) {
-            include($file);
-        }
+        l_include("core\\events\\events.php");
+        l_include("core\\events\\handler.php");
+        l_include("core\\packages\\packages.php");
+        l_include("core\\packages\\ipackage.php");
+        l_include("core\\packages\\resources.php");
+        l_include("core\\default\\path.php");
+        l_include("core\\default\\response.php");
+        l_include("core\\default\\library.php");
+        l_include("core\\default\\logger.php");
     }
 }

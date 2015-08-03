@@ -49,7 +49,7 @@ class Modules {
             $path = Path::implodepath(self::$modules[$name], "modules", urlencode($name)) . ".php";
             if (!file_exists($path)) throw new Exception("Cannot find module in " . $path);
             
-            require_once($path);
+            l_include($path, false);
             
             $classname = ucwords($name) . "Module";
             if (!class_exists($classname)) throw new Exception("Cannot find module class " . $classname . " in " . $path);

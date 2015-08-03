@@ -67,7 +67,7 @@ class Templates {
         }
         if (is_null($url)) throw new Exception("Can't find template called '" . $name . "' in theme '" . self::get_theme() . "'");
         
-        require_once($url);
+        l_include($url, false);
         $classname = ucwords($name) . "Template";
         if (!class_exists($classname)) throw new Exception("Cannot find class called " . $classname . " for template " . $name);
         return new $classname();
