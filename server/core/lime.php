@@ -90,14 +90,14 @@ class LimePHP {
     }
     
     private static function loadrequiredfiles() {
-        l_include("core\\events\\events.php");
-        l_include("core\\events\\handler.php");
-        l_include("core\\packages\\packages.php");
-        l_include("core\\packages\\ipackage.php");
-        l_include("core\\packages\\resources.php");
-        l_include("core\\default\\path.php");
-        l_include("core\\default\\response.php");
-        l_include("core\\default\\library.php");
-        l_include("core\\default\\logger.php");
+        l_include("core/events/events.php");
+        l_include("core/events/handler.php");
+        l_include("core/packages/packages.php");
+        l_include("core/packages/ipackage.php");
+        l_include("core/packages/resources.php");
+        l_include("core/default/path.php");
+        l_include("core/default/response.php");
+        l_include("core/default/library.php");
+        l_include("core/default/logger.php");
     }
 }
