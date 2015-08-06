@@ -8,6 +8,8 @@ _________          _______    _______  _______  _______  ______   _        _____
    )_(   |/     \|(_______/  |/       |/   \__/(_______)|/ \___/ (_______/(_______/|/     \|
 
 /* PROJECT */
-Version: 0.1.0
+Version: 0.2.0
 Language: PHP
 Author(s): Patrick Kim, Darren Fu, Tom Barham
+
+Developed using LimePHP - A lightweight and extendable PHP framework by Tom Barham

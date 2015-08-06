@@ -56,6 +56,8 @@ class Pages {
      * @param mixed $name The name of the page
      * @param array $fp Current page path
      * @return mixed The page, or false if page cannot be found
+     *
+     * @throws Exception
      */
     public static function getpage($name, array $fp) {
         if (!is_array($name)) $name = array($name);
@@ -170,6 +172,13 @@ class Pages {
         }
         if (!$page) $page = self::getpage(array("error"), $startpath);
         if ($page) return self::showpage($page, $startpath, true);
+        else {
+            echo "Hey, it looks like there are no pages available for the path '" . implode("/", $startpath) . "', but" .
+            " on the bright side, <em>it works!</em><br>";
+            echo "Here, have some PHP info...";
+            phpinfo();
+        }
+        return false;
     }
     
     /**

@@ -12,6 +12,12 @@
 class Connection {
     private static $con;
     private static $id = -1;
+
+    public static $persistant = true;
+    public static $host = "";
+    public static $username = "";
+    public static $password = "";
+    public static $database = "";
     
     /**
      * Connect to the database
@@ -22,8 +28,14 @@ class Connection {
      */
     public static function connect() {        
         // Database connection
-        $config = Json::readfile(Path::getserverfolder("config") . "database.json");
-        self::$con = new MySQLi("p:" . $config["host"], $config["username"], $config["password"], $config["database"]);
+
+        if (empty(self::$host)) return;
+
+        self::$con = new MySQLi(
+            (self::$persistant ? "p:" : "") . self::$host,
+            self::$username,
+            self::$password,
+            self::$database);
     }
     
     /**
@@ -46,7 +58,7 @@ class Connection {
      * @copyright Copyright (c) 2013, Tom Barham
      */
     public static function close() {
-        if (!self::$con->connect_errno) self::$con->close();
+        if (!empty(self::$host) && !self::$con->connect_errno) self::$con->close();
     }
     
     /**

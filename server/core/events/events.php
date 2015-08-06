@@ -58,7 +58,9 @@ class Events {
      * @param string $name Name of event to call
      * @param array Arguments to pass to callback (optional)
      */
-    public static function call($name, $args = array()) {        
+    public static function call($name, $args = array()) {
+        //echo microtime() . " calling $name\n";
+
         if (!array_key_exists($name, self::$events)) return;
         
         usort(self::$events[$name], function($a, $b) {

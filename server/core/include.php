@@ -1,7 +1,10 @@
 <?php
 
-include(__DIR__ . '/../cache/include.php');
+define('LIME_CACHE_DISABLED', 0);
+define('LIME_CACHE_SIMPLE', 1);
+define('LIME_CACHE_AGGRESSIVE', 2);
 
+define('LIME_CACHE_MODE', LIME_CACHE_SIMPLE);
 
 if (!array_key_exists('lime_include_cache', $GLOBALS) || !is_array($GLOBALS['lime_include_cache'])) {
     $GLOBALS['lime_include_cache'] = array();
@@ -10,8 +13,7 @@ if (!array_key_exists('lime_include_cache', $GLOBALS) || !is_array($GLOBALS['lim
 $GLOBALS['lime_included_list'] = array();
 $GLOBALS['lime_has_cache_changed'] = false;
 
-$GLOBALS['lime_cache_enabled'] = true;
-$GLOBALS['lime_cache_aggressive'] = false;
+//var_dump($GLOBALS['lime_include_cache']);
 
 /**
  * Intelligently includes a file by caching it if required
@@ -20,16 +22,29 @@ $GLOBALS['lime_cache_aggressive'] = false;
  * @param Boolean $relative
  */
 function l_include($file, $relative = true) {
+    static $included_list = array();
+    static $has_included = false;
+
+
     if ($relative) $file = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . $file;
 
-    if (in_array($file, $GLOBALS['lime_included_list'])) return;
-    array_push($GLOBALS['lime_include_list'], $file);
-
-    if (array_key_exists($file, $GLOBALS['lime_include_cache'])) call_user_func($GLOBALS['lime_include_cache'][$file]);
+    if (LIME_CACHE_MODE === LIME_CACHE_DISABLED) require_once($file);
     else {
-        $GLOBALS['lime_has_cache_changed'] = true;
-        $GLOBALS['lime_include_cache'][$file] = function() {};
-        require($file);
+        if (!$has_included) {
+            if (file_exists( __DIR__ . '/../cache/include.php')) include(__DIR__ . '/../cache/include.php');
+            $has_included = true;
+        }
+
+        if (in_array($file, $included_list)) return;
+        array_push($included_list, $file);
+
+        if (array_key_exists($file, $GLOBALS['lime_include_cache'])) call_user_func($GLOBALS['lime_include_cache'][$file]);
+        else {
+            $GLOBALS['lime_has_cache_changed'] = true;
+            $GLOBALS['lime_include_cache'][$file] = function () {
+            };
+            require($file);
+        }
     }
 }
 
@@ -37,9 +52,9 @@ function l_include($file, $relative = true) {
  * Flushes the include cache to the file
  */
 function l_include_flush() {
-    if (!$GLOBALS['lime_has_cache_changed'] || !$GLOBALS['lime_cache_enabled']) return;
+    if (LIME_CACHE_MODE === LIME_CACHE_DISABLED || !$GLOBALS['lime_has_cache_changed']) return;
 
-    if ($GLOBALS['lime_cache_aggressive']) {
+    if (LIME_CACHE_MODE === LIME_CACHE_AGGRESSIVE) {
         $array_values = array();
         $code = array();
 

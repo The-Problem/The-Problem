@@ -1,4 +1,8 @@
 <?php
+
+// define default options
+
+
 /**
  * LimeMore Package
  * Adds some more handy libraries that aren't required by the mozzo core.

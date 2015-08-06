@@ -57,7 +57,7 @@ class LimecorePackage implements IPackage {
             Timer::start();
             Connection::connect();
             Pages::showpagefrompath(Path::getpage());
-            
+
             $now = new DateTime();
             setcookie("lpla", $now->format(DateTime::W3C), 0, "/", "." . Path::getdomain(), false, true);
             

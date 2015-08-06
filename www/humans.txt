@@ -21,9 +21,9 @@ Site: http://mrfishie.com
 Location: Australia
 
 /* SITE */
-Last update: 2015/07/25
+Last update: 2015/08/06
 Standards: HTML5, CSS3, ES5
 Components: LimePHP
 Software: SublimeText2, PHPStorm, Apache2, PHP, phpMyAdmin, MySQL, ImageMagick
 
-Developed using LimePHP - A lightweight and extendable PHP framework
+Developed using LimePHP - A lightweight and extendable PHP framework by Tom Barham

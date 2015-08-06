@@ -11,11 +11,12 @@
  */
 class LimePHP {
     public static $root;
+    public static $config = array();
     
     /**
      * The version of LimePHP
      */
-    const VERSION = "0.1";
+    const VERSION = "0.2";
     
     /**
      * Start everything
@@ -57,6 +58,7 @@ class LimePHP {
             });
 
             self::loadrequiredfiles();
+            Events::call("loaded");
             Logger::start();
 
             if (is_null($packages)) $packages = Packages::discover();
