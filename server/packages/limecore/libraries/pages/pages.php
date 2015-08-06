@@ -170,7 +170,10 @@ class Pages {
             $page = self::getpage($path, $startpath);
             if (!$page || !$page->permission()) $page = false;
         }
-        if (!$page) $page = self::getpage(array("error"), $startpath);
+        if (!$page) {
+            http_response_code(404);
+            $page = self::getpage(array("error"), $startpath);
+        }
         if ($page) return self::showpage($page, $startpath, true);
         else {
             echo "Hey, it looks like there are no pages available for the path '" . implode("/", $startpath) . "', but" .
