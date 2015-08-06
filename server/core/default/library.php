@@ -28,6 +28,7 @@ class Library {
         self::$libraries[$name] = Path::implodepath($dir, "libraries", $name);
         
         Events::call("libadded", array($name));
+        Events::call("libadded.$name");
     }
     
     /**

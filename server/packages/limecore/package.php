@@ -18,7 +18,7 @@
  * @package LimeCore
  */
 class LimecorePackage implements IPackage {
-    public function initialize(&$r) {
+    public function initialize(Resources &$r) {
         
         $r->add(array(
             "Libraries" => array(
@@ -35,6 +35,11 @@ class LimecorePackage implements IPackage {
             ),
             "Pages" => array(
                 "res"
+            ),
+            "Templates" => array(
+                "ajax",
+                "barebones",
+                "blank"
             ),
             "Autoload" => array(
                 "connection",

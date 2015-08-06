@@ -69,17 +69,8 @@ class Head {
         
         $this->addprocessor("stylesheet", self::PART_GLOBAL, function($n) {
             return array_map(function($itm) {
-                if (is_array($itm)) {
-                    $islocal = $itm[1];
-                    $url = $itm[0];
-                    if ($islocal) {
-                        $color = $this->mode("color");
-                        $url = Path::addget($url, array(
-                            "rgba(0,1,0,0)" => "rgb($color)",
-                            "rgba(0,1,0," => "rgba($color,"
-                        ));
-                    }
-                } else $url = $itm;
+                if (is_array($itm)) $url = $itm[0];
+                else $url = $itm;
                 
                 return '<link rel="stylesheet" href="' . htmlentities($url) . '" />';
             }, $n);
@@ -221,7 +212,7 @@ class Head {
             if ($absolute) $u = $url;
             else {
                 $u = Path::getclientfolder("res", "css") . $url . ".css";
-                $u = Path::addget($u . "/", $replacetags);
+                //$u = Path::addget($u . "/", $replacetags);
             }
             
             $this->additem("stylesheet", array($u, !$absolute));

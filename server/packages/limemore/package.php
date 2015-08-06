@@ -1,8 +1,4 @@
 <?php
-
-// define default options
-
-
 /**
  * LimeMore Package
  * Adds some more handy libraries that aren't required by the mozzo core.
@@ -23,7 +19,7 @@
  * @package LimeCore
  */
 class LimemorePackage implements IPackage {
-    public function initialize(&$r) {
+    public function initialize(Resources &$r) {
         $r->add(array(
             "Libraries" => array(
                 "image",

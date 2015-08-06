@@ -8,5 +8,5 @@
  * @package LimePHP.Packages
  */
 interface IPackage {    
-    public function initialize(&$r);
+    public function initialize(Resources &$r);
 }
