@@ -24,7 +24,7 @@
 echo "<p>Starting pull...</p>";
 echo "<pre><code>";
 
-echo "$ cd ../\n";
+echo "<span>$</span> cd ../\n";
 chdir(__DIR__ . '/../');
 
 run("rm -rf *");
@@ -37,7 +37,7 @@ echo "<p>Success! Updated with Github repository.</p>";
 
 function run($script) {
     echo "<span>$</span> $script\n";
-    echo htmlentities(shell_exec($script . " 2>&1")) . "\n";
+    echo htmlentities(shell_exec($script)) . "\n";
 }
 ?>
 
