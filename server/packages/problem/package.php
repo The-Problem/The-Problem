@@ -3,6 +3,9 @@
 class ProblemPackage implements IPackage {
     public function initialize(Resources &$r) {
         $r->add(array(
+            "Libraries" => array(
+                "objects"
+            ),
             "Templates" => array(
                 "default"
             ),

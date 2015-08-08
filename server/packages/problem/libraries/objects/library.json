@@ -1,0 +1,7 @@
+{
+    "name": "Objects",
+    "author": "Tom Barham",
+    "description": "Provides a wrapper for objects in the database",
+    "requires": [],
+    "load": ["object", "objects"]
+}
