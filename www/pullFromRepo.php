@@ -1,7 +1,7 @@
 <?php
-	$output = `cd ..`;
-	echo "<br>".$output;
-	$output = `rm -rf *`;
+	//$output = `cd ..`;
+	//echo "<br>".$output;
+	$output = `rm -rf ../*`;
 	echo "<br>".$output;
 	$output = `git clone -b Development https://github.com/The-Problem/The-Problem.git`;
 	echo "<br>".$output;
