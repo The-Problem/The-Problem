@@ -176,10 +176,15 @@ class Pages {
         }
         if ($page) return self::showpage($page, $startpath, true);
         else {
-            echo "Hey, it looks like there are no pages available for the path '" . implode("/", $startpath) . "', but" .
-            " on the bright side, <em>it works!</em><br>";
-            echo "Here, have some PHP info...";
-            phpinfo();
+            if (LIME_ENV === LIME_ENV_DEV) {
+                echo "Hey, it looks like there are no pages available for the path '" . implode("/", $startpath) . "', but" .
+                    " on the bright side, <em>it works!</em><br>";
+                echo "<em>Note: this might mean you don't have an \"error\" page setup, or it is not accessible.</em><br>";
+                echo "Here, have some PHP info... (only shown when LIME_ENV == LIME_ENV_DEV)";
+                phpinfo();
+            } else {
+                echo "<title>404 Not Found</title><h1>404 Not Found</h1><p>The requested URL was not found.</p><p><address>LimePHP/" . LimePHP::VERSION . " " . $_SERVER['SERVER_SOFTWARE'] . "</address></p>";
+            }
         }
         return false;
     }

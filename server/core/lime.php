@@ -1,4 +1,7 @@
 <?php
+define('LIME_ENV_DEV', 1);
+define('LIME_ENV_PROD', 2);
+
 /**
  * Core LimePHP manager
  *
@@ -16,7 +19,7 @@ class LimePHP {
     /**
      * The version of LimePHP
      */
-    const VERSION = "0.2";
+    const VERSION = "0.2.0";
     
     /**
      * Start everything
@@ -46,8 +49,9 @@ class LimePHP {
      */
     public static function initialize($packages = null) {
         try {
-            self::$root = realpath(dirname(dirname(__FILE__)));
+            self::$root = realpath(dirname(__DIR__));
             include('include.php');
+            include(__DIR__ . '/../profile.php');
 
             if (function_exists('xdebug_disable')) {
                 xdebug_disable();

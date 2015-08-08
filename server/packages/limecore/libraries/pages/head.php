@@ -26,7 +26,7 @@ class Head {
      * @copyright Copyright (c) 2013, Tom Barham
      * @var string Document title
      */
-    public $title = "mozzo";
+    public $title = "The Problem";
     
     private function gprocessor($n) { return implode("\n", $n); }
     
@@ -49,8 +49,8 @@ class Head {
             $code = '<title>' . $GLOBALS['pagehead_title'] . '</title>' . "\n";
             
             // If in IE <9, load jQuery 1.x and JSON2, else load jQuery 2.x
-            $code .= '<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/json2/20130526/json2.min.js"></script><![endif]-->' . "\n";
-            $code .= '<!--[if gte IE 9]><!--><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!--<![endif]-->' . "\n";
+            $code .= '<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script><![endif]-->' . "\n";
+            $code .= '<!--[if gte IE 9]><!--><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script><!--<![endif]-->' . "\n";
             
             // LimePHP JS API
             $code .= '<script src="' . Path::getclientfolder("res", "js", "lib") . 'limephp.js"></script><script>LimePHP.SERVER["root"]="' . Path::getclientfolder() . '";$(function(){LimePHP.load()})</script>' . "\n";

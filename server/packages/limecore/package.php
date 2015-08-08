@@ -33,9 +33,6 @@ class LimecorePackage implements IPackage {
                 "http_build_url",
                 "cookies"
             ),
-            "Pages" => array(
-                "res"
-            ),
             "Templates" => array(
                 "ajax",
                 "barebones",

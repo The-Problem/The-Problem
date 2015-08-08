@@ -4,8 +4,6 @@ define('LIME_CACHE_DISABLED', 0);
 define('LIME_CACHE_SIMPLE', 1);
 define('LIME_CACHE_AGGRESSIVE', 2);
 
-define('LIME_CACHE_MODE', LIME_CACHE_SIMPLE);
-
 if (!array_key_exists('lime_include_cache', $GLOBALS) || !is_array($GLOBALS['lime_include_cache'])) {
     $GLOBALS['lime_include_cache'] = array();
 }
