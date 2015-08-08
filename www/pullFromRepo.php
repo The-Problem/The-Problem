@@ -1,6 +1,5 @@
 <?php
-	$output = `cd ..`;
-	echo "<br>".$output;
+	chdir(__DIR__ . '/../');
 	$output = `rm -rf *`;
 	echo "<br>".$output;
 	$output = `git clone -b Development https://github.com/The-Problem/The-Problem.git`;
