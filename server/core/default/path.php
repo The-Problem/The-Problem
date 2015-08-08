@@ -22,10 +22,7 @@ class Path {
      *
      * @var array The list of subdomains
      */
-    public static $subdomains = array(
-        "r1", "r2",                  // Resources
-        "m1", "m2", "m3", "m4", "m5" // Modules
-    );
+    public static $subdomains = array();
     
     /**
      * Get currently viewed page as an array
@@ -41,6 +38,7 @@ class Path {
             $params = self::explodepath(strtok($basepath, "?"));
             $params = array_map(function($n) {
                 if (strpos($n, "?") === false && trim($n) !== "") return trim(urldecode($n));
+                return NULL;
             }, $params);
             $params = array_values(array_filter($params));
             

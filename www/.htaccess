@@ -21,7 +21,7 @@ Options -Indexes
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1?%{QUERY_STRING} [L]
+RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [L]
 
 # PHP Configuration
 <IfModule php5_module>
