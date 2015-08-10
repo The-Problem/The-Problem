@@ -30,7 +30,7 @@ LimePHP.register("module.terminal", function() {
             submitting = true;
 
             $out.html($out.html() + "<span style='color:#0F0'>" + $prompt.text() + "</span>" + $in.text());
-            $out.scrollTop($out[0].scrollHeight);
+            $terminal.scrollTop($terminal[0].scrollHeight);
 
             $in.text("");
             $prompt.text("");
@@ -49,7 +49,7 @@ LimePHP.register("module.terminal", function() {
                     $prompt.text("$ ");
                     memory = [];
                     $out.html($out.html() + "\n" + response.output + "\n");
-                    $out.scrollTop($out[0].scrollHeight);
+                    $terminal.scrollTop($terminal[0].scrollHeight);
                 }
                 submitting = false;
             };
