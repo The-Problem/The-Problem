@@ -81,7 +81,7 @@ class Pages {
                 
                 $url = implode(DIRECTORY_SEPARATOR, $semipath) . ".php";
                 $fullurl = Path::implodepath($dir, "pages", $url);
-                
+
                 if (!file_exists($fullurl)) continue;
                 
                 $info = new PageInfo($fp);
@@ -166,8 +166,10 @@ class Pages {
         $page = false;
         while (!$page) {
             array_pop($path);
+
             if (count($path) == 0) break;
             $page = self::getpage($path, $startpath);
+
             if (!$page || !$page->permission()) $page = false;
         }
         if (!$page) {

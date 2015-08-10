@@ -1,7 +1,6 @@
 <?php
 
 class Object {
-
     const TYPE_COMMENT = 1;
     const TYPE_BUG = 2;
     const TYPE_SECTION = 3;

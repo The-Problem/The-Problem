@@ -1,24 +1,22 @@
 <?php
-class HomePage implements IPage {
+
+class AjaxTerminalPage implements IPage {
     public function __construct(PageInfo &$page) {
     }
     public function template() {
-        return Templates::findtemplate("default");
+        return Templates::findtemplate("ajax");
     }
     public function permission() {
         return true;
     }
     public function subpages() {
-        return false;
+        return true;
     }
 
     public function head(Head &$head) {
     }
 
     public function body() {
-        echo "It works!";
-
-        Library::get("modules");
-        Modules::getoutput("terminal");
+        return array("error" => true);
     }
 }

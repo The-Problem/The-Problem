@@ -285,7 +285,7 @@ LimePHP.SERVER = {};
      * @param {String} path         The path to request
      * @param {Object} data         The data to pass
      * @param {String} responseType The type of response (default is JSON)
-     * @param {Object} properties   Other properties to give to $.ajax
+     * @param {Object?} properties  Other properties to give to $.ajax
      *
      * @return {Object} The AJAX object to add hooks to
      */
@@ -321,6 +321,8 @@ LimePHP.SERVER = {};
         var r = $.extend(true, {}, b, properties);
         
         var ajaxObj = $.ajax(r);
+
+        callbacks.ajax = ajaxObj;
         
         return callbacks;
     }

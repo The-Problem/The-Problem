@@ -6,10 +6,14 @@ class ProblemPackage implements IPackage {
             "Libraries" => array(
                 "objects"
             ),
+            "Modules" => array(
+                "terminal"
+            ),
             "Templates" => array(
                 "default"
             ),
             "Pages" => array(
+                "ajax",
                 "home"
             )
         ));

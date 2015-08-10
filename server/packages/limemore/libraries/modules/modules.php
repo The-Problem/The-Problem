@@ -41,6 +41,8 @@ class Modules {
      * @copyright Copyright (c) 2013, mrfishie Studios
      * @param string $name Name of module to get
      * @return mixed Module from name if exists, otherwise false
+     *
+     * @throws Exception
      */
     public static function &getmodule($name) {
         if (!array_key_exists($name, self::$modules)) throw new Exception("No module called " . $name);
@@ -70,7 +72,6 @@ class Modules {
      * @param mixed $params Parameters to pass to the module
      * @param bool $json Whether to output JSON
      * @param bool $includeOutside Whether to include the 'outside' component of the module
-     * @param bool $returnJson Whether to return JSON, only works is $json is true
      */
     public static function getoutput($name, $params = array(), $json = false, $includeOutside = true) {
         $module = self::getmodule($name);
@@ -79,7 +80,8 @@ class Modules {
         $params = array_merge((array)$r, (array)$params);
         
         Library::get("pages");
-        
+
+        echo "getting code";
         ob_start();
         $body = $module->getcode($params, Pages::$head);
         $extra = ob_get_clean();
