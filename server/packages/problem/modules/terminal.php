@@ -7,6 +7,7 @@ class TerminalModule implements IModule {
         Pages::$head->stylesheet("modules/terminal");
         Pages::$head->script("modules/terminal");
 
+        Pages::$head->addcode('<script src="' . Path::getclientfolder("res", "js", "lib") . 'prism.js" data-manual></script>');
         ?>
 <div class="terminal">
     <div class="output">

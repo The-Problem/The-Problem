@@ -29,7 +29,7 @@ LimePHP.register("module.terminal", function() {
 
             submitting = true;
 
-            $out.html($out.html() + "<span style='color:#0F0'>" + $prompt.text() + "</span>" + $in.text());
+            $out.html($out.html() + "<span style='color:#0F0'>" + $prompt.text() + "</span>" + $in.html());
             $terminal.scrollTop($terminal[0].scrollHeight);
 
             $in.text("");
@@ -54,7 +54,9 @@ LimePHP.register("module.terminal", function() {
                 submitting = false;
             };
         } else {
-            setTimeout(function() { $in.text($this.val()); }, 0);
+            setTimeout(function() {
+                $in.html(Prism.highlight($this.val(), Prism.languages.php));
+            }, 0);
         }
     });
 });
