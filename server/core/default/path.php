@@ -222,6 +222,7 @@ class Path {
             if(preg_match('/([a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $host, $m)) {
                 self::$domain = $m[1];
             }
+            if (empty(self::$domain)) self::$domain = "localhost";
         }
         return self::$domain;
     }

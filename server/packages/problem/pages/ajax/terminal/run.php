@@ -34,6 +34,8 @@ class AjaxTerminalRunPage implements IPage {
             eval($__func__);
         }
 
+        session_write_close();
+
         $__current_funcs__ = get_defined_functions();
 
         $out = "";

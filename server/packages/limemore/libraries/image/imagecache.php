@@ -115,12 +115,15 @@ class ImageCache {
         $path = $this->getfile($cat, $name, $properties);
         
         if (!file_exists($path["source"])) throw new Exception("Can't find source image for '" . $cat . "/" . $name . "' (path is '" . $path["source"] . "')");
-        
+
+        echo "creating processor";
         $processor = new ImageProcessor();
         
         $effects = $this->properties[$this->map[$cat][$name][$properties]];
+        echo "starting batch";
         $image = $processor->batch($path["source"], $effects);
         $image->stripImage();
+        echo "stripping";
         
         file_put_contents($path["cache"], $image);
     }

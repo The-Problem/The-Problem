@@ -15,6 +15,7 @@ class DefaultTemplate implements ITemplate {
 
     public function Head(Head &$head) {
         $head->stylesheet("templates/default");
+        $head->stylesheet("http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,700,700italic", true);
 
         $head->package("problem");
         $head->addcode("<link type='text/plain' rel='author' href='" . Path::getclientfolder() . "humans.txt' />");
@@ -77,11 +78,29 @@ class DefaultTemplate implements ITemplate {
     }
 
     private function header() {
-        // todo
+        Library::get("image");
+        $logo = new Image("branding", "logo-text", array(
+            "format" => "png",
+            "height" => 40,
+            "width" => 160
+        ));
+
+        echo "<div class='header'>";
+
+        echo '<h1 class="title"><a href="' . htmlentities(Path::getclientfolder()) . '" title="Home">' .
+                '<img alt="The Problem" title="Home" src="' . $logo->clientpath . '" />' . '</a></h1>';
+
+        echo "</div><div class='body'>";
+
+        if (isset($_GET['notice']) && $this->option("shownotice")) echo '<p class="notice">' . htmlentities($_GET['notice']) . '</p>';
+        if (isset($_GET['error']) && $this->option("showerror")) echo '<p class="error">' . htmlentities($_GET['error']) . '</p>';
+
         return "";
     }
     private function footer() {
-        // todo
+        echo "</div>";
+        echo "<div class='page-time'>" . (Timer::get(6) * 1000) . "ms</div>";
+
         return "";
     }
 }

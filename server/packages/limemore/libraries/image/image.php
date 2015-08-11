@@ -58,7 +58,7 @@ class Image {
         $this->name = $name;
         $this->originalName = $originalName;
         
-        $url = Path::addsubdomain(Path::webpath(), "r" . rand(1, 2));
+        $url = Path::webpath();
         
         $urlName = urlencode($originalName);
         $append = "";

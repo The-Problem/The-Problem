@@ -19,6 +19,6 @@ class HomePage implements IPage {
         echo "It works!";
 
         Library::get("modules");
-        Modules::getoutput("terminal");
+        Modules::output("terminal");
     }
 }

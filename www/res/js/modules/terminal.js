@@ -3,6 +3,19 @@ LimePHP.register("module.terminal", function() {
 
     var $document = $(document), $window = $(window), $body = $("body");
 
+
+    $document.on("focus", ".terminal input", function() {
+        var $terminal = $(this).parents(".terminal");
+        var $cursor = $terminal.find(".cursor");
+        $cursor.css("display", "inline");
+    });
+
+    $document.on("blur", ".terminal input", function() {
+        var $terminal = $(this).parents(".terminal");
+        var $cursor = $terminal.find(".cursor");
+        $cursor.css("display", "none");
+    });
+
     $document.on("click", ".terminal", function() {
         var $input = $(this).children("input");
         $input.focus();
@@ -27,6 +40,9 @@ LimePHP.register("module.terminal", function() {
 
         var bottomY = $window.innerHeight() - yPos;
         draggingElt.height(bottomY);
+
+        var $output = $(".terminal .output");
+        $output.scrollTop($output[0].scrollHeight);
     });
 
     $document.on("mouseup", function() {
@@ -63,6 +79,7 @@ LimePHP.register("module.terminal", function() {
 
             var r = LimePHP.request("post", LimePHP.path("ajax/terminal/run"), { code: memory.join("\n") }, "json");
             r.error = function() {
+                memory = [];
                 $out.html($out.html() + r.ajax.responseText + "\n");
                 $output.scrollTop($output[0].scrollHeight);
                 $prompt.text("$ ");

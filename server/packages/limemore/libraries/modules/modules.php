@@ -81,7 +81,6 @@ class Modules {
         
         Library::get("pages");
 
-        echo "getting code";
         ob_start();
         $body = $module->getcode($params, Pages::$head);
         $extra = ob_get_clean();

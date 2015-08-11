@@ -43,7 +43,7 @@ class Logger {
         
         if (is_null($level)) $level = 0;
         if (is_null($message)) $message = "";
-                
+
         Connection::query("INSERT INTO `" . self::$table . "` (level, message, file, line, code, time) VALUES (?, ?, ?, ?, ?, ?)", "issiis", array(
             $level, $message, $file, $line, $code, date('Y-m-d H:i:s')
         ));

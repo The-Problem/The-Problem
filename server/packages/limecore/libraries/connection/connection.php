@@ -14,10 +14,10 @@ class Connection {
     private static $id = -1;
 
     public static $persistant = true;
-    public static $host = "";
-    public static $username = "";
-    public static $password = "";
-    public static $database = "";
+    public static $host = "localhost";
+    public static $username = "tbarh4";
+    public static $password = "Passw0rd1";
+    public static $database = "the-problem";
     
     /**
      * Connect to the database

@@ -4,10 +4,6 @@ class TerminalModule implements IModule {
     public function spinnersize() { return Modules::SPINNER_LARGE; }
 
     public function getcode($params = array(), Head $h) {
-        Pages::$head->stylesheet("modules/terminal");
-        Pages::$head->script("modules/terminal");
-
-        Pages::$head->addcode('<script src="' . Path::getclientfolder("res", "js", "lib") . 'prism.js" data-manual></script>');
         ?>
 <div class="terminal">
     <div class="slider"></div>
@@ -20,6 +16,11 @@ class TerminalModule implements IModule {
 <?php }
 
     public function getsurround($code, $params) {
+        Pages::$head->stylesheet("modules/terminal");
+        Pages::$head->script("modules/terminal");
+
+        Pages::$head->addcode('<script src="' . Path::getclientfolder("res", "js", "lib") . 'prism.js" data-manual></script>');
+
         return $code;
     }
 }

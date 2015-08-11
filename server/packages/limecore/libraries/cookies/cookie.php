@@ -41,7 +41,7 @@ class Cookie {
                 "value" => array(),
                 "timeout" => new DateTime("@0"),
                 "type" => "session",
-                "domain" => "." . Path::getdomain(),
+                "domain" => "." . (empty(Path::getdomain()) ? "localhost" : Path::getdomain()),
                 "http" => false
             );
             $this->updatetimeout();
@@ -73,7 +73,7 @@ class Cookie {
         if ($this->info["type"] !== "session") return;
         
         if (is_null($sessiontimeout)) $sessiontimeout = Cookies::$sessiontimeout;
-        
+
         if (!array_key_exists("lpla", $_COOKIE)) return $this->timeout();
         else $lastactivity = new DateTime($_COOKIE["lpla"]);
         $timeout = $lastactivity->add($sessiontimeout);
@@ -187,7 +187,7 @@ class Cookie {
      */
     public function create() {
         $this->exists = true;
-        
+
         Connection::query("INSERT INTO `cookies` (name, uniqid, value, timeout, type, domain, http) VALUES (?, ?, ?, ?, ?, ?, ?)", "ssssssi", array(
             $this->info["name"],
             $this->info["uniqid"],
@@ -204,7 +204,7 @@ class Cookie {
     /**
      * Deletes a cookie
      */
-    public function delete() {        
+    public function delete() {
         setcookie($this->name(), null, -1, '/');
         Connection::query("DELETE FROM `cookies` WHERE `id` = ?", "i", array($this->info["id"]));
         unset($_COOKIE[$this->name()]);
@@ -222,7 +222,7 @@ class Cookie {
      */
     public function updateProperties($properties) {
         $didntExist = false;
-        
+
         // Create cookie if it doesnt exist
         if (!$this->exists) {
             $didntExist = true;
@@ -272,7 +272,7 @@ class Cookie {
             $query .= " WHERE `id` = ?";
             $types .= "i";
             array_push($params, $this->info["id"]);
-            
+
             Connection::query($query, $types, $params);
         }
     }

@@ -3,6 +3,11 @@ server/cache/include.php
 
 server/profile.php
 
+server/cache/images/images/*
+!server/cache/images/images/.not-empty
+
+php_errors.log
+
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion
