@@ -288,6 +288,23 @@ CREATE TABLE IF NOT EXISTS `watchers` (
   `Username` varchar(20) COLLATE latin1_general_cs NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cookies`
+--
+
+CREATE TABLE IF NOT EXISTS `cookies` (
+  `id` int(11) NOT NULL,
+  `name` text COLLATE latin1_general_cs NOT NULL,
+  `uniqid` text COLLATE latin1_general_cs NOT NULL,
+  `value` text COLLATE latin1_general_cs NOT NULL,
+  `timeout` datetime DEFAULT NULL,
+  `type` text COLLATE latin1_general_cs NOT NULL,
+  `domain` text COLLATE latin1_general_cs NOT NULL,
+  `http` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
 --
 -- RELATIONS FOR TABLE `watchers`:
 --   `Object_ID`
@@ -387,6 +404,12 @@ ALTER TABLE `watchers`
   ADD KEY `Username` (`Username`);
 
 --
+-- Indexes for table `cookies`
+--
+ALTER TABLE `cookies`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -415,6 +438,11 @@ ALTER TABLE `objects`
 --
 ALTER TABLE `sections`
   MODIFY `Section_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `cookies`
+--
+ALTER TABLE `cookies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
