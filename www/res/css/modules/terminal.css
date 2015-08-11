@@ -1,3 +1,13 @@
+body.dragging, body.dragging * {
+    cursor:ns-resize;
+    -webkit-touch-callout:none;
+    -webkit-user-selecct:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
 .terminal {
     position:fixed;
     left:0;
@@ -8,11 +18,26 @@
     background:#000;
     color:#CCC;
     font-family:Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
 
-    padding:10px;
-
+.terminal .slider {
+    background-color:#333;
+    width:100%;
+    height:5px;
+    cursor:ns-resize;
+}
+.terminal .output {
+    position:absolute;
+    top:5px;
+    left:0;
+    right:0;
+    bottom:0;
     overflow-y:auto;
-    overflow-x:hidden;
+    padding:10px;
+}
+
+.terminal .output, .terminal .in, .terminal .out {
+    word-wrap:break-word;
 }
 
 .terminal .cursor {

@@ -1,7 +1,9 @@
 LimePHP.register("module.terminal", function() {
     var /*prompt = "$ ",*/ submitting = false, memory = [];
 
-    $(document).on("click", ".terminal", function() {
+    var $document = $(document), $window = $(window), $body = $("body");
+
+    $document.on("click", ".terminal", function() {
         var $input = $(this).children("input");
         $input.focus();
         var tmpStr = $input.val();
@@ -9,7 +11,30 @@ LimePHP.register("module.terminal", function() {
         $input.val(tmpStr);
     });
 
-    $(document).on("keydown", ".terminal input", function(e) {
+    var draggingElt = false;
+
+    $document.on("mousedown", ".terminal .slider", function() {
+        if (draggingElt) return;
+        $body.addClass("dragging");
+        draggingElt = $(this).parents(".terminal");
+    });
+
+    $document.on("mousemove", function(e) {
+        if (!draggingElt) return;
+
+        var yPos = e.clientY;
+        if (e.clientY < 0) yPos = 0;
+
+        var bottomY = $window.innerHeight() - yPos;
+        draggingElt.height(bottomY);
+    });
+
+    $document.on("mouseup", function() {
+        $body.removeClass("dragging");
+        draggingElt = false;
+    });
+
+    $document.on("keydown", ".terminal input", function(e) {
         var $this = $(this);
 
         if (submitting) {
@@ -20,6 +45,7 @@ LimePHP.register("module.terminal", function() {
         var $terminal = $this.parents(".terminal");
         var $prompt = $terminal.find(".prompt");
 
+        var $output = $terminal.find(".output");
         var $out = $terminal.find(".out");
         var $in = $terminal.find(".in");
 
@@ -29,33 +55,35 @@ LimePHP.register("module.terminal", function() {
 
             submitting = true;
 
-            $out.html($out.html() + "<span style='color:#0F0'>" + $prompt.text() + "</span>" + $in.html());
-            $terminal.scrollTop($terminal[0].scrollHeight);
+            $out.html($out.html() + "<span style='color:#0F0'>" + $prompt.text() + "</span>" + $in.html() + "\n");
+            $output.scrollTop($output[0].scrollHeight);
 
             $in.text("");
             $prompt.text("");
 
             var r = LimePHP.request("post", LimePHP.path("ajax/terminal/run"), { code: memory.join("\n") }, "json");
             r.error = function() {
-                $out.html($out.html() + "\n" + r.ajax.responseText + "\n");
+                $out.html($out.html() + r.ajax.responseText + "\n");
+                $output.scrollTop($output[0].scrollHeight);
                 $prompt.text("$ ");
                 submitting = false;
             };
             r.success = function(response) {
                 if (response.success === false) {
-                    $out.html($out.html() + "\n");
+                    //$out.html($out.html() + "\n");
                     $prompt.text("... ");
                 } else {
                     $prompt.text("$ ");
                     memory = [];
-                    $out.html($out.html() + "\n" + response.output + "\n");
-                    $terminal.scrollTop($terminal[0].scrollHeight);
+                    $out.html($out.html() + response.output + "\n");
+                    $output.scrollTop($output[0].scrollHeight);
                 }
                 submitting = false;
             };
         } else {
             setTimeout(function() {
                 $in.html(Prism.highlight($this.val(), Prism.languages.php));
+                $output.scrollTop($output[0].scrollHeight);
             }, 0);
         }
     });
