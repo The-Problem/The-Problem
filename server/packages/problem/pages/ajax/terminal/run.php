@@ -18,7 +18,7 @@ class AjaxTerminalRunPage implements IPage {
     }
 
     public function body() {
-        if (LIME_ENV !== LIME_ENV_DEV) {
+        if (LIME_ENV !== LIME_ENV_DEV || LIME_TERMINAL_MODE !== LIME_TERMINAL_ENABLED) {
             return array(
                 "output" => "<span style='color:red;font-weight:bold'>The terminal can only be used in development mode.</span>\n"
             );

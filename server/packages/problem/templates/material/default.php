@@ -98,6 +98,8 @@ class DefaultTemplate implements ITemplate {
         return "";
     }
     private function footer() {
+        if (LIME_ENV === LIME_ENV_DEV && LIME_TERMINAL_MODE === LIME_TERMINAL_ENABLED) Modules::getoutput("terminal");
+
         echo "</div>";
         echo "<div class='page-time'>" . (Timer::get(6) * 1000) . "ms</div>";
 

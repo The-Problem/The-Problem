@@ -11,6 +11,18 @@
  */
 define('LIME_ENV', LIME_ENV_PROD);
 
+/**
+ * Whether to enable the client-side terminal
+ * This effectively allows any user of the site to run shell commands and do bad things
+ * DO NOT have this enabled on a production server - Lime automatically disables it if
+ * the environment is production anyway.
+ *
+ * Valid options:
+ *  - LIME_TERMINAL_ENABLED  - Enable the terminal
+ *  - LIME_TERMINAL_DISABLED - Disable the terminal
+ */
+define('LIME_TERMINAL_MODE', LIME_TERMINAL_DISABLED);
+
 /*** CACHE CONFIG ***/
 
 /**

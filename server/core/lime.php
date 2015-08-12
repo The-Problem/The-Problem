@@ -2,6 +2,9 @@
 define('LIME_ENV_DEV', 1);
 define('LIME_ENV_PROD', 2);
 
+define('LIME_TERMINAL_ENABLED', 1);
+define('LIME_TERMINAL_DISABLED', 0);
+
 /**
  * Core LimePHP manager
  *
