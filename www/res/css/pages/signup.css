@@ -1,0 +1,75 @@
+body{
+	font-family: Open Sans;
+	padding-bottom: 100px;
+}
+
+h1, h2{
+	clear: both;
+}
+
+header {
+	position:fixed;
+}
+
+#contentWrapper{
+	width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 120px;
+	padding: 0 0;
+}
+
+#signUpDetails{
+	height: 160px;
+}
+
+#form2 {
+	height: 120px;
+}
+
+#signUpDetails, #form2 {
+	width: 480px;
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+label{
+	clear: right;
+	float: left;
+	font-size: 16px;
+	margin-top: 5px;
+}
+
+.formInput {
+	padding: 0 20px;
+	border: 1px solid #ef5350;
+	border-radius: 5px;
+	background-color: white;
+	margin-bottom: 10px;
+	height: 36px;
+	width: 285px;
+	float: right;
+	font-size: 16px;
+}
+
+#captcha {
+	margin-top: 50px;
+	height: 140px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 304px;
+}
+
+#joinButton {
+	background-color: #ef5350;
+	color: white;
+	float: right;
+	width: 125px;
+	height: 40px;
+	transition: background-color 0.2s;
+}
+
+#joinButton:hover {
+	background-color: #c62828;
+}

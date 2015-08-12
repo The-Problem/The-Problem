@@ -14,7 +14,8 @@ class ProblemPackage implements IPackage {
             ),
             "Pages" => array(
                 "ajax",
-                "home"
+                "home",
+                "signup"
             )
         ));
 
