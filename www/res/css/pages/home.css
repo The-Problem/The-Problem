@@ -1,0 +1,115 @@
+header {
+    padding:0;
+    text-align:center;
+    color:#FFF;
+
+    top:-10px;
+
+    -webkit-box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
+    -moz-box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
+    box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
+
+    height:446px;
+}
+.content {
+    margin-top:466px;
+    text-align:center;
+}
+
+header img {
+    margin-top:70px;
+}
+header h2 {
+    margin-top:30px;
+}
+header .login-box {
+    margin:0 auto;
+}
+header .login-box input, header .login-box .buttons {
+    margin-top:10px;
+}
+header .login-box .buttons {
+    text-align:right;
+}
+header .login-box button {
+    margin-left:10px;
+    width:80px;
+}
+
+.columns, .left-column {
+    width:620px;
+    display:inline-block;
+    text-align:left;
+}
+
+.content h2 {
+    font-weight:bold;
+}
+
+.content input {
+    border:solid 1px #000;
+    padding:5px 10px;
+    box-sizing:border-box;
+    width:calc(100% - 5px);
+
+    margin:5px 0;
+}
+
+.section-list section {
+    margin-right:5px;
+}
+
+.section-list section, .section-list section a {
+    display:inline-block;
+    width:150px;
+    height:150px;
+
+    box-sizing:border-box;
+}
+
+.section-list section a {
+    display:table;
+
+    color:#FFF;
+    text-decoration:none;
+    text-align:center;
+}
+.section-list section .container {
+    display:table-cell;
+    vertical-align:middle;
+}
+
+.section-list section h3 {
+    font-size:1.4em;
+}
+.section-list section p {
+    margin:0;
+    font-size:0.9em;
+    color:#EEE;
+}
+
+/* section colours */
+.section-list section.deep-purple a {
+    background-color:#673AB7;
+}
+.section-list section.light-green a {
+    background-color:#8BC34A;
+}
+.section-list section.deep-orange a {
+    background-color:#FF5722;
+}
+.section-list section.teal a {
+    background-color:#009688;
+}
+.section-list section.pink a {
+    background-color:#E91E63;
+}
+.section-list section.blue a {
+    background-color:#2196F3;
+}
+.section-list section.amber a {
+    background-color:#ffc107;
+}
+.section-list section.indigo a {
+    background-color:#3F51B5;
+}

@@ -5,7 +5,8 @@ class DefaultTemplate implements ITemplate {
     );
     private $options = array(
         "showerror" => true,
-        "shownotice" => true
+        "shownotice" => true,
+        "header" => true
     );
     private $funcs = array();
 
@@ -19,6 +20,11 @@ class DefaultTemplate implements ITemplate {
 
         $head->package("problem");
         $head->addcode("<link type='text/plain' rel='author' href='" . Path::getclientfolder() . "humans.txt' />");
+    }
+
+    public function big() {
+        $this->add_class("big-header");
+        return $this;
     }
 
     public function add_class($name) {
@@ -39,6 +45,10 @@ class DefaultTemplate implements ITemplate {
     }
     public function no_notice() {
         $this->option("shownotice", false);
+        return $this;
+    }
+    public function no_header() {
+        $this->option("header", false);
         return $this;
     }
 
@@ -85,12 +95,15 @@ class DefaultTemplate implements ITemplate {
             "width" => 160
         ));
 
-        echo "<div class='header'>";
+        if ($this->option("header")) {
+            echo "<header>";
 
-        echo '<h1 class="title"><a href="' . htmlentities(Path::getclientfolder()) . '" title="Home">' .
+            echo '<h1 class="title"><a href="' . htmlentities(Path::getclientfolder()) . '" title="Home">' .
                 '<img alt="The Problem" title="Home" src="' . $logo->clientpath . '" />' . '</a></h1>';
 
-        echo "</div><div class='body'>";
+            echo "</header>";
+        }
+        echo "<div class='body'>";
 
         if (isset($_GET['notice']) && $this->option("shownotice")) echo '<p class="notice">' . htmlentities($_GET['notice']) . '</p>';
         if (isset($_GET['error']) && $this->option("showerror")) echo '<p class="error">' . htmlentities($_GET['error']) . '</p>';
@@ -98,7 +111,10 @@ class DefaultTemplate implements ITemplate {
         return "";
     }
     private function footer() {
-        if (LIME_ENV === LIME_ENV_DEV && LIME_TERMINAL_MODE === LIME_TERMINAL_ENABLED) Modules::getoutput("terminal");
+        if (LIME_ENV === LIME_ENV_DEV && LIME_TERMINAL_MODE === LIME_TERMINAL_ENABLED) {
+            Library::get("modules");
+            Modules::getoutput("terminal");
+        }
 
         echo "</div>";
         echo "<div class='page-time'>" . (Timer::get(6) * 1000) . "ms</div>";

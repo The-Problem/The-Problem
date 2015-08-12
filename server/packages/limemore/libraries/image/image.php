@@ -61,7 +61,7 @@ class Image {
         $url = Path::webpath();
         
         $urlName = urlencode($originalName);
-        $append = "";
+        $append = "img." . (array_key_exists('format', $properties) ? $properties['format'] : $properties['original']);
         
         if ($cat === "url") {
             $append = "?path=" . $urlName;

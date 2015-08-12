@@ -16,6 +16,9 @@ class ImagePage implements IPage {
     
     public function head(Head &$head) { }
     public function body() {
+        header('Cache-Control: max-age=31536000');
+        header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime('+1 year')));
+
         Library::get("image");
                 
         $name = $this->path[2];

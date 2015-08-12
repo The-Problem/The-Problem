@@ -9,9 +9,28 @@ html, body {
 
 h1, h2, h3, h4, h5, h6 {
     margin:0;
+    font-weight:300;
 }
 
-.header {
+input, select, button {
+    font:inherit;
+}
+
+button {
+    padding:5px;
+    border:none;
+    background-color:#E0E0E0;
+}
+button:hover, button:focus {
+    background-color:#BDBDBD;
+}
+
+input {
+    border:none;
+    padding:10px 15px;
+}
+
+header {
     position:absolute;
     top:0;
     left:-10px;
