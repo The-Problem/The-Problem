@@ -27,6 +27,15 @@ class HomePage implements IPage {
             "format" => "png"
         ));
 
+        $background = new Image("default", "sections", array(
+            "format" => "jpg",
+            "tint" => "0-0-0x0.6",
+            "crop" => true,
+            "width" => 150,
+            "height" => 150
+        ));
+        $style = "background-image:url('" . $background->clientpath . "')";
+
         $path = Path::getclientfolder("sections", "general-feedback");
 
         //$user = Users::loggedin();
@@ -34,7 +43,7 @@ class HomePage implements IPage {
 
         if ($user) { ?>
 <div class="welcome">
-    <h1>Welcome, Tom.</h1>
+    <h1>Welcome, <a href="<?php echo Path::getclientfolder("users", "mrfishie"); ?>">Tom</a>.</h1>
 </div>
 <?php } else { ?>
 <header class="big">
@@ -58,7 +67,7 @@ class HomePage implements IPage {
             <h2>Sections where you're a developer</h2>
                 <div class="section-list">
                     <section class="deep-purple">
-                        <a href="<?php echo $path; ?>" title="General Feedback">
+                        <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                             <div class="container">
                                 <h3>General Feedback</h3>
                                 <p class="section-stats">
@@ -68,7 +77,7 @@ class HomePage implements IPage {
                             </div>
                         </a>
                     </section><section class="light-green">
-                        <a href="<?php echo $path; ?>" title="General Feedback">
+                        <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                             <div class="container">
                                 <h3>General Feedback</h3>
                                 <p class="section-stats">
@@ -78,7 +87,7 @@ class HomePage implements IPage {
                             </div>
                         </a>
                     </section><section class="deep-orange">
-                        <a href="<?php echo $path; ?>" title="General Feedback">
+                        <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                             <div class="container">
                                 <h3>General Feedback</h3>
                                 <p class="section-stats">
@@ -88,7 +97,7 @@ class HomePage implements IPage {
                             </div>
                         </a>
                     </section><section class="teal">
-                        <a href="<?php echo $path; ?>" title="General Feedback">
+                        <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                             <div class="container">
                                 <h3>General Feedback</h3>
                                 <p class="section-stats">
@@ -105,7 +114,7 @@ class HomePage implements IPage {
 
             <div class="section-list">
                 <section class="deep-purple">
-                    <a href="<?php echo $path; ?>" title="General Feedback">
+                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                         <div class="container">
                             <h3>General Feedback</h3>
                             <p class="section-stats">
@@ -115,7 +124,7 @@ class HomePage implements IPage {
                         </div>
                     </a>
                 </section><section class="light-green">
-                    <a href="<?php echo $path; ?>" title="General Feedback">
+                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                         <div class="container">
                             <h3>General Feedback</h3>
                             <p class="section-stats">
@@ -125,7 +134,7 @@ class HomePage implements IPage {
                         </div>
                     </a>
                 </section><section class="deep-orange">
-                    <a href="<?php echo $path; ?>" title="General Feedback">
+                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                         <div class="container">
                             <h3>General Feedback</h3>
                             <p class="section-stats">
@@ -135,7 +144,7 @@ class HomePage implements IPage {
                         </div>
                     </a>
                 </section><section class="teal">
-                    <a href="<?php echo $path; ?>" title="General Feedback">
+                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                         <div class="container">
                             <h3>General Feedback</h3>
                             <p class="section-stats">
@@ -145,7 +154,7 @@ class HomePage implements IPage {
                         </div>
                     </a>
                 </section><section class="pink">
-                    <a href="<?php echo $path; ?>" title="General Feedback">
+                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                         <div class="container">
                             <h3>General Feedback</h3>
                             <p class="section-stats">
@@ -155,7 +164,7 @@ class HomePage implements IPage {
                         </div>
                     </a>
                 </section><section class="blue">
-                    <a href="<?php echo $path; ?>" title="General Feedback">
+                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                         <div class="container">
                             <h3>General Feedback</h3>
                             <p class="section-stats">
@@ -165,7 +174,7 @@ class HomePage implements IPage {
                         </div>
                     </a>
                 </section><section class="amber">
-                    <a href="<?php echo $path; ?>" title="General Feedback">
+                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                         <div class="container">
                             <h3>General Feedback</h3>
                             <p class="section-stats">
@@ -175,7 +184,7 @@ class HomePage implements IPage {
                         </div>
                     </a>
                 </section><section class="indigo">
-                    <a href="<?php echo $path; ?>" title="General Feedback">
+                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
                         <div class="container">
                             <h3>General Feedback</h3>
                             <p class="section-stats">

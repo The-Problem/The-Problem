@@ -17,6 +17,12 @@ header.big {
     height:150px;
     line-height:150px;
 }
+.welcome a {
+    color:#000;
+}
+.welcome a:hover {
+    text-decoration:none;
+}
 
 .content {
     margin-top:466px;
@@ -96,6 +102,8 @@ header .login-box button {
     color:#FFF;
     text-decoration:none;
     text-align:center;
+
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
 .section-list section .container {
     display:table-cell;
