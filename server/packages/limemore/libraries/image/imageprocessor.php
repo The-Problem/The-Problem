@@ -24,6 +24,10 @@ class ImageProcessor {
      */
     public function __construct() {
         // Allow cropping of image
+        // Accepted inputs:
+        // true - enables cropping
+        // false - disables cropping
+        // ?x?x?x? - crop x, y, width and height
         $this->addeffect("crop", function(&$image, $param) {
             if ($param === "true") $this->modes["crop"] = true;
             else if ($param === "false") $this->modes["crop"] = false;
@@ -52,6 +56,30 @@ class ImageProcessor {
                     else $this->modes["crop"] = filter_var($param, FILTER_VALIDATE_BOOLEAN);
                 } else $this->modes["crop"] = filter_var($param, FILTER_VALIDATE_BOOLEAN);
             }
+        });
+
+        // Tints an image with a color
+        // Accepted inputs:
+        // ?-?-?x? - r, g, b, a
+        $this->addeffect("tint", function(&$image, $param) {
+            $split = explode("x", $param);
+
+            $splitcount = count($split);
+            if ($splitcount < 2) throw new InvalidArgumentException("Bad tint argument");
+
+            $colors = explode("-", $split[0]);
+
+            $draw = new ImagickDraw();
+            $draw->setFillColor(new ImagickPixel("rgb($colors[0], $colors[1], $colors[2])"));
+            $draw->setFillOpacity(floatval($split[1]));
+
+            $geom = $image->getImageGeometry();
+            $width = $geom['width'];
+            $height = $geom['height'];
+            $draw->rectangle(0, 0, $width, $height);
+            $image->drawImage($draw);
+
+            //$image->colorizeImage("rgb($colors[0], $colors[1], $colors[2])", floatval($split[1]));
         });
         
         // Change the compression quality of the image
@@ -134,6 +162,21 @@ class ImageProcessor {
         // Blurs an image
         $this->addeffect("blur", function(&$image, $new) {
             $image->blurImage(floatval($new), floatval($new));
+        });
+
+        // Sets an images brightness
+        $this->addeffect("brightness", function(&$image, $new) {
+            $image->modulateImage(intval($new), 100, 100);
+        });
+
+        // Sets an images saturation
+        $this->addeffect("saturation", function(&$image, $new) {
+            $image->modulateImage(100, intval($new), 100);
+        });
+
+        // Sets an images hue
+        $this->addeffect("hue", function(&$image, $new) {
+            $image->modulateImage(100, 100, intval($new));
         });
         
         // Change image format

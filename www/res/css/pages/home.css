@@ -1,4 +1,4 @@
-header {
+header.big {
     padding:0;
     text-align:center;
     color:#FFF;
@@ -11,12 +11,28 @@ header {
 
     height:446px;
 }
+
+.welcome {
+    text-align:center;
+    height:150px;
+    line-height:150px;
+}
+.welcome a {
+    color:#000;
+}
+.welcome a:hover {
+    text-decoration:none;
+}
+
 .content {
     margin-top:466px;
     text-align:center;
 }
+.loggedin .content {
+    margin-top:0;
+}
 
-header img {
+header.big img {
     margin-top:70px;
 }
 header h2 {
@@ -36,14 +52,27 @@ header .login-box button {
     width:80px;
 }
 
-.columns, .left-column {
-    width:620px;
+.columns, .left-column, .right-column {
+    vertical-align:top;
     display:inline-block;
     text-align:left;
 }
+.columns, .left-column {
+    width:620px;
+}
+.loggedin .columns {
+    width:870px;
+}
+
+.right-column {
+    width:240px;
+    margin-left:10px;
+}
 
 .content h2 {
-    font-weight:bold;
+    font-weight:normal;
+    margin-top:20px;
+    margin-bottom:10px;
 }
 
 .content input {
@@ -52,7 +81,7 @@ header .login-box button {
     box-sizing:border-box;
     width:calc(100% - 5px);
 
-    margin:5px 0;
+    margin-bottom:10px;
 }
 
 .section-list section {
@@ -73,6 +102,8 @@ header .login-box button {
     color:#FFF;
     text-decoration:none;
     text-align:center;
+
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
 .section-list section .container {
     display:table-cell;
@@ -87,29 +118,55 @@ header .login-box button {
     font-size:0.9em;
     color:#EEE;
 }
+.section-list .section-stats span {
+    display:block;
+}
+
+.notification-list section {
+    margin-bottom:15px;
+}
+.notification-list section p {
+    margin:0;
+}
+.notification-list .message a {
+    color:#000;
+    text-decoration:none;
+}
+.notification-list .message a:hover {
+    text-decoration:underline;
+}
+.notification-list .stats {
+    font-size:0.8em;
+    margin-top:5px;
+}
+.notification-list .stats, .notification-list .stats a {
+    color:#999;
+}
+.notification-list .stats a:hover {
+    text-decoration:none;
+}
 
 /* section colours */
-.section-list section.deep-purple a {
-    background-color:#673AB7;
-}
-.section-list section.light-green a {
-    background-color:#8BC34A;
-}
-.section-list section.deep-orange a {
-    background-color:#FF5722;
-}
-.section-list section.teal a {
-    background-color:#009688;
-}
-.section-list section.pink a {
-    background-color:#E91E63;
-}
-.section-list section.blue a {
-    background-color:#2196F3;
-}
-.section-list section.amber a {
-    background-color:#ffc107;
-}
-.section-list section.indigo a {
-    background-color:#3F51B5;
-}
+.section-list section.deep-purple a {   background-color:#673AB7;  }
+.section-list section.deep-purple a:hover { background-color:#7e57c2; }
+
+.section-list section.light-green a {   background-color:#8BC34A;  }
+.section-list section.light-green a:hover { background-color:#9ccc65; }
+
+.section-list section.deep-orange a {   background-color:#FF5722;  }
+.section-list section.deep-orange a:hover { background-color:#ff7043; }
+
+.section-list section.teal a {          background-color:#009688;  }
+.section-list section.teal a:hover {        background-color:#26a69a; }
+
+.section-list section.pink a {          background-color:#E91E63;  }
+.section-list section.pink a:hover {        background-color:#ec407a; }
+
+.section-list section.blue a {          background-color:#2196F3;  }
+.section-list section.blue a:hover {        background-color:#42a5f5; }
+
+.section-list section.amber a {         background-color:#ffc107;  }
+.section-list section.amber a:hover {       background-color:#ffca28; }
+
+.section-list section.indigo a {        background-color:#3F51B5;  }
+.section-list section.indigo a:hover {      background-color:#5c6bc0; }

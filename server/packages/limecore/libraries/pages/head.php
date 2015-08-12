@@ -26,7 +26,7 @@ class Head {
      * @copyright Copyright (c) 2013, Tom Barham
      * @var string Document title
      */
-    public $title = "The Problem";
+    public $title = "LimePHP";
     
     private function gprocessor($n) { return implode("\n", $n); }
     
@@ -42,11 +42,13 @@ class Head {
      *   packages   - For adding Javascript packages
      */
     public function __construct() {
-        $GLOBALS['pagehead_title'] = $this->title;
+        //$GLOBALS['pagehead_title'] = $this->title;
         
         // A hidden processor that is used to add LimePHP JS API things
-        $this->addprocessor(uniqid(), self::PART_DOCUMENT, function() {                        
-            $code = '<title>' . $GLOBALS['pagehead_title'] . '</title>' . "\n";
+        $this->addprocessor(uniqid(), self::PART_DOCUMENT, function() {
+            //global $this;
+
+            $code = '<title>' . $this->title . '</title>' . "\n";
             
             // If in IE <9, load jQuery 1.x and JSON2, else load jQuery 2.x
             $code .= '<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script><![endif]-->' . "\n";

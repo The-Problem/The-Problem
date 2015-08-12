@@ -15,8 +15,10 @@ class DefaultTemplate implements ITemplate {
     }
 
     public function Head(Head &$head) {
+        $head->title = "The Problem";
+
         $head->stylesheet("templates/default");
-        $head->stylesheet("http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,700,700italic", true);
+        $head->stylesheet("http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,700,700italic", true);
 
         $head->package("problem");
         $head->addcode("<link type='text/plain' rel='author' href='" . Path::getclientfolder() . "humans.txt' />");

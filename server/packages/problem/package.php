@@ -16,6 +16,8 @@ class ProblemPackage implements IPackage {
                 "ajax",
                 "home",
                 "signup"
+                "error",
+                "home"
             )
         ));
 
