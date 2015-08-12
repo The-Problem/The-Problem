@@ -4,6 +4,7 @@ server/cache/include.php
 server/profile.php
 
 server/cache/images/images/*
+server/cache/images/map.json
 !server/cache/images/images/.not-empty
 
 php_errors.log
