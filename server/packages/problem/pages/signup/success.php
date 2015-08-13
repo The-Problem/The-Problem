@@ -16,12 +16,19 @@ class SignUpSuccessPage implements IPage{
 	}
 
 	public function head(Head &$head){
-		$head->stylesheet("pages/signup");
-		echo "<title>Join The Problem</title>";
-		echo "<script src='https://www.google.com/recaptcha/api.js'></script>";
+		//$head->stylesheet("pages/signupsuccess");
+		$head->title = "Account Created";
 	}
 
 	public function body(){
+
+		if (isset($_POST)){
+			foreach($_POST as $key => $value){
+				echo $key . ": " . $value;
+			}
+		}else{
+			echo "There is no post";
+		}
 	}
 }
 ?>
