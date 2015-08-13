@@ -22,13 +22,10 @@ class SignUpSuccessPage implements IPage{
 
 	public function body(){
 
-		if (isset($_POST)){
-			foreach($_POST as $key => $value){
-				echo $key . ": " . $value;
-			}
-		}else{
-			echo "There is no post";
-		}
+		?>
+		<h1>Welcome to The Problem</h1>
+		<p>To begin, verify your account by clicking the link in the email we sent you.</p>
+		<?php
 	}
 }
 ?>
