@@ -27,7 +27,7 @@ class SignUpPage implements IPage{
 			<div id='contentWrapper'>
 				<h1>Join The Problem</h1>
 
-				<form id='signUpDetails' name='signUpForm' method='post' action='signupsubmission.php'>
+				<form id='signUpDetails' name='signUpForm' method='post' action='signup.php'>
 					<label>Username</label><input type='text' name='username' class='formInput'><br>
 					<label>Password</label><input type='password' name='password' class='formInput'><br>
 					<label>Confirm Password</label><input type='password' name='password' class='formInput'>
