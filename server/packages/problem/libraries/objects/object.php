@@ -18,20 +18,25 @@ class Object {
     }
 
     /**
-     * @param User $user
+     * @param string $username
      * @param string $type
      * @return bool
      */
-    public function has_permission($user, $type) {
+    public function has_permission($username, $type) {
         Library::get("connection");
 
-        $results = Connection::query("SELECT COUNT(users.Username) FROM users
-                             WHERE users.Username = ?
-                             AND (userpermissions.Username = users.Username
-                                  OR grouppermissions.Rank = users.Rank)
-                             AND userpermissions.Permission_Name = ?
-                             AND grouppermissions.Permission_Name = ?", "sss", array(
-            $user->username, $type, $type
+        $results = Connection::query("
+SELECT COUNT(users.Username) FROM users
+  LEFT JOIN userpermissions ON (userpermissions.Username = users.Username
+                                AND userpermissions.Object_ID = ?
+                                AND userpermissions.Permission_Name = ?)
+  LEFT JOIN grouppermissions ON (users.Rank >= grouppermissions.Rank
+                                 AND grouppermissions.Object_ID = userpermissions.Object_ID
+                                 AND grouppermissions.Permission_Name = userpermissions.Permission_Name)
+WHERE users.Username = ?
+      AND (userpermissions.Username = users.Username
+           OR users.Rank >= grouppermissions.Rank)", "iss", array(
+            $this->id, $type, $username
         ));
     }
 }
