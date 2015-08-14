@@ -14,6 +14,8 @@ class User {
     private $info = array();
     private $id = -1;
     private $paths = NULL;
+
+    public $username;
     
     /**
      * Constructor for User class
