@@ -31,12 +31,15 @@ SELECT COUNT(users.Username) FROM users
                                 AND userpermissions.Object_ID = ?
                                 AND userpermissions.Permission_Name = ?)
   LEFT JOIN grouppermissions ON (users.Rank >= grouppermissions.Rank
-                                 AND grouppermissions.Object_ID = userpermissions.Object_ID
-                                 AND grouppermissions.Permission_Name = userpermissions.Permission_Name)
+                                 AND grouppermissions.Object_ID = ?
+                                 AND grouppermissions.Permission_Name = ?)
 WHERE users.Username = ?
       AND (userpermissions.Username = users.Username
-           OR users.Rank >= grouppermissions.Rank)", "iss", array(
-            $this->id, $type, $username
+           OR users.Rank >= grouppermissions.Rank)", "isiss", array(
+            $this->id, $type, $this->id, $type, $username
         ));
+
+        if ($results[0]["COUNT(users.Username)"]) return true;
+        return false;
     }
 }
