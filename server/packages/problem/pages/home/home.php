@@ -3,10 +3,12 @@ class HomePage implements IPage {
     public function __construct(PageInfo &$page) {
     }
     public function template() {
-        //Library::get("users");
+        Library::get("cookies");
+
+        Cookies::prop("username", "mrfishie");
 
         $template = Templates::findtemplate("default");
-        if (/*Users::loggedin()*/true) return $template->add_class("loggedin");
+        if (Cookies::prop("username")) return $template->add_class("loggedin");
         return $template->no_header();
     }
     public function permission() {
@@ -22,58 +24,15 @@ class HomePage implements IPage {
     }
 
     public function body() {
-        /*Library::get("image");
+        Library::get("image");
         $logo = new Image("branding", "logo-text", array(
             "format" => "png"
         ));
 
-        $background = new Image("default", "sections", array(
-            "format" => "jpg",
-            "tint" => "0-0-0x0.6",
-            "crop" => true,
-            "width" => 150,
-            "height" => 150
-        ));
-        $style = "background-image:url('" . $background->clientpath . "')";
-
-        $path = Path::getclientfolder("sections", "general-feedback");
-
-        //$user = Users::loggedin();
-        $user = true;*/
-
-        function showSection($section) {
-            $img = new Image("sections", $section["Section_ID"], array(
-                "format" => "jpg",
-                "tint" => "0-0-0x0.6",
-                "crop" => true,
-                "width" => 150,
-                "height" => 150
-            ));
-            $path = Path::getclientfolder("sections", htmlentities($section["Slug"]));
-            $name = htmlentities($section["Name"]);
-
-            $open = $section["Open_Bugs"];
-            $all = $section["All_Bugs"];
-
-            ?>
-            <section>
-                <a href="<?php echo $path; ?>"
-                   title="<?php echo $name; ?>"
-                   style="background-image:url('<?php echo htmlentities($img->clientpath); ?>')">
-                    <div class="container">
-                        <h3><?php echo $name; ?></h3>
-                        <p class="section-stats">
-                            <span class="open"><?php echo $open; ?> open bug<?php echo $open === 1 ? "" : "s"; ?></span>
-                            <span class="all"><?php echo $all; ?> bug<?php echo $open === 1 ? "" : "s"; ?></span>
-                        </p>
-                    </div>
-                </a>
-            </section>
-            <?php
-        }
-
         Library::get("cookies");
         $username = Cookies::prop("username");
+
+        $sections = array();
 
         if ($username) {
             $user = Connection::query("
@@ -87,12 +46,24 @@ SELECT *, (SELECT COUNT(*) FROM bugs
           (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
 FROM sections
-  JOIN developers ON (developers.Section_ID = sections.Section_ID)
-WHERE developers.Username = ?", "s", array($username));
+  WHERE Section_ID IN (SELECT Section_ID FROM Developers
+                       WHERE Developers.Username = ?)
+ORDER BY Open_Bugs DESC, All_Bugs DESC", "s", array($username));
+
+            $sections = Connection::query("
+SELECT *, (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Section_ID = sections.Section_ID
+           AND bugs.Status = 1) AS Open_Bugs,
+          (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
+FROM sections
+  WHERE Section_ID NOT IN (SELECT Section_ID FROM Developers
+                           WHERE Developers.Username = ?)
+ORDER BY Open_Bugs DESC, All_Bugs DESC", "s", array($username));
 
             ?>
 <div class="welcome">
-    <h1>Welcome, <a href="<?php echo Path::getclientfolder("users", htmlentities($username)); ?>"><?php echo htmlentities($user[0]["Username"]); ?></a>.</h1>
+    <h1>Welcome, <a href="<?php echo Path::getclientfolder("~" . htmlentities($username)); ?>"><?php echo htmlentities($user[0]["Name"]); ?></a>.</h1>
 </div>
 
 <div class="content">
@@ -105,21 +76,21 @@ WHERE developers.Username = ?", "s", array($username));
         <div class="section-list">
             <?php
             foreach($devSections as $section) {
-                showSection($section);
+                Modules::getoutput("sectionTile", $section);
             }
             ?>
         </div>
-        <?php } ?>
-    </div>
+        <h2>More Sections</h2>
+        <?php } else { ?><h2>Sections</h2><?php } ?>
+<?php } else {
+            $sections = Connection::query("
+SELECT *, (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Section_ID = sections.Section_ID
+           AND bugs.Status = 1) AS Open_Bugs,
+          (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
+FROM sections"); ?>
 
-</div>
-
-</div>
-
-
-
-
-<?php } else { ?>
 <header class="big">
     <img src="<?php echo $logo->clientpath; ?>" alt="The Problem" title="The Problem" />
     <h2>Login or register to get started</h2>
@@ -129,178 +100,107 @@ WHERE developers.Username = ?", "s", array($username));
         <input type="password" name="pass" placeholder="Password" />
 
         <div class="buttons">
-            <button class="register-btn">Register</button><button class="login-btn">Login</button>
+            <button class="register-btn">Register</button>
+            <button class="login-btn">Login</button>
         </div>
     </form>
-</header><?php } ?>
+</header>
 
 <div class="content">
-    <div class="columns">
-        <div class="left-column">
-            <?php if ($username) { ?>
-            <h2>Sections where you're a developer</h2>
-                <div class="section-list">
-                    <section class="deep-purple">
-                        <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                            <div class="container">
-                                <h3>General Feedback</h3>
-                                <p class="section-stats">
-                                    <span class="open">50 open bugs</span>
-                                    <span class="all">150 bugs</span>
-                                </p>
-                            </div>
-                        </a>
-                    </section><section class="light-green">
-                        <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                            <div class="container">
-                                <h3>General Feedback</h3>
-                                <p class="section-stats">
-                                    <span class="open">50 open bugs</span>
-                                    <span class="all">150 bugs</span>
-                                </p>
-                            </div>
-                        </a>
-                    </section><section class="deep-orange">
-                        <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                            <div class="container">
-                                <h3>General Feedback</h3>
-                                <p class="section-stats">
-                                    <span class="open">50 open bugs</span>
-                                    <span class="all">150 bugs</span>
-                                </p>
-                            </div>
-                        </a>
-                    </section><section class="teal">
-                        <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                            <div class="container">
-                                <h3>General Feedback</h3>
-                                <p class="section-stats">
-                                    <span class="open">50 open bugs</span>
-                                    <span class="all">150 bugs</span>
-                                </p>
-                            </div>
-                        </a>
-                    </section>
-                </div>
-            <h2>More Sections</h2>
-            <?php } else { ?><h2>Sections</h2><?php } ?>
-            <input class="search-box" type="search" placeholder="Search all sections" />
 
-            <div class="section-list">
-                <section class="deep-purple">
-                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                        <div class="container">
-                            <h3>General Feedback</h3>
-                            <p class="section-stats">
-                                <span class="open">50 open bugs</span>
-                                <span class="all">150 bugs</span>
-                            </p>
-                        </div>
-                    </a>
-                </section><section class="light-green">
-                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                        <div class="container">
-                            <h3>General Feedback</h3>
-                            <p class="section-stats">
-                                <span class="open">50 open bugs</span>
-                                <span class="all">150 bugs</span>
-                            </p>
-                        </div>
-                    </a>
-                </section><section class="deep-orange">
-                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                        <div class="container">
-                            <h3>General Feedback</h3>
-                            <p class="section-stats">
-                                <span class="open">50 open bugs</span>
-                                <span class="all">150 bugs</span>
-                            </p>
-                        </div>
-                    </a>
-                </section><section class="teal">
-                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                        <div class="container">
-                            <h3>General Feedback</h3>
-                            <p class="section-stats">
-                                <span class="open">50 open bugs</span>
-                                <span class="all">150 bugs</span>
-                            </p>
-                        </div>
-                    </a>
-                </section><section class="pink">
-                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                        <div class="container">
-                            <h3>General Feedback</h3>
-                            <p class="section-stats">
-                                <span class="open">50 open bugs</span>
-                                <span class="all">150 bugs</span>
-                            </p>
-                        </div>
-                    </a>
-                </section><section class="blue">
-                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                        <div class="container">
-                            <h3>General Feedback</h3>
-                            <p class="section-stats">
-                                <span class="open">50 open bugs</span>
-                                <span class="all">150 bugs</span>
-                            </p>
-                        </div>
-                    </a>
-                </section><section class="amber">
-                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                        <div class="container">
-                            <h3>General Feedback</h3>
-                            <p class="section-stats">
-                                <span class="open">50 open bugs</span>
-                                <span class="all">150 bugs</span>
-                            </p>
-                        </div>
-                    </a>
-                </section><section class="indigo">
-                    <a href="<?php echo $path; ?>" title="General Feedback" style="<?php echo $style; ?>">
-                        <div class="container">
-                            <h3>General Feedback</h3>
-                            <p class="section-stats">
-                                <span class="open">50 open bugs</span>
-                                <span class="all">150 bugs</span>
-                            </p>
-                        </div>
-                    </a>
-                </section>
-            </div>
-        </div><?php if ($user) { ?><div class="right-column">
-            <h2>Notifications</h2>
-            <div class="notification-list">
-                <section>
-                    <p class="message">
-                        <a href="<?php echo Path::getclientfolder('sections', 'general-feedback', 20); ?>">
-                            Patrick replied to your comment: "I'll leave my matter till later..."
-                        </a>
-                    </p>
-                    <p class="stats">Just then - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
-                </section>
-                <section>
-                    <p class="message">
-                        <a href="<?php echo Path::getclientfolder('sections', 'general-feedback', 18); ?>">
-                            Darren +1'd your bug, "Needs More Dragons"
-                        </a>
-                    </p>
-                    <p class="stats">Just then - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
-                </section>
-                <section>
-                    <p class="message">
-                        <a href="<?php echo Path::getclientfolder('sections', 'general-feedback', 50); ?>">
-                            You've been assigned to #50, "Needs More Unicorns"
-                        </a>
-                    </p>
-                    <p class="stats">3 hours ago - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
-                </section>
-            </div>
+<div class="columns">
+
+    <div class="left-column">
+        <h2>Sections</h2>
+<?php } ?>
+        <?php if (count($sections)) { ?>
+        <input class="search-box" type="search" placeholder="Search all sections" />
+        <div class=section-list>
+            <?php
+            foreach ($sections as $section) {
+                Modules::getoutput("sectionTile", $section);
+            }
+            ?>
+        </div>
+        <?php } else { ?><div class="none">Nothing here just yet...</div> <?php } ?>
+    </div>
+
+    <?php if ($username) {
+        // todo: get notifications
+
+        $bugs = Connection::query("
+SELECT *, (SELECT COUNT(*) FROM comments
+           WHERE comments.Bug_ID = bugs.Bug_ID) AS Comments,
+          (SELECT COUNT(*) FROM plusones
+           WHERE plusones.Object_ID = bugs.Object_ID) AS Plusones,
+          bugs.Name AS Bug_Name,
+          sections.Name AS Section_Name
+  FROM bugs
+    JOIN sections ON bugs.Section_ID = sections.Section_ID
+  WHERE Author = ?", "s", array($username));
+        ?>
+    <div class="right-column">
+        <h2>Notifications</h2>
+        <div class="notification-list">
+            <section>
+                <p class="message">
+                    <a href="<?php echo Path::getclientfolder('~cmnvb'); ?>">Patrick</a> replied to
+                    <a href="<?php echo Path::getclientfolder('general-feedback', 20); ?>#5">your comment</a>:
+                    "I'll leave my matter till later..."
+                </p>
+                <p class="stats">Just then - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
+            </section>
+            <section>
+                <p class="message">
+                    <a href="<?php echo Path::getclientfolder('~Dr2n'); ?>">Darren</a> +1'd
+                    <a href="<?php echo Path::getclientfolder('general-feedback', 20); ?>">your bug</a>,
+                    "Needs More Dragons"
+                </p>
+                <p class="stats">Just then - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
+            </section>
+            <section>
+                <p class="message">
+                    You've been assigned to
+                    <a href="<?php echo Path::getclientfolder('sections', 'general-feedback', 50); ?>">#50</a>,
+                    "Needs More Unicorns"
+                </p>
+                <p class="stats">3 hours ago - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
+            </section>
+        </div>
+
+        <?php if (count($bugs)) { ?>
+        <h2>My Bugs</h2>
+        <div class="notification-list">
+            <?php
+            foreach ($bugs as $bug) {
+                $url = Path::getclientfolder($bug["Slug"], $bug["RID"]);
+                $title = htmlentities($bug["Bug_Name"]);
+
+                $comments = $bug["Comments"];
+                $plusones = $bug["Plusones"];
+
+                if ($comments === 0) $comments = "no";
+                if ($plusones === 0) $plusones = "no";
+
+
+                ?>
+            <section>
+                <p class="message">
+                    <a href="<?php echo $url; ?>" title="<?php echo $title; ?>"><?php echo $title; ?></a>
+                </p>
+                <p class="stats">Sometime -
+                    <a href="<?php echo $url; ?>#comments"><?php echo $comments; ?> comment<?php echo $comments === 1 ? "" : "s"; ?></a> -
+                    <a href="<?php echo $url; ?>#plusones"><?php echo $plusones; ?> +1<?php echo $plusones === 1 ? "" : "s"; ?></a>
+                </p>
+            </section>
+                <?php
+            }
+            ?>
         </div>
         <?php } ?>
-    </div>
+    <?php } ?>
+
 </div>
 
-<?php }
-}
+</div>
+<?php } }

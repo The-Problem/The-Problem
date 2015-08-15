@@ -8,7 +8,8 @@ class ProblemPackage implements IPackage {
                 "users"
             ),
             "Modules" => array(
-                "terminal"
+                "terminal",
+                "sectionTile"
             ),
             "Templates" => array(
                 "default"

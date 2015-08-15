@@ -26,6 +26,6 @@ class AjaxModulesLoadPage implements IPage {
         
         $in = $modulelist[$sname];
         Modules::getoutput($in["type"], $in["params"], true, false);
-        Cookies::remove($sname);
+        Cookies::prop("modules", array_diff_key($modulelist, array($sname => true)));
     }
 }
