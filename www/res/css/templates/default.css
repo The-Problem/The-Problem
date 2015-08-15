@@ -50,6 +50,12 @@ header {
     margin-top:60px;
 }
 
+.none {
+    text-align:center;
+    font-style:italic;
+    color:#999;
+}
+
 .page-time {
     position:fixed;
     bottom:0;
