@@ -1,6 +1,12 @@
 body{
-	font-family: Open Sans;
 	padding-bottom: 100px;
+}
+
+.body {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 120px;
+	width: 960px;
 }
 
 h1, h2{
@@ -16,14 +22,6 @@ header {
 	color: #ef5350;
 
 
-}
-
-#contentWrapper{
-	width: 960px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 60px;
-	padding: 0 0;
 }
 
 #signUpDetails{
@@ -66,7 +64,6 @@ label{
 
 #captcha {
 	margin-top: 50px;
-	height: 140px;
 	margin-left: auto;
 	margin-right: auto;
 	width: 304px;

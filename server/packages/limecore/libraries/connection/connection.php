@@ -15,7 +15,7 @@ class Connection {
 
     public static $persistant = true;
     public static $host = "localhost";
-    public static $username = "tbarh4";
+    public static $username = "the-problem";
     public static $password = "Passw0rd1";
     public static $database = "the-problem";
     

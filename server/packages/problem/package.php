@@ -4,7 +4,8 @@ class ProblemPackage implements IPackage {
     public function initialize(Resources &$r) {
         $r->add(array(
             "Libraries" => array(
-                "objects"
+                "objects",
+                "users"
             ),
             "Modules" => array(
                 "terminal",
@@ -17,8 +18,7 @@ class ProblemPackage implements IPackage {
                 "ajax",
                 "home",
                 "error",
-                "signup",
-                "signupsuccess"
+                "signup"
             )
         ));
 

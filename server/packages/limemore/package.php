@@ -25,7 +25,7 @@ class LimemorePackage implements IPackage {
                 "image",
                 "modules",
                 "password",
-                "users",
+//                "users",
                 "validator",
                 "colors"
             ),
