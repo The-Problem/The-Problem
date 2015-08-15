@@ -24,13 +24,17 @@ class ImagePage implements IPage {
         $name = $this->path[2];
         if ($this->path[1] === "url") $name = $_GET[$this->path[2]];
 
-        $img = new Image($this->path[1], $name, $this->path[3]);
-        $img->load();
-        $img->process();
+        try {
+            $img = new Image($this->path[1], $name, $this->path[3]);
+            $img->load();
+            $img->process();
 
-        $info = getimagesize($img->serverpath);
-        header('Content-type: ' . $info["mime"]);
+            $info = getimagesize($img->serverpath);
+            header('Content-type: ' . $info["mime"]);
 
-        readfile($img->serverpath);
+            readfile($img->serverpath);
+        } catch (Exception $ex) {
+            header('Location: ' . Path::getclientfolder("res", "image") . "empty.png");
+        }
     }
 }

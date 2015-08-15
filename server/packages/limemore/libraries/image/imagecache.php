@@ -109,11 +109,13 @@ class ImageCache {
      * @param string $cat Category for image
      * @param string $name Name of image
      * @param mixed $properties Properties for image variant, as a string or array
+     *
+     * @throws Exception
      */
     public function makeimage($cat, $name, $properties) {
         $properties = $this->getproperties($properties);
         $path = $this->getfile($cat, $name, $properties);
-        
+
         if (!file_exists($path["source"])) throw new Exception("Can't find source image for '" . $cat . "/" . $name . "' (path is '" . $path["source"] . "')");
 
         $processor = new ImageProcessor();

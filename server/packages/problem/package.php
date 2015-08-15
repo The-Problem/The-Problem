@@ -7,7 +7,8 @@ class ProblemPackage implements IPackage {
                 "objects"
             ),
             "Modules" => array(
-                "terminal"
+                "terminal",
+                "sectionTile"
             ),
             "Templates" => array(
                 "default"

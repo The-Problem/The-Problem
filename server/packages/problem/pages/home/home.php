@@ -29,52 +29,6 @@ class HomePage implements IPage {
             "format" => "png"
         ));
 
-        /*
-        $background = new Image("default", "sections", array(
-            "format" => "jpg",
-            "tint" => "0-0-0x0.6",
-            "crop" => true,
-            "width" => 150,
-            "height" => 150
-        ));
-        $style = "background-image:url('" . $background->clientpath . "')";
-
-        $path = Path::getclientfolder("sections", "general-feedback");
-
-        //$user = Users::loggedin();
-        $user = true;*/
-
-        function showSection($section) {
-            $img = new Image("sections", $section["Section_ID"], array(
-                "format" => "jpg",
-                "tint" => "0-0-0x0.6",
-                "crop" => true,
-                "width" => 150,
-                "height" => 150
-            ));
-            $path = Path::getclientfolder("sections", htmlentities($section["Slug"]));
-            $name = htmlentities($section["Name"]);
-
-            $open = $section["Open_Bugs"];
-            $all = $section["All_Bugs"];
-
-            ?>
-            <section>
-                <a href="<?php echo $path; ?>"
-                   title="<?php echo $name; ?>"
-                   style="background-image:url('<?php echo htmlentities($img->clientpath); ?>')">
-                    <div class="container">
-                        <h3><?php echo $name; ?></h3>
-                        <p class="section-stats">
-                            <span class="open"><?php echo $open; ?> open bug<?php echo $open === 1 ? "" : "s"; ?></span>
-                            <span class="all"><?php echo $all; ?> bug<?php echo $open === 1 ? "" : "s"; ?></span>
-                        </p>
-                    </div>
-                </a>
-            </section>
-            <?php
-        }
-
         Library::get("cookies");
         $username = Cookies::prop("username");
 
@@ -93,7 +47,8 @@ SELECT *, (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
 FROM sections
   WHERE Section_ID IN (SELECT Section_ID FROM Developers
-                       WHERE Developers.Username = ?)", "s", array($username));
+                       WHERE Developers.Username = ?)
+ORDER BY Open_Bugs DESC", "s", array($username));
 
             $sections = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM bugs
@@ -103,7 +58,8 @@ SELECT *, (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
 FROM sections
   WHERE Section_ID NOT IN (SELECT Section_ID FROM Developers
-                           WHERE Developers.Username = ?)", "s", array($username));
+                           WHERE Developers.Username = ?)
+ORDER BY Open_Bugs DESC", "s", array($username));
 
             ?>
 <div class="welcome">
@@ -120,7 +76,7 @@ FROM sections
         <div class="section-list">
             <?php
             foreach($devSections as $section) {
-                showSection($section);
+                Modules::getoutput("sectionTile", $section);
             }
             ?>
         </div>
@@ -162,7 +118,7 @@ FROM sections"); ?>
         <div class=section-list>
             <?php
             foreach ($sections as $section) {
-                showSection($section);
+                Modules::getoutput("sectionTile", $section);
             }
             ?>
         </div>
