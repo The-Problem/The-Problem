@@ -5,6 +5,8 @@ class HomePage implements IPage {
     public function template() {
         Library::get("cookies");
 
+        Cookies::prop("username", "mrfishie");
+
         $template = Templates::findtemplate("default");
         if (Cookies::prop("username")) return $template->add_class("loggedin");
         return $template->no_header();
