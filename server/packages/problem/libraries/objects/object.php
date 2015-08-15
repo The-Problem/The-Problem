@@ -8,8 +8,6 @@ class Object {
     public $id = -1;
     public $type = false;
 
-    private $permissions = array();
-
     public function __construct($info = false) {
         if ($info) {
             $this->id = $info["Object_ID"];
