@@ -1,5 +1,5 @@
 <?php
-class SignUpSuccessPage implements IPage{
+class SignupSuccessPage implements IPage{
 	public function __construct(PageInfo &$page){
 	}
 
@@ -8,6 +8,10 @@ class SignUpSuccessPage implements IPage{
 	}
 
 	public function permission(){
+		/*if (!(isset($_SESSION['signedup']) && $_SESSION['signedup'] == true)){
+			return false;
+		}*/
+
 		return true;
 	}
 
@@ -18,17 +22,17 @@ class SignUpSuccessPage implements IPage{
 	public function head(Head &$head){
 		//$head->stylesheet("pages/signupsuccess");
 		$head->title = "Account Created";
+		$head->stylesheet("pages/success");
 	}
 
 	public function body(){
+		?>
 
-		if (isset($_POST)){
-			foreach($_POST as $key => $value){
-				echo $key . ": " . $value;
-			}
-		}else{
-			echo "There is no post";
-		}
+		<h1>You are now part of The Problem</h1>
+		<p>You'll need to verify your account before you begin working.</p>
+
+		<?php
+		
 	}
 }
 ?>
