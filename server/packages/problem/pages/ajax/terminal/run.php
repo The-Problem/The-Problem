@@ -26,12 +26,18 @@ class AjaxTerminalRunPage implements IPage {
 
         session_start();
 
-        foreach ($_SESSION['t_vars'] as $__var__ => $__val__) {
-            $$__var__ = $__val__;
+        foreach($_SESSION['t_libs'] as $___k => $__lib__) {
+            Library::get($__lib__);
         }
 
         foreach ($_SESSION['t_funcs'] as $___k => $__func__) {
             eval($__func__);
+        }
+
+        $__current_vars__ = get_defined_vars();
+
+        foreach ($_SESSION['t_vars'] as $__var__ => $__val__) {
+            $$__var__ = $__val__;
         }
 
         session_write_close();
@@ -57,7 +63,7 @@ class AjaxTerminalRunPage implements IPage {
         }
 
         session_start();
-        $_SESSION['t_vars'] = get_defined_vars();
+        $_SESSION['t_vars'] = array_diff_key(get_defined_vars(), $__current_vars__);
 
         $current_funcs = get_defined_functions();
         $defined_funcs = array_values(array_diff($current_funcs['user'], $__current_funcs__['user']));
@@ -75,6 +81,8 @@ class AjaxTerminalRunPage implements IPage {
 
             return implode("\n", array_slice(explode("\n", $source), $start_line, $length));
         }, $defined_funcs), (array)$_SESSION['t_funcs']);
+
+        $_SESSION['t_libs'] = Library::$loadedlibs;
 
         session_write_close();
 
