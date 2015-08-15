@@ -104,9 +104,10 @@ SELECT *, (SELECT COUNT(*) FROM bugs
 FROM sections
   WHERE Section_ID NOT IN (SELECT Section_ID FROM Developers
                            WHERE Developers.Username = ?)", "s", array($username));
+
             ?>
 <div class="welcome">
-    <h1>Welcome, <a href="<?php echo Path::getclientfolder("users", htmlentities($username)); ?>"><?php echo htmlentities($user[0]["Username"]); ?></a>.</h1>
+    <h1>Welcome, <a href="<?php echo Path::getclientfolder("users", htmlentities($username)); ?>"><?php echo htmlentities($user[0]["Name"]); ?></a>.</h1>
 </div>
 
 <div class="content">
@@ -156,16 +157,16 @@ FROM sections"); ?>
     <div class="left-column">
         <h2>Sections</h2>
 <?php } ?>
-
+        <?php if (count($sections)) { ?>
+        <input class="search-box" type="search" placeholder="Search all sections" />
         <div class=section-list>
             <?php
-            if (count($sections)) {
-                foreach ($sections as $section) {
-                    showSection($section);
-                }
-            } else { ?><div class="none">Nothing here just yet...</div> <?php }
+            foreach ($sections as $section) {
+                showSection($section);
+            }
             ?>
         </div>
+        <?php } else { ?><div class="none">Nothing here just yet...</div> <?php } ?>
     </div>
 
     <?php if ($username) { ?>
