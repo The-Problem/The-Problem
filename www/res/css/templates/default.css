@@ -26,6 +26,19 @@ button:hover, button:focus {
     background-color:#BDBDBD;
 }
 
+button.highlight {
+    background-color: #ef5350;
+    color: white;
+    float: right;
+    width: 125px;
+    height: 40px;
+    transition: background-color 0.2s;
+}
+
+button.highlight:hover {
+    background-color: #c62828;
+}
+
 input {
     border:none;
     padding:10px 15px;
