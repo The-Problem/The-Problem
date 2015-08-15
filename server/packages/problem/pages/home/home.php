@@ -48,7 +48,7 @@ SELECT *, (SELECT COUNT(*) FROM bugs
 FROM sections
   WHERE Section_ID IN (SELECT Section_ID FROM Developers
                        WHERE Developers.Username = ?)
-ORDER BY Open_Bugs DESC", "s", array($username));
+ORDER BY Open_Bugs DESC, All_Bugs DESC", "s", array($username));
 
             $sections = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM bugs
@@ -59,11 +59,11 @@ SELECT *, (SELECT COUNT(*) FROM bugs
 FROM sections
   WHERE Section_ID NOT IN (SELECT Section_ID FROM Developers
                            WHERE Developers.Username = ?)
-ORDER BY Open_Bugs DESC", "s", array($username));
+ORDER BY Open_Bugs DESC, All_Bugs DESC", "s", array($username));
 
             ?>
 <div class="welcome">
-    <h1>Welcome, <a href="<?php echo Path::getclientfolder("users", htmlentities($username)); ?>"><?php echo htmlentities($user[0]["Name"]); ?></a>.</h1>
+    <h1>Welcome, <a href="<?php echo Path::getclientfolder("~" . htmlentities($username)); ?>"><?php echo htmlentities($user[0]["Name"]); ?></a>.</h1>
 </div>
 
 <div class="content">
@@ -125,36 +125,79 @@ FROM sections"); ?>
         <?php } else { ?><div class="none">Nothing here just yet...</div> <?php } ?>
     </div>
 
-    <?php if ($username) { ?>
+    <?php if ($username) {
+        // todo: get notifications
+
+        $bugs = Connection::query("
+SELECT *, (SELECT COUNT(*) FROM comments
+           WHERE comments.Bug_ID = bugs.Bug_ID) AS Comments,
+          (SELECT COUNT(*) FROM plusones
+           WHERE plusones.Object_ID = bugs.Object_ID) AS Plusones,
+          bugs.Name AS Bug_Name,
+          sections.Name AS Section_Name
+  FROM bugs
+    JOIN sections ON bugs.Section_ID = sections.Section_ID
+  WHERE Author = ?", "s", array($username));
+        ?>
     <div class="right-column">
         <h2>Notifications</h2>
         <div class="notification-list">
             <section>
                 <p class="message">
-                    <a href="<?php echo Path::getclientfolder('sections', 'general-feedback', 20); ?>">
-                        Patrick replied to your comment: "I'll leave my matter till later..."
-                    </a>
+                    <a href="<?php echo Path::getclientfolder('~cmnvb'); ?>">Patrick</a> replied to
+                    <a href="<?php echo Path::getclientfolder('general-feedback', 20); ?>#5">your comment</a>:
+                    "I'll leave my matter till later..."
                 </p>
                 <p class="stats">Just then - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
             </section>
             <section>
                 <p class="message">
-                    <a href="<?php echo Path::getclientfolder('sections', 'general-feedback', 18); ?>">
-                        Darren +1'd your bug, "Needs More Dragons"
-                    </a>
+                    <a href="<?php echo Path::getclientfolder('~Dr2n'); ?>">Darren</a> +1'd
+                    <a href="<?php echo Path::getclientfolder('general-feedback', 20); ?>">your bug</a>,
+                    "Needs More Dragons"
                 </p>
                 <p class="stats">Just then - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
             </section>
             <section>
                 <p class="message">
-                    <a href="<?php echo Path::getclientfolder('sections', 'general-feedback', 50); ?>">
-                        You've been assigned to #50, "Needs More Unicorns"
-                    </a>
+                    You've been assigned to
+                    <a href="<?php echo Path::getclientfolder('sections', 'general-feedback', 50); ?>">#50</a>,
+                    "Needs More Unicorns"
                 </p>
                 <p class="stats">3 hours ago - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
             </section>
         </div>
-    </div>
+
+        <?php if (count($bugs)) { ?>
+        <h2>My Bugs</h2>
+        <div class="notification-list">
+            <?php
+            foreach ($bugs as $bug) {
+                $url = Path::getclientfolder($bug["Slug"], $bug["RID"]);
+                $title = htmlentities($bug["Bug_Name"]);
+
+                $comments = $bug["Comments"];
+                $plusones = $bug["Plusones"];
+
+                if ($comments === 0) $comments = "no";
+                if ($plusones === 0) $plusones = "no";
+
+
+                ?>
+            <section>
+                <p class="message">
+                    <a href="<?php echo $url; ?>" title="<?php echo $title; ?>"><?php echo $title; ?></a>
+                </p>
+                <p class="stats">Sometime -
+                    <a href="<?php echo $url; ?>#comments"><?php echo $comments; ?> comment<?php echo $comments === 1 ? "" : "s"; ?></a> -
+                    <a href="<?php echo $url; ?>#plusones"><?php echo $plusones; ?> +1<?php echo $plusones === 1 ? "" : "s"; ?></a>
+                </p>
+            </section>
+                <?php
+            }
+            ?>
+        </div>
+        <?php } ?>
     <?php } ?>
 
 </div>

@@ -10,6 +10,9 @@ class SectionTileModule implements IModule {
         $open = $section["Open_Bugs"];
         $all = $section["All_Bugs"];
 
+        if ($open === 0) $open = "No";
+        if ($all === 0) $all = "No";
+
         $style = "";
         if ($section["Color"] === 0) {
             Library::get("image");
@@ -34,7 +37,7 @@ class SectionTileModule implements IModule {
         <div class="container">
             <h3><?php echo $name; ?></h3>
             <p class="section-stats">
-                <span class="open"><?php echo $open; ?> open bug<?php echo $open === 1 ? "" : "s"; ?></span>
+                <?php if ($all !== "No") { ?><span class="open"><?php echo $open; ?> open bug<?php echo $open === 1 ? "" : "s"; ?></span><?php } ?>
                 <span class="all"><?php echo $all; ?> bug<?php echo $all === 1 ? "" : "s"; ?></span>
             </p>
         </div>
