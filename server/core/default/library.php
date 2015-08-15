@@ -9,7 +9,7 @@
  */
 class Library {
     private static $libraries = array();
-    private static $loadedlibs = array();
+    public static $loadedlibs = array();
     
     /**
      * Register a library in a certain location.
