@@ -1,4 +1,6 @@
 header.big {
+    position:absolute;
+
     padding:0;
     text-align:center;
     color:#FFF;
@@ -90,13 +92,13 @@ header .login-box button {
 .notification-list section p {
     margin:0;
 }
-.notification-list .message a {
-    color:#000;
-    text-decoration:none;
+/*.notification-list .message a {
+    color:#ef5350;
+    /*text-decoration:none;
 }
 .notification-list .message a:hover {
     text-decoration:underline;
-}
+}*/
 .notification-list .stats {
     font-size:0.8em;
     margin-top:5px;
