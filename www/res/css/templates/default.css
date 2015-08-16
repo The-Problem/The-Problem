@@ -58,6 +58,28 @@ header {
     -webkit-box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
     -moz-box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
     box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
+
+    color:#FFF;
+    font-size:1.1em;
+    line-height:40px;
+
+    text-align:center;
+}
+
+header a {
+    color:#FFF;
+}
+
+header div, header h1 {
+    display:inline-block;
+}
+
+.left {
+    float:left;
+}
+.right {
+    float:right;
+    margin-right:20px;
 }
 
 a {

@@ -100,8 +100,19 @@ class DefaultTemplate implements ITemplate {
         if ($this->option("header")) {
             echo "<header>";
 
-            echo '<h1 class="title"><a href="' . htmlentities(Path::getclientfolder()) . '" title="Home">' .
+            echo '<h1 class="title left"><a href="' . htmlentities(Path::getclientfolder()) . '" title="Home">' .
                 '<img alt="The Problem" title="Home" src="' . $logo->clientpath . '" />' . '</a></h1>';
+
+            Library::get('cookies');
+
+            if (Cookies::prop('sudo')) echo '<div class="center">Sudo mode active -
+<a href="' . Path::getclientfolder("ajax", "sudo", "disable") . '?return=' . urlencode(htmlentities($_SERVER['REQUEST_URI'])) . '">disable</a></div>';
+
+            $username = Cookies::prop('username');
+            if ($username) {
+                $user = Connection::query("SELECT Name FROM users WHERE Username = ?", "s", array($username));
+                echo '<div class="right">Hi, <a href="' . Path::getclientfolder("~" . htmlentities($username)) . '">' . htmlentities($user[0]["Name"]) . '</a></div>';
+            }
 
             echo "</header>";
         }
