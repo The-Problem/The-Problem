@@ -3,5 +3,5 @@
     "author": "Darren Fu",
     "description": "Provides access to users of The Problem",
     "requires": [],
-    "load": ["users"]
+    "load": ["users", "user"]
 }
