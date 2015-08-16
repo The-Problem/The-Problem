@@ -21,6 +21,7 @@ class HomePage implements IPage {
     public function head(Head &$head) {
         $head->stylesheet("modules/login");
         $head->stylesheet("pages/home");
+        $head->script("pages/home");
     }
 
     public function body() {
@@ -115,7 +116,7 @@ FROM sections"); ?>
 <?php } ?>
         <?php if (count($sections)) { ?>
         <input class="search-box" type="search" placeholder="Search all sections" />
-        <div class=section-list>
+        <div class="section-list searchable">
             <?php
             foreach ($sections as $section) {
                 Modules::getoutput("sectionTile", $section);
