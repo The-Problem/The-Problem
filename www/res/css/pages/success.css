@@ -4,3 +4,11 @@
 	margin-right: auto;
 	width: 960px;
 }
+
+#profilePic {
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+	height: 200px;
+	display: block;
+}

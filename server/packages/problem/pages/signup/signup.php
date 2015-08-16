@@ -8,8 +8,16 @@ class SignupPage implements IPage{
 	}
 
 	public function permission(){
+			return true;
+		
+		/*Library::get('cookies');
 
-		return true;
+		if (Cookies::prop("username") != NULL){
+			Path::redirect(Path::getclientfolder());
+			return false;
+		}else{
+		}*/
+
 	}
 
 	public function subpages(){
@@ -99,20 +107,20 @@ class SignupPage implements IPage{
 
 		if ($pageState == 1){
 
-			//Library::get("users");
-			//var_dump(Users::newUser($username, $password, $prefName, $email));
-
+			//Create user in the Database
+			Library::get("users");
+			
 			$username = $_POST['username'];
 			$name = $_POST['prefName'];
 			$password = $_POST['password'];
 			$email = $_POST['email'];
 
-			$userCreateQuery = "INSERT INTO users (Username, Email, Name, Password, Rank) VALUES ('". $username . "', '" . $email . "', '" . $name . "', '" . $password . "', 0)";
-			$query = Connection::query($userCreateQuery);
-			echo var_dump($userCreateQuery);
+			Users::newUser($username, $password, $name, $email);
 
+			//Take the user to the success page
 
-
+			Library::get('cookies');
+			Cookies::prop('signedup', true);
 			Path::redirect(Path::getclientfolder("signup", "success"));
 		}
 	
@@ -126,6 +134,9 @@ class SignupPage implements IPage{
 			$errorMessage = "There were some issues with the details you entered. Please fix them to continue.";
 			echo "<p class='invalidMessage'>" . $errorMessage . "</p>";
 		}
+
+		/*Library::get("users");
+		echo "logon thing ". var_dump(Users::logon("Andrew", "pleaseBoss1"));*/
 
 		?>
 
@@ -149,7 +160,7 @@ class SignupPage implements IPage{
 			
 			<div form="signUpDetails" id='captcha' class="g-recaptcha" data-sitekey="6LevLAsTAAAAABX9zurraMJqIijsC39x1ZgYQyEb"></div>
 			
-			<button action='submit' id='joinButton'>JOIN</button>
+			<button action='submit' class='highlight'>JOIN</button>
 		</form>	
 
 
