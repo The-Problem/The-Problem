@@ -109,3 +109,7 @@ header .login-box button {
 .notification-list .stats a:hover {
     text-decoration:none;
 }
+
+.searchable.searching {
+    opacity:0.7;
+}

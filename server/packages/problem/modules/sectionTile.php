@@ -1,6 +1,10 @@
 <?php
 
 class SectionTileModule implements IModule {
+    public function __construct() {
+        Pages::$head->stylesheet("modules/sectionTile");
+    }
+
     public function spinnersize() { return Modules::SPINNER_LARGE; }
 
     public function getcode($section = array(), Head $h) {
@@ -29,7 +33,7 @@ class SectionTileModule implements IModule {
         }
 
         ?>
-<section>
+<section data-name="<?php echo strtolower($name); ?>">
     <a href="<?php echo $path; ?>"
        title="<?php echo htmlentities($section["Description"]); ?>"
        class="color-<?php echo $section["Color"]; ?>"
@@ -46,8 +50,6 @@ class SectionTileModule implements IModule {
     }
 
     public function getsurround($code, $params) {
-        Pages::$head->stylesheet("modules/section");
-
         return $code;
     }
 }
