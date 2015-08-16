@@ -122,6 +122,7 @@ FROM sections"); ?>
                 Modules::getoutput("sectionTile", $section);
             }
             ?>
+            <div class="none" style="display:none">We couldn't find anything matching that query.</div>
         </div>
         <?php } else { ?><div class="none">Nothing here just yet...</div> <?php } ?>
     </div>

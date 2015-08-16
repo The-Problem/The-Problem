@@ -33,7 +33,7 @@ class SectionTileModule implements IModule {
         }
 
         ?>
-<section>
+<section data-name="<?php echo strtolower($name); ?>">
     <a href="<?php echo $path; ?>"
        title="<?php echo htmlentities($section["Description"]); ?>"
        class="color-<?php echo $section["Color"]; ?>"

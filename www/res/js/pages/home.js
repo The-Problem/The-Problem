@@ -1,37 +1,38 @@
 LimePHP.register("page.home", function() {
     var $search = $(".search-box"),
-        $searchable = $(".searchable");
+        $searchable = $(".searchable"),
+        $sections = $searchable.children("section"),
+        $none = $searchable.children(".none");
 
-    var searchHooks = { notExists: true };
-    var searchCache = {};
+    function search(val) {
+        if (val === "") {
+            $sections.css("display", "");
+            $none.css("display", "none");
+        } else {
+            val = val.toLowerCase();
+            var amount = 0;
+            $sections.each(function (index, elt) {
+                var $elt = $(elt);
+
+                var name = $elt.data("name");
+                if (name.indexOf(val) === -1) $elt.css("display", "none");
+                else {
+                    $elt.css("display", "");
+                    amount++;
+                }
+            });
+            console.log(amount);
+
+            if (amount) $none.css("display", "none");
+            else $none.css("display", "");
+        }
+    }
+
+    search($search.val());
 
     $search.on("keydown", function() {
         setTimeout(function() {
-            if (!searchHooks.notExists) searchHooks.cancel();
-
-            var val = $search.val();
-            if (searchCache[val]) $searchable.html(searchCache[val]);
-            else {
-                var isComplete = false;
-
-                setTimeout(function() {
-                    if (!isComplete) $searchable.addClass("searching");
-                }, 100);
-
-                searchHooks = LimePHP.request("get", LimePHP.path("ajax/sections/search"), {
-                    query: val
-                }, "html");
-
-                searchHooks.success = function (data) {
-                    $searchable.html(data);
-                    searchCache[val] = data;
-                };
-
-                searchHooks.complete = function () {
-                    isComplete = true;
-                    $searchable.removeClass("searching");
-                };
-            }
+            search($search.val());
         }, 0);
     });
 });
