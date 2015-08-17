@@ -19,7 +19,8 @@ class ProblemPackage implements IPackage {
                 "home",
                 "admin",
                 "error",
-                "signup"
+                "signup",
+                "login"
             )
         ));
 

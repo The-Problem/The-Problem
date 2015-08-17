@@ -68,16 +68,3 @@ label{
 	margin-right: auto;
 	width: 304px;
 }
-
-#joinButton {
-	background-color: #ef5350;
-	color: white;
-	float: right;
-	width: 125px;
-	height: 40px;
-	transition: background-color 0.2s;
-}
-
-#joinButton:hover {
-	background-color: #c62828;
-}
