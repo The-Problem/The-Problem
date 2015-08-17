@@ -14,10 +14,7 @@ class AdminPage implements IPage {
         $rank = $rank_res[0]["Rank"];
 
         if ($rank < 4) return false;
-        if (!Cookies::prop("sudo")) {
-            Path::redirect(Path::getclientfolder("sudo") . "?return=" . urlencode($_SERVER['REQUEST_URI']));
-            return false;
-        }
+        if (!Cookies::prop("sudo")) Path::redirect(Path::getclientfolder("sudo") . "?return=" . urlencode($_SERVER['REQUEST_URI']));
         return true;
     }
     public function subpages() {
@@ -25,6 +22,7 @@ class AdminPage implements IPage {
     }
 
     public function head(Head &$head) {
+        $head->title .= " - Admin";
     }
 
     public function body() {

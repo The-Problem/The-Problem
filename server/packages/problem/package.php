@@ -18,6 +18,7 @@ class ProblemPackage implements IPackage {
                 "ajax",
                 "home",
                 "admin",
+                "sudo",
                 "error",
                 "signup",
                 "login"
