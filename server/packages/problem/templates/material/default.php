@@ -111,7 +111,11 @@ class DefaultTemplate implements ITemplate {
             $username = Cookies::prop('username');
             if ($username) {
                 $user = Connection::query("SELECT Name FROM users WHERE Username = ?", "s", array($username));
-                echo '<div class="right">Hi, <a href="' . Path::getclientfolder("~" . htmlentities($username)) . '">' . htmlentities($user[0]["Name"]) . '</a></div>';
+                echo '<div class="right">Hi, <a href="' . Path::getclientfolder("~" . htmlentities($username)) . '">' . htmlentities($user[0]["Name"]) . '</a>';
+
+                $rank = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($username));
+                if ($rank[0] >= 4) echo ' - <a href="' . Path::getclientfolder("admin") . '">Admin</a>';
+                echo "</div>";
             }
 
             echo "</header>";

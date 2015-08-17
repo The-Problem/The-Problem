@@ -17,6 +17,8 @@ class ProblemPackage implements IPackage {
             "Pages" => array(
                 "ajax",
                 "home",
+                "admin",
+                "sudo",
                 "error",
                 "signup",
                 "login"
