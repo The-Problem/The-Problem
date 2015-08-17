@@ -13,11 +13,11 @@ class Connection {
     private static $con;
     private static $id = -1;
 
-    public static $persistant = true;
-    public static $host = "localhost";
-    public static $username = "the-problem";
-    public static $password = "Passw0rd1";
-    public static $database = "the-problem";
+    public static $persistant = LIME_DB_PERSISTANT;
+    public static $host = LIME_DB_HOST;
+    public static $username = LIME_DB_USERNAME;
+    public static $password = LIME_DB_PASSWORD;
+    public static $database = LIME_DB_DATABASE;
     
     /**
      * Connect to the database
