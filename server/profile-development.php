@@ -37,10 +37,4 @@ define('LIME_TERMINAL_MODE', LIME_TERMINAL_ENABLED);
  */
 define('LIME_CACHE_MODE', LIME_CACHE_SIMPLE);
 
-/*** DATABASE CONFIG ***/
-
-define('LIME_DB_PERSISTANT', true);
-define('LIME_DB_HOST', 'localhost');
-define('LIME_DB_USERNAME', '');
-define('LIME_DB_PASSWORD', '');
-define('LIME_DB_DATABASE', '');
+require('database.php');

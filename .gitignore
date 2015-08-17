@@ -2,6 +2,7 @@
 server/cache/include.php
 
 server/profile.php
+server/database.php
 
 server/cache/images/images/*
 server/cache/images/map.json
