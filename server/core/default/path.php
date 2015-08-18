@@ -128,15 +128,7 @@ class Path {
      * @return string The converted absolute path
      */
     public static function realpath($path) {
-        $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
-        $parts = array_filter(explode(DIRECTORY_SEPARATOR, $path), 'strlen');
-        $absolutes = array();
-        foreach ($parts as $part) {
-            if ($part === '.') continue;
-            if ($part === '..') array_pop($absolutes);
-            else array_push($absolutes, $part);
-        }
-        return implode(DIRECTORY_SEPARATOR, $absolutes);
+        return __realpath($path);
     }
     
     /**
