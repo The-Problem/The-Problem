@@ -36,7 +36,7 @@ run("cp ../database.php server/database.php");
 
 echo "<span>$</span>cat database.sql | ./import_sql\n";
 
-require('../server/database.php');
+require(__DIR__ . '/../server/database.php');
 $con = new MySQLi(LIME_DB_HOST, LIME_DB_USERNAME, LIME_DB_PASSWORD, LIME_DB_DATABASE);
 $con->multi_query(file_get_contents("database.sql"));
 echo "Checking for presence of tables...\n";
