@@ -34,13 +34,16 @@ run("rm -rf The-Problem");
 run("cp server/profile-production.php server/profile.php");
 run("cp ../database.php server/database.php");
 
-echo "<span>$</span>cat database.sql | ./import_sql\n";
+echo "<span>$</span> cat database.sql | ./import_sql\n";
 
 require(__DIR__ . '/../server/database.php');
 $con = new MySQLi(LIME_DB_HOST, LIME_DB_USERNAME, LIME_DB_PASSWORD, LIME_DB_DATABASE);
 $con->multi_query(file_get_contents("database.sql"));
 echo "Checking for presence of tables...\n";
 $res = $con->query("SHOW TABLES LIKE 'users'");
+
+if ($con->errno) echo "<span style='color:red'>Error!</span> " . $con->error . " (" . $con->errno . ")\n";
+
 if ($res->num_rows <= 0) echo "<span style='color:red'>Warning!</span> It doesn't look like the tables imported correctly.\n";
 else echo "Everything looks OK.\n";
 echo "Finished importing tables.\n\n";
