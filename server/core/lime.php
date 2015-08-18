@@ -5,6 +5,10 @@ define('LIME_ENV_PROD', 2);
 define('LIME_TERMINAL_ENABLED', 1);
 define('LIME_TERMINAL_DISABLED', 0);
 
+define('LIME_LIBCACHE_DISABLED', 0);
+define('LIME_LIBCACHE_VALIDATE', 1);
+define('LIME_LIBCACHE_AGGRESSIVE', 2);
+
 /**
  * Core LimePHP manager
  *
@@ -39,6 +43,7 @@ class LimePHP {
             
             Events::call("start");
 
+            Library::flush_cache();
             l_include_flush();
         } catch (Exception $ex) {
             self::error($ex);

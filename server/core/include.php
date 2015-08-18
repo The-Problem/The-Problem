@@ -4,6 +4,8 @@ define('LIME_CACHE_DISABLED', 0);
 define('LIME_CACHE_SIMPLE', 1);
 define('LIME_CACHE_AGGRESSIVE', 2);
 
+define('LIME_CACHE_ROOT', __DIR__ . '/../cache');
+
 $GLOBALS['lime_include_cache'] = array();
 $GLOBALS['lime_included_list'] = array();
 $GLOBALS['lime_has_cache_changed'] = false;
@@ -21,15 +23,14 @@ function l_include($file, $relative = true) {
     static $has_included = false;
     static $files_have_loaded = false;
 
-
     if ($relative) $file = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . $file;
 
-    $file = realpath($file);
+    $file = __realpath($file);
 
     if (LIME_CACHE_MODE === LIME_CACHE_DISABLED) require_once($file);
     else {
         if (!$has_included) {
-            if (file_exists( __DIR__ . '/../cache/include.php')) include(__DIR__ . '/../cache/include.php');
+            if (file_exists(LIME_CACHE_ROOT . '/include.php')) include(LIME_CACHE_ROOT . '/include.php');
 
             if (!array_key_exists('lime_include_cache', $GLOBALS) || !is_array($GLOBALS['lime_include_cache'])) {
                 $GLOBALS['lime_include_cache'] = array();
@@ -47,7 +48,9 @@ function l_include($file, $relative = true) {
         if (in_array($file, $included_list)) return;
         array_push($included_list, $file);
 
-        if (array_key_exists($file, $GLOBALS['lime_include_cache'])) call_user_func($GLOBALS['lime_include_cache'][$file]);
+        if (array_key_exists($file, $GLOBALS['lime_include_cache'])) {
+            call_user_func($GLOBALS['lime_include_cache'][$file]);
+        }
         else {
             $GLOBALS['lime_has_cache_changed'] = true;
             $GLOBALS['lime_include_cache'][$file] = function () {
@@ -64,6 +67,7 @@ function l_include_flush() {
     if (LIME_CACHE_MODE === LIME_CACHE_DISABLED || !$GLOBALS['lime_has_cache_changed']) return;
 
     $value = "<?php\n";
+    if (LIME_CACHE_MODE === LIME_CACHE_AGGRESSIVE) $value .= "define('LIME_IN_CACHE', true);\n";
     $value .= '$GLOBALS["lime_icache_version"] = "' . $GLOBALS['lime_cache_version'] . '";' . "\n";
     $value .= '$GLOBALS["lime_icache_mode"] = ' . LIME_CACHE_MODE . ";\n";
 
@@ -93,5 +97,17 @@ function l_include_flush() {
         $value .= '$GLOBALS["lime_include_cache"] = array(' . "\n    " . implode(",\n    ", $values) . "\n);";
     }
 
-    file_put_contents(__DIR__ . '/../cache/include.php', $value);
+    file_put_contents(LIME_CACHE_ROOT . '/include.php', $value);
+}
+
+function __realpath($path) {
+    $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+    $parts = array_filter(explode(DIRECTORY_SEPARATOR, $path), 'strlen');
+    $absolutes = array();
+    foreach ($parts as $part) {
+        if ($part === '.') continue;
+        if ($part === '..') array_pop($absolutes);
+        else array_push($absolutes, $part);
+    }
+    return implode(DIRECTORY_SEPARATOR, $absolutes);
 }
