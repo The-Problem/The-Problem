@@ -29,6 +29,13 @@ class ProblemPackage implements IPackage {
             Library::get("pages");
             Templates::$theme = "material";
         }));
+        Events::add(new Handler("pagehead", function($head) {
+            $title_res = Connection::query("SELECT Value FROM configuration WHERE Type = 'overview-name' AND Name = 'sitename'");
+            if (!count($title_res)) $title = "The Problem";
+            else $title = $title_res[0]["Value"];
+
+            $head->title = $title;
+        }));
 
         ob_start();
 
