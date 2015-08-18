@@ -34,26 +34,53 @@ class AdminPage implements IPage {
     public function head(Head &$head) {
         $head->title .= " - Admin";
         $head->stylesheet("pages/admin");
+        $head->script("pages/admin");
     }
 
     public function overview() {
+        $data = Connection::query("SELECT Type, Name, Value FROM configuration WHERE Type = 'overview-visibility' OR Type = 'overview-name'");
+
+        $sitename = "The Problem";
+        $visibility = "public";
+        $registration = "open";
+
+        foreach ($data as $item) {
+            if ($item["Type"] === "overview-name") {
+                if ($item["Name"] === "sitename") $sitename = $item["Value"];
+            } else if ($item["Type"] === "overview-visibility") {
+                if ($item["Name"] === "visibility") $visibility = $item["Value"];
+                else if ($item["Name"] === "registration") $registration = $item["Value"];
+            }
+        }
+
+        $isPublic = $visibility === "public";
+        $isOpen = $registration === "open";
+
         ?>
-        <section>
+        <section data-type="overview-name">
             <h2>Site Name</h2>
-            <input type="text" placeholder="The Problem" name="sitename" />
+            <input type="text" placeholder="The Problem" name="sitename" value="<?php echo $sitename; ?>" />
             <p class="help">The site name is displayed on the homepage, title bar, and various places throughout the
             site.</p>
             <p class="tip">Set the site name to the product or company that the site is being used for.</p>
-        </section><section class="site-visibility">
+        </section><section class="site-visibility" data-type="overview-visibility">
             <h2>Site Visibility</h2>
             <div class="columns">
                 <div class="column">
-                    <label><input type="radio" name="visibility" value="public" />Public</label><br>
-                    <label><input type="radio" name="visibility" value="private" />Private</label>
+                    <label><input type="radio" name="visibility" value="public" <?php if ($isPublic) echo 'checked'; ?> />Public</label><br>
+                    <label><input type="radio" name="visibility" value="private" <?php if (!$isPublic) echo 'checked'; ?> />Private</label>
                 </div>
                 <div class="column registration">
-                    <label><input type="radio" name="registration" value="open" />Open registration</label><br>
-                    <label><input type="radio" name="registration" value="closed" />Closed registration</label>
+                    <label><input type="radio"
+                                  name="registration"
+                                  value="open"
+                                  <?php if ($isOpen) echo 'checked'; ?>
+                                  <?php if (!$isPublic) echo 'disabled'; ?> />Open registration</label><br>
+                    <label><input type="radio"
+                                  name="registration"
+                                  value="closed"
+                                  <?php if (!$isOpen) echo 'checked'; ?>
+                                  <?php if (!$isPublic) echo 'disabled'; ?> />Closed registration</label>
                 </div>
             </div>
             <p class="help">Site visibility allows you to control who can view your website. By setting the visibility
