@@ -1,5 +1,6 @@
 # LimePHP
 server/cache/include.php
+server/cache/library.php
 
 server/profile.php
 server/database.php

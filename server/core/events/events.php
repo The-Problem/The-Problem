@@ -11,7 +11,7 @@
  */
 class Events {
     private static $events = array();
-    
+
     const PRIORITY_LOW = 0;
     const PRIORITY_MEDIUM = 2;
     const PRIORITY_HIGH = 4;
@@ -59,8 +59,6 @@ class Events {
      * @param array Arguments to pass to callback (optional)
      */
     public static function call($name, $args = array()) {
-        //echo microtime() . " calling $name\n";
-
         if (!array_key_exists($name, self::$events)) return;
         
         usort(self::$events[$name], function($a, $b) {

@@ -111,4 +111,4 @@ class Cookies {
     }
 }
 
-Cookies::$sessiontimeout = new DateInterval('PT1800S');
+Cookies::$sessiontimeout = new DateInterval('PT7200S');

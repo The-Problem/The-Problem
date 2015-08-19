@@ -41,7 +41,7 @@ class Cookie {
                 "value" => array(),
                 "timeout" => new DateTime("@0"),
                 "type" => "session",
-                "domain" => "." . (empty(Path::getdomain()) ? "localhost" : Path::getdomain()),
+                "domain" => "." . $_SERVER['HTTP_HOST'],
                 "http" => false
             );
             $this->updatetimeout();

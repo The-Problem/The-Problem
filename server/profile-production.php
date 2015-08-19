@@ -37,4 +37,16 @@ define('LIME_TERMINAL_MODE', LIME_TERMINAL_DISABLED);
  */
 define('LIME_CACHE_MODE', LIME_CACHE_AGGRESSIVE);
 
+/**
+ * Library cache
+ * Caches library definition files (library.json), and when combined with the include cache,
+ * almost completely eliminates file reading.
+ *
+ * Valid options:
+ *  - LIME_LIBCACHE_DISABLED   - No library caching
+ *  - LIME_LIBCACHE_VALIDATE   - Still caches the files, but checks the last edit date and invalidates the cache if it has changed
+ *  - LIME_LIBCACHE_AGGRESSIVE - Caches the files, and doesn't check for edit dates
+ */
+define('LIME_LIBCACHE_MODE', LIME_LIBCACHE_AGGRESSIVE);
+
 require('database.php');
