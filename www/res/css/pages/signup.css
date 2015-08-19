@@ -1,3 +1,4 @@
+/*Body Styling*/
 body{
 	padding-bottom: 100px;
 }
@@ -9,33 +10,38 @@ body{
 	width: 960px;
 }
 
+header {
+	position: fixed;
+	z-index: 9999;
+}
+
 h1, h2{
 	clear: both;
 }
 
-header {
-	position:fixed;
-}
-
-.invalidMessage {
-	margin-top: 40px;
+/*Error Message Styling*/
+#invalidMessage {
 	color: #ef5350;
-
-
 }
 
-#signUpDetails{
-	height: 160px;
+#messageDiv {
+	width: 100%;
+	height: 0px;
+	padding: 0 0;
+	margin: 0 0;
+	overflow: hidden;
+	transition: height 0.2s;
 }
 
-#signUpDetails, #form2 {
+
+/*Form Styling*/
+#signUpDetails {
 	width: 960px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 fieldset {
-	width: 480px;
 	margin-top: 40px;
 	margin-bottom: 40px;
 	margin-left: auto;
@@ -43,28 +49,54 @@ fieldset {
 	border: none;
 }
 
-label{
-	clear: right;
-	float: left;
-	font-size: 16px;
-	margin-top: 5px;
+.fieldContainer {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	width: 480px;
+	height: 48px;
 }
+	/*Elements in each form*/
 
-.formInput {
-	padding: 0 15px;
-	border: 1px solid #ef5350;
-	border-radius: 5px;
-	background-color: white;
-	margin-bottom: 10px;
-	height: 36px;
-	width: 285px;
-	float: right;
-	font-size: 16px;
-}
+	label{
+		clear: both;
+		float: left;
+		font-size: 16px;
+		margin-top: 5px;
+	}
 
+	.formInput {
+		height: 36px;
+		width: 285px;
+		float: right;
+		font-size: 16px;
+		padding: 0 15px;
+		border: 1px solid #ef5350;
+		border-radius: 5px;
+		margin-bottom: 10px;
+	}
+
+	.verifyIcon {
+		font-size: 18px !important;
+		position: absolute;
+		right: 20px;
+		top: 9px;
+		transition: transform 0.1s;
+	}
+	
+	.verifyIcon:hover {
+		transform: scale(0.1);
+	}
+
+
+/*NoCAPTCHA reCAPTCHA*/
 #captcha {
 	margin-top: 50px;
 	margin-left: auto;
 	margin-right: auto;
 	width: 304px;
 }
+
+
+
+

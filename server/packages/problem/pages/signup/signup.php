@@ -27,7 +27,9 @@ class SignupPage implements IPage{
 	public function head(Head &$head){
 		$head->title .= " - Sign Up";
 		$head->stylesheet("pages/signup");
+		$head->stylesheet("https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css", true);
 		$head->script("https://www.google.com/recaptcha/api.js", true);
+		$head->script("pages/signup");
 	}
 	
 	private function passedCAPTCHA(){
@@ -132,35 +134,47 @@ class SignupPage implements IPage{
 
 		if($pageState == 2){
 			$errorMessage = "There were some issues with the details you entered. Please fix them to continue.";
-			echo "<p class='invalidMessage'>" . $errorMessage . "</p>";
 		}
 
-		/*Library::get("users");
-		echo "logon thing ". var_dump(Users::logon("Andrew", "pleaseBoss1"));*/
-
+		echo "<div id='messageDiv'><p id='invalidMessage'>" . $errorMessage . "</p></div>";
 		?>
 
 
 
 		<form id='signUpDetails' name='signUpForm' method='post'>
 			<fieldset>
-			<label>Username</label><input type='text' name='username' class='formInput' value="<?php if(isset($_POST['username'])) echo $_POST['username']; ?>"><br>
-			<label>Password</label><input type='password' name='password' class='formInput'><br>
-			<label>Confirm Password</label><input type='password' name='rpassword' class='formInput'>
+				
+				<div class='fieldContainer'>
+					<label>Username</label><input type='text' name='username' class='formInput' id='usernameField' value="<?php if(isset($_POST['username'])) echo $_POST['username']; ?>"><i id='usernameIcon' class='verifyIcon'></i>
+				</div>
+
+				<div class='fieldContainer'>
+					<label>Password</label><input type='password' name='password' class='formInput' id='passwordField'><i id='passwordIcon' class='verifyIcon'></i>
+				</div>
+
+				<div class='fieldContainer'>
+					<label>Confirm Password</label><input type='password' name='rpassword' class='formInput' id='rpasswordField'><i id='rpasswordIcon' class='verifyIcon'></i>
+				</div>
+
 			</fieldset>
 		
 			<h2>Tell us more about yourself...</h2>
 			
 			<fieldset>
-				<label>Preferred Name</label><input form='signUpDetails' type='text' name='prefName' class='formInput' value="<?php if(isset($_POST['username'])) echo $_POST['prefName']; ?>"><br>
-				<Label>Email</Label><input form='signUpDetails' type='text' name='email' class='formInput' value="<?php if(isset($_POST['username'])) echo $_POST['email']; ?>">
+				<div class='fieldContainer'>
+					<label>Preferred Name</label><input form='signUpDetails' type='text' name='prefName' class='formInput' id='nameField' value="<?php if(isset($_POST['username'])) echo $_POST['prefName']; ?>"><i id='nameIcon' class='verifyIcon'></i>
+				</div>
+				<div class='fieldContainer'>
+					<Label>Email</Label><input form='signUpDetails' type='text' name='email' class='formInput'  id='emailField' value="<?php if(isset($_POST['username'])) echo $_POST['email']; ?>"><i id='emailIcon' class='verifyIcon'></i>
+				</div>
+
 			</fieldset>
 		
 			<h2>Are you a robot?</h2>
 			
 			<div form="signUpDetails" id='captcha' class="g-recaptcha" data-sitekey="6LevLAsTAAAAABX9zurraMJqIijsC39x1ZgYQyEb"></div>
 			
-			<button action='submit' class='highlight'>JOIN</button>
+			<button action='submit' id='joinButton' class='highlight'>JOIN</button>
 		</form>	
 
 

@@ -17,15 +17,20 @@
 
 
 		public static function login($username, $password){
-			$passwordQuery = "SELECT Password FROM users WHERE Username = ?";
-			$queryResult = Connection::query($passwordQuery, "s", array($username));
+			echo "username: " . $username;
+			echo "password: " .  $password;
+			
+			$passwordQuery = "SELECT *  FROM users WHERE Username = ? AND Password = ?";
+			$queryResult = Connection::query($passwordQuery, "ss", array($username, $password));
 
-			echo var_dump($queryResult[0]["Password"]);
+			echo var_dump($queryResult);
 
-			Library::get('cookies');
-			Cookies::prop('username', $username);
+			if ($queryResult){
+				Library::get('cookies');
+				Cookies::prop('username', $username);
+			}
 
-			return ($queryResult[0]['Password'] == $password);
+			return $queryResult;
 		}
 
 		public static function getUser($username){
@@ -41,6 +46,12 @@
 
 		public static function usernameAvailable($username){
 			//returns whether a username is availale for use
+			$usernameQuery  = "IF NOT EXISTS (SELECT 1 FROM users WHERE Username = ?)";
+			$queryResult = Connection::query($usernameQuery, "s", $username);
+
+			echo var_dump($queryResult);
+
+			return $queryResult;
 		}
 
 		public static function logoff(){

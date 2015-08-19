@@ -34,7 +34,6 @@ class LoginPage implements IPage{
 
 				if ($loginState){
 					Path::redirect(Path::getclientfolder());
-					echo 'going home';
 				}else{
 					$message = "These login credentials appear to be incorrect. Please try again.";
 				}
@@ -57,4 +56,3 @@ class LoginPage implements IPage{
 		<?php
 	}
 }
-?>
