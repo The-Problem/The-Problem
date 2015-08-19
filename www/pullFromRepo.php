@@ -38,10 +38,27 @@ echo "<span>$</span> cat database.sql | ./import_sql\n";
 
 require(__DIR__ . '/../server/database.php');
 $con = new MySQLi(LIME_DB_HOST, LIME_DB_USERNAME, LIME_DB_PASSWORD, LIME_DB_DATABASE);
+
+echo "Dropping all tables...\n";
+$con->multi_query("
+SET FOREIGN_KEY_CHECKS = 0;
+SET @tables = NULL;
+SELECT GROUP_CONCAT(table_schema, '.', table_name) INTO @tables
+  FROM information_schema.tables
+  WHERE table_schema = '" . $con->real_escape_string(LIME_DB_DATABASE) . "';
+
+SET @tables = CONCAT('DROP TABLE ', @tables);
+PREPARE stmt FROM @tables;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET FOREIGN_KEY_CHECKS = 1;
+");
+do $con->use_result(); while ($con->more_results() && $con->next_result());
+
+echo "Creating tables &amp; data...\n";
+
 $con->multi_query(file_get_contents("database.sql"));
-do {
-    $con->use_result();
-} while ($con->more_results() && $con->next_result());
+do $con->use_result(); while ($con->more_results() && $con->next_result());
 
 echo "Checking for presence of tables...\n";
 $res = $con->query("SHOW TABLES LIKE 'users'");
