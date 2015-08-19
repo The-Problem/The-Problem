@@ -61,6 +61,7 @@ echo "Creating tables &amp; data...\n";
 $file = str_replace("/*!40101 SET NAMES utf8mb4 */;", "", file_get_contents("database.sql"));
 $con->multi_query(file_get_contents("database.sql"));
 do $con->use_result(); while ($con->more_results() && $con->next_result());
+if ($con->errno) echo "<span style='color:red'>Error!</span> " . $con->error . " (" . $con->errno . ")\n";
 
 echo "Checking for presence of tables...\n";
 $res = $con->query("SHOW TABLES LIKE 'users'");
