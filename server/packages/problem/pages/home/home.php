@@ -47,8 +47,8 @@ SELECT *, (SELECT COUNT(*) FROM bugs
           (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
 FROM sections
-  WHERE Section_ID IN (SELECT Section_ID FROM Developers
-                       WHERE Developers.Username = ?)
+  WHERE Section_ID IN (SELECT Section_ID FROM developers
+                       WHERE developers.Username = ?)
 ORDER BY Open_Bugs DESC, All_Bugs DESC", "s", array($username));
 
             $sections = Connection::query("
@@ -58,8 +58,8 @@ SELECT *, (SELECT COUNT(*) FROM bugs
           (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
 FROM sections
-  WHERE Section_ID NOT IN (SELECT Section_ID FROM Developers
-                           WHERE Developers.Username = ?)
+  WHERE Section_ID NOT IN (SELECT Section_ID FROM developers
+                           WHERE developers.Username = ?)
 ORDER BY Open_Bugs DESC, All_Bugs DESC", "s", array($username));
 
             ?>
