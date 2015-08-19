@@ -10,7 +10,7 @@ $GLOBALS['lime_include_cache'] = array();
 $GLOBALS['lime_included_list'] = array();
 $GLOBALS['lime_has_cache_changed'] = false;
 
-$GLOBALS["lime_cache_version"] = "0.1";
+$GLOBALS["lime_cache_version"] = 2;
 
 /**
  * Intelligently includes a file by caching it if required
@@ -39,8 +39,11 @@ function l_include($file, $relative = true) {
             if ($GLOBALS["lime_icache_mode"] === LIME_CACHE_AGGRESSIVE && LIME_CACHE_MODE !== LIME_CACHE_AGGRESSIVE) {
                 $files_have_loaded = true;
             }
-            if ($GLOBALS["lime_icache_mode"] !== LIME_CACHE_MODE) $GLOBALS["lime_include_cache"] = array();
-            if ($GLOBALS["lime_icache_version"] !== $GLOBALS["lime_cache_version"]) $GLOBALS["lime_include_cache"] = array();
+            if ($GLOBALS["lime_icache_mode"] !== LIME_CACHE_MODE
+                || $GLOBALS["lime_icache_version"] !== $GLOBALS["lime_cache_version"]) {
+                $GLOBALS["lime_include_cache"] = array();
+                if ($GLOBALS["lime_icache_mode"] === LIME_CACHE_AGGRESSIVE) $files_have_loaded = true;
+            }
 
             $has_included = true;
         }
@@ -68,7 +71,7 @@ function l_include_flush() {
 
     $value = "<?php\n";
     if (LIME_CACHE_MODE === LIME_CACHE_AGGRESSIVE) $value .= "define('LIME_IN_CACHE', true);\n";
-    $value .= '$GLOBALS["lime_icache_version"] = "' . $GLOBALS['lime_cache_version'] . '";' . "\n";
+    $value .= '$GLOBALS["lime_icache_version"] = ' . $GLOBALS['lime_cache_version'] . ';' . "\n";
     $value .= '$GLOBALS["lime_icache_mode"] = ' . LIME_CACHE_MODE . ";\n";
 
     if (LIME_CACHE_MODE === LIME_CACHE_AGGRESSIVE) {
@@ -80,11 +83,17 @@ function l_include_flush() {
             $escaped_path = str_replace("'", "\\'", str_replace("\\", "\\\\", $path));
 
             array_push($array_values, "'$escaped_path' => function() { }");
-            array_push($code, "\n//START:  $path\n" . preg_replace('/^.+\n/', '', file_get_contents($path)));
+
+            $file = file_get_contents($path);
+            $start_tags = substr_count($file, "<?php");
+            $end_tags = substr_count($file, "?>");
+            if ($start_tags !== $end_tags) $file .= "\n?>";
+
+            array_push($code, /*"\n//START:  $path\n" .*/ trim($file));
         }
 
         $value .= '$GLOBALS["lime_include_cache"] = array(' . "\n    " . implode(",\n    ", $array_values) . "\n);";
-        $value .= "\n" . implode("\n", $code);
+        $value .= "\n?>" . implode("", $code);
     } else {
 
         $values = array();
