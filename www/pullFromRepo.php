@@ -57,6 +57,8 @@ do $con->use_result(); while ($con->more_results() && $con->next_result());
 
 echo "Creating tables &amp; data...\n";
 
+// remove problematic line
+$file = str_replace("/*!40101 SET NAMES utf8mb4 */;", "", file_get_contents("database.sql"));
 $con->multi_query(file_get_contents("database.sql"));
 do $con->use_result(); while ($con->more_results() && $con->next_result());
 
