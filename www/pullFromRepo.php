@@ -39,6 +39,10 @@ echo "<span>$</span> cat database.sql | ./import_sql\n";
 require(__DIR__ . '/../server/database.php');
 $con = new MySQLi(LIME_DB_HOST, LIME_DB_USERNAME, LIME_DB_PASSWORD, LIME_DB_DATABASE);
 $con->multi_query(file_get_contents("database.sql"));
+do {
+    $con->use_result();
+} while ($con->more_results() && $con->next_result());
+
 echo "Checking for presence of tables...\n";
 $res = $con->query("SHOW TABLES LIKE 'users'");
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.12
+-- version 4.4.13
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Aug 15, 2015 at 10:21 AM
--- Server version: 5.6.25
--- PHP Version: 5.5.27
+-- Host: localhost
+-- Generation Time: Aug 19, 2015 at 12:00 PM
+-- Server version: 5.5.34
+-- PHP Version: 5.5.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,6 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `the-problem`
@@ -88,6 +89,28 @@ INSERT INTO `comments` (`Comment_ID`, `Bug_ID`, `Username`, `Object_ID`, `Creati
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `configuration`
+--
+
+DROP TABLE IF EXISTS `configuration`;
+CREATE TABLE IF NOT EXISTS `configuration` (
+  `Type` varchar(20) COLLATE latin1_general_cs NOT NULL,
+  `Name` varchar(20) COLLATE latin1_general_cs NOT NULL,
+  `Value` text COLLATE latin1_general_cs NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+--
+-- Dumping data for table `configuration`
+--
+
+INSERT INTO `configuration` (`Type`, `Name`, `Value`) VALUES
+('overview-name', 'sitename', 'The Problem'),
+('overview-visibility', 'registration', 'open'),
+('overview-visibility', 'visibility', 'public');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cookies`
 --
 
@@ -114,6 +137,18 @@ CREATE TABLE IF NOT EXISTS `developers` (
   `Section_ID` int(11) NOT NULL,
   `Username` varchar(20) COLLATE latin1_general_cs NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+--
+-- Dumping data for table `developers`
+--
+
+INSERT INTO `developers` (`Section_ID`, `Username`) VALUES
+(1, 'Andrew'),
+(2, 'exterminate'),
+(3, 'exterminate'),
+(3, 'mrfishie'),
+(4, 'mrfishie'),
+(2, 'unhelpful');
 
 -- --------------------------------------------------------
 
@@ -207,22 +242,23 @@ CREATE TABLE IF NOT EXISTS `plusones` (
 DROP TABLE IF EXISTS `sections`;
 CREATE TABLE IF NOT EXISTS `sections` (
   `Section_ID` int(11) NOT NULL,
-  `Name` text COLLATE latin1_general_cs NOT NULL,
+  `Name` text CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `Object_ID` int(11) NOT NULL,
   `Description` text COLLATE latin1_general_cs NOT NULL,
-  `Slug` text COLLATE latin1_general_cs NOT NULL
+  `Slug` text COLLATE latin1_general_cs NOT NULL,
+  `Color` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `sections`
 --
 
-INSERT INTO `sections` (`Section_ID`, `Name`, `Object_ID`, `Description`, `Slug`) VALUES
-(1, 'Users', 1, 'The user management system in The Problem.', 'users'),
-(2, 'Sections', 2, 'Bug sections which are in The Problem.', 'sections'),
-(3, 'Home', 3, 'The home page for The Problem.', 'homepage'),
-(4, 'User Permissions', 4, 'User permission management system that works in The Problem.', 'user-permissions'),
-(5, 'Notifications', 5, 'Notification system in The Problem notifying users of bug assignment, commenting, +1 and section activities as they occur.', 'notifications');
+INSERT INTO `sections` (`Section_ID`, `Name`, `Object_ID`, `Description`, `Slug`, `Color`) VALUES
+(1, 'Users', 1, 'The user management system in The Problem.', 'users', 6),
+(2, 'Sections', 2, 'Bug sections which are in The Problem.', 'sections', 0),
+(3, 'Home', 3, 'The home page for The Problem.', 'homepage', 11),
+(4, 'User Permissions', 4, 'User permission management system that works in The Problem.', 'user-permissions', 9),
+(5, 'Notifications', 5, 'Notification system in The Problem notifying users of bug assignment, commenting, +1 and section activities as they occur.', 'notifications', 14);
 
 -- --------------------------------------------------------
 
@@ -270,6 +306,7 @@ INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `La
 ('KatieLilly', 'jrn@mailinator.net', 'Katie Lilly', 'flashCookies1994372', 0, '', NULL),
 ('Liam', 'LIAM@mailinator.net', 'Liam Prok', 'helloW0rld', 0, '', NULL),
 ('meltingPoint', 'mp@mailinator.net', 'Jess', '4myDreamz', 0, '', NULL),
+('mrfishie', 'mrfishie101@hotmail.com', 'Tom', 'correct horse battery staple', 4, 'Hi! I make websites and lights do cool things.', NULL),
 ('powerRangers46', 'pewpew@mailinator.net', 'Zac Langlands', 'Lo000L', 0, '', NULL),
 ('unhelpful', 'unhelpful@mailinator.net', 'Ben Loungin', 'yjhghtd44790vjhg', 0, '', NULL);
 
@@ -307,6 +344,12 @@ ALTER TABLE `comments`
   ADD KEY `Bug_ID` (`Bug_ID`),
   ADD KEY `Username` (`Username`),
   ADD KEY `Object_ID` (`Object_ID`);
+
+--
+-- Indexes for table `configuration`
+--
+ALTER TABLE `configuration`
+  ADD PRIMARY KEY (`Type`,`Name`);
 
 --
 -- Indexes for table `cookies`
