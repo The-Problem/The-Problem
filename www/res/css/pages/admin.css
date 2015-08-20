@@ -92,3 +92,24 @@
     font-size:0.9em;
     color:#999;
 }
+
+.section-list {
+    text-align:left;
+    border-collapse:collapse;
+}
+.section-list td, .section-list th {
+    border:solid 1px #DDD;
+    padding:5px;
+}
+.section-list tr:nth-child(odd) {
+    background-color:#F9F9F9;
+}
+.section-list th {
+    background-color:#DDD;
+}
+.section-list .name {
+    width:120px;
+}
+.section-list .bugs-open, .section-list .bugs-closed {
+    width:100px;
+}

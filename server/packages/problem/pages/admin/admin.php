@@ -92,7 +92,18 @@ class AdminPage implements IPage {
         <?php
     }
     public function sections() {
-
+        ?>
+<table class="section-list">
+    <tr><th class="name">Name</th><th class="description">Description</th><th class="bugs-open">Open Bugs</th><th class="bugs-closed">Closed Bugs</th></tr>
+    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
+    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
+    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
+    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
+    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
+    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
+    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
+</table>
+        <?php
     }
     public function permissions() {
 
