@@ -3,7 +3,7 @@ class HomePage implements IPage {
     public function __construct(PageInfo &$page) {
     }
     public function template() {
-        $_SESSION["username"] = "mrfishie";
+        //$_SESSION["username"] = "mrfishie";
 
         $template = Templates::findtemplate("default");
         if ($_SESSION["username"]) return $template->add_class("loggedin");
