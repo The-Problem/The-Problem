@@ -8,15 +8,15 @@ class SignupPage implements IPage{
 	}
 
 	public function permission(){
-			return true;
 		
-		/*Library::get('cookies');
+		Library::get('cookies');
 
 		if (Cookies::prop("username") != NULL){
 			Path::redirect(Path::getclientfolder());
 			return false;
 		}else{
-		}*/
+			return true;
+		}
 
 	}
 
@@ -61,24 +61,19 @@ class SignupPage implements IPage{
 			if (strlen($_POST['username']) < 1 || strpos($_POST['username'], " ") != FALSE){
 				return 2;
 			}
-			//echo "Nice username<br>";
 			if (!$this::validPassword()){
 				return 2;
 			}
-			//echo "Nice password<br>";
 			if ($_POST["password"] != $_POST['rpassword']){
 				return 2;
 			}
-			//echo "They match as well<br>";
 			if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
 				return 2;
 			}
-			//echo "I like that email address<br>";
 			if (!$this::passedCAPTCHA()){
 				echo "failed captcha<br>";
 				return 2;
 			}
-			//echo "You're not a robot!";
 
 			return 1;
 
@@ -134,6 +129,7 @@ class SignupPage implements IPage{
 
 		if($pageState == 2){
 			$errorMessage = "There were some issues with the details you entered. Please fix them to continue.";
+			echo "<script>window.addEventListener('load', function(){validateForm();}, false);</script>";
 		}
 
 		echo "<div id='messageDiv'><p id='invalidMessage'>" . $errorMessage . "</p></div>";

@@ -8,14 +8,13 @@ class SignupSuccessPage implements IPage{
 	}
 
 	public function permission(){
-		return true;
 		
-		/*Library::get('cookies');
+		Library::get('cookies');
 		if(Cookies::prop('signedup')){
 			return true;
 		}
 
-		return false;*/
+		return false;
 	}
 
 	public function subpages(){
@@ -31,6 +30,15 @@ class SignupSuccessPage implements IPage{
 	public function body(){
 		Cookies::prop('signedup', false);
 		Library::get('users');
+
+		if (isset($_POST['bio'])){
+			$currentUser = Users::getUser("current");
+			$currentUser->setBio($_POST['bio']);
+
+
+			Path::redirect(Path::getclientfolder());
+		}
+
 		?>
 
 		<h1>You are now part of The Problem</h1>
@@ -49,9 +57,12 @@ class SignupSuccessPage implements IPage{
 		<img id='profilePic' src= <?php echo $imageLink?> />
 		<h2>Your Bio</h2>
 		<p>Write something about yourself to help others know you.</p>
-		<textarea></textarea>
+		
+		<form id='bioForm' method='post'>
+			<textarea form='bioForm' name='bio' placeholder='Introduce yourself to The Problem.'></textarea>
+		</form>
 
-		<a href='.'><button class='highlight'>GO HOME</button></a>
+		<button class='highlight' form='bioForm' type='submit'>GO HOME</button>
 
 
 		<?php

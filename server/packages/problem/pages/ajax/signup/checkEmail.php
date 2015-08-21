@@ -1,5 +1,5 @@
 <?php
-class AjaxModulesGetPage implements IPage {
+class AjaxSignupCheckEmailPage implements IPage {
     public function __construct(PageInfo &$page) {
  
     }
@@ -16,15 +16,14 @@ class AjaxModulesGetPage implements IPage {
     }
     public function head(Head &$head) { }
     
-    public function body() {        
-        header('Content-type: application/json');
+    public function body() {  
+	    header('Content-type: application/json');
 
-		Library::get('users');
-		$usernameAvailable = Users::usernameAvailable($_GET['username']);
-		$result = (
-			"result"=>$usernameAvailable;
+		$result = filter_var($_GET['address'], FILTER_VALIDATE_EMAIL);
+		$returnArray = array(
+			"result" => $result
 		);
 
-		echo json_encode($result);
-    }
+		echo json_encode($returnArray);
+	}
 }

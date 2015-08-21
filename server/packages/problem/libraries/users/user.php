@@ -14,9 +14,14 @@ class User{
 		$this->rank = $queryResult['Rank'];
 	}
 
-	/*public function setPassword($newPassword){
-		$query = "UPDATE users SET 'Password' = ? WHERE 'Username' = ?'";
-		$queryResult = Connection::query($query, "ss", array($password, $username));
+	public function setPassword($newPassword){
+		$query = "UPDATE users SET Password = ? WHERE Username = ?'";
+		$queryResult = Connection::query($query, "ss", array($password, $this->username));
 
-	}*/
+	}
+
+	public function setBio($bio){
+		$setQuery = 'UPDATE users SET Bio = ? WHERE Username = ?';
+		$result = Connection::query($setQuery, "ss", array($bio, $this->username));
+	}
 }

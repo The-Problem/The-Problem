@@ -46,12 +46,19 @@
 
 		public static function usernameAvailable($username){
 			//returns whether a username is availale for use
-			$usernameQuery  = "IF NOT EXISTS (SELECT 1 FROM users WHERE Username = ?)";
-			$queryResult = Connection::query($usernameQuery, "s", $username);
+			if (strlen($username) < 2){
+				return false;
+			}
 
-			echo var_dump($queryResult);
+			$usernameQuery  = "SELECT COUNT(Username) FROM users WHERE Username = ? ";
+			$queryResult = Connection::query($usernameQuery, "s", array($username));
 
-			return $queryResult;
+			if ($queryResult[0]["COUNT(Username)"] == 0){
+				return true;
+			}else{
+				return false;
+			}
+
 		}
 
 		public static function logoff(){

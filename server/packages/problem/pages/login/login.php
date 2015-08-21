@@ -42,6 +42,7 @@ class LoginPage implements IPage{
 			}
 		}
 		?>
+	
 
 		<div id='loginBox'>
 			<form method='post'>

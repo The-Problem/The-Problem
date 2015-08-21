@@ -1,28 +1,18 @@
-window.addEventListener("load", init, false);
+var formElements = {
+	"username": 0,
+	"password": 0,
+	"rpassword": 0,
+	"name": 0,
+	"email": 0
+};
 
-function init(){
-	window.formElements = {
-		"username": 0,
-		"password": 0,
-		"rpassword": 0,
-		"name": 0,
-		"email": 0
-	}
-
-	window.formTests = {
-		"username": testUsername,
-		"password": testPassword,
-		"rpassword": testRPassword,
-		"name": testName,
-		"email": testEmail
-	};
-
-	for (element in formElements){
-		document.getElementById(element + "Field").addEventListener("keyup", fieldChangeHandler, false);
-	}
-
-	document.getElementById('joinButton').addEventListener('click', validateForm, false);
-}
+var formTests = {
+	"username": testUsername,
+	"password": testPassword,
+	"rpassword": testRPassword,
+	"name": testName,
+	"email": testEmail
+};
 
 function validateForm(event){
 	var canSubmit = true;
@@ -68,11 +58,10 @@ function changeIconState(fieldName, state){
 	var stateIcons = ['fa fa-exclamation', 'fa fa-check', 'fa fa-refresh fa-spin'];
 	var newClass = 'verifyIcon ' + stateIcons[state];
 
-	if (icon.className == newClass){
-		return false;	
+	if (icon.className != newClass){
+		icon.style.transform = "scale(0)";
 	}
 
-	icon.style.transform = "scale(0)";
 	
 	setTimeout(function(){
 		icon.className = newClass;
@@ -84,8 +73,29 @@ function changeIconState(fieldName, state){
 
 /*Password Test Functions*/
 
-function testUsername(){
+function testUsername(username){
+	var request = LimePHP.request("get", LimePHP.path("ajax/signup/checkUsername"), { "username": username }, "json");
+	request.success = setUsernameSuccess;
+	request.error = setUsernameFail;
 	return 2;
+}
+
+function setUsernameSuccess(success){
+	console.log(success.result);
+	if (success.result){
+		console.log("this username can be used");
+		formElements['username'] = 1;
+		changeIconState('username', 1);
+	}else{
+		console.log("username taken");
+		formElements['username'] = 0;
+		changeIconState('username', 0);
+	}
+
+}
+
+function setUsernameFail(error){
+	console.log("There was an error in verifying your username: " + error);
 }
 
 function testPassword(password){
@@ -114,5 +124,35 @@ function testName(name){
 }
 
 function testEmail(address){
-	return 2; 
+	var request = LimePHP.request("get", LimePHP.path("ajax/signup/checkEmail"), { "address": address }, "json");
+	request.success = setEmailSuccess;
+	request.error = setEmailFail;
+	return 2;
 }
+
+function setEmailSuccess(success){
+	console.log(success);
+
+	if (!success.result){
+		formElements['email'] = 0;
+		changeIconState('email', 0);
+	}else{
+		formElements['email'] = 1;
+		changeIconState('email', 1);
+	}
+}
+
+function setEmailFail(error){
+	console.log("Your email address could not be validated: " + error);
+}
+
+LimePHP.register("page.signup", function() {
+
+
+	for (var element in formElements){
+		document.getElementById(element + "Field").addEventListener("keyup", fieldChangeHandler, false);
+	}
+
+	document.getElementById('joinButton').addEventListener('click', validateForm, false);
+
+});
