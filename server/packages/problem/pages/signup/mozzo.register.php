@@ -73,7 +73,7 @@ class RegisterPage implements IPage {
                 Users::login($_POST['username'], $_POST['password']);
                 
                 //Path::redirect(Path::addget(Path::getclientfolder(), "notice", "Welcome, " . $_POST['firstname'] . "! You're now a member of mozzo."));
-                Cookies::prop("go", true);
+                $_SESSION["go"] = true;
                 Path::redirect(Path::getclientfolder(array("register", "step2")));
             }
         }

@@ -16,15 +16,14 @@ class AdminPage implements IPage {
         return Templates::findtemplate("default");
     }
     public function permission() {
-        Library::get("cookies");
-        $username = Cookies::prop("username");
+        $username = $_SESSION["username"];
         if (!$username) return false;
 
         $rank_res = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($username));
         $rank = $rank_res[0]["Rank"];
 
         if ($rank < 4) return false;
-        if (!Cookies::prop("sudo")) Path::redirect(Path::getclientfolder("sudo") . "?return=" . urlencode($_SERVER['REQUEST_URI']));
+        if (!$_SESSION['sudo']) Path::redirect(Path::getclientfolder("sudo") . "?return=" . urlencode($_SERVER['REQUEST_URI']));
         return true;
     }
     public function subpages() {

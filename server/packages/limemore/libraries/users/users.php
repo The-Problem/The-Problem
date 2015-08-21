@@ -120,7 +120,7 @@ class Users {
         
         $user = self::getuser($username, self::TYPE_USERNAME | self::TYPE_EMAIL, true);
         if ($user && password_verify($password, $user->password())) {
-            Cookies::prop('userid', $user->id);
+            $_SESSION['userid'] = $user->id;
             
             if ($extend) {
                 $extendCookie = Cookies::get(self::$extensioncookie);
@@ -140,8 +140,8 @@ class Users {
      * @copyright Copyright (c) 2013, mrfishie Studios
      */
     public static function logout() {
-        Cookies::remove('userid');
-        Cookies::get(self::$extensioncookie)->delete();
+        $_SESSION['userid'] = false;
+        $_SESSION[self::$extensioncookie] = false;
     }
     
     /**
@@ -160,15 +160,15 @@ class Users {
      */
     public static function loggedin($allowExtension = true) {
         if ($allowExtension) {
-            $extensionCookie = Cookies::get(self::$extensioncookie);
+            $extensionCookie = $_SESSION[self::$extensioncookie];
             $extensionId = $extensionCookie->value();
             if (!is_array($extensionId)) {
-                Cookies::prop('userid', $extensionId);
+                $_SESSION['userid'] = $extensionId;
             }
         }
         
-        if (Cookies::exists('userid')) {
-            $userid = Cookies::prop('userid');
+        if ($_SESSION['userid']) {
+            $userid = $_SESSION['userid'];
             return self::getuser($userid, self::TYPE_ID, true);
         } else return false;
     }

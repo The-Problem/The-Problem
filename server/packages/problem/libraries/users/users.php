@@ -8,8 +8,7 @@
 			$userCreateQuery = "INSERT INTO users (Username, Email, Name, Password, Rank) VALUES ( ? , ? , ? , ? , 0)";
 			$query = Connection::query($userCreateQuery, "ssss", array($username, $email, $name, $password));
 
-			Library::get('cookies');
-			Cookies::prop('username', $username);
+			$_SESSION['username'] = $username;
 
 			self::login($username, $password);
 			return $query;
@@ -26,8 +25,7 @@
 			echo var_dump($queryResult);
 
 			if ($queryResult){
-				Library::get('cookies');
-				Cookies::prop('username', $username);
+				$_SESSION['username'] = $username;
 			}
 
 			return $queryResult;
@@ -36,8 +34,7 @@
 		public static function getUser($username){
 			
 			if ($username == 'current'){
-				Library::get('cookies');
-				$username = Cookies::prop("username");
+				$username = $_SESSION["username"];
 			}
 
 			$user = new User($username);
@@ -62,8 +59,7 @@
 		}
 
 		public static function logoff(){
-			Library::get('cookies');
-			Cookies::prop("username", NULL);
+			$_SESSION["username"] = NULL;
 		}
 
 

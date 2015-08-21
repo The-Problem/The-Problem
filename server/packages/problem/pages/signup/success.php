@@ -9,8 +9,7 @@ class SignupSuccessPage implements IPage{
 
 	public function permission(){
 		
-		Library::get('cookies');
-		if(Cookies::prop('signedup')){
+		if($_SESSION['signedup']){
 			return true;
 		}
 
@@ -28,7 +27,7 @@ class SignupSuccessPage implements IPage{
 	}
 
 	public function body(){
-		Cookies::prop('signedup', false);
+		$_SESSION['signedup'] = false;
 		Library::get('users');
 
 		if (isset($_POST['bio'])){

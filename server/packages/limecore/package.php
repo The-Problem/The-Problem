@@ -55,6 +55,7 @@ class LimecorePackage implements IPackage {
             header('X-Powered-By: LimePHP/' . LimePHP::VERSION);
             
             Events::call("presession");
+            session_start();
             
             Timer::start();
             Connection::connect();
@@ -65,7 +66,6 @@ class LimecorePackage implements IPackage {
             
             Events::call("stop");
             
-            Cookies::flushCache();
             Connection::close();
         }));
     }

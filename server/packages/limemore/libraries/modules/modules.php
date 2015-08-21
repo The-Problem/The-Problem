@@ -122,9 +122,7 @@ class Modules {
             "params" => $params
         );
         
-        $modulelist = Cookies::prop("modules");
-        $modulelist[$key] = $cookieVal;
-        Cookies::prop("modules", $modulelist);
+        $_SESSION["modules"][$key] = $cookieVal;
         
         Pages::$head->additem("module", $key);
         

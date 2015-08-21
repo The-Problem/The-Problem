@@ -37,15 +37,14 @@ class AjaxAdminUpdatePage implements IPage {
     }
 
     public function body() {
-        Library::get("cookies");
-        $username = Cookies::prop("username");
+        $username = $_SESSION["username"];
         if (!$username) return array("error" => array("login" => true));
 
         $rank_res = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($username));
         $rank = $rank_res[0]["Rank"];
 
         if ($rank < 4) return array("error" => array("home" => true));
-        if (!Cookies::prop("sudo")) return array("error" => array("sudo" => true));
+        if (!$_SESSION['sudo']) return array("error" => array("sudo" => true));
 
         if (!array_key_exists($_POST['type'], $this->handlers)) return array("error" => array());
         if (!array_key_exists($_POST['name'], $this->handlers[$_POST['type']])) return array("error" => array());

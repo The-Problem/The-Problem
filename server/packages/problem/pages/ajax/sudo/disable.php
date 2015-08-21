@@ -17,9 +17,7 @@ class AjaxSudoDisablePage implements IPage {
     public function head(Head &$head) { }
 
     public function body() {
-        Library::get('cookies');
-
-        Cookies::prop('sudo', false);
+        $_SESSION['sudo'] = false;
 
         if ($_GET['return']) {
             Path::redirect($_GET['return']);

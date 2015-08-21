@@ -21,11 +21,11 @@ class AjaxModulesLoadPage implements IPage {
         Library::get('modules');
         $sname = $this->path[count($this->path) - 1];
         
-        $modulelist = Cookies::prop("modules");
-        if (!Cookies::exists("modules") || !array_key_exists($sname, $modulelist)) echo Json::encode(array("error" => "The module ID $sname is invalid or does not exist"));
+        $modulelist = $_SESSION["modules"];
+        if (!array_key_exists("modules", $_SESSION) || !array_key_exists($sname, $modulelist)) echo Json::encode(array("error" => "The module ID $sname is invalid or does not exist"));
         
         $in = $modulelist[$sname];
         Modules::getoutput($in["type"], $in["params"], true, false);
-        Cookies::prop("modules", array_diff_key($modulelist, array($sname => true)));
+        $_SESSION["modules"] = array_diff_key($modulelist, array($sname => true));
     }
 }

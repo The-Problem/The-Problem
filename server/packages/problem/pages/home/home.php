@@ -3,12 +3,10 @@ class HomePage implements IPage {
     public function __construct(PageInfo &$page) {
     }
     public function template() {
-        Library::get("cookies");
-
-        Cookies::prop("username", "mrfishie");
+        $_SESSION["username"] = "mrfishie";
 
         $template = Templates::findtemplate("default");
-        if (Cookies::prop("username")) return $template->add_class("loggedin");
+        if ($_SESSION["username"]) return $template->add_class("loggedin");
         return $template->no_header();
     }
     public function permission() {
@@ -30,8 +28,7 @@ class HomePage implements IPage {
             "format" => "png"
         ));
 
-        Library::get("cookies");
-        $username = Cookies::prop("username");
+        $username = $_SESSION["username"];
 
         $sections = array();
 

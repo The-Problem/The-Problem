@@ -8,10 +8,8 @@ class SignupPage implements IPage{
 	}
 
 	public function permission(){
-		
-		Library::get('cookies');
 
-		if (Cookies::prop("username") != NULL){
+		if ($_SESSION["username"] != NULL){
 			Path::redirect(Path::getclientfolder());
 			return false;
 		}else{
@@ -115,9 +113,7 @@ class SignupPage implements IPage{
 			Users::newUser($username, $password, $name, $email);
 
 			//Take the user to the success page
-
-			Library::get('cookies');
-			Cookies::prop('signedup', true);
+			$_SESSION['signedup'] = true;
 			Path::redirect(Path::getclientfolder("signup", "success"));
 		}
 	
