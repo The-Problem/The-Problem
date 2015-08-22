@@ -93,13 +93,12 @@ FROM sections"); ?>
     <img src="<?php echo $logo->clientpath; ?>" alt="The Problem" title="The Problem" />
     <h2>Login or register to get started</h2>
 
-    <form method="post" class="login-box">
+    <form method="post" action="<?php echo Path::getclientfolder('login'); ?>" class="login-box">
         <input type="text" name="username" placeholder="Username or email" />
-        <input type="password" name="pass" placeholder="Password" />
+        <input type="password" name="password" placeholder="Password" />
 
         <div class="buttons">
-            <button class="register-btn">Register</button>
-            <button class="login-btn">Login</button>
+            <button class="register-btn">REGISTER</button><button class="login-btn">LOGIN</button>
         </div>
     </form>
 </header>
