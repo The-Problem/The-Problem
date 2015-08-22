@@ -35,4 +35,12 @@ LimePHP.register("page.home", function() {
             search($search.val());
         }, 0);
     });
+
+    var $login = $(".login-box");
+    $(".register-btn").on('click', function(e) {
+        $login.attr("action", LimePHP.path("signup"));
+        $login.submit();
+
+        e.preventDefault();
+    });
 });

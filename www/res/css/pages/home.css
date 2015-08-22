@@ -11,7 +11,7 @@ header.big {
     -moz-box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
     box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
 
-    height:446px;
+    height:460px;
 }
 
 .welcome {
@@ -47,11 +47,12 @@ header .login-box input, header .login-box .buttons {
     margin-top:10px;
 }
 header .login-box .buttons {
+    display:block;
     text-align:right;
 }
 header .login-box button {
     margin-left:10px;
-    width:80px;
+    width:100px;
 }
 
 .columns, .left-column, .right-column {
