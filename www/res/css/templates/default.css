@@ -13,6 +13,14 @@ h1, h2, h3, h4, h5, h6 {
     font-weight:300;
 }
 
+a {
+    color:#ef5350;
+    text-decoration:underline;
+}
+a:hover {
+    text-decoration:none;
+}
+
 input, select, button {
     font:inherit;
 }
@@ -62,18 +70,29 @@ header {
 
     color:#FFF;
     font-size:1.1em;
-    line-height:40px;
 
     text-align:center;
 }
 
 .title {
-    margin-top: 12.5px;
-    margin-left: 20px;
+    font-size:2.6em;
+    font-weight:normal;
+    margin-top:-11px;
+    margin-left:20px;
+}
+.title a {
+    text-decoration:none;
+}
+.title img {
+    vertical-align:-9px;
+}
+.title span {
+    font-size:0.5em;
+    margin-left:7px;
 }
 
 .center {
-    margin-top: 10px;
+    line-height:60px;
 }
 
 header a {
@@ -106,15 +125,7 @@ header div, header h1 {
 }
 .right {
     float:right;
-    margin-right:0px;
-}
-
-a {
-    color:#ef5350;
-    text-decoration:underline;
-}
-a:hover {
-    text-decoration:none;
+    margin-right:0;
 }
 
 .body {

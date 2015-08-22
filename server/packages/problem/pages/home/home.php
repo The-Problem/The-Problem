@@ -90,7 +90,7 @@ SELECT *, (SELECT COUNT(*) FROM bugs
 FROM sections"); ?>
 
 <header class="big">
-    <h1><img src="<?php echo $logo->clientpath; ?>" alt="The Problem" title="The Problem" /><span><?php echo Pages::$head->title; ?></span></h1>
+    <h1><img src="<?php echo $logo->clientpath; ?>" alt="The Problem" title="The Problem" /><span><?php echo htmlentities(Pages::$head->title); ?></span></h1>
     <h2>Login or register to get started</h2>
 
     <form method="post" action="<?php echo Path::getclientfolder('login'); ?>" class="login-box">

@@ -10,6 +10,8 @@ class DefaultTemplate implements ITemplate {
     );
     private $funcs = array();
 
+    private $title;
+
     public function __construct() {
 
     }
@@ -21,6 +23,13 @@ class DefaultTemplate implements ITemplate {
 
         $head->package("problem");
         $head->addcode("<link type='text/plain' rel='author' href='" . Path::getclientfolder() . "humans.txt' />");
+
+        $title_res = Connection::query("SELECT Value FROM configuration WHERE Type = 'overview-name' AND Name = 'sitename'");
+        if (!count($title_res)) $title = "The Problem";
+        else $title = $title_res[0]["Value"];
+
+        $head->title = $title;
+        $this->title = $title;
     }
 
     public function big() {
@@ -91,17 +100,17 @@ class DefaultTemplate implements ITemplate {
 
     private function header() {
         Library::get("image");
-        $logo = new Image("branding", "logo-text", array(
+        $logo = new Image("branding", "logo", array(
             "format" => "png",
             "height" => 35,
-            "width" => 140
+            "width" => 31
         ));
 
         if ($this->option("header")) {
             echo "<header>";
 
             echo '<h1 class="title left"><a href="' . htmlentities(Path::getclientfolder()) . '" title="Home">' .
-                '<img alt="The Problem" title="Home" src="' . $logo->clientpath . '" />' . '</a></h1>';
+                '<img alt="The Problem" title="Home" src="' . $logo->clientpath . '" /><span>' . htmlentities($this->title) . '</span></a></h1>';
 
             if ($_SESSION['sudo']) echo '<div class="center">Sudo mode active -
 <a href="' . Path::getclientfolder("ajax", "sudo", "disable") . '?return=' . urlencode(htmlentities($_SERVER['REQUEST_URI'])) . '">disable</a></div>';
