@@ -104,21 +104,31 @@ header div, header h1 {
 }
 
 #notificationButton {
-    padding: 0 0;
     margin-left: 20px;
+}
+
+.signOutButton {
+    margin-right: 10px;
+}
+
+#notificationButton, .signOutButton {
+    padding: 0 0;
     height: 60px;
     width: 60px;
-    margin-right:10px;
-    background-color: #e53935;
+    background-color:#EF5350;
     color: white;
     text-align: center;
     transition: background-color 0.3s;
 }
 
-#notificationButton:hover{
+#notificationButton:hover, .signOutButton:hover{
     color: #4a1f1e;
     background-color: #c02d2a;
 
+}
+
+#logoutForm {
+    display: none;
 }
 
 .left {

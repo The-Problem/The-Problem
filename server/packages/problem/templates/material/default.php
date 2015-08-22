@@ -17,6 +17,7 @@ class DefaultTemplate implements ITemplate {
     }
 
     public function Head(Head &$head) {
+
         $head->stylesheet("templates/default");
         $head->stylesheet("http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,700,700italic", true);
         $head->stylesheet("https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css", true);
@@ -63,10 +64,16 @@ class DefaultTemplate implements ITemplate {
     }
 
     public function showpage(Head $head, $pagecode, IPage $page) {
+        if (isset($_POST['logout']) && $_POST['logout'] == true){
+            $_SESSION['username'] = NULL;
+            header('Refresh:0');
+        }
+
         $classes = array();
         foreach ($this->body_classes as $name => $has) {
             if ($has) array_push($classes, $name);
         }
+
 
         ob_start();
         echo $this->header();
@@ -122,6 +129,8 @@ class DefaultTemplate implements ITemplate {
 
                 if ($user[0]["Rank"] >= 4) echo ' - <a href="' . Path::getclientfolder("admin") . '">Admin</a>';
                 echo "<button id='notificationButton' class='fa fa-bell'></button>";
+                echo "<form name='logoutForm' method='post' id='logoutForm'><input type='text' name='logout' value='true'></form>";
+                echo "<button class='fa fa-sign-out signOutButton' action='submit' form='logoutForm'></button>";
                 echo "</div>";
             }
 

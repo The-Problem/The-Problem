@@ -24,4 +24,10 @@ class User{
 		$setQuery = 'UPDATE users SET Bio = ? WHERE Username = ?';
 		$result = Connection::query($setQuery, "ss", array($bio, $this->username));
 	}
+
+	public function getAvatarLink(){
+		$emailHash = md5(strtolower($this->email));
+		$imageLink = "http://www.gravatar.com/avatar/" . $emailHash . "?s=200d=identicon";
+		return $imageLink;
+	}
 }

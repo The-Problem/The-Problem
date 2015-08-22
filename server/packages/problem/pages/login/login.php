@@ -13,7 +13,7 @@ class LoginPage implements IPage{
 	}
 
 	public function subpages(){
-		return false;
+		return true;
 	}
 
 	public function head(Head &$head){

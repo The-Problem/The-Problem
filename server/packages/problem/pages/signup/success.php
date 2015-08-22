@@ -8,6 +8,8 @@ class SignupSuccessPage implements IPage{
 	}
 
 	public function permission(){
+
+		return true;
 		
 		if($_SESSION['signedup']){
 			return true;
@@ -45,15 +47,7 @@ class SignupSuccessPage implements IPage{
 		<h2>Your Avatar</h2>
 		<p>The Problem uses avatars which are connected to your Gravatar email address. If you don't have a Gravatar, we've generated for you your own identicon.</p>
 
-		<?php
-
-		$currentUser = Users::getUser("current");
-		$emailHash = md5(strtolower($currentUser->email));
-		$imageLink = "http://www.gravatar.com/avatar/" . $emailHash . "?s=200";
-
-		?>
-
-		<img id='profilePic' src= <?php echo $imageLink?> />
+		<img id='profilePic' src= <?php echo Users::getUser('current')->getAvatarLink()?> />
 		<h2>Your Bio</h2>
 		<p>Write something about yourself to help others know you.</p>
 		
