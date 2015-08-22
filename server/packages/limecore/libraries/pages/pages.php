@@ -173,7 +173,6 @@ class Pages {
             if (!$page || !$page->permission()) $page = false;
         }
         if (!$page) {
-            http_response_code(404);
             $page = self::getpage(array("error"), $startpath);
         }
         if ($page) return self::showpage($page, $startpath, true);

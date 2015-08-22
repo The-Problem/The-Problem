@@ -24,7 +24,8 @@ class ProblemPackage implements IPackage {
                 "sudo",
                 "error",
                 "signup",
-                "login"
+                "login",
+                "users"
             )
         ));
 

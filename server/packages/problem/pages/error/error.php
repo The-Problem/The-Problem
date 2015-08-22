@@ -1,15 +1,28 @@
 <?php
 class ErrorPage implements IPage {
+    private $redirecting = false;
+
     public function __construct(PageInfo &$page) {
+        $path = $page->pagelist;
+
+        $length = count($path);
+        if ($length && $path[0][0] === "~") {
+            $username = substr($path[0], 1);
+            $remaining_path = array_slice($path, 1);
+            $resulting_path = array("users", $username);
+
+            $this->redirecting = true;
+            Pages::showpagefrompath(array_merge($resulting_path, $remaining_path));
+        } else http_response_code(404);
     }
     public function template() {
         return Templates::findtemplate("default");
     }
     public function permission() {
-        return true;
+        return !$this->redirecting;
     }
     public function subpages() {
-        return true;
+        return false;
     }
     public function head(Head &$head) {
         $head->title .= " - Not Found";
