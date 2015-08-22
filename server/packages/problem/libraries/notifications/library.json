@@ -1,0 +1,7 @@
+{
+    "name": "Notifications",
+    "author": "Darren Fu",
+    "description": "Provides to a user's notifications on The Problem",
+    "requires": ["users"],
+    "load": ["notifications"]
+}

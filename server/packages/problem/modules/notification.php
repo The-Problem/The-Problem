@@ -15,41 +15,37 @@ class NotificationModule implements IModule {
 			</div>
 
 			<div id='notifications'>
-				<ul class='notificationCell'>
-					<div class='notificationTextWrap'>
-						<span class='notificationText'>
+				
+				<section class='notificationCell'>
+					<p class='message'>
 							Patrick replied to your comment:<br>
 							“I’ll leave my matter till later...”
-						</span>
-					</div>
-				</ul>
+					</p>
 
-				<ul class='notificationCell'>
-					<div class='notificationTextWrap'>
-						<span class='notificationText'>
-							Tom +1’d your bug, “Needs More <br>Dragons”
-						</span>
-					</div>
-				</ul>
+					<p class='stats'>
+						Just then - <u>Carbine</u>
+					</p>
+				</section>
 
-				<ul class='notificationCell'>
-					<div class='notificationTextWrap'>
-						<span class='notificationText'>
-							Patrick replied to your comment:<br>
-							“I’ll leave my matter till later...”
+				<section class='notificationCell'>
+						
+						<span class='message'>
+							Tom +1’d your bug, “Needs More Dragons”
 						</span>
-					</div>
-				</ul>
 
-				<ul class='notificationCell'>
-					<div class='notificationTextWrap'>
-						<span class='notificationText'>
-							Tom +1’d your bug, “Needs More <br>Dragons”
+						<span class='stats'>
+							Just then - <u>General Feedback</u>
 						</span>
-					</div>
-				</ul>
+					
+				</section>
 
 				<ul class='notificationCell'></ul>
+
+				<?php 
+				Library::get(notifications);
+				echo Notifications::get();
+				?>
+
 				
 			</div>
 

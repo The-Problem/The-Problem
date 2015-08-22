@@ -93,8 +93,8 @@ class DefaultTemplate implements ITemplate {
         Library::get("image");
         $logo = new Image("branding", "logo-text", array(
             "format" => "png",
-            "height" => 40,
-            "width" => 160
+            "height" => 35,
+            "width" => 140
         ));
 
         if ($this->option("header")) {

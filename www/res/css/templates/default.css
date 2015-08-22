@@ -54,7 +54,7 @@ header {
 
     background-color:#EF5350;
     height:60px;
-    padding:0px 10px;
+    padding-left: 10px;
 
     -webkit-box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
     -moz-box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
@@ -67,6 +67,15 @@ header {
     text-align:center;
 }
 
+.title {
+    margin-top: 12.5px;
+    margin-left: 20px;
+}
+
+.center {
+    margin-top: 10px;
+}
+
 header a {
     color:#FFF;
 }
@@ -77,13 +86,12 @@ header div, header h1 {
 
 #notificationButton {
     padding: 0 0;
-    margin: 0 0;
+    margin-left: 20px;
     height: 60px;
-    width: 60px;
-    top: 0px;
-    right: 10px;
+    width: 80px;
     color: #4a1f1e;
     background-color: #ef5350;
+    text-align: center;
     transition: background-color 0.3s;
 }
 
@@ -97,7 +105,7 @@ header div, header h1 {
 }
 .right {
     float:right;
-    margin-right:20px;
+    margin-right:0px;
 }
 
 a {
