@@ -132,7 +132,7 @@ FROM sections
                 --><p class="developers<?php if (!$section["Developers"]) echo ' highlight'; ?>"><?php echo $section["Developers"]; ?></p><!--
                 --><p class="bugs">
                     <?php if ($total === 0) { ?>No bugs<?php } else { ?>
-                        <?php echo $section["Open_Bugs"]; ?> open, <?php echo $section["Closed_Bugs"]; ?> closed (<?php echo round($percentage * 100); ?>%)
+                        <?php echo $section["Open_Bugs"]; ?> open, <?php echo $section["Closed_Bugs"]; ?> closed (<?php echo floor($percentage * 100); ?>%)
                     <?php } ?>
                 </p>
             </div><div class="options" style="display:none"></div>

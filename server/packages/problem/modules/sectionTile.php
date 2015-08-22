@@ -32,6 +32,8 @@ class SectionTileModule implements IModule {
             $style = "background-image:url('" . htmlentities($img->clientpath) . "')";
         }
 
+        Library::get("string");
+
         ?>
 <section data-name="<?php echo strtolower($name); ?>">
     <a href="<?php echo $path; ?>"
@@ -42,9 +44,9 @@ class SectionTileModule implements IModule {
             <h3><?php echo $name; ?></h3>
             <p class="section-stats">
                 <?php if ($all !== "No") {
-                    ?><span class="percentage"><?php echo round(($all - $open) / $all * 100); ?>% closed</span>
-                <span class="open-all"><?php echo $all; ?> bug<?php echo $all === 1 ? "" : "s"; ?><?php if ($open !== 0) { ?>,
-                    <?php echo $open; ?> open</span><?php } } else { ?>
+                    ?><span class="percentage"><?php echo floor(($all - $open) / $all * 100); ?>% closed</span>
+                <span class="open-all"><?php echo String::readablenumber($all); ?> bug<?php echo $all === 1 ? "" : "s"; ?><?php if ($open !== 0) { ?>,
+                    <?php echo String::readablenumber($open); ?> open</span><?php } } else { ?>
                 <span class="all"><?php echo $all; ?> bug<?php echo $all === 1 ? "" : "s"; ?></span><?php } ?>
             </p>
         </div>

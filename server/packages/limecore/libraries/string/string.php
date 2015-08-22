@@ -340,11 +340,15 @@ class String {
      */
     public static function readablenumber($num, $stages = NULL) {
         if (is_null($stages)) $stages = array(
-            " million" => array(
-                "size" => 1000000,
+            "k" => array(
+                "size" => 1000,
                 "precision" => 1
             ),
-            " billion" => array(
+            "m" => array(
+                "size" => 1000000,
+                "precision" => 2
+            ),
+            "b" => array(
                 "size" => 1000000000,
                 "precision" => 3
             )
@@ -356,8 +360,8 @@ class String {
         if (!count($values) || $num < $values[0]["size"]) return number_format($num, 0);
         else {
             foreach ($values as $i => $stage) {
-                if ($num >= $stage["size"] && (count($values) === $i + 1) || $num < $values[i + 1]["size"]) {
-                    return number_format($num / $stage["size"], $stage["precision"]) . " " . $names[$i];
+                if ($num >= $stage["size"] && (count($values) === $i + 1) || $num < $values[$i + 1]["size"]) {
+                    return number_format($num / $stage["size"], $stage["precision"]) .  $names[$i];
                 }
             }
         }
