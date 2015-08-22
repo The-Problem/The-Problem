@@ -36,6 +36,23 @@ header.big {
 
 header.big img {
     margin-top:70px;
+    vertical-align:-33px;
+}
+header h1 {
+    font-size:2.6em;
+    font-weight:normal;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor:default;
+}
+header h1 span {
+    display:inline-block;
+    margin-left:15px;
+    margin-top:-100px;
 }
 header h2 {
     margin-top:30px;
@@ -53,6 +70,7 @@ header .login-box .buttons {
 header .login-box button {
     margin-left:10px;
     width:100px;
+    float:right;
 }
 
 .columns, .left-column, .right-column {
