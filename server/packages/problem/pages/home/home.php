@@ -24,7 +24,7 @@ class HomePage implements IPage {
 
     public function body() {
         Library::get("image");
-        $logo = new Image("branding", "logo-text", array(
+        $logo = new Image("branding", "logo", array(
             "format" => "png"
         ));
 
@@ -90,7 +90,7 @@ SELECT *, (SELECT COUNT(*) FROM bugs
 FROM sections"); ?>
 
 <header class="big">
-    <img src="<?php echo $logo->clientpath; ?>" alt="The Problem" title="The Problem" />
+    <h1><img src="<?php echo $logo->clientpath; ?>" alt="The Problem" title="The Problem" /><span><?php echo Pages::$head->title; ?></span></h1>
     <h2>Login or register to get started</h2>
 
     <form method="post" action="<?php echo Path::getclientfolder('login'); ?>" class="login-box">
@@ -98,7 +98,7 @@ FROM sections"); ?>
         <input type="password" name="password" placeholder="Password" />
 
         <div class="buttons">
-            <button class="register-btn">REGISTER</button><button class="login-btn">LOGIN</button>
+            <button class="login-btn">LOGIN</button><button class="register-btn">REGISTER</button>
         </div>
     </form>
 </header>
