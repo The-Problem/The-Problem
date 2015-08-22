@@ -10,7 +10,8 @@ class ProblemPackage implements IPackage {
             "Modules" => array(
                 "terminal",
                 "sectionTile",
-                "notification"
+                "notification",
+                "adminSection"
             ),
             "Templates" => array(
                 "default"

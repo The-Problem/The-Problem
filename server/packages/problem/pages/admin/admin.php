@@ -91,17 +91,59 @@ class AdminPage implements IPage {
         <?php
     }
     public function sections() {
+        $sections = Connection::query("
+SELECT *, (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Section_ID = sections.Section_ID
+           AND bugs.Status = 1) AS Open_Bugs,
+          (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Section_ID = sections.Section_ID
+           AND bugs.Status != 1) AS Closed_Bugs,
+          (SELECT COUNT(*) FROM developers
+           WHERE developers.Section_ID = sections.Section_ID) AS Developers
+FROM sections
+  ORDER BY Open_Bugs DESC, Open_Bugs + Closed_Bugs DESC");
+
         ?>
-<table class="section-list">
-    <tr><th class="name">Name</th><th class="description">Description</th><th class="bugs-open">Open Bugs</th><th class="bugs-closed">Closed Bugs</th></tr>
-    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
-    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
-    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
-    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
-    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
-    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
-    <tr><td>Users</td><td>The user management system in The Problem.</td><td>60</td><td>70</td></tr>
-</table>
+
+<div class="section-list">
+    <div class="table-header">
+        <p class="name">Name</p><!--
+        --><p class="description">Description</p><!--
+        --><p class="developers">Devs</p><!--
+        --><p class="bugs">Bugs</p>
+    </div>
+
+    <?php
+    $last_highlighted = false;
+
+    foreach ($sections as $section) {
+        $total = $section["Closed_Bugs"] + $section["Open_Bugs"];
+        if ($total > 0) $percentage = $section["Closed_Bugs"] / $total;
+        else $percentage = 1.1;
+
+        $is_highlight = !$section["Developers"] || $percentage < 0.1;
+
+        ?>
+        <div data-id="<?php echo $section["Section_ID"]; ?>"
+             class="table-row<?php if ($is_highlight) echo ' highlight'; if($last_highlighted) echo ' top-highlight'; ?>">
+            <div class="overview">
+                <p class="name"><?php echo htmlentities($section["Name"]); ?></p><!--
+                --><p class="description"><?php echo htmlentities($section["Description"]); ?></p><!--
+                --><p class="developers<?php if (!$section["Developers"]) echo ' highlight'; ?>"><?php echo $section["Developers"]; ?></p><!--
+                --><p class="bugs">
+                    <?php if ($total === 0) { ?>No bugs<?php } else { ?>
+                        <?php echo $section["Open_Bugs"]; ?> open, <?php echo $section["Closed_Bugs"]; ?> closed (<?php echo round($percentage * 100); ?>%)
+                    <?php } ?>
+                </p>
+            </div><div class="options" style="display:none"></div>
+        </div>
+        <?php
+
+        $last_highlighted = false;
+        if ($is_highlight) $last_highlighted = true;
+    }
+    ?>
+</div>
         <?php
     }
     public function permissions() {

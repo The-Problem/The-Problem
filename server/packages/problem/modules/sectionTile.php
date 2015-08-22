@@ -8,13 +8,13 @@ class SectionTileModule implements IModule {
     public function spinnersize() { return Modules::SPINNER_LARGE; }
 
     public function getcode($section = array(), Head $h) {
-        $path = Path::getclientfolder($section["Slug"]);
+        $path = Path::getclientfolder("bugs", $section["Slug"]);
         $name = htmlentities($section["Name"]);
 
         $open = $section["Open_Bugs"];
         $all = $section["All_Bugs"];
 
-        if ($open === 0) $open = "No";
+        //if ($open === 0) $open = "no";
         if ($all === 0) $all = "No";
 
         $style = "";
@@ -36,13 +36,16 @@ class SectionTileModule implements IModule {
 <section data-name="<?php echo strtolower($name); ?>">
     <a href="<?php echo $path; ?>"
        title="<?php echo htmlentities($section["Description"]); ?>"
-       class="color-<?php echo $section["Color"]; ?>"
+       class="section-tile color-<?php echo $section["Color"]; ?>"
        style="<?php echo $style; ?>">
         <div class="container">
             <h3><?php echo $name; ?></h3>
             <p class="section-stats">
-                <?php if ($all !== "No") { ?><span class="open"><?php echo $open; ?> open bug<?php echo $open === 1 ? "" : "s"; ?></span><?php } ?>
-                <span class="all"><?php echo $all; ?> bug<?php echo $all === 1 ? "" : "s"; ?></span>
+                <?php if ($all !== "No") {
+                    ?><span class="percentage"><?php echo round(($all - $open) / $all * 100); ?>% closed</span>
+                <span class="open-all"><?php echo $all; ?> bug<?php echo $all === 1 ? "" : "s"; ?><?php if ($open !== 0) { ?>,
+                    <?php echo $open; ?> open</span><?php } } else { ?>
+                <span class="all"><?php echo $all; ?> bug<?php echo $all === 1 ? "" : "s"; ?></span><?php } ?>
             </p>
         </div>
     </a>

@@ -145,7 +145,7 @@ LimePHP.SERVER = {};
      * Gets a library
      *
      * @param {String} name The name of the library to get
-     * @param {Function} loaded A function to call when the library has been loaded
+     * @param {Function?} loaded A function to call when the library has been loaded
      * @returns {Object} The value returned from the library, or false if the library is not found
      */
     LimePHP.library = function(name, loaded) {

@@ -49,4 +49,28 @@ LimePHP.register("page.admin", function() {
             if (handlers.post) handlers.post($this.val(), $section);
         };
     });
+
+
+    var $rows = $(".section-list .table-row");
+
+    $rows.children(".overview").on('click', function() {
+        var $overview = $(this);
+        var $row = $overview.parent(".table-row");
+        var $options = $row.children(".options");
+
+        $options.show();
+        $overview.hide();
+
+        if (!$row.data("loaded")) {
+            LimePHP.library("modules").get("adminSection", $options, {
+                id: $row.data("id")
+            }, false, false, function() {
+                $options.find(".close").on('click', function() {
+                    $options.hide();
+                    $overview.show();
+                });
+            });
+            $row.data("loaded", true);
+        }
+    });
 });
