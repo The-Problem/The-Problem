@@ -19,8 +19,8 @@
 			echo "username: " . $username;
 			echo "password: " .  $password;
 			
-			$passwordQuery = "SELECT *  FROM users WHERE Username = ? AND Password = ?";
-			$queryResult = Connection::query($passwordQuery, "ss", array($username, $password));
+			$passwordQuery = "SELECT *  FROM users WHERE Username = ? AND Password = ?; UPDATE users SET Last_Logon_Time = NOW() WHERE Username = ?;";
+			$queryResult = Connection::query($passwordQuery, "sss", array($username, $password, $username));
 
 			echo var_dump($queryResult);
 

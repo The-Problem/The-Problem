@@ -30,7 +30,6 @@ class LoginPage implements IPage{
 			if (strlen($username) > 0 && strlen($password) > 0){
 				Library::get("users");
 				$loginState = Users::login($username, $password);
-				echo var_dump($loginState);
 
 				if ($loginState){
 					Path::redirect(Path::getclientfolder());
