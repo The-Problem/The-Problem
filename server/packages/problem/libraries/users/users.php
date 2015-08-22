@@ -19,8 +19,11 @@
 			echo "username: " . $username;
 			echo "password: " .  $password;
 			
-			$passwordQuery = "SELECT *  FROM users WHERE Username = ? AND Password = ?; UPDATE users SET Last_Logon_Time = NOW() WHERE Username = ?;";
-			$queryResult = Connection::query($passwordQuery, "sss", array($username, $password, $username));
+			$passwordQuery = "SELECT *  FROM users WHERE Username = ? AND Password = ?";
+			$queryResult = Connection::query($passwordQuery, "ss", array($username, $password));
+			
+			$updateLogonTimeQuery = "UPDATE users SET Last_Logon_Time = NOW() WHERE Username = ?";
+			$updateResult = Connection::query($updateLogonTimeQuery, "s", array($username));
 
 			echo var_dump($queryResult);
 

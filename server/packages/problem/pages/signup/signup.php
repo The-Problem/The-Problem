@@ -9,6 +9,8 @@ class SignupPage implements IPage{
 
 	public function permission(){
 
+		return true;
+
 		if ($_SESSION["username"] != NULL){
 			Path::redirect(Path::getclientfolder());
 			return false;
@@ -25,7 +27,6 @@ class SignupPage implements IPage{
 	public function head(Head &$head){
 		$head->title .= " - Sign Up";
 		$head->stylesheet("pages/signup");
-		$head->stylesheet("https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css", true);
 		$head->script("https://www.google.com/recaptcha/api.js", true);
 		$head->script("pages/signup");
 	}

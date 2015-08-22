@@ -16,7 +16,7 @@ class User{
 
 	public function setPassword($newPassword){
 		$query = "UPDATE users SET Password = ? WHERE Username = ?'";
-		$queryResult = Connection::query($query, "ss", array($password, $this->username));
+		$queryResult = Connection::query($query, "ss", array($newPassword, $this->username));
 
 	}
 

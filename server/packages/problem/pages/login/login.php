@@ -19,7 +19,6 @@ class LoginPage implements IPage{
 	public function head(Head &$head){
 		$head->title .= " - Log In";
 		$head->stylesheet("pages/login");
-		$head->script("pages/login");
 	}
 	
 	public function body(){

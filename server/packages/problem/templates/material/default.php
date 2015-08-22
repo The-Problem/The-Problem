@@ -19,6 +19,7 @@ class DefaultTemplate implements ITemplate {
 
         $head->stylesheet("templates/default");
         $head->stylesheet("http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,700,700italic", true);
+        $head->stylesheet("https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css", true);
 
         $head->package("problem");
         $head->addcode("<link type='text/plain' rel='author' href='" . Path::getclientfolder() . "humans.txt' />");
@@ -82,6 +83,7 @@ class DefaultTemplate implements ITemplate {
         echo $head->getcode();
         echo "</head>\n<body class='" . implode(' ', $classes) . "'>\n";
         echo $out;
+
         echo "</body>\n</html>";
     }
 
@@ -113,6 +115,7 @@ class DefaultTemplate implements ITemplate {
 
                 $rank = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($username));
                 if ($rank[0] >= 4) echo ' - <a href="' . Path::getclientfolder("admin") . '">Admin</a>';
+                echo "<button id='notificationButton' class='fa fa-bell'></button>";
                 echo "</div>";
             }
 
@@ -129,6 +132,11 @@ class DefaultTemplate implements ITemplate {
         if (LIME_ENV === LIME_ENV_DEV && LIME_TERMINAL_MODE === LIME_TERMINAL_ENABLED) {
             Library::get("modules");
             Modules::getoutput("terminal");
+        }
+
+         if ($_SESSION['username'] != NULL){
+            Library::get("modules");
+            Modules::getoutput("notification");
         }
 
         echo "</div>";

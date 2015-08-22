@@ -297,7 +297,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `Last_Logon_Time`) VALUES
 ('Andrew', 'fireme@mailinator.net', 'Andrew', 'pleaseBoss1', 0, '', NULL),
 ('bullseye', 'bullseye@mailinator.net', 'Mr T', 'againNagain0', 0, '', NULL),
-('dr2n', 'darren.yx.fu@gmail.com', 'Darren Fu', 'password01', 4, 'A creator.', '2015-08-14 00:00:00'),
+('dr2n', 'darren.yx.fu@gmail.com', 'Darren Fu', 'superPiggy46', 4, 'Im working on it', '2015-08-22 12:04:06'),
 ('exterminate', 'david@mailinator.net', 'David', 'sleepyDog2', 0, '', NULL),
 ('flame', 'flame@mailinator.net', 'Andria', 'noOneCanSee6', 0, '', NULL),
 ('Jas', 'jjj@mailinator.net', 'Jas', 'rightio3', 0, '', NULL),
@@ -308,7 +308,11 @@ INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `La
 ('meltingPoint', 'mp@mailinator.net', 'Jess', '4myDreamz', 0, '', NULL),
 ('mrfishie', 'mrfishie101@hotmail.com', 'Tom', 'correct horse battery staple', 4, 'Hi! I make websites and lights do cool things.', NULL),
 ('powerRangers46', 'pewpew@mailinator.net', 'Zac Langlands', 'Lo000L', 0, '', NULL),
-('unhelpful', 'unhelpful@mailinator.net', 'Ben Loungin', 'yjhghtd44790vjhg', 0, '', NULL);
+('unhelpful', 'unhelpful@mailinator.net', 'Ben Loungin', 'yjhghtd44790vjhg', 0, '', NULL),
+('MichaelK', 'mike@mailinator.net', 'Michael', 'don''tBePicky1', 0, '', NULL),
+('SmithJohn', 'jsjs@mailinator.net', 'John Smith', 'joinin768', 0, 'There''s probably not a single person in this development team that''s as skilled as I am in making tea.', NULL),
+('that''sMe', 'hu@mailinator.net', 'DoctorHu', 'firefox555', 0, '', NULL);
+
 
 -- --------------------------------------------------------
 
