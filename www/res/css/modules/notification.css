@@ -1,30 +1,34 @@
 #notificationPanel {
-	text-align: left;
 	position: fixed;
 	top: 60px;
-	right: 0px;
-	height: 100vh;
-	width: 440px;
-	background-color: #313131;
+	right: -350px;
 	z-index: 9998;
-	transition: right 0.5s cubic-bezier(0.79, 0.14, 0.15, 0.86) 0s;
+	
+	height: 100vh;
+	width: 350px;
+	
+	background-color: #313131;
+	box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
+	transition: right 0.3s cubic-bezier(0.79, 0.14, 0.15, 0.86) 0s;
+	
+	text-align: left;
 }
 
 #notificationHeader > h2 {
-	line-height: 90px;
+	line-height: 80px;
 	font-weight: lighter;
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
 #notificationHeader {
-	margin: 0 0;
 	box-sizing: border-box;
-	height: 90px;
+	margin: 0 0;
+	height: 80px;
 	width: 100%;
 	background-color: #b94a48;
-	color: white;
-	padding-left: 50px;
+	color: white;	
+	padding-left: 25px;
 }
 
 #notifications {
@@ -32,24 +36,28 @@
 }
 
 .notificationCell {
-	margin: 0 0;
-	padding-top: 30px;
-	color: white;
-	background-color: inherit;
 	box-sizing: border-box;
-	width: 100%;
+	margin: 0 0;
+	padding: 25px 25px;
+	color: white;
 	height:120px;
-	padding-left
+}
 
+.notificationCell > p {
+	margin: 0px 0px;
 }
 
 .notificationCell:nth-child(2n+1){
 	background-color: #1A1A1A;
 }
 
-.notificationTextWrap {
-	margin-left: auto;
-	margin-right: auto;
-	width: 340px;
+.notificationCell .message {
+	float: left;
 }
 
+.notificationCell .stats {
+	margin-top: 10px;
+	float: right;
+	font-size: 12px;
+	clear: both;
+}

@@ -5,7 +5,8 @@ class ProblemPackage implements IPackage {
         $r->add(array(
             "Libraries" => array(
                 "objects",
-                "users"
+                "users",
+                "notifications"
             ),
             "Modules" => array(
                 "terminal",
