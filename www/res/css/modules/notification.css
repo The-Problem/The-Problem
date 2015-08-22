@@ -1,11 +1,11 @@
 #notificationPanel {
 	position: fixed;
 	top: 60px;
-	right: -400px;
+	right: -350px;
 	z-index: 9998;
 	
 	height: 100vh;
-	width: 400px;
+	width: 350px;
 	
 	background-color: #313131;
 	box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
@@ -15,7 +15,7 @@
 }
 
 #notificationHeader > h2 {
-	line-height: 90px;
+	line-height: 80px;
 	font-weight: lighter;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -24,11 +24,11 @@
 #notificationHeader {
 	box-sizing: border-box;
 	margin: 0 0;
-	height: 90px;
+	height: 80px;
 	width: 100%;
 	background-color: #b94a48;
 	color: white;	
-	padding-left: 50px;
+	padding-left: 25px;
 }
 
 #notifications {
@@ -38,7 +38,7 @@
 .notificationCell {
 	box-sizing: border-box;
 	margin: 0 0;
-	padding: 25px 60px;
+	padding: 25px 25px;
 	color: white;
 	height:120px;
 }
@@ -51,11 +51,11 @@
 	background-color: #1A1A1A;
 }
 
-.message {
+.notificationCell .message {
 	float: left;
 }
 
-.stats {
+.notificationCell .stats {
 	margin-top: 10px;
 	float: right;
 	font-size: 12px;

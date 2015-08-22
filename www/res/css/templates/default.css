@@ -88,7 +88,8 @@ header div, header h1 {
     padding: 0 0;
     margin-left: 20px;
     height: 60px;
-    width: 80px;
+    width: 60px;
+    margin-right:10px;
     color: #4a1f1e;
     background-color: #ef5350;
     text-align: center;
