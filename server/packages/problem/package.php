@@ -12,7 +12,8 @@ class ProblemPackage implements IPackage {
                 "terminal",
                 "sectionTile",
                 "notification",
-                "adminSection"
+                "adminSection",
+                "comments"
             ),
             "Templates" => array(
                 "default"
@@ -25,16 +26,14 @@ class ProblemPackage implements IPackage {
                 "error",
                 "signup",
                 "login",
-                "users"
+                "users",
+                "bugs"
             )
         ));
 
         Events::add(new Handler("libadded.pages", function() {
             Library::get("pages");
             Templates::$theme = "material";
-        }));
-        Events::add(new Handler("pagehead", function($head) {
-
         }));
 
         ob_start();

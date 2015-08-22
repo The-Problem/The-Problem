@@ -55,11 +55,12 @@ class Pages {
      * @copyright Copyright (c) 2014, Tom Barham
      * @param mixed $name The name of the page
      * @param array $fp Current page path
+     * @param bool $follow_subpages
      * @return mixed The page, or false if page cannot be found
      *
      * @throws Exception
      */
-    public static function getpage($name, array $fp) {
+    public static function getpage($name, array $fp, $follow_subpages = true) {
         if (!is_array($name)) $name = array($name);
         
         Library::file("pages", "pageinfo");
@@ -97,7 +98,7 @@ class Pages {
                 
                 Events::call("pagefind", array($finalpage, $name));
                 
-                if (!$finalpage->subpages()) break;
+                if ($follow_subpages && !$finalpage->subpages()) break;
             }
             if ($finalpage) break;
         }
@@ -156,9 +157,10 @@ class Pages {
      * @version 1.0
      * @copyright Copyright (c) 2013, Tom Barham
      * @param array $path Current page path
+     * @param bool $follow_subpages Whether to follow the "subpages" option
      * @return boolean Whether the page was successfully displayed
      */
-    public static function showpagefrompath(array $path) {
+    public static function showpagefrompath(array $path, $follow_subpages = true) {
         self::$showing = $path;
         
         $startpath = $path;
@@ -168,12 +170,12 @@ class Pages {
             array_pop($path);
 
             if (count($path) == 0) break;
-            $page = self::getpage($path, $startpath);
+            $page = self::getpage($path, $startpath, $follow_subpages);
 
             if (!$page || !$page->permission()) $page = false;
         }
         if (!$page) {
-            $page = self::getpage(array("error"), $startpath);
+            $page = self::getpage(array("error"), $startpath, $follow_subpages);
         }
         if ($page) return self::showpage($page, $startpath, true);
         else {

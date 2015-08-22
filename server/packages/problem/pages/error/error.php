@@ -13,13 +13,15 @@ class ErrorPage implements IPage {
 
             $this->redirecting = true;
             Pages::showpagefrompath(array_merge($resulting_path, $remaining_path));
-        } else http_response_code(404);
+        }
     }
     public function template() {
         return Templates::findtemplate("default");
     }
     public function permission() {
-        return !$this->redirecting;
+        if (!$this->redirecting) Path::redirect(Path::getclientfolder());
+
+        return false;
     }
     public function subpages() {
         return false;
