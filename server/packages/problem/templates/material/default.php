@@ -15,8 +15,6 @@ class DefaultTemplate implements ITemplate {
     }
 
     public function Head(Head &$head) {
-        $head->title = "The Problem";
-
         $head->stylesheet("templates/default");
         $head->stylesheet("http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,700,700italic", true);
         $head->stylesheet("https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css", true);
@@ -110,11 +108,10 @@ class DefaultTemplate implements ITemplate {
 
             $username = $_SESSION['username'];
             if ($username) {
-                $user = Connection::query("SELECT Name FROM users WHERE Username = ?", "s", array($username));
+                $user = Connection::query("SELECT Name, Rank FROM users WHERE Username = ?", "s", array($username));
                 echo '<div class="right">Hi, <a href="' . Path::getclientfolder("~" . htmlentities($username)) . '">' . htmlentities($user[0]["Name"]) . '</a>';
 
-                $rank = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($username));
-                if ($rank[0] >= 4) echo ' - <a href="' . Path::getclientfolder("admin") . '">Admin</a>';
+                if ($user[0]["Rank"] >= 4) echo ' - <a href="' . Path::getclientfolder("admin") . '">Admin</a>';
                 echo "<button id='notificationButton' class='fa fa-bell'></button>";
                 echo "</div>";
             }
