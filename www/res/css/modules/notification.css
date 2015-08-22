@@ -1,11 +1,11 @@
 #notificationPanel {
 	position: fixed;
 	top: 60px;
-	right: -350px;
+	right: -380px;
 	z-index: 9998;
 	
 	height: 100vh;
-	width: 350px;
+	width: 380px;
 	
 	background-color: #313131;
 	box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
@@ -28,17 +28,18 @@
 	width: 100%;
 	background-color: #b94a48;
 	color: white;	
-	padding-left: 25px;
+	padding-left: 30px;
 }
 
 #notifications {
-	height: calc(100vh-60px-120px);
+	height: calc(100vh - 60px - 80px);
+	overflow-y: scroll;
 }
 
 .notificationCell {
 	box-sizing: border-box;
 	margin: 0 0;
-	padding: 25px 25px;
+	padding: 30px 40px;
 	color: white;
 	height:120px;
 }

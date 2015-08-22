@@ -30,6 +30,6 @@ input {
 	margin-top: 25px;
 }
 
-button {
+form > button {
 	margin-top: 20px;
 }

@@ -109,13 +109,14 @@ header div, header h1 {
     height: 60px;
     width: 60px;
     margin-right:10px;
-    color: #4a1f1e;
-    background-color: #ef5350;
+    background-color: #e53935;
+    color: white;
     text-align: center;
     transition: background-color 0.3s;
 }
 
 #notificationButton:hover{
+    color: #4a1f1e;
     background-color: #c02d2a;
 
 }
