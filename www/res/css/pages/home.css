@@ -1,3 +1,7 @@
+body {
+    background-image:url(../../image/rainbow.png);
+}
+
 header.big {
     position:absolute;
 
