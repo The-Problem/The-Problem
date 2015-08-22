@@ -140,12 +140,13 @@ class DefaultTemplate implements ITemplate {
             Modules::getoutput("terminal");
         }
 
-         if ($_SESSION['username'] != NULL){
+        echo "</div>";
+
+        if ($_SESSION['username'] != NULL){
             Library::get("modules");
             Modules::getoutput("notification");
         }
 
-        echo "</div>";
         echo "<div class='page-time'>" . (Timer::get(6) * 1000) . "ms</div>";
 
         return "";
