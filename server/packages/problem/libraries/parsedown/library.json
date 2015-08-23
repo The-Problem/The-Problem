@@ -1,0 +1,7 @@
+{
+    "name": "Parsedown",
+    "author": "Emanuil Rusev",
+    "description": "Converts Markdown-formatted text into HTML",
+    "requires": [],
+    "load": ["parsedown"]
+}
