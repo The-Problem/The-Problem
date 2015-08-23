@@ -14,7 +14,8 @@ class ProblemPackage implements IPackage {
                 "sectionTile",
                 "notification",
                 "adminSection",
-                "comments"
+                "comments",
+                "comment"
             ),
             "Templates" => array(
                 "default"

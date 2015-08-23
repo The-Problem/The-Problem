@@ -32,6 +32,10 @@
     border-top:none;
     padding:15px;
 }
+.comment.new .content {
+    padding:0;
+    border-top:solid 1px #CCC;
+}
 .comment .content p {
     margin:15px 0;
 }
@@ -78,4 +82,29 @@
 }
 .comment .plus-one .hover {
     margin:0 5px;
+}
+
+.comment textarea {
+    padding:15px;
+    border:none;
+    width:100%;
+    box-sizing:border-box;
+    resize:vertical;
+}
+.comment .buttons {
+    background-color:#F1F1F1;
+    padding:5px;
+    font-size:0.8em;
+    line-height:30px;
+    height:30px;
+}
+.comment .buttons button {
+    float:none;
+    height:30px;
+    width:100px;
+    padding:0;
+}
+.comment .buttons input {
+    display:inline-block;
+    vertical-align:-1px;
 }

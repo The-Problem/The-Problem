@@ -8,6 +8,26 @@ html, body {
     overflow-x:hidden;
 }
 
+pre, code {
+    background-color:#F1F1F1;
+    border-radius:2px;
+}
+pre {
+    padding:10px 10px;
+}
+code {
+    padding:5px;
+}
+pre code {
+    background-color:transparent;
+    padding:0;
+    border-radius:0;
+}
+
+strong {
+    font-weight:bold;
+}
+
 h1, h2, h3, h4, h5, h6 {
     margin:0;
     font-weight:300;
@@ -21,7 +41,7 @@ a:hover {
     text-decoration:none;
 }
 
-input, select, button {
+input, select, button, textarea {
     font:inherit;
 }
 
@@ -152,41 +172,15 @@ header div, header h1 {
     border-right:none;
 }
 
-/*#notificationButton {
-    margin-left: 20px;
-}
-
-.signOutButton {
-    margin-right: 10px;
-}
-
-
-#notificationButton, .signOutButton {
-    padding: 0 0;
-    height: 60px;
-    width: 60px;
-    background-color:#EF5350;
-    color: white;
-    text-align: center;
-    transition: background-color 0.3s;
-}
-
-#notificationButton:hover, .signOutButton:hover{
-    color: #4a1f1e;
-    background-color: #c02d2a;
-
-}
-
-#logoutForm {
-    display: none;
-}*/
-
 .left {
     float:left;
 }
 .right {
     float:right;
     margin-right:0;
+}
+.clear-fix {
+    clear:both;
 }
 
 header .right {

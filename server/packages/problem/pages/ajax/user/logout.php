@@ -4,7 +4,7 @@ class AjaxUserLogoutPage implements IPage {
     }
 
     public function template() {
-        return Templates::findtemplate("default");
+        return Templates::findtemplate("blank");
     }
 
     public function permission() {
