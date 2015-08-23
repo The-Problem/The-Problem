@@ -1,4 +1,81 @@
 .comments {
-    width:900px;
+    width:700px;
     margin:0 auto;
+}
+
+.comment {
+    margin-bottom:25px;
+}
+.comment > div {
+    display:inline-block;
+    vertical-align:top;
+}
+.comment .left-column {
+    width:60px;
+}
+.comment .right-column {
+    width:605px;
+    margin-left:15px;
+}
+
+.comment img {
+    filter:drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.4));
+}
+
+.comment .header {
+    background-color:#ffcdd2;
+    padding:15px 20px 15px 15px;
+    font-size:0.9em;
+}
+.comment .content {
+    border:solid 1px #CCC;
+    border-top:none;
+    padding:15px;
+}
+.comment .content p {
+    margin:15px 0;
+}
+.comment .content p:first-child {
+    margin-top:0;
+}
+.comment .content p:last-child {
+    margin-bottom:0;
+}
+
+.comment .rank {
+    display:inline-block;
+    padding:5px;
+    border-radius:2px;
+    font-size:0.7em;
+    vertical-align:middle;
+    margin-right:2px;
+}
+.comment .rank.admin {
+    background-color:#f44336;
+}
+.comment .rank.mod {
+    background-color:#3f51b5;
+}
+.comment .rank.dev {
+    background-color:#4caf50;
+}
+.comment .rank.op {
+    background-color:#ff5722;
+}
+
+.comment .plus-one span {
+    transition:width 200ms;
+    display:inline-block;
+    overflow:hidden;
+    vertical-align:top;
+    white-space:nowrap;
+}
+.comment .plus-one .hover, .comment .plus-one .next {
+    width:0;
+}
+.comment .plus-one:hover .hover {
+    width:22px;
+}
+.comment .plus-one .hover {
+    margin:0 5px;
 }
