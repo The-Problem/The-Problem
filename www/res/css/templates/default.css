@@ -103,13 +103,63 @@ header div, header h1 {
     display:inline-block;
 }
 
-#notificationButton {
+.header-button {
+    position:relative;
+    display:inline-block;
+    vertical-align:top;
+    padding:0;
+    height:60px;
+    width:60px;
+    line-height:60px;
+    text-align:center;
+    text-decoration:none;
+    color:#FFF;
+    transition:color 0.1s;
+}
+.header-button:hover {
+    color:#4a1f1e;
+}
+.header-button:first-child {
+    margin-left:20px;
+}
+
+.header-button:before {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color:#e53935;
+    transition:background-color 0.1s, left 0.1s;
+}
+.header-button:hover:before {
+    left:-1px;
+    background-color:#c02d2a;
+}
+.header-button:first-child:hover:before {
+    left:0;
+}
+.header-button:after {
+    content:'';
+    position:absolute;
+    top:15px;
+    left:0;
+    right:0;
+    bottom:15px;
+    border-right:solid 1px #c02d2a;
+}
+.header-button:last-child:after {
+    border-right:none;
+}
+
+/*#notificationButton {
     margin-left: 20px;
 }
 
 .signOutButton {
     margin-right: 10px;
 }
+
 
 #notificationButton, .signOutButton {
     padding: 0 0;
@@ -129,7 +179,7 @@ header div, header h1 {
 
 #logoutForm {
     display: none;
-}
+}*/
 
 .left {
     float:left;
@@ -137,6 +187,11 @@ header div, header h1 {
 .right {
     float:right;
     margin-right:0;
+}
+
+header .right {
+    margin-right:10px;
+    line-height:60px;
 }
 
 .body {
