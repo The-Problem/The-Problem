@@ -1,3 +1,3 @@
-/**
- * Created by mrfishie on 8/08/2015.
- */
+LimePHP.register("problem", function() {
+    if ($.prototype.timeago) $("span.timeago").timeago();
+});
