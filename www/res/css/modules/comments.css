@@ -68,21 +68,49 @@
 }
 
 .comment .plus-one span {
-    transition:width 200ms;
+    transition:width 200ms, margin 200ms;
     display:inline-block;
     overflow:hidden;
     vertical-align:top;
     white-space:nowrap;
 }
-.comment .plus-one .hover, .comment .plus-one .next {
+.comment .plus-one .current, .comment .plus-one .next {
+    transition:none;
+}
+
+.comment .plus-one .current, .comment .plus-one .next, .comment .plus-one i {
+    color:#000;
+}
+.comment .plus-one .hover, .comment .plus-one .next, .comment .plus-one .equals {
     width:0;
 }
-.comment .plus-one:hover .hover {
+.comment .plus-one:hover .hover, .comment .plus-one.enabled .hover {
     width:22px;
+    margin-right:5px;
 }
-.comment .plus-one .hover {
-    margin:0 5px;
+.comment .plus-one .current {
+    margin-right:5px;
 }
+
+.comment .plus-one.enabled .current, .comment .plus-one.enabled .next, .comment .plus-one.finishing .current, .comment .plus-one.finishing .next {
+    transition:width 200ms, margin 200ms;
+}
+
+.comment .plus-one.enabled .equals, .comment .plus-one.enabled .next {
+    margin-right:5px;
+    width:auto;
+}
+.comment .plus-one.enabled .next, .comment .plus-one.finishing .next,  .comment .plus-one.enabled .equals {
+    width:8px;
+    margin-right:5px;
+}
+
+.comment .plus-one.finishing .current, .comment .plus-one.finishing .hover, .comment .plus-one.finishing .equals {
+    width:0;
+}
+/*.comment .plus-one.finishing .current, .comment .plus-one.finishing .hover, .comment .plus-one.finishing .equals, .comment .plus-one.finishing .next {
+    transition:none;
+}*/
 
 .comment textarea {
     padding:15px;

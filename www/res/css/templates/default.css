@@ -61,7 +61,7 @@ button.highlight {
     float: right;
     width: 125px;
     height: 40px;
-    transition: background-color 0.2s;
+    transition: background-color 0.1s;
 }
 
 button.highlight:hover {

@@ -42,7 +42,7 @@ class CommentModule implements IModule {
 
             <div class="right plus-one">
                 <a href="javascript:void(0)" title="+1 this comment">
-                <span class="current"><?php echo $comment["Plus_Ones"]; ?></span><span class="hover"> + 1</span><span class="next"></span><i class="fa fa-thumbs-up"></i>
+                <span class="current"><?php echo $comment["Plus_Ones"]; ?></span><span class="hover"> + 1</span><span class="equals"> = </span><span class="next"></span><i class="fa fa-thumbs-up"></i>
                 </a>
             </div>
         </div>
