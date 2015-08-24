@@ -393,11 +393,9 @@ class String {
      * @return string The formatted datetime
      */
     public static function dateformat(DateTime $date) {
-        $readableTime = $date->format("l j");
-        $readableTime .= " of ";
-        $readableTime .= $date->format("F, Y");
+        $readableTime = $date->format("l j F, Y");
         $readableTime .= " at ";
-        $readableTime .= $date->format("g:i:s A");
+        $readableTime .= $date->format("g:i A");
         return $readableTime;
     }
 }
