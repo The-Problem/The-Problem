@@ -16,9 +16,26 @@ class UsersPage implements IPage {
         return false;
     }
     public function head(Head &$head) {
+        $head()
     }
 
     public function body() {
         echo "Viewing profile for $this->user";
+        Library::get('users');
+        $currentUser = Users.getUser('current');
+        ?>
+
+        <section id='userCover'>
+            <div id='userInfoWrap'>
+                <img class='profilePic' src='<?php $currentUser->getAvatarLink();?>'/>
+                <div class='userInfo'>
+                    <h1><?php $currentUser->name ?></h1>
+
+                </div>
+            </div>
+
+        </section>
+
+        <?php
     }
 }

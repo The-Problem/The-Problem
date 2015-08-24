@@ -7,10 +7,6 @@
 		const TYPE_PLUSONE = 4;
 		const TYPE_MENTION = 5;
 
-		const OBJECT_SECTION = 0;
-		const OBJECT_BUG = 1;
-		const OBJECT_COMMENT = 2;
-
 		private static $bugStatus = array('DELETED', 'OPEN', 'CLOSED', 'DUPLICATE', 'WIP');
 
 		public static function get($limit = 10, $time = NULL, $before = false){
@@ -60,13 +56,16 @@
 			4 - "Tom +1'd your bug, 'Needs More Dragons'"
 			5 - "Patrick mentioned you in a comment from 'Needs More Dragons"*/
 
+			Library::get('objects');
+
 			$message = "";
 			$stats = "";
 
 			$trigger = $notification['Triggered_By'];
 			$type = $notification['Type'];
 			$targetOne = $notification['Target_One'];
-			$fuzzyTime = self::timeago($notification['Creation_Date']);
+			Library::get('string');
+			$fuzzyTime = String::timeago($notification['Creation_Date']);
 
 			if ($type == self::TYPE_ASSIGNMENT){
 				$bugInfoQuery = "SELECT Bugs.Bug_ID, Bugs.Name as 'Bug_Name', Sections.Name as 'Section_Name' FROM Bugs LEFT JOIN Sections ON Bugs.Section_ID =Sections.Section_ID WHERE Bugs.Object_ID = ?";
@@ -124,7 +123,7 @@
 							WHERE Object_ID = ?";
 				$targetType = Connection::query($typeQuery, "s", array($targetOne))[0]["Object_Type"];
 
-				if ($targetType == self::OBJECT_BUG){
+				if ($targetType == Objects::TYPE_BUG){
 					$bugQuery = 
 								"SELECT Bugs.Name as 'Bug_Name', Sections.Name as 'Section_Name'
 								FROM Bugs
@@ -136,7 +135,7 @@
 					$sectionName = $bugInfo['Section_Name'];
 
 					$message = $trigger . " +1'd your bug " . $bugInfo;
-				}else if ($targetType == self::OBJECT_COMMENT){
+				}else if ($targetType == Objects::TYPE_COMMENT){
 					$commentQuery = 
 									"SELECT Comment_Text, Bugs.Name as 'Bug_Name', Sections.Name as 'Section_Name'
 									FROM Comments
@@ -170,42 +169,6 @@
 			$html = "<section class='notificationCell'><p class='message'>" . $message. "</p><p class='stats'>" . $stats . "</p></section>";
 			return $html;
 
-		}
-
-		private static function timeago($pastTime){
-			$second = 1;
-			$minute = 60;
-			$hour = $minute * 60;
-			$day = $hour * 24;
-			$week = $day * 7;
-			$month = $week * 4;
-			$year = $month * 12;
-
-			$timeDifference = time() - strtotime($pastTime);
-
-			if ($timeDifference < $minute){
-				$output = "Just now";
-			}else if ($timeDifference < $hour){
-				$output = round($timeDifference/$minute) . " minute";
-			}else if ($timeDifference < $day){
-				$output = round($timeDifference/$hour) . " hour";
-			}else if ($timeDifference < $week){
-				$output = round($timeDifference/$day) . " day";
-			}else if ($timeDifference < $month){
-				$output = round($timeDifference / $week) . " week";
-			}else if ($timeDifference < $year){
-				$output = round($timeDifference / $month) . " month";
-			}else{
-				$output = round($timeDifference / $year) . " year";
-			}
-
-			if (substr($output, 0, 2) != "1 " && $output != "Just now"){
-				$output .= "s ago";
-			}else if (substr($output, 0, 2) == "1 " && $output != "Just now"){
-				$output .= " ago";
-			}
-
-			return $output;
 		}
 
 		private static function shorten($message, $length){

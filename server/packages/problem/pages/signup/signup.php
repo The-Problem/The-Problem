@@ -1,23 +1,17 @@
 <?php
 class SignupPage implements IPage{
+	private $template;
+
 	public function __construct(PageInfo &$page){
 	}
 
 	public function template(){
-		return Templates::findtemplate("default");
+		$this->template = Templates::findtemplate("default");
+		return $this->template;
 	}
 
 	public function permission(){
-
-		return true;
-
-		if ($_SESSION["username"] != NULL){
-			Path::redirect(Path::getclientfolder());
-			return false;
-		}else{
-			return true;
-		}
-
+		return $_SESSION["username"] != NULL;
 	}
 
 	public function subpages(){
@@ -99,7 +93,6 @@ class SignupPage implements IPage{
 	public function body(){
 
 		$pageState = $this::dataValid();
-		echo "<p style='position: fixed; bottom: 0; right: 10px;'>Pagestate: " . $pageState . "</p>";
 
 		if ($pageState == 1){
 
@@ -120,7 +113,7 @@ class SignupPage implements IPage{
 	
 		?>
 
-		<h1>Join The Problem</h1>
+		<h1>Join <?php echo $this->template->title; ?></h1>
 		
 		<?php
 

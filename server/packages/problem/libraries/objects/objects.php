@@ -1,6 +1,10 @@
 <?php
 
 class Objects {
+    const TYPE_SECTION = 0;
+    const TYPE_BUG = 1;
+    const TYPE_COMMENT = 2;
+
     private static $cache = array();
 
     public static function query($query, $types = false, $args = false) {

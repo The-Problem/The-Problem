@@ -30,4 +30,8 @@ class User{
 		$imageLink = "http://www.gravatar.com/avatar/" . $emailHash . "?s=200d=identicon";
 		return $imageLink;
 	}
+
+	public function getInfo(){
+		return "Last signed in 6 days ago";
+	}
 }

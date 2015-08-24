@@ -400,4 +400,40 @@ class String {
         $readableTime .= $date->format("g:i:s A");
         return $readableTime;
     }
+
+    public static function timeago($pastTime){
+        $second = 1;
+        $minute = 60;
+        $hour = $minute * 60;
+        $day = $hour * 24;
+        $week = $day * 7;
+        $month = $week * 4;
+        $year = $month * 12;
+
+        $timeDifference = time() - strtotime($pastTime);
+
+        if ($timeDifference < $minute){
+            $output = "Just now";
+        }else if ($timeDifference < $hour){
+            $output = round($timeDifference/$minute) . " minute";
+        }else if ($timeDifference < $day){
+            $output = round($timeDifference/$hour) . " hour";
+        }else if ($timeDifference < $week){
+            $output = round($timeDifference/$day) . " day";
+        }else if ($timeDifference < $month){
+            $output = round($timeDifference / $week) . " week";
+        }else if ($timeDifference < $year){
+            $output = round($timeDifference / $month) . " month";
+        }else{
+            $output = round($timeDifference / $year) . " year";
+        }
+
+        if (substr($output, 0, 2) != "1 " && $output != "Just now"){
+            $output .= "s ago";
+        }else if (substr($output, 0, 2) == "1 " && $output != "Just now"){
+            $output .= " ago";
+        }
+
+        return $output;
+    }
 }
