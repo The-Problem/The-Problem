@@ -59,17 +59,17 @@ SELECT userpermissions.Username,
       COALESCE(users.Rank, 0)
   ) AS User_rank
 FROM objects
-  LEFT JOIN users ON (users.Username = 'mrfishie')
+  LEFT JOIN users ON (users.Username = ?)
   LEFT JOIN sections ON (objects.Object_Type = 0 AND sections.Object_ID = objects.Object_ID)
   LEFt JOIN developers ON (developers.Section_ID = sections.Section_ID AND developers.Username = users.Username)
 
-  LEFT JOIN userpermissions ON (userpermissions.Permission_Name = 'user.view'
+  LEFT JOIN userpermissions ON (userpermissions.Permission_Name = ?
                                 AND userpermissions.Object_ID = objects.Object_ID)
-  LEFT JOIN grouppermissions ON (grouppermissions.Permission_Name = 'user.view'
+  LEFT JOIN grouppermissions ON (grouppermissions.Permission_Name = ?
                                  AND grouppermissions.Object_ID = objects.Object_ID)
-WHERE ('mrfishie' IS NULL OR users.Username = 'mrfishie')
+WHERE (? IS NULL OR users.Username = ?)
 HAVING userpermissions.Username = users.Username
-       OR User_rank >= grouppermissions.Rank", "sssss", array($username, $username, $username));
+       OR User_rank >= grouppermissions.Rank", "sssss", array($username, $type, $type, $username, $username));
 
         $value = array();
         foreach ($results as $item) {
