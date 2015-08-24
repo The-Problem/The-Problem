@@ -19,6 +19,7 @@ class AjaxUserLogoutPage implements IPage {
 
     public function body() {
         $_SESSION['username'] = NULL;
+        $_SESSION['sudo'] = false;
         if (array_key_exists('return', $_GET)) Path::redirect($_GET['return']);
         Path::redirect(Path::getclientfolder());
     }

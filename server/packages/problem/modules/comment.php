@@ -25,7 +25,7 @@ class CommentModule implements IModule {
         $rank = $this->ranks[$r];
 
         $content = $this->parsedown->text($comment["Comment_Text"]);
-        $creation_date = strtotime($comment["Creation_Date"]);
+        $creation_date = new DateTime($comment["Creation_Date"]);
 
         $userlink = htmlentities(Path::getclientfolder("~" . $comment["Username"]));
 
@@ -38,7 +38,7 @@ class CommentModule implements IModule {
             <?php if ($comment["Bug_Author"] === $comment["Username"]) { ?><span class="rank op">OP</span><?php } ?>
             <?php if ($rank) {?><span class="rank <?php echo $rank; ?>"><?php echo strtoupper($rank); ?></span><?php } ?>
             <a href="<?php echo $userlink; ?>"><?php echo htmlentities($comment["Username"]); ?></a>
-            commented <span class="timeago" title="<?php echo date('c', $creation_date); ?>"><?php echo date('h:i A F j, Y', $creation_date); ?></span>
+            commented <span class="timeago" title="<?php echo $creation_date->format("c"); ?>"></span>
 
             <div class="right plus-one">
                 <a href="javascript:void(0)" title="+1 this comment">

@@ -27,8 +27,8 @@ class AjaxBugsAddCommentPage implements IPage {
         if (!count($bug)) return array("error" => "Invalid bug ID");
 
         Connection::query("INSERT INTO comments (Bug_ID, Username, Object_ID, Creation_Date, Edit_Date, Comment_Text)
-                                         VALUES (     ?,        ?,         ?,         NOW(),      NULL,            ?)",
-            "isis", array($_POST['bug'], $_SESSION["username"], $object_id, $_POST['value']));
+                                         VALUES (     ?,        ?,         ?,             ?,      NULL,            ?)",
+            "isiss", array($_POST['bug'], $_SESSION["username"], $object_id, date("Y-m-d H:i:s"), $_POST['value']));
         $comment_id = Connection::insertid();
 
         $comments = Connection::query("SELECT *, (SELECT COUNT(*) FROM plusones
