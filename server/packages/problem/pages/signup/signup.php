@@ -11,7 +11,7 @@ class SignupPage implements IPage{
 	}
 
 	public function permission(){
-		return $_SESSION["username"] != NULL;
+		return !$_SESSION["username"];
 	}
 
 	public function subpages(){

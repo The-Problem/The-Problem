@@ -9,7 +9,7 @@ class LoginPage implements IPage{
 
 	public function permission(){
 		//change this, users should only be able to see this page when they are not logged in
-		return $_SESSION["username"] != NULL;
+		return !$_SESSION["username"];
 	}
 
 	public function subpages(){
