@@ -37,7 +37,7 @@ class SudoPage implements IPage {
             ));
 
             if ($res[0]["Count"]) {
-                $_SESSION["sudo"] = true;
+                $_SESSION["sudo"] = time();
                 Path::redirect($_GET['return']);
             } else $message = "Invalid password. Please try again.";
         }
@@ -48,7 +48,7 @@ class SudoPage implements IPage {
         <h1>Entering sudo mode...</h1>
         <p><?php echo $message; ?></p>
         <input id="passField" type="password" name="password" placeholder="Password" /><br>
-        <button action="submit">CONTINUE</button>
+        <button type="submit">CONTINUE</button>
     </form>
 </div>
 <?php
