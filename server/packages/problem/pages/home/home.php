@@ -32,7 +32,19 @@ class HomePage implements IPage {
 
         $sections = array();
 
+        Library::get("objects");
+        $permissions = Objects::user_permissions("user.view", $_SESSION["username"]);
+        $ids = array();
+        foreach ($permissions as $id => $permission) {
+            if ($permission) array_push($ids, $id);
+        }
+        $amount = count($ids);
+        $clause = implode(',', array_fill(0, $amount, '?'));
+        $types = str_repeat('i', $amount);
+
         if ($username) {
+            $params = array_merge(array($username), $ids);
+
             $user = Connection::query("
 SELECT * FROM users
   WHERE Username = ?", "s", array($username));
@@ -46,7 +58,8 @@ SELECT *, (SELECT COUNT(*) FROM bugs
 FROM sections
   WHERE Section_ID IN (SELECT Section_ID FROM developers
                        WHERE developers.Username = ?)
-ORDER BY Open_Bugs DESC, All_Bugs DESC", "s", array($username));
+  AND sections.Object_ID IN ($clause)
+ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
 
             $sections = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM bugs
@@ -57,7 +70,8 @@ SELECT *, (SELECT COUNT(*) FROM bugs
 FROM sections
   WHERE Section_ID NOT IN (SELECT Section_ID FROM developers
                            WHERE developers.Username = ?)
-ORDER BY Open_Bugs DESC, All_Bugs DESC", "s", array($username));
+  AND sections.Object_ID IN ($clause)
+ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
 
             ?>
 <div class="welcome">
@@ -74,6 +88,7 @@ ORDER BY Open_Bugs DESC, All_Bugs DESC", "s", array($username));
         <div class="section-list">
             <?php
             foreach($devSections as $section) {
+
                 Modules::getoutput("sectionTile", $section);
             }
             ?>
@@ -87,7 +102,7 @@ SELECT *, (SELECT COUNT(*) FROM bugs
            AND bugs.Status = 1) AS Open_Bugs,
           (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
-FROM sections"); ?>
+FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
 
 <header class="big">
     <h1><img src="<?php echo $logo->clientpath; ?>" alt="The Problem" title="The Problem" /><span><?php echo htmlentities(Pages::$head->title); ?></span></h1>
@@ -110,11 +125,15 @@ FROM sections"); ?>
     <div class="left-column">
         <h2>Sections</h2>
 <?php } ?>
-        <?php if (count($sections)) { ?>
+        <?php if (count($sections)) {
+            Library::get("objects");
+
+            ?>
         <input class="search-box" type="search" placeholder="Search all sections" />
         <div class="section-list searchable">
             <?php
             foreach ($sections as $section) {
+
                 Modules::getoutput("sectionTile", $section);
             }
             ?>

@@ -37,9 +37,9 @@ FROM users
                                 AND userpermissions.Permission_Name = ?)
   LEFT JOIN grouppermissions ON (users.Rank >= grouppermissions.Rank
                                  AND grouppermissions.Permission_Name = ?)
-WHERE users.Username = ?
+WHERE (? IS NULL OR users.Username = ?)
       AND (userpermissions.Username = users.Username
-           OR users.Rank >= grouppermissions.Rank)", "sss", array($type, $type, $username));
+           OR COALESCE(users.Rank, 0) >= grouppermissions.Rank)", "ssss", array($type, $type, $username, $username));
 
         $value = array();
         foreach ($results as $item) {
