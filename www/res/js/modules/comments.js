@@ -44,14 +44,36 @@ LimePHP.register("module.comments", function() {
     }
 
     $(document).on('keydown', '.comment .content textarea.edit', function(e) {
-        var $editText = $(this);
-        var $comment = $editText.parents('.comment');
-
-        if (!$comment.data('editing')) return;
         if (e.keyCode !== 13 || e.shiftKey) return;
 
-        $editText.attr('disabled', true);
+        submit($(this));
     });
+    $(document).on('blur', '.comment .content textarea.edit', function() {
+        submit($(this));
+    });
+
+    function submit($editText) {
+        var $comment = $editText.parents('.comment');
+        var $val = $comment.find('.content > div');
+
+        if (!$comment.data('editing')) return;
+
+        $editText.attr('disabled', true);
+
+        var r = LimePHP.request("post", LimePHP.path("ajax/bugs/editComment"), {
+            id: $comment.data('id'), value: $editText.val()
+        }, "json");
+
+        r.success = function(data) {
+            $val.html(data.value);
+        };
+        r.complete = function() {
+            $val.show();
+            $editText.hide();
+            $editText.attr('disabled', false);
+            $comment.data('editing', false);
+        };
+    }
 
     $(document).on('click', '.comment .header .delete', function() {
         var $delete = $(this);

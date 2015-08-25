@@ -34,7 +34,7 @@ class CommentModule implements IModule {
         else $next++;
 
         Library::get("objects");
-        var_dump($comment["Object_ID"]);
+        //var_dump($comment["Object_ID"]);
         $can_edit = Objects::permission($comment["Object_ID"], "comment.edit", $_SESSION["username"]);
         $can_delete = Objects::permission($comment["Object_ID"], "comment.remove", $_SESSION["username"]);
 

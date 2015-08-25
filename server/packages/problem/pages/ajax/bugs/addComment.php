@@ -71,8 +71,8 @@ class AjaxBugsAddCommentPage implements IPage {
             array_push($bugs, array(strtolower($section_name), $id, "$section_name#$id"));
         }
         $unique_bugs = array_unique($bugs);
-        foreach ($unique_bugs as $bug) {
-            $value = str_replace($bug[2], "[" . $bug[2] . "](" . Path::getclientfolder("bugs", $bug[0], $bug[1])  . ")", $value);
+        foreach ($unique_bugs as $b) {
+            $value = str_replace($b[2], "[" . $b[2] . "](" . Path::getclientfolder("bugs", $b[0], $b[1])  . ")", $value);
         }
 
         Library::get('parsedown');
@@ -81,7 +81,7 @@ class AjaxBugsAddCommentPage implements IPage {
 
         Connection::query("INSERT INTO comments (Bug_ID, Username, Object_ID, Creation_Date, Edit_Date, Comment_Text, Raw_Text)
                                          VALUES (     ?,        ?,         ?,             ?,      NULL,            ?,        ?)",
-            "isiss", array($_POST['bug'], $_SESSION["username"], $object_id, date("Y-m-d H:i:s"), $value, $_POST['value']));
+            "isisss", array($_POST['bug'], $_SESSION["username"], $object_id, date("Y-m-d H:i:s"), $value, $_POST['value']));
         $comment_id = Connection::insertid();
 
         Objects::allow_user($object_id, "comment.edit", $_SESSION["username"]);

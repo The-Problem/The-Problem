@@ -155,8 +155,8 @@ SELECT *, (SELECT COUNT(*) FROM comments
           sections.Name AS Section_Name
   FROM bugs
     JOIN sections ON bugs.Section_ID = sections.Section_ID
-  WHERE Author = ?
-ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "s", array($username));
+  WHERE Author = ? OR Assigned = ?
+ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username. $username));
 
         $notifications = Notifications::get(10 - count($bugs));
 
