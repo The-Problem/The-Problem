@@ -105,6 +105,7 @@ FROM sections
 
         ?>
 
+<table class="username-selector"></table>
 <div class="section-list">
     <div class="table-header">
         <p class="name">Name</p><!--

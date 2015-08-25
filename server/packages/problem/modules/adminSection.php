@@ -13,9 +13,18 @@ class AdminSectionModule implements IModule {
          * "id" => The ID of the section
          */
 
-        $sections = Connection::query("SELECT * FROM sections WHERE Section_ID = ?", "i", array($params["id"]));
+        $sections = Connection::query("SELECT *, (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Section_ID = sections.Section_ID
+           AND bugs.Status = 1) AS Open_Bugs,
+          (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Section_ID = sections.Section_ID
+           AND bugs.Status != 1) AS Closed_Bugs FROM sections WHERE Section_ID = ?", "i", array($params["id"]));
         $section = $sections[0];
         $name = htmlentities($section["Name"]);
+
+        $developers = Connection::query("SELECT users.Username AS Username, Email FROM developers
+                                           JOIN users ON (developers.Username = users.Username)
+                                         WHERE developers.Section_ID = ?", "i", array($params["id"]));
 
         $style = "";
         if ($section["Color"] === 0) {
@@ -30,13 +39,55 @@ class AdminSectionModule implements IModule {
             $style = "background-image:url('" . htmlentities($img->clientpath) . "')";
         }
 
+        $total = $section["Closed_Bugs"] + $section["Open_Bugs"];
+        if ($total > 0) $percentage = $section["Closed_Bugs"] / $total;
+        else $percentage = 1.1;
+
+        $developer_count = count($developers);
+        if ($developer_count === 0) $dev_str = "are no developers";
+        else if ($developer_count === 1) $dev_str = "is 1 developer";
+        else $dev_str = "are $developer_count developers";
+
         ?>
 <div class="section-header">
     <a class="close" href="#"><i class="fa fa-times"></i></a>
-    <div class="section-tile color-<?php echo $section["Color"]; ?>" style="<?php echo $style; ?>"></div>
-    <div class="right-column">
-        <h2><?php echo $name; ?></h2>
-        <p class="description"><?php echo htmlentities($section["Description"]); ?></p>
+    <div class="section-tile color-<?php echo $section["Color"]; ?>" style="<?php echo $style; ?>"></div><div class="right-column">
+        <div class="section info">
+            <h2><a href="<?php echo Path::getclientfolder("bugs", $section["Slug"]); ?>"><?php echo $name; ?></a></h2>
+
+            <table>
+                <tr><th>Description:</th><td><?php echo htmlentities($section["Description"]); ?></td></tr>
+                <tr><th>Bugs:</th><td><?php if ($total > 0) {
+                            echo $total; ?> total, <?php
+                            echo $section["Open_Bugs"]; ?> open, <?php
+                            echo $section["Closed_Bugs"]; ?> closed (<?php
+                            echo floor($percentage * 1000) / 10; ?>%)<?php
+                        } else { ?>No bugs<?php } ?></td></tr>
+            </table>
+        </div>
+        <div class="section developer-list" data-current-devs="<?php echo htmlentities((json_encode(array_map(function($item) {
+            return $item["Username"];
+        }, $developers)))); ?>">
+            <h3>Developers</h3>
+            <p class="total">There <?php echo $dev_str; ?>.</p>
+
+            <table>
+                <?php
+                foreach ($developers as $dev) {
+                    $gravatar_id = md5(strtolower(trim($dev["Email"])));
+                    $gravatar = "http://www.gravatar.com/avatar/$gravatar_id?d=identicon&s=30";
+
+                    ?><tr>
+                    <td class="user-image" style='background-image:url("<?php echo $gravatar; ?>");'></td>
+                    <td class="user-name"><?php echo htmlentities($dev["Username"]); ?></td>
+                    <td class="user-remove"><a href="javascript:void(0)" title="Remove developer"><i class="fa fa-times"></i></a></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+            </table>
+            <input type="text" placeholder="Add a developer..." />
+        </div>
     </div>
 </div>
 <?php

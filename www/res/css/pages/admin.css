@@ -182,8 +182,18 @@
     margin:0;
 }
 .section-list .section-header {
-    background-color:#F1F1F1;
+    /*background-color:#FFF;*/
     position:relative;
+}
+.section-list .section-header h2 a {
+    color:#000;
+}
+.section-list .section-header table th {
+    text-align:left;
+    margin-right:5px;
+}
+.section-list .section-header table th, .section-list .section-header table td {
+    vertical-align:top;
 }
 .section-header .close {
     position:absolute;
@@ -201,6 +211,57 @@
     vertical-align:top;
 }
 .section-list .right-column {
-    width:580px;
+    width:599px;
+    border-right:solid 1px #DDD;
+}
+.section-list .section-header .section {
     padding:5px;
+}
+.section-list .section-header .section:nth-child(odd) {
+    background-color:#F1F1F1;
+}
+
+.developer-list table, .username-selector {
+    border:solid 1px #DDD;
+    border-bottom:none;
+    border-collapse:collapse;
+    width:589px;
+}
+.developer-list table tr, .username-selector tr {
+    border-bottom:solid 1px #DDD;
+}
+.developer-list table td, .username-selector td {
+    height:30px;
+}
+.developer-list table .user-image, .developer-list table .user-remove, .username-selector .user-image {
+    text-align:center;
+    width:30px;
+}
+.developer-list table .user-image, .username-selector .user-image {
+    background-repeat:no-repeat;
+    background-position:center;
+}
+.developer-list table .user-name, .username-selector .user-name {
+    padding:0 5px;
+    line-height:30px;
+}
+.developer-list input {
+    padding:5px;
+    border:solid 1px #DDD;
+    border-top:none;
+    width:577px;
+    background-color:#FCFCFC;
+}
+
+.username-selector {
+    position:absolute;
+    background-color:#FFF;
+    z-index:5;
+    margin-top:10px;
+}
+.username-selector tr {
+    cursor:pointer;
+}
+.username-selector tr:hover {
+    background-color:#F1F1F1;
 }

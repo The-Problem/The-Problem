@@ -73,4 +73,59 @@ LimePHP.register("page.admin", function() {
             $row.data("loaded", true);
         }
     });
+
+    var usernameSearch, $selector = $(".username-selector");
+
+    $(document).on("keydown", ".developer-list input", function(e) {
+        var $input = $(this);
+
+        setTimeout(function() {
+            var $row = $input.parents(".table-row");
+
+            var term = $input.val();
+            showResultsFor(term, $input, $row.data('id'));
+        }, 0);
+    });
+    $(document).on("blur", ".developer-list input", function() {
+        $selector.hide();
+    });
+    $(document).on("focus", ".developer-list input", function() {
+        var $this = $(this);
+        $this.keydown();
+    });
+
+    function showResultsFor(term, $input, rowId) {
+        if (!$input.data("usernameCache")) $input.data("usernameCache", {});
+        var usernameCache = $input.data("usernameCache");
+
+        if (term in usernameCache) showUserSelector(usernameCache[term], $input);
+        else {
+            if (usernameSearch) usernameSearch.cancel();
+            usernameSearch = LimePHP.request("get", LimePHP.path("ajax/admin/devSearch"), {
+                query: term,
+                section: rowId
+            }, "json");
+
+            usernameSearch.success = function(data) {
+                usernameCache[term] = data;
+                showUserSelector(usernameCache[term], $input);
+                $input.data("lastList", data);
+            };
+        }
+    }
+
+    function showUserSelector(items, $input) {
+        var offset = $input.offset();
+        var height = $input.height();
+
+        var top = offset.top + height + "px";
+        var left = offset.left + "px";
+        $selector.css({
+            top: top,
+            left: left
+        });
+
+        $selector.html(items.join(""));
+        $selector.show();
+    }
 });

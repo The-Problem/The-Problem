@@ -1,4 +1,4 @@
 LimePHP.register("problem", function() {
-    if ($.prototype.timeago) $("span.timeago").timeago();
-    if (autosize) autosize($('textarea'));
+    if (typeof $.prototype.timeago === 'function') $("span.timeago").timeago();
+    if (typeof autosize === 'function') autosize($('textarea'));
 });

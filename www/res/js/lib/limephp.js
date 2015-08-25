@@ -131,7 +131,10 @@ LimePHP.SERVER = {};
      * @throws {LimePHPError} The specified library already exists
      */
     LimePHP.addlibrary = function(name, callback) {
-        if (libraries[name]) return false;//throw new LimePHP.error("The specified library '" + name + "' already exists");
+        if (libraries[name]) {
+            LimePHP.debug("[WARN] [Package] The specified library '" + name + "' already exists");
+            return false;
+        }//throw new LimePHP.error("The specified library '" + name + "' already exists");
         
         LimePHP.debug("[Package] Adding library '" + name + "'");
         libraries[name] = {};
