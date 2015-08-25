@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 25, 2015 at 10:26 AM
+-- Generation Time: Aug 25, 2015 at 05:13 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.9
 
@@ -64,24 +64,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `Object_ID` int(11) NOT NULL,
   `Creation_Date` datetime NOT NULL,
   `Edit_Date` datetime DEFAULT NULL,
-  `Comment_Text` text COLLATE latin1_general_cs NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
-
---
--- Dumping data for table `comments`
---
-
-INSERT INTO `comments` (`Comment_ID`, `Bug_ID`, `Username`, `Object_ID`, `Creation_Date`, `Edit_Date`, `Comment_Text`) VALUES
-  (1, 49, 'mrfishie', 70, '2015-08-24 12:17:12', NULL, 'How did you comment this then?'),
-  (2, 52, 'mrfishie', 71, '2015-08-24 12:17:47', NULL, 'Possibly a duplicate of #1'),
-  (3, 53, 'mrfishie', 72, '2015-08-24 12:18:15', NULL, 'I completely agree, so we have added this.'),
-  (4, 53, 'mrfishie', 73, '2015-08-24 12:18:28', NULL, 'Looks like some people disagree, so I''ve had to remove it from the current build. Sorry about that :/'),
-  (5, 43, 'mrfishie', 74, '2015-08-24 12:19:05', NULL, '@dr2n what do you think?'),
-  (6, 43, 'mrfishie', 75, '2015-08-24 12:19:22', NULL, 'This should be filed under user, not user permissions.'),
-  (7, 44, 'mrfishie', 76, '2015-08-24 12:19:36', NULL, 'I believe that this has been fixed. Can you confirm?'),
-  (8, 45, 'mrfishie', 77, '2015-08-24 12:19:56', NULL, 'We''ve deactivated your account for now, while we work on the password change feature.'),
-  (9, 55, 'mrfishie', 78, '2015-08-24 12:20:15', NULL, 'Can you please provide us with some more information? If you could attach a screenshot that would be useful.'),
-  (10, 56, 'mrfishie', 79, '2015-08-24 12:20:27', NULL, 'I can''t reproduce this.');
+  `Comment_Text` text COLLATE latin1_general_cs NOT NULL,
+  `Raw_Text` longtext COLLATE latin1_general_cs NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 -- --------------------------------------------------------
 
@@ -102,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 INSERT INTO `configuration` (`Type`, `Name`, `Value`) VALUES
   ('overview-name', 'sitename', 'The Problem'),
   ('overview-visibility', 'registration', 'open'),
-  ('overview-visibility', 'visibility', 'private');
+  ('overview-visibility', 'visibility', 'public');
 
 -- --------------------------------------------------------
 
@@ -161,12 +146,23 @@ CREATE TABLE IF NOT EXISTS `grouppermissions` (
 --
 
 INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
-  (0, 'site.view', 5),
+  (0, 'site.view', 0),
   (1, 'section.view', 0),
   (2, 'section.view', 0),
   (3, 'section.view', 0),
   (4, 'section.view', 0),
-  (5, 'section.view', 0);
+  (5, 'section.view', 0),
+  (21, 'bug.comment', 1),
+  (22, 'bug.comment', 1),
+  (23, 'bug.comment', 1),
+  (24, 'bug.comment', 1),
+  (25, 'bug.comment', 1),
+  (26, 'bug.comment', 1),
+  (27, 'bug.comment', 1),
+  (28, 'bug.comment', 1),
+  (29, 'bug.comment', 1),
+  (30, 'bug.comment', 1),
+  (31, 'bug.comment', 1);
 
 -- --------------------------------------------------------
 
@@ -183,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `Creation_Date` datetime NOT NULL,
   `IsRead` tinyint(1) NOT NULL DEFAULT '0',
   `Type` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 -- --------------------------------------------------------
 
@@ -194,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 CREATE TABLE IF NOT EXISTS `objects` (
   `Object_ID` int(11) NOT NULL,
   `Object_Type` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `objects`
@@ -217,51 +213,7 @@ INSERT INTO `objects` (`Object_ID`, `Object_Type`) VALUES
   (28, 1),
   (29, 1),
   (30, 1),
-  (31, 1),
-  (32, 2),
-  (33, 2),
-  (34, 2),
-  (35, 2),
-  (36, 2),
-  (41, 2),
-  (42, 2),
-  (43, 2),
-  (44, 2),
-  (45, 2),
-  (46, 2),
-  (47, 2),
-  (48, 2),
-  (49, 2),
-  (50, 2),
-  (51, 2),
-  (52, 2),
-  (53, 2),
-  (54, 2),
-  (55, 2),
-  (56, 2),
-  (57, 2),
-  (58, 2),
-  (59, 2),
-  (60, 2),
-  (61, 2),
-  (62, 2),
-  (63, 2),
-  (64, 2),
-  (65, 2),
-  (66, 2),
-  (67, 2),
-  (68, 2),
-  (69, 2),
-  (70, 2),
-  (71, 2),
-  (72, 2),
-  (73, 2),
-  (74, 2),
-  (75, 2),
-  (76, 2),
-  (77, 2),
-  (78, 2),
-  (79, 2);
+  (31, 1);
 
 -- --------------------------------------------------------
 
@@ -471,7 +423,7 @@ MODIFY `Bug_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=57;
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `Comment_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `Comment_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `cookies`
 --
@@ -481,12 +433,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-MODIFY `Notification_ID` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `Notification_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `objects`
 --
 ALTER TABLE `objects`
-MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=81;
+MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=114;
 --
 -- AUTO_INCREMENT for table `sections`
 --
