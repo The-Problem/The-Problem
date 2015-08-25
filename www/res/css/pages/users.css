@@ -1,5 +1,6 @@
-body {
-	
+h2 {
+	margin-bottom: 30px;
+	margin-top: 30px;	
 }
 
 #userCover {
@@ -38,7 +39,6 @@ body {
 	margin: 0 0;
 	padding: 0 0;
 	float: left;
-	border: 6px solid #333333;
 	width: 108px;
 	height: 108px;
 }
@@ -56,6 +56,7 @@ body {
 	margin-top: 340px;
 	width: 100vw;
 	box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
+	background-color: white;
 
 }
 
@@ -64,6 +65,22 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	width: 960px;
+	padding-bottom: 100px;
 
 }
+
+.activityTable {
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.activityTable td {
+	height: 35px;
+	border-top: solid 2px #8ec850;
+	border-bottom: solid 2px #8ec850;
+	border-left: none;
+	border-right: none;
+}
+
 

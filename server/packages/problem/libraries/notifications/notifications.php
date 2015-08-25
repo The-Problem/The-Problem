@@ -36,7 +36,9 @@
 			$html = "";
 
 			for ($i = 0; $i < count($queryResult); $i++){
-				$html .= self::generateHTMl($queryResult[$i]);
+				$notificationDetails = self::processNotification($queryResult[$i]);
+				$notSection = "<section class='notificationCell'><p class='message'>" . $notificationDetails['message'] . "</p><p class='stats'>" . $notificationDetails['stats'] . "</p></section>";
+				$html .= $notSection;
 			}
 
 			return $html;
@@ -47,7 +49,7 @@
 			$currentUser = $_SESSION['username'];
 		}
 
-		private static function generateHTML($notification){
+		private static function processNotification($notification){
 			
 			/*0 - "Angela has assigned you to  bug #50 'Needs More Unicorns'"
 			1 - "'Oversized Buttons' has just been submitted to Users"
@@ -134,7 +136,7 @@
 					$bugName = $bugInfo['Bug_Name'];
 					$sectionName = $bugInfo['Section_Name'];
 
-					$message = $trigger . " +1'd your bug " . $bugInfo;
+					$message = $trigger . " +1'd your bug " . $bugName;
 				}else if ($targetType == Objects::TYPE_COMMENT){
 					$commentQuery = 
 									"SELECT Comment_Text, Bugs.Name as 'Bug_Name', Sections.Name as 'Section_Name'
@@ -166,8 +168,36 @@
 
 			$stats = $fuzzyTime . " - " . $sectionName;
 
-			$html = "<section class='notificationCell'><p class='message'>" . $message. "</p><p class='stats'>" . $stats . "</p></section>";
-			return $html;
+			$output = array(
+				"fuzzyTime" => $fuzzyTime,
+				"sectionName" => $sectionName, 
+				"time" => $notification['Creation_Date'],
+				"message" => $message,
+				"stats" => $stats
+
+				);
+
+
+			return $output;
+
+		}
+
+		public static function getWhereTriggerIs($username, $limit = 10){
+			$query =
+					"SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type
+					FROM notifications
+					WHERE Triggered_By = ?
+					ORDER BY Creation_Date DESC
+					LIMIT ?";
+
+			$queryResult = Connection::query($query, "ss", array($username, $limit));
+
+			$output = array();
+			for ($i = 0; $i < count($queryResult); $i++){
+				array_push($output, self::processNotification($queryResult[$i]));
+			}
+
+			return $output;
 
 		}
 
@@ -180,4 +210,6 @@
 
 			return $output;
 		}
+
+
 	}

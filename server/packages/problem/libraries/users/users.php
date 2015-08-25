@@ -43,10 +43,18 @@
 			
 			if ($username == 'current'){
 				$username = $_SESSION["username"];
+			}else{
+				$validQuery = 
+							"SELECT COUNT(Username) as 'count' FROM users WHERE Username = ?";
+				$queryResult = Connection::query($validQuery, "s", array($username))[0];
+				if ($queryResult['count'] == 1){
+					$user = new User($username);
+					return $user;
+				}else{
+					return false;
+				}
 			}
 
-			$user = new User($username);
-			return $user;
 		}
 
 		public static function usernameAvailable($username){
