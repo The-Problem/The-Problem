@@ -12,13 +12,16 @@ class CommentsModule implements IModule {
     public function getcode($bug = array(), Head $h) {
         $comments = Connection::query("SELECT *, (SELECT COUNT(*) FROM plusones
                                                   WHERE plusones.Object_ID = objects.Object_ID) AS Plus_Ones,
+                                                 (SELECT COUNT(*) FROM plusones
+                                                  WHERE plusones.Object_ID = objects.Object_ID
+                                                    AND plusones.Username = ?) AS My_Plus_Ones,
                                                  (SELECT COUNT(*) FROM developers
                                                   WHERE developers.Section_ID = ?
                                                   AND developers.Username = comments.Username) AS Is_Developer
                                          FROM comments
                                          JOIN objects ON (comments.Object_ID = objects.Object_ID)
                                          JOIN users ON (comments.Username = users.Username)
-                                         WHERE comments.Bug_ID = ?", "ii", array($bug["Section_ID"], $bug["Bug_ID"]));
+                                         WHERE comments.Bug_ID = ?", "sii", array($_SESSION["username"], $bug["Section_ID"], $bug["Bug_ID"]));
 
 
 ?>
@@ -29,7 +32,12 @@ class CommentsModule implements IModule {
                                                WHERE developers.Section_ID = ?
                                                AND developers.Username = users.Username) AS Is_Developer FROM users WHERE Username = ?",
         "is", array($bug["Section_ID"], $bug["Author"]));
-    $plusones = Connection::query("SELECT COUNT(*) AS Plus_Ones FROM plusones WHERE Object_ID = ?", "i", array($bug["Object_ID"]));
+    $plusones = Connection::query("
+SELECT COUNT(*) AS Plus_Ones,
+       (SELECT COUNT(*) FROM plusones
+        WHERE plusones.Object_ID = ?
+          AND plusones.Username = ?) AS Mine
+  FROM plusones WHERE Object_ID = ?", "isi", array($bug["Bug_ObjectID"], $_SESSION["username"], $bug["Bug_ObjectID"]));
 
     array_unshift($comments, array(
         "Username" => $bug["Author"],
@@ -39,7 +47,9 @@ class CommentsModule implements IModule {
         "Edit_Date" => $bug["Edit_Date"],
         "Comment_Text" => $bug["Bug_Description"],
         "Plus_Ones" => $plusones[0]["Plus_Ones"],
-        "Is_Developer" => $poster[0]["Is_Developer"]
+        "My_Plus_Ones" => $plusones[0]["Mine"],
+        "Is_Developer" => $poster[0]["Is_Developer"],
+        "Object_ID" => $bug["Bug_ObjectID"]
     ));
 
     Library::get("modules");
@@ -47,13 +57,20 @@ class CommentsModule implements IModule {
         $comment["Bug_Author"] = $bug["Author"];
         Modules::getoutput("comment", $comment);
     }
-    ?>
 
-    <?php
-    $username = $_SESSION["username"];
-    if ($username) {
-        $user = Connection::query("SELECT Email FROM users WHERE Username = ?", "s", array($username));
-        $gravatar_id = md5(strtolower(trim($user[0]["Email"])));
+    Library::get("objects");
+    $can_comment = Objects::permission($bug["Bug_ObjectID"], "bug.comment", $_SESSION["username"], $bug["Section_ID"]);
+
+
+    if ($can_comment) {
+        $username = $_SESSION["username"];
+        if (is_null($username)) $email = "guest@example.com";
+        else {
+            $user = Connection::query("SELECT Email FROM users WHERE Username = ?", "s", array($username));
+            $email = $user[0]["Email"];
+        }
+
+        $gravatar_id = md5(strtolower(trim($email)));
         $gravatar = "http://www.gravatar.com/avatar/$gravatar_id?d=identicon&s=60";
     ?>
     <div class="comment new" data-bug-id="<?php echo $bug["Bug_ID"]; ?>">

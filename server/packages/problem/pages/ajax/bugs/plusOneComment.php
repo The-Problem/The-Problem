@@ -1,0 +1,46 @@
+<?php
+class AjaxBugsPlusOneCommentPage implements IPage {
+    public function __construct(PageInfo &$info) {
+
+    }
+
+    public function template() {
+        return Templates::findtemplate("ajax");
+    }
+    public function permission() {
+        return true;
+    }
+    public function subpages() {
+        return false;
+    }
+
+    public function head(Head &$head) { }
+
+    public function body() {
+        if (is_null($_SESSION["username"])) return array("error" => "You do not have permission to perform that action");
+
+        // todo: permissions
+
+        $id = $_POST['id'];
+        $action = $_POST['action'];
+
+        if ($action === 'downvote') {
+            Connection::query("DELETE FROM plusones WHERE Object_ID = ? AND Username = ?", "is", array(
+                $id, $_SESSION["username"]
+            ));
+        } else {
+            Connection::query("INSERT INTO plusones (Object_ID, Username, Time) VALUES (?, ?, ?)", "iss", array(
+                $id, $_SESSION["username"], date("Y-m-d H:i:s")
+            ));
+
+            // start watching the bug
+            try {
+                Connection::query("INSERT INTO watchers (Object_ID, Username) VALUES (?, ?)", "is", array(
+                    $id, $_SESSION["username"]
+                ));
+            } catch (Exception $ex) { }
+        }
+
+        return array("success" => true);
+    }
+}

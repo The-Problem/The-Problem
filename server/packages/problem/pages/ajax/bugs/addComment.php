@@ -18,22 +18,28 @@ class AjaxBugsAddCommentPage implements IPage {
     public function head(Head &$head) { }
 
     public function body() {
-        if (!$_SESSION["username"]) return array("error" => "Please login again");
+        $bug = Connection::query("SELECT Object_ID, Section_ID, Author FROM bugs WHERE Bug_ID = ?", "i", array($_POST['bug']));
+        if (!count($bug)) return array("error" => "Invalid bug ID");
+
+        Library::get('objects');
+        $can_comment = Objects::permission($bug["Object_ID"], "bug.comment", $_SESSION["username"], $bug["Section_ID"]);
+
+        if (!$can_comment) return array("error" => "You do not have permission to perform that action");
 
         Connection::query("INSERT INTO objects (Object_Type) VALUES (?)", "i", array(2));
         $object_id = Connection::insertid();
-
-        $bug = Connection::query("SELECT Section_ID, Author FROM bugs WHERE Bug_ID = ?", "i", array($_POST['bug']));
-        if (!count($bug)) return array("error" => "Invalid bug ID");
 
         Connection::query("INSERT INTO comments (Bug_ID, Username, Object_ID, Creation_Date, Edit_Date, Comment_Text)
                                          VALUES (     ?,        ?,         ?,             ?,      NULL,            ?)",
             "isiss", array($_POST['bug'], $_SESSION["username"], $object_id, date("Y-m-d H:i:s"), $_POST['value']));
         $comment_id = Connection::insertid();
 
-        $comments = Connection::query("SELECT *, (SELECT COUNT(*) FROM plusones
-                                                  WHERE plusones.Object_ID = objects.Object_ID) AS Plus_Ones,
-                                                 (SELECT COUNT(*) FROM developers
+        Library::get('objects');
+        Objects::allow_rank($object_id, "bug.comment", 1);
+
+        Connection::query("INSERT INTO watchers (Object_ID, Username) VALUES (?, ?)", "is", array($object_id, $_SESSION["username"]));
+
+        $comments = Connection::query("SELECT *, (SELECT COUNT(*) FROM developers
                                                   WHERE developers.Section_ID = ?
                                                   AND developers.Username = comments.Username) AS Is_Developer
                                          FROM comments
@@ -42,6 +48,9 @@ class AjaxBugsAddCommentPage implements IPage {
                                          WHERE comments.Comment_ID = ?", "ii", array($bug[0]["Section_ID"], $comment_id));
 
         $comment = $comments[0];
+        $comment["Plus_Ones"] = 0;
+        $comment["Object_ID"] = $object_id;
+        $comment["My_Plus_Ones"] = 0;
         $comment["Bug_Author"] = $bug[0]["Author"];
         $this->comment = $comment;
 
