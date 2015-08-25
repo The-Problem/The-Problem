@@ -145,7 +145,6 @@ FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
 
     <?php if ($username) {
         Library::get("notifications");
-        $notifications = Notifications::get();
 
         $bugs = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM comments
@@ -156,7 +155,11 @@ SELECT *, (SELECT COUNT(*) FROM comments
           sections.Name AS Section_Name
   FROM bugs
     JOIN sections ON bugs.Section_ID = sections.Section_ID
-  WHERE Author = ?", "s", array($username));
+  WHERE Author = ?
+ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "s", array($username));
+
+        $notifications = Notifications::get(10 - count($bugs));
+
         ?>
     <div class="right-column">
         <h2>Notifications</h2>
