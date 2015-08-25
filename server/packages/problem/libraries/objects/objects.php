@@ -7,7 +7,7 @@ class Objects {
 
     private static $permissions = array();
 
-    public static function permission($object_id, $type, $username) {
+    public static function permission($object_id, $type, $username = NULL, $section = NULL) {
         $keyname = "0$object_id.$username.$type";
         if (array_key_exists($keyname, self::$permissions)) return self::$permissions[$keyname];
 
@@ -25,7 +25,7 @@ SELECT COUNT(*) AS Has_Permission,
 FROM objects
   LEFT JOIN users ON (users.Username = ?)
   JOIN sections ON (sections.Object_ID = objects.Object_ID)
-  JOIN developers ON (developers.Section_ID = sections.Section_ID AND developers.Username = users.Username)
+  JOIN developers ON (developers.Section_ID = COALESCE(?, sections.Section_ID) AND developers.Username = users.Username)
 
   LEFT JOIN userpermissions ON (userpermissions.Username = users.Username
                                 AND userpermissions.Permission_Name = ?
@@ -34,14 +34,14 @@ FROM objects
                                  AND grouppermissions.Object_ID = objects.Object_ID)
 WHERE objects.Object_ID = ? AND (? IS NULL OR users.Username = ?)
 HAVING userpermissions.Username = users.Username
-  OR User_rank >= grouppermissions.Rank", "isssss", array($object_id, $username, $type, $type, $username, $username));
+  OR User_rank >= grouppermissions.Rank", "ssssiss", array($username, $section, $type, $type, $object_id, $username, $username));
 
         $value = $results[0]["Has_Permission"] > 0;
         self::$permissions[$keyname] = $value;
         return $value;
     }
 
-    public static function user_permissions($type, $username) {
+    public static function user_permissions($type, $username = NULL, $section = NULL) {
         $keyname = "1$username.$type";
         if (array_key_exists($keyname, self::$permissions) && self::$permissions[$keyname] !== FALSE) return self::$permissions[$keyname];
 
@@ -61,7 +61,7 @@ SELECT userpermissions.Username,
 FROM objects
   LEFT JOIN users ON (users.Username = ?)
   LEFT JOIN sections ON (objects.Object_Type = 0 AND sections.Object_ID = objects.Object_ID)
-  LEFt JOIN developers ON (developers.Section_ID = sections.Section_ID AND developers.Username = users.Username)
+  LEFt JOIN developers ON (developers.Section_ID = COALESCE(?, sections.Section_ID) AND developers.Username = users.Username)
 
   LEFT JOIN userpermissions ON (userpermissions.Permission_Name = ?
                                 AND userpermissions.Object_ID = objects.Object_ID)
@@ -69,7 +69,7 @@ FROM objects
                                  AND grouppermissions.Object_ID = objects.Object_ID)
 WHERE (? IS NULL OR users.Username = ?)
 HAVING userpermissions.Username = users.Username
-       OR User_rank >= grouppermissions.Rank", "sssss", array($username, $type, $type, $username, $username));
+       OR User_rank >= grouppermissions.Rank", "sissss", array($username, $section, $type, $type, $username, $username));
 
         $value = array();
         foreach ($results as $item) {
