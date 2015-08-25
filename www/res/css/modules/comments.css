@@ -67,6 +67,13 @@
     background-color:#ff5722;
 }
 
+.comment .right {
+    margin-left:10px;
+}
+.comment .delete a, .comment .edit a {
+    color:#000;
+}
+
 .comment .plus-one span {
     transition:width 200ms, margin 200ms;
     display:inline-block;

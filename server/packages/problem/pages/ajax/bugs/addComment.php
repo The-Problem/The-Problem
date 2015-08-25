@@ -18,9 +18,10 @@ class AjaxBugsAddCommentPage implements IPage {
     public function head(Head &$head) { }
 
     public function body() {
-        $bug = Connection::query("SELECT bugs.Object_ID AS Object_ID, bugs.Section_ID AS Section_ID, sections.Name AS Section_Name, Author FROM bugs
+        $bug = Connection::query("SELECT bugs.Object_ID AS Object_ID, bugs.Section_ID AS Section_ID, sections.Slug AS Section_Slug, Author FROM bugs
                                     JOIN sections ON (sections.Section_ID = bugs.Section_ID)
                                     WHERE Bug_ID = ?", "i", array($_POST['bug']));
+
         if (!count($bug)) return array("error" => "Invalid bug ID");
 
         Library::get('objects');
@@ -63,8 +64,8 @@ class AjaxBugsAddCommentPage implements IPage {
         foreach ($bug_ids as $k => $id) {
             $section_name = $section_names[$k];
             if (!strlen($section_name)) {
+                $section_name = $bug[0]["Section_Slug"];
                 array_push($bugs, array(strtolower($section_name), $id, "#$id"));
-                $section_name = $bug[0]["Section_Name"];
             }
 
             array_push($bugs, array(strtolower($section_name), $id, "$section_name#$id"));
@@ -83,8 +84,10 @@ class AjaxBugsAddCommentPage implements IPage {
             "isiss", array($_POST['bug'], $_SESSION["username"], $object_id, date("Y-m-d H:i:s"), $value));
         $comment_id = Connection::insertid();
 
-        //Library::get('objects');
-        //Objects::allow_rank($object_id, "bug.comment", 1);
+        Objects::allow_user($object_id, "comment.edit", $_SESSION["username"]);
+        Objects::allow_user($object_id, "comment.remove", $_SESSION["username"]);
+        Objects::allow_rank($object_id, "comment.edit", 2);
+        Objects::allow_rank($object_id, "comment.remove", 3);
 
         Connection::query("INSERT INTO notifications
                              (Triggered_By, Received_By,                    Target_One, Target_Two, Creation_Date, Type)

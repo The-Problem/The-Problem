@@ -33,6 +33,11 @@ class CommentModule implements IModule {
         if ($has_plus_oned) $next--;
         else $next++;
 
+        Library::get("objects");
+        var_dump($comment["Object_ID"]);
+        $can_edit = Objects::permission($comment["Object_ID"], "comment.edit", $_SESSION["username"]);
+        $can_delete = Objects::permission($comment["Object_ID"], "comment.remove", $_SESSION["username"]);
+
         ?>
 <div class="comment" data-id="<?php echo $comment["Object_ID"]; ?>">
     <div class="left-column">
@@ -43,6 +48,9 @@ class CommentModule implements IModule {
             <?php if ($rank) {?><span class="rank <?php echo $rank; ?>"><?php echo strtoupper($rank); ?></span><?php } ?>
             <a href="<?php echo $userlink; ?>"><?php echo htmlentities($comment["Username"]); ?></a>
             commented <span class="timeago" title="<?php echo $creation_date->format("c"); ?>"></span>
+
+            <?php if ($can_delete) { ?><div class="right delete"><a href="javascript:void(0)" title="Delete this comment"><i class="fa fa-times"></i></a></div><?php } ?>
+            <?php if ($can_edit) { ?><div class="right edit"><a href="javascript:void(0)" title="Edit this comment"><i class="fa fa-pencil"></i></a></div><?php } ?>
 
             <div class="right plus-one" data-has="<?php if ($has_plus_oned) echo 'true'; else echo 'false'; ?>">
                 <a href="javascript:void(0)" title="+1 this comment">
