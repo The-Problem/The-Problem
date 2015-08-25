@@ -73,6 +73,14 @@ header .login-box button {
     float:right;
 }
 
+header.entire-page {
+    height:auto;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
 .columns, .left-column, .right-column {
     vertical-align:top;
     display:inline-block;

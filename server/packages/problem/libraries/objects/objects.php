@@ -15,26 +15,27 @@ class Objects {
 SELECT COUNT(*) AS Has_Permission,
   userpermissions.Username,
   users.Username,
-  grouppermissions.Rank, GREATEST(
-              CASE WHEN developers.Username IS NULL
-                THEN 0
-              ELSE 2
-              END,
-              COALESCE(users.Rank, 0)
-          ) AS User_rank
+  grouppermissions.Rank,
+  GREATEST(
+      CASE WHEN developers.Username IS NULL
+        THEN 0
+      ELSE 2
+      END,
+      COALESCE(users.Rank, 0)
+  ) AS User_rank
 FROM objects
   LEFT JOIN users ON (users.Username = ?)
-  JOIN sections ON (sections.Object_ID = objects.Object_ID)
-  JOIN developers ON (developers.Section_ID = COALESCE(?, sections.Section_ID) AND developers.Username = users.Username)
+  LEFT JOIN sections ON (objects.Object_Type = 0 AND sections.Object_ID = objects.Object_ID)
+  LEFt JOIN developers ON (developers.Section_ID = COALESCE(?, sections.Section_ID) AND developers.Username = users.Username)
 
-  LEFT JOIN userpermissions ON (userpermissions.Username = users.Username
-                                AND userpermissions.Permission_Name = ?
+  LEFT JOIN userpermissions ON (userpermissions.Permission_Name = ?
                                 AND userpermissions.Object_ID = objects.Object_ID)
   LEFT JOIN grouppermissions ON (grouppermissions.Permission_Name = ?
                                  AND grouppermissions.Object_ID = objects.Object_ID)
-WHERE objects.Object_ID = ? AND (? IS NULL OR users.Username = ?)
+WHERE objects.Object_ID = ?
+  AND (? IS NULL OR users.Username = ?)
 HAVING userpermissions.Username = users.Username
-  OR User_rank >= grouppermissions.Rank", "ssssiss", array($username, $section, $type, $type, $object_id, $username, $username));
+       OR User_rank >= grouppermissions.Rank", "sississ", array($username, $section, $type, $type, $object_id, $username, $username));
 
         $value = $results[0]["Has_Permission"] > 0;
         self::$permissions[$keyname] = $value;
@@ -74,11 +75,11 @@ HAVING userpermissions.Username = users.Username
         $value = array();
         foreach ($results as $item) {
             if (!is_null($item["Object_ID1"])) {
-                $value[$item["Object_ID1"]] = true;
+                array_push($value, $item["Object_ID1"]);
                 self::$permissions["0" . $item["Object_ID1"] . ".$username.$type"] = true;
             }
             if (!is_null($item["Object_ID2"])) {
-                $value[$item["Object_ID2"]] = true;
+                array_push($value, $item["Object_ID2"]);
                 self::$permissions["0" . $item["Object_ID2"] . ".$username.$type"] = true;
             }
         }
@@ -92,7 +93,9 @@ HAVING userpermissions.Username = users.Username
             "iss", array($object_id, $type, $username));
 
         self::$permissions["0$object_id.$username.$type"] = true;
-        self::$permissions["1$username.$type"][$object_id] = true;
+
+        $multi = self::$permissions["1$username.$type"];
+        if (!in_array($object_id, $multi)) array_push($multi, $object_id);
     }
     public static function deny_user($object_id, $type, $username) {
         Connection::query("DELETE FROM userpermissions WHERE Object_ID = ?
@@ -101,12 +104,15 @@ HAVING userpermissions.Username = users.Username
             array($object_id, $type, $username));
 
         self::$permissions["0$object_id.$username.$type"] = false;
-        self::$permissions["1$username.$type"][$object_id] = false;
+
+        $key = "1$username.$type";
+        self::$permissions[$key] = array_diff(self::$permissions[$key], array($object_id));
     }
 
     public static function allow_rank($object_id, $type, $rank) {
-        Connection::query("INSERT INTO grouppermissions (Object_ID, Permission_Name, Rank) VALUES (?, ?, ?)",
-            "isi", array($object_id, $type, $rank));
+        Connection::query("INSERT INTO grouppermissions (Object_ID, Permission_Name, Rank) VALUES (?, ?, ?)
+                           ON DUPLICATE KEY UPDATE Rank = ?",
+            "isii", array($object_id, $type, $rank, $rank));
     }
     public static function deny_rank($object_id, $type, $rank) {
         Connection::query("DELETE FROM grouppermissions WHERE Object_ID = ?

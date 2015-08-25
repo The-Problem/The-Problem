@@ -11,7 +11,17 @@ class AjaxAdminUpdatePage implements IPage {
             ),
             "overview-visibility" => array(
                 "visibility" => function($val, $previous) {
-                    if ($val === "public" || $val === "private") return $val;
+                    Library::get("objects");
+
+                    if ($val === "public") {
+                        Objects::allow_rank(0, "site.view", 0);
+                        return $val;
+                    }
+                    if ($val === "private") {
+                        Objects::allow_rank(0, "site.view", 1);
+                        return $val;
+                    }
+
                     return $previous;
                 },
                 "registration" => function($val, $previous) {

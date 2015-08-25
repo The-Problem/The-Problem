@@ -1,10 +1,9 @@
 <?php
 class HomePage implements IPage {
+
     public function __construct(PageInfo &$page) {
     }
     public function template() {
-        //$_SESSION["username"] = "mrfishie";
-
         $template = Templates::findtemplate("default");
         if ($_SESSION["username"]) return $template->add_class("loggedin");
         return $template->no_header();
@@ -33,14 +32,12 @@ class HomePage implements IPage {
         $sections = array();
 
         Library::get("objects");
-        $permissions = Objects::user_permissions("user.view", $_SESSION["username"]);
-        $ids = array();
-        foreach ($permissions as $id => $permission) {
-            if ($permission) array_push($ids, $id);
-        }
+        $ids = Objects::user_permissions("section.view", $username);
         $amount = count($ids);
         $clause = implode(',', array_fill(0, $amount, '?'));
         $types = str_repeat('i', $amount);
+
+        $viewable = Objects::permission(0, "site.view", $username);
 
         if ($username) {
             $params = array_merge(array($username), $ids);
@@ -82,6 +79,7 @@ ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
 
 <div class="columns">
 
+    <?php if ($viewable) { ?>
     <div class="left-column">
         <?php if (count($devSections)) { ?>
         <h2>Sections where you're a developer</h2>
@@ -94,7 +92,7 @@ ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
             ?>
         </div>
         <h2>More Sections</h2>
-        <?php } else { ?><h2>Sections</h2><?php } ?>
+        <?php } else { ?><h2>Sections</h2><?php } } ?>
 <?php } else {
             $sections = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM bugs
@@ -104,7 +102,7 @@ SELECT *, (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
 FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
 
-<header class="big">
+<header class="big<?php if (!$viewable) echo ' entire-page'; ?>">
     <h1><img src="<?php echo $logo->clientpath; ?>" alt="The Problem" title="The Problem" /><span><?php echo htmlentities(Pages::$head->title); ?></span></h1>
     <h2>Login or register to get started</h2>
 
@@ -122,9 +120,12 @@ FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
 
 <div class="columns">
 
+    <?php if ($viewable) { ?>
     <div class="left-column">
         <h2>Sections</h2>
+    <?php } ?>
 <?php } ?>
+    <?php if ($viewable) { ?>
         <?php if (count($sections)) {
             Library::get("objects");
 
@@ -133,7 +134,6 @@ FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
         <div class="section-list searchable">
             <?php
             foreach ($sections as $section) {
-
                 Modules::getoutput("sectionTile", $section);
             }
             ?>
@@ -141,6 +141,7 @@ FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
         </div>
         <?php } else { ?><div class="none">Nothing here just yet...</div> <?php } ?>
     </div>
+    <?php } ?>
 
     <?php if ($username) {
         // todo: get notifications
