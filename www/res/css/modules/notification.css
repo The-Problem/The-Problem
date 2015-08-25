@@ -36,7 +36,7 @@
 	overflow-y: scroll;
 }
 
-.notificationCell {
+#notifications .notificationCell {
 	box-sizing: border-box;
 	margin: 0 0;
 	padding: 30px 40px;
@@ -44,19 +44,19 @@
 	height:120px;
 }
 
-.notificationCell > p {
+#notifications .notificationCell > p {
 	margin: 0px 0px;
 }
 
-.notificationCell:nth-child(2n+1){
+#notifications .notificationCell:nth-child(2n+1){
 	background-color: #1A1A1A;
 }
 
-.notificationCell .message {
+#notification .notificationCell .message {
 	float: left;
 }
 
-.notificationCell .stats {
+#notification .notificationCell .stats {
 	margin-top: 10px;
 	float: right;
 	font-size: 12px;

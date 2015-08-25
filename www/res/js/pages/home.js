@@ -30,7 +30,13 @@ LimePHP.register("page.home", function() {
 
     search($search.val());
 
-    $search.on("keydown", function() {
+    $search.on("keydown", function(e) {
+        if (e.keyCode === 13) {
+            // go to the first section
+            var $showing = $sections.filter(":visible");
+            location.href = $showing[0].firstElementChild.href;
+        }
+
         setTimeout(function() {
             search($search.val());
         }, 0);

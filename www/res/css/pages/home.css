@@ -115,6 +115,7 @@ header.entire-page {
 
 .notification-list section {
     margin-bottom:15px;
+    font-size:0.9em;
 }
 .notification-list section p {
     margin:0;

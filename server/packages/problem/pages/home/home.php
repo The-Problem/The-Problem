@@ -144,7 +144,8 @@ FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
     <?php } ?>
 
     <?php if ($username) {
-        // todo: get notifications
+        Library::get("notifications");
+        $notifications = Notifications::get();
 
         $bugs = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM comments
@@ -160,7 +161,9 @@ SELECT *, (SELECT COUNT(*) FROM comments
     <div class="right-column">
         <h2>Notifications</h2>
         <div class="notification-list">
-            <section>
+            <?php echo $notifications; ?>
+
+            <!--<section>
                 <p class="message">
                     <a href="<?php echo Path::getclientfolder('~cmnvb'); ?>">Patrick</a> replied to
                     <a href="<?php echo Path::getclientfolder('general-feedback', 20); ?>#5">your comment</a>:
@@ -183,7 +186,7 @@ SELECT *, (SELECT COUNT(*) FROM comments
                     "Needs More Unicorns"
                 </p>
                 <p class="stats">3 hours ago - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
-            </section>
+            </section>-->
         </div>
 
         <?php if (count($bugs)) { ?>
