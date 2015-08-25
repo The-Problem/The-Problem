@@ -62,7 +62,8 @@ class CommentModule implements IModule {
             </div>
         </div>
         <div class="content">
-            <?php echo $content; ?>
+            <div><?php echo $content; ?></div>
+            <textarea class="edit" placeholder="<?php echo htmlentities($comment["Raw_Text"]); ?>"><?php echo htmlentities($comment["Raw_Text"]); ?></textarea>
         </div>
     </div>
 </div>

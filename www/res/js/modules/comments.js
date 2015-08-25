@@ -8,7 +8,7 @@ LimePHP.register("module.comments", function() {
     var isAddingComment = false;
 
     $commentText.on('keydown', function(e) {
-        if ($onEnter.is(':checked') && e.keyCode === 13) submitComment();
+        if ($onEnter.is(':checked') && e.keyCode === 13 && !e.shiftKey) submitComment();
     });
 
     $button.on('click', function(e) {
@@ -42,6 +42,39 @@ LimePHP.register("module.comments", function() {
             isAddingComment = false;
         };
     }
+
+    $(document).on('keydown', '.comment .content textarea.edit', function(e) {
+        var $editText = $(this);
+        var $comment = $editText.parents('.comment');
+
+        if (!$comment.data('editing')) return;
+        if (e.keyCode !== 13 || e.shiftKey) return;
+
+        $editText.attr('disabled', true);
+    });
+
+    $(document).on('click', '.comment .header .delete', function() {
+        var $delete = $(this);
+        var $comment = $delete.parents('.comment');
+
+        var id = $comment.data("id");
+        var r = LimePHP.request("get", LimePHP.path("ajax/bugs/removeComment"), { id: id }, "json");
+        r.success = function() {
+            $comment.remove();
+        }
+    });
+
+    $(document).on('click', '.comment .header .edit', function() {
+        var $edit = $(this);
+        var $comment = $edit.parents('.comment');
+        var $val = $comment.find('.content > div');
+        var $editText = $comment.find('textarea.edit');
+
+        $val.hide();
+        $editText.show().focus();
+
+        $comment.data('editing', true);
+    });
 
     $(document).on('click', '.comment .plus-one', function() {
         var $plusOne = $(this);

@@ -120,11 +120,17 @@
 }*/
 
 .comment textarea {
-    padding:15px;
+    padding:0;
     border:none;
     width:100%;
     box-sizing:border-box;
     resize:vertical;
+}
+.comment.new textarea {
+    padding:15px;
+}
+.comment .content .edit {
+    display:none;
 }
 .comment .buttons {
     background-color:#F1F1F1;

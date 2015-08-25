@@ -79,9 +79,9 @@ class AjaxBugsAddCommentPage implements IPage {
         $parsedown = new Parsedown();
         $value = $parsedown->text($value);
 
-        Connection::query("INSERT INTO comments (Bug_ID, Username, Object_ID, Creation_Date, Edit_Date, Comment_Text)
-                                         VALUES (     ?,        ?,         ?,             ?,      NULL,            ?)",
-            "isiss", array($_POST['bug'], $_SESSION["username"], $object_id, date("Y-m-d H:i:s"), $value));
+        Connection::query("INSERT INTO comments (Bug_ID, Username, Object_ID, Creation_Date, Edit_Date, Comment_Text, Raw_Text)
+                                         VALUES (     ?,        ?,         ?,             ?,      NULL,            ?,        ?)",
+            "isiss", array($_POST['bug'], $_SESSION["username"], $object_id, date("Y-m-d H:i:s"), $value, $_POST['value']));
         $comment_id = Connection::insertid();
 
         Objects::allow_user($object_id, "comment.edit", $_SESSION["username"]);
