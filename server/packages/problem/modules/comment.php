@@ -1,6 +1,5 @@
 <?php
 class CommentModule implements IModule {
-    private $parsedown;
     private $ranks = array(
         0 => false,
         1 => false,
@@ -11,7 +10,6 @@ class CommentModule implements IModule {
 
     public function __construct() {
         Library::get("parsedown");
-        $this->parsedown = new Parsedown();
     }
 
     public function spinnersize() { return Modules::SPINNER_LARGE; }
@@ -24,7 +22,7 @@ class CommentModule implements IModule {
         if ($comment["Is_Developer"]) $r = max(2, $r);
         $rank = $this->ranks[$r];
 
-        $content = $this->parsedown->text($comment["Comment_Text"]);
+        $content = $comment["Comment_Text"];
         $creation_date = new DateTime($comment["Creation_Date"]);
 
         $userlink = htmlentities(Path::getclientfolder("~" . $comment["Username"]));

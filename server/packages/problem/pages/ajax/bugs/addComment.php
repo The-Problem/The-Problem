@@ -18,7 +18,9 @@ class AjaxBugsAddCommentPage implements IPage {
     public function head(Head &$head) { }
 
     public function body() {
-        $bug = Connection::query("SELECT Object_ID, Section_ID, Author FROM bugs WHERE Bug_ID = ?", "i", array($_POST['bug']));
+        $bug = Connection::query("SELECT bugs.Object_ID AS Object_ID, bugs.Section_ID AS Section_ID, sections.Name AS Section_Name, Author FROM bugs
+                                    JOIN sections ON (sections.Section_ID = bugs.Section_ID)
+                                    WHERE Bug_ID = ?", "i", array($_POST['bug']));
         if (!count($bug)) return array("error" => "Invalid bug ID");
 
         Library::get('objects');
@@ -30,9 +32,55 @@ class AjaxBugsAddCommentPage implements IPage {
         Connection::query("INSERT INTO objects (Object_Type) VALUES (?)", "i", array(2));
         $object_id = Connection::insertid();
 
+        // find @mentions
+        $value = $_POST['value'];
+
+        $mentions = array();
+        preg_match_all("/@([^@ ]+)/", $value, $mentions);
+
+        $items = array_unique($mentions[1]);
+        foreach ($items as $name) {
+            $user = Connection::query("SELECT Username FROM users WHERE Username = ?", "s", array($name));
+            if (count($user)) {
+                Connection::query("INSERT INTO notifications
+                                     (Triggered_By, Received_By, Target_One, Target_Two, Creation_Date, Type)
+                              VALUES (           ?,           ?,          ?,          ?,             ?,    ?)", "ssiisi", array(
+                    $_SESSION["username"], $name, $bug[0]["Object_ID"], $object_id, date('Y-m-d H:i:s'), 3
+                ));
+
+                $value = str_replace("@$name", "[@$name](" . Path::getclientfolder("~$name") . ")", $value);
+            }
+        }
+
+        // find #bugs
+        $bug_refs = array();
+        preg_match_all("/([\\w-]*)#(\\d+)/", $value, $bug_refs);
+
+        $section_names = $bug_refs[1];
+        $bug_ids = $bug_refs[2];
+
+        $bugs = array();
+        foreach ($bug_ids as $k => $id) {
+            $section_name = $section_names[$k];
+            if (!strlen($section_name)) {
+                array_push($bugs, array(strtolower($section_name), $id, "#$id"));
+                $section_name = $bug[0]["Section_Name"];
+            }
+
+            array_push($bugs, array(strtolower($section_name), $id, "$section_name#$id"));
+        }
+        $unique_bugs = array_unique($bugs);
+        foreach ($unique_bugs as $bug) {
+            $value = str_replace($bug[2], "[" . $bug[2] . "](" . Path::getclientfolder("bugs", $bug[0], $bug[1])  . ")", $value);
+        }
+
+        Library::get('parsedown');
+        $parsedown = new Parsedown();
+        $value = $parsedown->text($value);
+
         Connection::query("INSERT INTO comments (Bug_ID, Username, Object_ID, Creation_Date, Edit_Date, Comment_Text)
                                          VALUES (     ?,        ?,         ?,             ?,      NULL,            ?)",
-            "isiss", array($_POST['bug'], $_SESSION["username"], $object_id, date("Y-m-d H:i:s"), $_POST['value']));
+            "isiss", array($_POST['bug'], $_SESSION["username"], $object_id, date("Y-m-d H:i:s"), $value));
         $comment_id = Connection::insertid();
 
         //Library::get('objects');
@@ -44,7 +92,7 @@ class AjaxBugsAddCommentPage implements IPage {
                                                FROM watchers
                                              WHERE watchers.Object_ID = ?),          ?,          ?,             ?,    ?)",
             "siiisi", array(
-                $_SESSION["username"], $bug[0]["Object_ID"], $object_id, $bug[0]["Object_ID"], date('Y-m-d H:i:s", 3'), 3
+                $_SESSION["username"], $bug[0]["Object_ID"], $object_id, $bug[0]["Object_ID"], date('Y-m-d H:i:s'), 3
             ));
 
         // start watching the bug and comment

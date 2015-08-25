@@ -11,7 +11,10 @@ LimePHP.register("module.comments", function() {
         if ($onEnter.is(':checked') && e.keyCode === 13) submitComment();
     });
 
-    $button.on('click', submitComment);
+    $button.on('click', function(e) {
+        e.preventDefault();
+        submitComment();
+    });
 
     function submitComment() {
         if (isAddingComment) return;
