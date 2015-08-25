@@ -108,7 +108,7 @@
 				$commentInfo = Connection::query($commentQuery, "s", array($targetOne))[0];
 
 				$bugNumber = $commentInfo['Bug_Number'];
-				$comment = $commentInfo['Comment_Text'];
+				$comment = strip_tags($commentInfo['Comment_Text']);
 				$sectionName = $commentInfo['Section_Name'];
 
 				$comment = self::shorten($comment, 35);

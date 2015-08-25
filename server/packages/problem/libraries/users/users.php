@@ -1,5 +1,10 @@
 <?php
 	class Users {
+		const RANK_ADMIN = 4;
+		const RANK_MOD = 3;
+		const RANK_DEVELOPER = 2;
+		const RANK_STANDARD = 1;
+		const RANK_UNVERIFIED = 0;
 
 		public static function newUser($username, $password, $name, $email){
 			$username = trim($username);
