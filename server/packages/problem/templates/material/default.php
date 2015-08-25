@@ -11,7 +11,7 @@ class DefaultTemplate implements ITemplate {
 
     private $headers = array();
 
-    private $title;
+    public $title;
 
     public function __construct() {
 
