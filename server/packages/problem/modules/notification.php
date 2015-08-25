@@ -17,7 +17,7 @@ class NotificationModule implements IModule {
 			<div id='notifications'>
 
 				<?php 
-				Library::get(notifications);
+				Library::get('notifications');
 				echo Notifications::get();
 				?>
 

@@ -1,0 +1,67 @@
+body {
+	
+}
+
+#userCover {
+	width: 100vw;
+	height: 280px;
+	top: 60px;
+	left: 0px;
+	position: fixed;
+	z-index: -10;
+	background-color: #9de680;
+	color: white;
+}
+
+.backgroundStrip {
+	margin-top: 50px;
+	padding-top: 10px;
+	width: 100vw;
+	height: 180px;
+	background-color: rgba(0,0,0,0.5);
+}
+
+#userInfoWrap {
+	margin-top: 25px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 375px;
+	height: 120px;
+}
+
+#userInfoWrap h1 {
+	font-size: 34px;
+}
+
+.profilePic {
+	margin: 0 0;
+	padding: 0 0;
+	float: left;
+	border: 6px solid #333333;
+	width: 108px;
+	height: 108px;
+}
+
+.userInfo {
+	width: 220px;
+	float: right;
+	margin: 0 0;
+	padding: 0 0;
+}
+
+
+#contentBody{
+	margin-top: 340px;
+	width: 100vw;
+	box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
+
+}
+
+.bodyWrap {
+	padding-top: 115px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 960px;
+
+}
+
