@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 24, 2015 at 02:07 PM
+-- Generation Time: Aug 25, 2015 at 10:26 AM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.9
 
@@ -65,7 +65,23 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `Creation_Date` datetime NOT NULL,
   `Edit_Date` datetime DEFAULT NULL,
   `Comment_Text` text COLLATE latin1_general_cs NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`Comment_ID`, `Bug_ID`, `Username`, `Object_ID`, `Creation_Date`, `Edit_Date`, `Comment_Text`) VALUES
+  (1, 49, 'mrfishie', 70, '2015-08-24 12:17:12', NULL, 'How did you comment this then?'),
+  (2, 52, 'mrfishie', 71, '2015-08-24 12:17:47', NULL, 'Possibly a duplicate of #1'),
+  (3, 53, 'mrfishie', 72, '2015-08-24 12:18:15', NULL, 'I completely agree, so we have added this.'),
+  (4, 53, 'mrfishie', 73, '2015-08-24 12:18:28', NULL, 'Looks like some people disagree, so I''ve had to remove it from the current build. Sorry about that :/'),
+  (5, 43, 'mrfishie', 74, '2015-08-24 12:19:05', NULL, '@dr2n what do you think?'),
+  (6, 43, 'mrfishie', 75, '2015-08-24 12:19:22', NULL, 'This should be filed under user, not user permissions.'),
+  (7, 44, 'mrfishie', 76, '2015-08-24 12:19:36', NULL, 'I believe that this has been fixed. Can you confirm?'),
+  (8, 45, 'mrfishie', 77, '2015-08-24 12:19:56', NULL, 'We''ve deactivated your account for now, while we work on the password change feature.'),
+  (9, 55, 'mrfishie', 78, '2015-08-24 12:20:15', NULL, 'Can you please provide us with some more information? If you could attach a screenshot that would be useful.'),
+  (10, 56, 'mrfishie', 79, '2015-08-24 12:20:27', NULL, 'I can''t reproduce this.');
 
 -- --------------------------------------------------------
 
@@ -86,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 INSERT INTO `configuration` (`Type`, `Name`, `Value`) VALUES
   ('overview-name', 'sitename', 'The Problem'),
   ('overview-visibility', 'registration', 'open'),
-  ('overview-visibility', 'visibility', 'public');
+  ('overview-visibility', 'visibility', 'private');
 
 -- --------------------------------------------------------
 
@@ -145,11 +161,12 @@ CREATE TABLE IF NOT EXISTS `grouppermissions` (
 --
 
 INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
-  (1, 'user.view', 0),
-  (2, 'user.view', 0),
-  (3, 'user.view', 0),
-  (4, 'user.view', 0),
-  (5, 'user.view', 0);
+  (0, 'site.view', 5),
+  (1, 'section.view', 0),
+  (2, 'section.view', 0),
+  (3, 'section.view', 0),
+  (4, 'section.view', 0),
+  (5, 'section.view', 0);
 
 -- --------------------------------------------------------
 
@@ -177,13 +194,14 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 CREATE TABLE IF NOT EXISTS `objects` (
   `Object_ID` int(11) NOT NULL,
   `Object_Type` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `objects`
 --
 
 INSERT INTO `objects` (`Object_ID`, `Object_Type`) VALUES
+  (0, -1),
   (1, 0),
   (2, 0),
   (3, 0),
@@ -233,7 +251,17 @@ INSERT INTO `objects` (`Object_ID`, `Object_Type`) VALUES
   (66, 2),
   (67, 2),
   (68, 2),
-  (69, 2);
+  (69, 2),
+  (70, 2),
+  (71, 2),
+  (72, 2),
+  (73, 2),
+  (74, 2),
+  (75, 2),
+  (76, 2),
+  (77, 2),
+  (78, 2),
+  (79, 2);
 
 -- --------------------------------------------------------
 
@@ -317,7 +345,7 @@ INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `La
   ('KatieLilly', 'jrn@mailinator.net', 'Katie Lilly', 'flashCookies1994372', 0, '', NULL),
   ('Liam', 'LIAM@mailinator.net', 'Liam Prok', 'helloW0rld', 0, '', NULL),
   ('meltingPoint', 'mp@mailinator.net', 'Jess', '4myDreamz', 0, '', NULL),
-  ('mrfishie', 'mrfishie101@hotmail.com', 'Tom', 'correct horse battery staple', 4, 'Hi! I make websites and lights do cool things.', '2015-08-24 21:06:21'),
+  ('mrfishie', 'mrfishie101@hotmail.com', 'Tom', 'correct horse battery staple', 4, 'Hi! I make websites and lights do cool things.', '2015-08-25 18:04:24'),
   ('powerRangers46', 'pewpew@mailinator.net', 'Zac Langlands', 'Lo000L', 0, '', NULL),
   ('unhelpful', 'unhelpful@mailinator.net', 'Ben Loungin', 'yjhghtd44790vjhg', 0, '', NULL);
 
@@ -443,7 +471,7 @@ MODIFY `Bug_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=57;
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `Comment_ID` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `Comment_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `cookies`
 --
@@ -458,7 +486,7 @@ MODIFY `Notification_ID` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `objects`
 --
 ALTER TABLE `objects`
-MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=70;
+MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=81;
 --
 -- AUTO_INCREMENT for table `sections`
 --
