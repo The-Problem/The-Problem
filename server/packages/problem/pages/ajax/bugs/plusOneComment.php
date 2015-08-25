@@ -29,9 +29,21 @@ class AjaxBugsPlusOneCommentPage implements IPage {
                 $id, $_SESSION["username"]
             ));
         } else {
+            $now = date("Y-m-d H:i:s");
+
             Connection::query("INSERT INTO plusones (Object_ID, Username, Time) VALUES (?, ?, ?)", "iss", array(
-                $id, $_SESSION["username"], date("Y-m-d H:i:s")
+                $id, $_SESSION["username"], $now
             ));
+
+            // notify watchers
+            Connection::query("INSERT INTO notifications
+                                 (Triggered_By, Received_By,                    Target_One, Target_Two, Creation_Date, Type)
+                          VALUES (           ?, (SELECT Username
+                                                   FROM watchers
+                                                 WHERE watchers.Object_ID = ?),          ?,       NULL,             ?,    ?)",
+                "siisi", array(
+                    $_SESSION["username"], $id, $id, $now, 4
+                ));
 
             // start watching the bug
             try {
