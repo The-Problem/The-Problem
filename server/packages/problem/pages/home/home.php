@@ -156,41 +156,18 @@ SELECT *, (SELECT COUNT(*) FROM comments
   FROM bugs
     JOIN sections ON bugs.Section_ID = sections.Section_ID
   WHERE Author = ? OR Assigned = ?
-ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username. $username));
+ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username, $username));
 
         $notifications = Notifications::get(10 - count($bugs));
 
         ?>
     <div class="right-column">
+        <?php if (strlen($notifications)) { ?>
         <h2>Notifications</h2>
         <div class="notification-list">
             <?php echo $notifications; ?>
-
-            <!--<section>
-                <p class="message">
-                    <a href="<?php echo Path::getclientfolder('~cmnvb'); ?>">Patrick</a> replied to
-                    <a href="<?php echo Path::getclientfolder('general-feedback', 20); ?>#5">your comment</a>:
-                    "I'll leave my matter till later..."
-                </p>
-                <p class="stats">Just then - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
-            </section>
-            <section>
-                <p class="message">
-                    <a href="<?php echo Path::getclientfolder('~Dr2n'); ?>">Darren</a> +1'd
-                    <a href="<?php echo Path::getclientfolder('general-feedback', 20); ?>">your bug</a>,
-                    "Needs More Dragons"
-                </p>
-                <p class="stats">Just then - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
-            </section>
-            <section>
-                <p class="message">
-                    You've been assigned to
-                    <a href="<?php echo Path::getclientfolder('sections', 'general-feedback', 50); ?>">#50</a>,
-                    "Needs More Unicorns"
-                </p>
-                <p class="stats">3 hours ago - <a href="<?php echo Path::getclientfolder('sections', 'general-feedback'); ?>">General Feedback</a></p>
-            </section>-->
         </div>
+        <?php } ?>
 
         <?php if (count($bugs)) { ?>
         <h2>My Bugs</h2>
