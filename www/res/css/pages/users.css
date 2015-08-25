@@ -31,6 +31,7 @@ body {
 
 #userInfoWrap h1 {
 	font-size: 34px;
+	margin-bottom: 0px;
 }
 
 .profilePic {
@@ -43,12 +44,13 @@ body {
 }
 
 .userInfo {
-	width: 220px;
-	float: right;
-	margin: 0 0;
-	padding: 0 0;
+	padding-left: 20px;
+	float: left;
 }
 
+.infoText {
+	margin-top: 0px;
+}
 
 #contentBody{
 	margin-top: 340px;

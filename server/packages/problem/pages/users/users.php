@@ -19,6 +19,10 @@ class UsersPage implements IPage {
         $head->stylesheet('pages/users');
     }
 
+    private function recentActivity(){
+        return 'hello word';
+    }
+
     public function body() {
         Library::get('users');
         $currentUser = Users::getUser($this->user);
@@ -38,7 +42,7 @@ class UsersPage implements IPage {
                     <img class='profilePic' src="<?php echo $currentUser->getAvatarLink(120); ?>"/>
                     <div class='userInfo'>
                         <h1><?php echo $currentUser->name ?></h1>
-                        <p><?php echo $currentUser->getSummary(); ?></p>
+                        <p class='infoText'><?php echo $currentUser->getSummary(); ?></p>
                     </div>
                 </div>
             </div>
@@ -54,6 +58,9 @@ class UsersPage implements IPage {
 
                 <div id='activityDiv' class='contentDiv'>
                     <h2>Recent Activity</h2>
+                    <table class='activityTable'>
+                        <?php echo self::recentActivity();?>                    
+                    </table>
                 </div>
 
                 <div id='assignedDiv' class='contentDiv'>
