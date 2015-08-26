@@ -36,7 +36,9 @@
 			$html = "";
 
 			for ($i = 0; $i < count($queryResult); $i++){
-				$html .= self::generateHTMl($queryResult[$i]);
+				$notificationDetails = self::processNotification($queryResult[$i]);
+				$notSection = "<section class='notificationCell'><p class='message'>" . $notificationDetails['message'] . "</p><p class='stats'>" . $notificationDetails['stats'] . "</p></section>";
+				$html .= $notSection;
 			}
 
 			return $html;
@@ -47,7 +49,7 @@
 			$currentUser = $_SESSION['username'];
 		}
 
-		private static function generateHTML($notification){
+		private static function processNotification($notification){
 			
 			/*0 - "Angela has assigned you to  bug #50 'Needs More Unicorns'"
 			1 - "'Oversized Buttons' has just been submitted to Users"
@@ -68,7 +70,7 @@
 			$fuzzyTime = String::timeago($notification['Creation_Date']);
 
 			if ($type == self::TYPE_ASSIGNMENT){
-				$bugInfoQuery = "SELECT Bugs.Bug_ID, Bugs.Name as 'Bug_Name', Sections.Name as 'Section_Name' FROM Bugs LEFT JOIN Sections ON Bugs.Section_ID =Sections.Section_ID WHERE Bugs.Object_ID = ?";
+				$bugInfoQuery = "SELECT bugs.Bug_ID, bugs.Name as 'Bug_Name', sections.Name as 'Section_Name' FROM bugs LEFT JOIN sections ON bugs.Section_ID = sections.Section_ID WHERE bugs.Object_ID = ?";
 				$bugInfo = Connection::query($bugInfoQuery, "s", array($targetOne))[0];
 				
 				$bugID = $bugInfo['Bug_ID'];
@@ -78,7 +80,7 @@
 				$message = $trigger . " has assigned you to bug #" . $bugID . ", '" . $bugName . "'";
 
 			}else if ($type == self::TYPE_SECTION){
-				$bugInfoQuery = "SELECT Bugs.Bug_ID, Bugs.Name as 'Bug_Name', Sections.Name as 'Section_Name' FROM Bugs LEFT JOIN Sections ON Bugs.Section_ID =Sections.Section_ID WHERE Bugs.Object_ID = ?";
+				$bugInfoQuery = "SELECT bugs.Bug_ID, bugs.Name as 'Bug_Name', sections.Name as 'Section_Name' FROM Bugs LEFT JOIN Sections ON bugs.Section_ID =sections.Section_ID WHERE bugs.Object_ID = ?";
 				$bugInfo = Connection::query($bugInfoQuery, "s", array($targetOne))[0];
 				$bugName = $bugInfo['Bug_Name'];
 				$sectionName = $bugInfo['Section_Name'];
@@ -86,7 +88,7 @@
 				$message = $trigger . " has just submitted '" . $bugName . "' to '" . $sectionName . "' ";
 
 			}else if($type == self::TYPE_BUG){
-				$bugInfoQuery = "SELECT Status, Bugs.Name as Bug_Name, Sections.Name as Section_Name FROM Bugs LEFT JOIN Sections ON Bugs.Section_ID = Sections.Section_ID WHERE Bugs.Object_ID = ?";
+				$bugInfoQuery = "SELECT Status, bugs.Name as Bug_Name, sections.Name as Section_Name FROM Bugs LEFT JOIN Sections ON Bugs.Section_ID = Sections.Section_ID WHERE Bugs.Object_ID = ?";
 				$bugInfo = Connection::query($bugInfoQuery, "s", array($targetOne))[0];
 
 				$bugName = $bugInfo['Bug_Name'];
@@ -99,11 +101,11 @@
 
 			}else if($type == self::TYPE_COMMENT){
 				$commentQuery = 
-				"SELECT Comments.Bug_ID as 'Bug_Number', Sections.Name as 'Section_Name', Comments.Comment_Text
-				FROM Comments
-				LEFT JOIN Bugs ON Comments.Bug_ID = Bugs.Bug_ID
-				LEFT JOIN Sections ON Bugs.Section_ID = Sections.Section_ID
-				WHERE Comments.Object_ID = ?";
+				"SELECT comments.Bug_ID as 'Bug_Number', sections.Name as 'Section_Name', comments.Comment_Text
+				FROM comments
+				LEFT JOIN bugs ON comments.Bug_ID = Bugs.Bug_ID
+				LEFT JOIN sections ON bugs.Section_ID = sections.Section_ID
+				WHERE comments.Object_ID = ?";
 
 				$commentInfo = Connection::query($commentQuery, "s", array($targetOne))[0];
 
@@ -134,7 +136,7 @@
 					$bugName = $bugInfo['Bug_Name'];
 					$sectionName = $bugInfo['Section_Name'];
 
-					$message = $trigger . " +1'd your bug " . $bugInfo;
+					$message = $trigger . " +1'd your bug " . $bugName;
 				}else if ($targetType == Objects::TYPE_COMMENT){
 					$commentQuery = 
 									"SELECT Comment_Text, Bugs.Name as 'Bug_Name', Sections.Name as 'Section_Name'
@@ -159,15 +161,76 @@
 
 
 			}else if($type == self::TYPE_MENTION){
+				"You were mentioned in a comment from 'Oversized Buttons'";
 
-			}else{
-				
+				$commentQuery =
+								"SELECT Comment_Text, sections.Section_Name as 'Section_Name'
+								FROM comments
+									LEFT JOIN bugs ON comments.Bug_ID = bugs.Bug_ID
+									LEFT JOIN sections ON bugs.Section_ID = sections.Section_ID
+								WHERE comments.Object_ID = ?";
+
+				$commentResult = Connection::query($commentQuery, "s", array($targetOne))[0];
+				$sectionName = $commentResult['Section_Name'];
+				$message = "You were mentioned in a comment from '" . $sectionName . "'";
+
 			}
 
 			$stats = $fuzzyTime . " - " . $sectionName;
 
-			$html = "<section class='notificationCell'><p class='message'>" . $message. "</p><p class='stats'>" . $stats . "</p></section>";
-			return $html;
+			$output = array(
+				"fuzzyTime" => $fuzzyTime,
+				"sectionName" => $sectionName, 
+				"time" => $notification['Creation_Date'],
+				"message" => $message,
+				"stats" => $stats
+
+				);
+
+
+			return $output;
+
+		}
+
+		public static function getWhereTriggerIs($username, $limit = 10){
+			$query =
+					"SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type
+					FROM notifications
+					WHERE Triggered_By = ?
+					ORDER BY Creation_Date DESC
+					LIMIT ?";
+
+			$queryResult = Connection::query($query, "ss", array($username, $limit));
+
+			$output = array();
+			for ($i = 0; $i < count($queryResult); $i++){
+				array_push($output, self::processNotification($queryResult[$i]));
+			}
+
+			return $output;
+
+		}
+
+		public static function newEvent($type, $triggerUser, $triggerObject){
+			if ($type == self::TYPE_ASSIGNMENT){
+				$insertQuery =
+								"INSERT INTO notifications
+								VALUES 
+								WHERE
+								";
+			}else if ($type == self::TYPE_SECTION){
+
+			}else if ($type == self::TYPE_BUG){
+
+			}else if ($type == self::TYPE_COMMENT){
+
+			}else if ($type == self::TYPE_PLUSONE){
+
+			}else if ($type == self::TYPE_MENTION){
+
+			}else{
+				return false;
+			}
 
 		}
 
@@ -180,4 +243,6 @@
 
 			return $output;
 		}
+
+
 	}

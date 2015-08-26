@@ -1,5 +1,6 @@
-body {
-	
+h2 {
+	margin-bottom: 30px;
+	margin-top: 30px;	
 }
 
 #userCover {
@@ -38,9 +39,8 @@ body {
 	margin: 0 0;
 	padding: 0 0;
 	float: left;
-	border: 6px solid #333333;
-	width: 108px;
-	height: 108px;
+	width: 120px;
+	height: 120px;
 }
 
 .userInfo {
@@ -56,6 +56,8 @@ body {
 	margin-top: 340px;
 	width: 100vw;
 	box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
+	background-color: white;
+	padding-bottom: 400px;
 
 }
 
@@ -66,4 +68,77 @@ body {
 	width: 960px;
 
 }
+
+.bioText {
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.activityTable {
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.activityTable td {
+	height: 35px;
+	border-top: solid 2px #8ec850;
+	border-bottom: solid 2px #8ec850;
+	border: none;
+	border-collapse: collapse;
+}
+
+.assignedTable {
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	color: white;
+	border: none;
+	border-collapse: separate;
+	border-spacing: 0 5px;
+}
+
+.assignedTable td {
+	padding-left: 50px;
+	height: 40px;
+}
+
+#developingSections {
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+.sectionTile {
+	box-sizing: border-box;
+	float: left;
+	height: 150px;
+	width: 150px;
+	color: white;
+	text-align: center;
+	margin: 5px 5px;
+	user-select: none;
+	-moz-user-select: none;
+	cursor: pointer;
+	transition: filter 0.3s;
+}
+
+.sectionTileText > h2 {
+	margin: 0 0 5px 0px;
+	padding: 0 0;
+}
+
+.sectionTileText {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.sectionTile:hover {
+	filter: brightness(1.15);
+}
+
 

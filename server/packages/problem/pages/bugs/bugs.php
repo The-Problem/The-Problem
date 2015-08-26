@@ -102,5 +102,22 @@ class BugsPage implements IPage {
     </div>
 </div>
 
-    <?php } 
-} ?>
+<?php 
+        echo "Showing section: $this->section";
+		
+		?>
+<h2>Bug list</h2>
+<ul>
+<?php
+$bugs = Connection::query("SELECT RID, bugs.Name FROM bugs
+                     JOIN sections ON (sections.Section_ID = bugs.Section_ID)
+				   WHERE sections.Slug = ?", "s", array($this->section));
+
+foreach ($bugs as $bug) {
+	echo "<li><a href='" . Path::getclientfolder("bugs", $this->section, $bug["RID"]) . "'>" . htmlentities($bug["Name"]) . "</a></li>";
+}
+?>
+</ul>
+        <?php
+    }
+}

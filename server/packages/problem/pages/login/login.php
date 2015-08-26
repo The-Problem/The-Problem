@@ -22,6 +22,8 @@ class LoginPage implements IPage{
 	}
 	
 	public function body(){
+		Library::get('users');
+
 		if (isset($_POST['username'])){
 			$username = trim($_POST['username']);
 			$password = $_POST['password'];
@@ -38,6 +40,8 @@ class LoginPage implements IPage{
 			}else{
 				$message = "Please enter a valid username/email and password.";
 			}
+		}else if ($_SESSION['verified']){
+			$message = "Your account has been activated. Please enter your username and password to login.";
 		}
 		?>
 	
