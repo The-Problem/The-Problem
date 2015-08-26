@@ -11,6 +11,8 @@
 		const RANK_STANDARD = 1;
 		const RANK_UNVERIFIED = 0;
 
+		const VERIFY_SALT = 'salty';
+
 		//create user from required information
 		public static function newUser($username, $password, $name, $email){
 			$username = trim($username);
@@ -90,5 +92,23 @@
 				$_SESSION["username"] = NULL;
 			}
 			return true;
+		}
+
+		//verifies account from GET information
+		public function verifyAccount($username, $enteredCode){
+			$currentUser = self::getUser($username);
+			$currentEmail = $currentUser->email;
+			$correctCode = md5($currentEmail . self::VERIFY_SALT);
+
+			if ($enteredCode == $correctCode){
+				$updateQuery = 
+						"UPDATE users
+						SET Rank = 1
+						WHERE Username = ?";
+				$query = Connection::query($updateQuery, "s", array($username));
+				return true;
+			}else{
+				return false;
+			}
 		}
 	}
