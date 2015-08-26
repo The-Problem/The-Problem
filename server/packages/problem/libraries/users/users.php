@@ -1,11 +1,17 @@
+
 <?php
+
+	//class Users provides access to user related properties and methods within The Problem
 	class Users {
+
+		//define user type constants
 		const RANK_ADMIN = 4;
 		const RANK_MOD = 3;
 		const RANK_DEVELOPER = 2;
 		const RANK_STANDARD = 1;
 		const RANK_UNVERIFIED = 0;
 
+		//create user from required information
 		public static function newUser($username, $password, $name, $email){
 			$username = trim($username);
 			$name = trim($name);
@@ -19,7 +25,44 @@
 			return $query;
 		}
 
+		//returns User object with properties and methods for a single user
+		public static function getUser($username){
+			
+			if ($username == 'current'){
+				$username = $_SESSION["username"];
+			}else{
+				$validQuery = 
+							"SELECT COUNT(Username) as 'count' FROM users WHERE Username = ?";
+				$queryResult = Connection::query($validQuery, "s", array($username))[0];
+				if ($queryResult['count'] == 1){
+					$user = new User($username);
+					return $user;
+				}else{
+					return false;
+				}
+			}
 
+		}
+
+		//returns whether a username may be used
+		public static function usernameAvailable($username){
+			//returns whether a username is availale for use
+			if (strlen($username) < 2 || !strpos($username, " ")){
+				return false;
+			}
+
+			$usernameQuery  = "SELECT COUNT(Username) FROM users WHERE Username = ? ";
+			$queryResult = Connection::query($usernameQuery, "s", array($username));
+
+			if ($queryResult[0]["COUNT(Username)"] == 0){
+				return true;
+			}else{
+				return false;
+			}
+
+		}
+		
+		//logs user in using $_SESSION[]
 		public static function login($username, $password){
 			echo "username: " . $username;
 			echo "password: " .  $password;
@@ -39,44 +82,13 @@
 			return $queryResult;
 		}
 
-		public static function getUser($username){
-			
-			if ($username == 'current'){
-				$username = $_SESSION["username"];
-			}else{
-				$validQuery = 
-							"SELECT COUNT(Username) as 'count' FROM users WHERE Username = ?";
-				$queryResult = Connection::query($validQuery, "s", array($username))[0];
-				if ($queryResult['count'] == 1){
-					$user = new User($username);
-					return $user;
-				}else{
-					return false;
-				}
-			}
-
-		}
-
-		public static function usernameAvailable($username){
-			//returns whether a username is availale for use
-			if (strlen($username) < 2){
-				return false;
-			}
-
-			$usernameQuery  = "SELECT COUNT(Username) FROM users WHERE Username = ? ";
-			$queryResult = Connection::query($usernameQuery, "s", array($username));
-
-			if ($queryResult[0]["COUNT(Username)"] == 0){
-				return true;
-			}else{
-				return false;
-			}
-
-		}
-
+		//logs current user off
 		public static function logoff(){
-			$_SESSION["username"] = NULL;
+			if ($_SESSION['username'] == NULL){
+				return false;
+			}else{
+				$_SESSION["username"] = NULL;
+			}
+			return true;
 		}
-
-
 	}
