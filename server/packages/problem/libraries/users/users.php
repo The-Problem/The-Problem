@@ -49,7 +49,7 @@
 		//returns whether a username may be used
 		public static function usernameAvailable($username){
 			//returns whether a username is availale for use
-			if (strlen($username) < 2 || !strpos($username, " ")){
+			if (strlen($username) < 2 || strpos($username, " ")){
 				return false;
 			}
 
