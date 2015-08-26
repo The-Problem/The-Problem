@@ -172,7 +172,7 @@
 		public function sendVerificationEmail(){
 			$salt = Users::VERIFY_SALT;
 			$code = md5($this->email . $salt);
-			$verifyLink = "http://www.theproblem.dreamhosters.com/signup/verify?username=" + $this->username + "&code=" + $code;
+			$verifyLink = "http://www.theproblem.dreamhosters.com/signup/verify?username=" . $this->username . "&code=" . $code;
 
 			$to = $this->email;
 			$subject = "Verfiy your account with" .  $title_res[0]["Value"] . "!";
@@ -185,7 +185,7 @@
 						. '<title>' . $title_res[0]["Value"] . ' Account Verification</title>'
 						. '<meta name="viewport" content="width=device-width, initial-scale=1.0"/>'
 						. '</head>'. "\r\n" 
-						. '<body style="padding-left: 0px; padding-right: 0px; padding-top: 0px; padding-bottom: 0px; margin-left: 0px; margin-right: 0px;' 
+						. '<body style="padding-left: 0px; padding-right: 0px; padding-top: 0px; padding-bottom: 0px; margin-left: 0px; margin-right: 0px;font-family:serif;' 
 						. 'margin-top: 0px; margin-bottom: 0px">'. "\r\n" 
 						."<h1>Welcome To" . $title_res[0]["Value"] . "!</h1>"
 						."<p>Click the link below to verify your account and get started.</p><br>"
@@ -197,6 +197,7 @@
 			$headers .= "Reply-To: <The Problem> noreply@theproblem.dreamhosters.com" . "\r\n";
 			$headers .= "Content-type: text/html" . "\r\n"; 
 
+			echo $verifyLink; 
 			echo var_dump(mail($to, $subject, $messageHTML, $headers));
 
 		}
