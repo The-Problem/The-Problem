@@ -33,7 +33,7 @@
 
 #notifications {
 	height: calc(100vh - 60px - 80px);
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 #notifications .notificationCell {

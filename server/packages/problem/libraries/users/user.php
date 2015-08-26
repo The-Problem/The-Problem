@@ -197,8 +197,7 @@
 			$headers .= "Reply-To: <The Problem> noreply@theproblem.dreamhosters.com" . "\r\n";
 			$headers .= "Content-type: text/html" . "\r\n"; 
 
-			echo $verifyLink; 
-			echo var_dump(mail($to, $subject, $messageHTML, $headers));
+			return mail($to, $subject, $messageHTML, $headers);
 
 		}
 	}

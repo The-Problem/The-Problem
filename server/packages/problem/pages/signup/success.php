@@ -34,6 +34,7 @@ class SignupSuccessPage implements IPage{
 
 		if (isset($_POST['bio'])){
 			$currentUser = Users::getUser("current");
+			$currentUser->sendVerificationEmail();
 			$currentUser->setBio($_POST['bio']);
 
 
