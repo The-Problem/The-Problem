@@ -66,16 +66,12 @@
 		
 		//logs user in using $_SESSION[]
 		public static function login($username, $password){
-			echo "username: " . $username;
-			echo "password: " .  $password;
 			
 			$passwordQuery = "SELECT *  FROM users WHERE Username = ? AND Password = ?";
 			$queryResult = Connection::query($passwordQuery, "ss", array($username, $password));
 			
 			$updateLogonTimeQuery = "UPDATE users SET Last_Logon_Time = NOW() WHERE Username = ?";
 			$updateResult = Connection::query($updateLogonTimeQuery, "s", array($username));
-
-			echo var_dump($queryResult);
 
 			if ($queryResult){
 				$_SESSION['username'] = $username;
@@ -95,7 +91,7 @@
 		}
 
 		//verifies account from GET information
-		public function verifyAccount($username, $enteredCode){
+		public static function verifyAccount($username, $enteredCode){
 			$currentUser = self::getUser($username);
 			$currentEmail = $currentUser->email;
 			$correctCode = md5($currentEmail . self::VERIFY_SALT);

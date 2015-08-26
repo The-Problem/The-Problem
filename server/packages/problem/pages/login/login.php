@@ -23,9 +23,7 @@ class LoginPage implements IPage{
 	
 	public function body(){
 		Library::get('users');
-		$thisUser = Users::getUser('Liam');
-		echo $thisUser->sendVerificationEmail();
-		
+
 		if (isset($_POST['username'])){
 			$username = trim($_POST['username']);
 			$password = $_POST['password'];
