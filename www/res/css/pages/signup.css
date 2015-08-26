@@ -88,6 +88,10 @@ fieldset {
 		transform: scale(0.1);
 	}
 
+	::-ms-clear {
+	;
+	}
+
 
 /*NoCAPTCHA reCAPTCHA*/
 #captcha {

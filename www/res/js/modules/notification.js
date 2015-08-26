@@ -5,7 +5,7 @@ LimePHP.register("modules.notification", function() {
 
 	function toggleNotifications(event){
 		if (notificationsOpen){
-			document.getElementById('notificationPanel').style.right = "-380px";
+			document.getElementById('notificationPanel').style.right = "-500px";
 			notificationsOpen = false;
 		}else{
 			document.getElementById('notificationPanel').style.right = "0";
