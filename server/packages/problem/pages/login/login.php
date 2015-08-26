@@ -42,6 +42,7 @@ class LoginPage implements IPage{
 			}
 		}else if ($_SESSION['verified']){
 			$message = "Your account has been activated. Please enter your username and password to login.";
+			$_SESSION['verified'] = false;
 		}
 		?>
 	

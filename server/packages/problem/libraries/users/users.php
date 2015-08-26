@@ -1,4 +1,3 @@
-
 <?php
 
 	//class Users provides access to user related properties and methods within The Problem
@@ -32,19 +31,20 @@
 			
 			if ($username == 'current'){
 				$username = $_SESSION["username"];
-			}else{
-				$validQuery = 
-							"SELECT COUNT(Username) as 'count' FROM users WHERE Username = ?";
-				$queryResult = Connection::query($validQuery, "s", array($username))[0];
-				if ($queryResult['count'] == 1){
-					$user = new User($username);
-					return $user;
-				}else{
-					return false;
-				}
 			}
 
+			$validQuery = 
+						"SELECT COUNT(Username) as 'count' FROM users WHERE Username = ?";
+			$queryResult = Connection::query($validQuery, "s", array($username))[0];
+			if ($queryResult['count'] == 1){
+				$user = new User($username);
+				return $user;
+			}else{
+				return false;
+			}
 		}
+
+	
 
 		//returns whether a username may be used
 		public static function usernameAvailable($username){

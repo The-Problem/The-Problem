@@ -38,6 +38,7 @@
 			$setQuery = 'UPDATE users SET Bio = ? WHERE Username = ?';
 			$result = Connection::query($setQuery, "ss", array($bio, $this->username));
 		}
+
 		//gets a link to the current user's profile picture
 		public function getAvatarLink($size = 100){
 			$emailHash = md5(strtolower($this->email));
@@ -155,8 +156,7 @@
 
 			return $userSections;
 		}
-
-		//
+	
 		public function getBugs(){
 			$query = 
 				"SELECT bugs.Name as 'Bug_Name', sections.Name as 'Section_Name', sections.Color as 'Colour'
@@ -198,6 +198,5 @@
 			$headers .= "Content-type: text/html" . "\r\n"; 
 
 			return mail($to, $subject, $messageHTML, $headers);
-
 		}
 	}
