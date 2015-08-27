@@ -8,6 +8,8 @@ LimePHP.register("page.home", function() {
         $header = $("header.big, header.entire-page"),
         $$header = $("header");
 
+    var loggedin = $body.hasClass("loggedin");
+
     function search(val) {
         if (val === "") {
             $sections.css("display", "");
@@ -53,6 +55,7 @@ LimePHP.register("page.home", function() {
         $password = $login.children("input[name=password]");
 
     $login.on('submit', function(e) {
+        if (loggedin) return;
         e.preventDefault();
 
         $login.hide();
@@ -65,6 +68,7 @@ LimePHP.register("page.home", function() {
 
         r.success = function(data) {
             $body.addClass("loggedin");
+            loggedin = true;
             $body.removeClass("hide-header");
             $header.hide();
 

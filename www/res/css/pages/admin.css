@@ -238,8 +238,7 @@
     width:30px;
 }
 .developer-list table .user-image, .username-selector .user-image {
-    background-repeat:no-repeat;
-    background-position:center;
+    background: no-repeat center;
 }
 .developer-list table .user-name, .username-selector .user-name {
     padding:0 5px;
@@ -258,9 +257,14 @@
     background-color:#FFF;
     z-index:5;
     margin-top:10px;
+    border-color:#AAA;
 }
 .username-selector tr {
     cursor:pointer;
+    border-color:#AAA;
+}
+.username-selector tr:nth-child(even) {
+    background-color:#FCFCFC;
 }
 .username-selector tr:hover {
     background-color:#F1F1F1;
