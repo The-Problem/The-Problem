@@ -46,7 +46,7 @@ class SectionTileModule implements IModule {
                 <?php if ($all !== "No") {
                     ?><span class="percentage"><?php echo floor(($all - $open) / $all * 100); ?>% closed</span>
                 <span class="open-all"><?php echo String::readablenumber($all); ?> bug<?php echo $all === 1 ? "" : "s"; ?><?php if ($open !== 0) { ?>,
-                    <?php echo String::readablenumber($open); ?> open</span><?php } } else { ?>
+                    <?php echo String::readablenumber($open); ?> open<?php } ?></span><?php } else { ?>
                 <span class="all"><?php echo $all; ?> bug<?php echo $all === 1 ? "" : "s"; ?></span><?php } ?>
             </p>
         </div>

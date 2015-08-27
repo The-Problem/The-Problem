@@ -6,7 +6,7 @@ class HomePage implements IPage {
     public function template() {
         $template = Templates::findtemplate("default");
         if ($_SESSION["username"]) return $template->add_class("loggedin");
-        return $template->no_header();
+        return $template->add_class('hide-header');
     }
     public function permission() {
         return true;
@@ -86,7 +86,6 @@ ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
         <div class="section-list">
             <?php
             foreach($devSections as $section) {
-
                 Modules::getoutput("sectionTile", $section);
             }
             ?>
@@ -107,6 +106,7 @@ FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
     <h2>Login or register to get started</h2>
 
     <form method="post" action="<?php echo Path::getclientfolder('login'); ?>" class="login-box">
+        <p class="login-error"></p>
         <input type="text" name="username" placeholder="Username or email" />
         <input type="password" name="password" placeholder="Password" />
 
@@ -114,6 +114,7 @@ FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
             <button class="login-btn">LOGIN</button><button class="register-btn">REGISTER</button>
         </div>
     </form>
+    <div class="login-spinner spinner"><div class='circle circle-1'></div><div class='circle circle-2'></div><div class='circle circle-3'></div><div class='circle circle-4'></div><div class='circle circle-5'></div><div class='circle circle-6'></div><div class='circle circle-7'></div><div class='circle circle-8'></div></div>
 </header>
 
 <div class="content">
@@ -191,7 +192,7 @@ ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username, $us
                 </p>
                 <p class="stats">Sometime -
                     <a href="<?php echo $url; ?>#comments"><?php echo $comments; ?> comment<?php echo $comments === 1 ? "" : "s"; ?></a> -
-                    <a href="<?php echo $url; ?>#plusones"><?php echo $plusones; ?> +1<?php echo $plusones === 1 ? "" : "s"; ?></a>
+                    <a href="<?php echo $url; ?>#plusones"><?php echo $plusones; ?> upvote<?php echo $plusones === 1 ? "" : "s"; ?></a>
                 </p>
             </section>
                 <?php

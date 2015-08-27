@@ -34,6 +34,9 @@ header.big {
     margin-top:0;
 }
 
+.hide-header header:not(.big) {
+    display:none;
+}
 header.big img {
     margin-top:70px;
     vertical-align:-33px;
@@ -71,6 +74,12 @@ header .login-box button {
     margin-left:10px;
     width:100px;
     float:right;
+}
+header .login-spinner {
+    display:none;
+}
+header .login-error {
+    font-size:0.8em;
 }
 
 header.entire-page {
