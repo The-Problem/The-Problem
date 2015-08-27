@@ -129,9 +129,9 @@ LimePHP.register("lime", function() {
          * @param {String} name The name of the module
          * @param {jQuery} $obj The jQuery object to place code into
          * @param {Array} p The parameters to pass to the module
-         * @param {Boolean} prepend Whether to prepend the loader
-         * @param {Boolean} replace Whether to replace the original element
-         * @param {Function} callback A callback to call when the module is loaded
+         * @param {Boolean?} prepend Whether to prepend the loader
+         * @param {Boolean?} replace Whether to replace the original element
+         * @param {Function?} complete A callback to call when the module is loaded
          */
         exports.get = function(name, $obj, p, prepend, replace, complete) {            
             var params = JSON.stringify(p),

@@ -5,7 +5,8 @@ LimePHP.register("page.home", function() {
         $none = $searchable.children(".none"),
         $body = $("body"),
         $$body = $(".body"),
-        $header = $("header.big, header.entire-page");
+        $header = $("header.big, header.entire-page"),
+        $$header = $("header");
 
     function search(val) {
         if (val === "") {
@@ -84,7 +85,7 @@ LimePHP.register("page.home", function() {
                 $sectionList.html(data.devSections);
 
                 $devHeader.prependTo($leftColumn).after($sectionList);
-                $sectionH2.text("More sections");
+                $sectionH2.text("More Sections");
             }
 
             $searchable.html(data.sections);
@@ -98,6 +99,13 @@ LimePHP.register("page.home", function() {
                 $rightColumn.append("<h2>My Bugs</h2><div class='notification-list'>" + data.myBugs + "</div>");
             }
             $(".columns").append($rightColumn);
+
+            $$header.html($$header.html() + data.header);
+
+            var $notifications = $("<div></div>").hide();
+            $body.append($notifications);
+
+            LimePHP.library("modules").get("notification", $notifications, {}, false, true);
         };
 
         r.error = function(err, status) {

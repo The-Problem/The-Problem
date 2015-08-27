@@ -64,11 +64,6 @@ class DefaultTemplate implements ITemplate {
     }
 
     public function showpage(Head $head, $pagecode, IPage $page) {
-        /*if (isset($_POST['logout']) && $_POST['logout'] == true){
-            $_SESSION['username'] = NULL;
-            header('Refresh:0');
-        }*/
-
         $classes = array();
         foreach ($this->body_classes as $name => $has) {
             if ($has) array_push($classes, $name);
@@ -123,27 +118,10 @@ class DefaultTemplate implements ITemplate {
             if ($_SESSION['sudo'] !== false) echo '<div class="center">Sudo mode active -
 <a href="' . Path::getclientfolder("ajax", "sudo", "disable") . '?return=' . urlencode(htmlentities($_SERVER['REQUEST_URI'])) . '">disable</a></div>';
 
-            $username = $_SESSION['username'];
+            Library::get("modules");
+            Modules::getoutput("headerBar");
 
-            echo '<div class="right">';
-
-            if ($username) {
-                $user = Connection::query("SELECT Name, Rank FROM users WHERE Username = ?", "s", array($username));
-                if ($user[0]["Rank"] >= 4) array_push($this->headers, array("cogs", Path::getclientfolder("admin"), "Admin Control Panel", ""));
-                array_push($this->headers, array("sign-out", Path::getclientfolder("ajax", "user", "logout") . "?return=" . urlencode($_SERVER['REQUEST_URI']), "Logout", ""));
-                array_push($this->headers, array("bell", "javascript:void(0);", "Notifications", "notificationButton"));
-
-
-                echo '<span class="user">Hi, <a href="' . Path::getclientfolder("~" . htmlentities($username)) . '">' . htmlentities($user[0]["Name"]) . '</a></span>';
-            }
-
-            echo '<span class="buttons">';
-            foreach ($this->headers as $header) {
-                echo "<a id='$header[3]' title='" . htmlentities($header[2]) . "' class='header-button fa fa-$header[0]' href='" . htmlentities($header[1]) . "'></a>";
-            }
-            echo '</span>';
-
-            echo "</div></header>";
+            echo "</header>";
         }
         echo "<div class='body'>";
 

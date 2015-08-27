@@ -20,6 +20,8 @@ LimePHP.SERVER = {};
 (function() {
     var undefined;
     LimePHP.undefined = undefined;
+
+    LimePHP.hasInitialized = false;
     
     /**
      * A list of packages to autoload
@@ -45,6 +47,8 @@ LimePHP.SERVER = {};
             LimePHP.loadpackages();
             LimePHP.debug("[Core] Finished package initialization!");
             LimePHP.call("load");
+
+            LimePHP.hasInitialized = true;
         }
     }
     
@@ -92,6 +96,10 @@ LimePHP.SERVER = {};
         
         LimePHP.debug("[Package] Registering package '" + name + "'");
         packages[name] = callback;
+        if (LimePHP.hasInitialized) {
+            LimePHP.debug("[Package] Lime is already started, initializing package now");
+            LimePHP.loadpackage(name);
+        }
         return true;
     }
     

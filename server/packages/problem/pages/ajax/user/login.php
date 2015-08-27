@@ -77,6 +77,10 @@ ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username, $us
 
                 $notifications = Notifications::get(10 - count($bugs));
 
+                ob_start();
+                Modules::getoutput("headerBar");
+                $header = ob_get_flush();
+
                 return array(
                     "name" => $name[0]["Name"],
                     "username" => $username,
@@ -104,7 +108,8 @@ ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username, $us
                         return '<section><p class="message"><a href="' . $url . '" title="' . $title . '">' . $title . '</a></p>'
                             . '<p class="stats">Sometime - <a href="' . $url . '#comments">' . $comments . ' comment' . ($comments === 1 ? "" : "s") . '</a> -'
                             . '<a href="' . $url . '#plusones">' . $plusones . ' upvote' . ($plusones === 1 ? "" : "s") . '</a></p></section>';
-                    }, $bugs))
+                    }, $bugs)),
+                    "header" => $header
                 );
 
             } else return array("error" => array("message" => "These login credentials appear to be incorrect. Please try again."));

@@ -6,6 +6,9 @@ class NotificationModule implements IModule {
 	}
 
 	public function getcode($params = array(), Head $h){
+		$h->stylesheet("modules/notification");
+		$h->script("modules/notification");
+
 		?>
 
 		<div id='notificationPanel'>
@@ -33,9 +36,6 @@ class NotificationModule implements IModule {
 	}
 
 	public function getsurround($code, $params){
-		Pages::$head->stylesheet("modules/notification");
-		Pages::$head->script("modules/notification");
-
 		return $code;
 	}
 
