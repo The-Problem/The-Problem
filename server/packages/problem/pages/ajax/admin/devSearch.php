@@ -29,9 +29,10 @@ class AjaxAdminDevSearchPage implements IPage {
         $query = $_GET['query'];
         $section_id = $_GET['section'];
 
-        $devs = Connection::query("SELECT DISTINCT users.Username AS Username, Email FROM developers
-                                     JOIN users ON (users.Username = developers.Username)
-                                   WHERE developers.Section_ID != ? AND users.Username LIKE ? LIMIT 5", "is", array(
+        $devs = Connection::query("SELECT DISTINCT users.Username AS Username, Email FROM users
+                                     LEFT JOIN developers ON (users.Username = developers.Username)
+                                   WHERE COALESCE(developers.Section_ID, 0) != ? AND users.Username LIKE ?
+                                   ORDER BY Username LIMIT 5", "is", array(
             $section_id, "%$query%"
         ));
 
