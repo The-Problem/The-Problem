@@ -165,6 +165,9 @@ class DefaultTemplate implements ITemplate {
             Modules::getoutput("notification");
         }
 
+        echo '<footer>Powered by <a href="http://github.com/the-problem/the-problem">The Problem</a> - Copyright &copy; '
+            . '<a href="' . Path::getclientfolder() . '">' . htmlentities($this->title) . '</a> ' . date('Y') . '</footer>';
+
         echo "<div class='page-time'>" . (Timer::get(6) * 1000) . "ms</div>";
 
         return "";
