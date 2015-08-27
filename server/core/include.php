@@ -95,9 +95,10 @@ function l_include_flush() {
         $value .= '$GLOBALS["lime_include_cache"] = array(' . "\n    " . implode(",\n    ", $array_values) . "\n);";
         $value .= "\n?>" . implode("", $code);
     } else {
-
         $values = array();
         foreach ($GLOBALS['lime_include_cache'] as $path => $func) {
+            if (!file_exists($path)) continue;
+
             $escaped_path = str_replace("'", "\\'", $path);
 
             array_push($values, "'$escaped_path' => function() { include('$escaped_path'); }");
