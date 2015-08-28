@@ -6,7 +6,7 @@ LimePHP.register("page.home", function() {
         $body = $("body"),
         $$body = $(".body"),
         $header = $("header.big, header.entire-page"),
-        $$header = $("header"),
+        $$header = $("header:not(.big, .entire-page)"),
         $scrollContainer = $("header.big .scroll-container");
 
     var loggedin = $body.hasClass("loggedin");
@@ -62,6 +62,58 @@ LimePHP.register("page.home", function() {
         $username = $login.children("input[name=username]"),
         $password = $login.children("input[name=password]");
 
+
+    function showLoginAnimation() {
+        var $title = $("header.big h1");
+        var $subtitle = $("header.big h2");
+
+        var titlePosition = $title.offset();
+        $title.css({
+            position: "fixed",
+            left: titlePosition.left,
+            top: titlePosition.top
+        });
+
+        $subtitle.hide();
+
+        $title.addClass("moving");
+        $header.addClass("moving");
+
+        setTimeout(function() {
+            $title.css({
+                left: 0,
+                top: 23,
+                fontSize: 22.8833,
+                marginLeft: 20,
+                marginTop: -11
+            });
+
+            $title.find("img").css({
+                width: 31,
+                height: 35,
+                verticalAlign: -9,
+                marginTop: 0
+            });
+            $title.find("span").css({
+                marginLeft: 7
+            });
+            $header.css({
+                height: 70
+            });
+
+            setTimeout(function() {
+                $body.removeClass("hide-header");
+                $header.css({
+                    opacity: 0
+                });
+                setTimeout(function() {
+                    $header.css({ display: 'none' });
+                }, 500);
+            }, 1000);
+        }, 0);
+    }
+
+
     $login.on('submit', function(e) {
         if (loggedin) return;
         e.preventDefault();
@@ -77,8 +129,8 @@ LimePHP.register("page.home", function() {
         r.success = function(data) {
             $body.addClass("loggedin");
             loggedin = true;
-            $body.removeClass("hide-header");
-            $header.hide();
+
+            showLoginAnimation();
 
             var $welcomeH1 = $("<h1>Welcome, <a></a>.</h1>");
             $welcomeH1.children("a").attr('href', LimePHP.path("~" + data.username))

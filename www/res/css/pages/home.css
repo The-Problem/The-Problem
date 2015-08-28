@@ -11,6 +11,10 @@ header.big {
     -webkit-box-shadow:none;
     -moz-box-shadow:none;
     box-shadow:none;
+
+    opacity:1;
+
+    transition:height 1s, box-shadow 1s, opacity 0.5s;
 }
 
 header.big:after {
@@ -27,7 +31,20 @@ header.big:after {
     -moz-box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
     box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
 
+    transition:box-shadow 1s;
+
     pointer-events:none;
+}
+header.big.moving {
+    -webkit-box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
+    -moz-box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
+    box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
+}
+
+header.big.moving:after {
+    -webkit-box-shadow:0 0 0 0 rgba(0,0,0,0.4);
+    -moz-box-shadow:0 0 0 0 rgba(0,0,0,0.4);
+    box-shadow:0 0 0 0 rgba(0,0,0,0.4);
 }
 
 .welcome {
@@ -47,6 +64,8 @@ header.big:after {
     padding-top:20px;
     text-align:center;
     background-color:#FFF;
+
+    transition:margin-top 1.5s;
 }
 .loggedin .content {
     margin-top:0;
@@ -73,12 +92,21 @@ header h1 {
     -ms-user-select: none;
     user-select: none;
     cursor:default;
+
+    transition:top 1s, left 1s, font-size 1s, margin-left 1s, margin-top 1s;
+}
+header.big h1 img {
+    transition:width 1s, height 1s, vertical-align 1s, margin-top 1s;
+    width:84px;
+    height:96px;
 }
 header h1 span {
     display:inline-block;
     margin-left:15px;
     margin-top:-100px;
+    transition:margin-left 1s, margin-top 1s;
 }
+
 header h2 {
     margin-top:30px;
 }
