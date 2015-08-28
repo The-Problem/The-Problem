@@ -6,7 +6,7 @@ class BugsBugPage implements IPage {
         $path = $page->pagelist;
 
         $res = Connection::query("
-SELECT *, bugs.Description AS Bug_Description FROM bugs
+SELECT *, bugs.Description AS Bug_Description, bugs.Object_ID AS Bug_ObjectID FROM bugs
     JOIN sections ON (sections.Section_ID = bugs.Section_ID)
     WHERE sections.Slug = ?
     AND bugs.RID = ?", "si", array($path[2], $path[3]));
