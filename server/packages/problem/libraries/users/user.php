@@ -20,8 +20,9 @@
 
 		//change the password
 		public function setPassword($newPassword){
+			Library::get('password');
 			//find current password
-			$currentPasswordQuery = 
+			/*$currentPasswordQuery = 
 					"SELECT Password
 					FROM users
 					WHERE username = ?";
@@ -29,7 +30,13 @@
 
 			if ($newPass)
 			$query = "UPDATE users SET Password = ? WHERE Username = ?'";
-			$queryResult = Connection::query($query, "ss", array($newPassword, $this->username));
+			$queryResult = Connection::query($query, "ss", array($newPassword, $this->username));*/
+
+			$passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+
+			$setPasswordQuery = 
+					"UPDATE users SET Password = ? WHERE Username = ?";
+			$setPassword = Connection::query($setPasswordQuery, "ss", array($passwordHash, $this->username));
 
 		}
 

@@ -91,12 +91,12 @@ class SignupPage implements IPage{
 
 	public function body(){
 
+		Library::get("users");
 		$pageState = $this::dataValid();
 
 		if ($pageState == 1){
 
 			//Create user in the Database
-			Library::get("users");
 			
 			$username = $_POST['username'];
 			$name = $_POST['prefName'];
