@@ -65,7 +65,7 @@ header.big.moving:after {
     text-align:center;
     background-color:#FFF;
 
-    transition:margin-top 1.5s;
+    transition:margin-top 1s;
 }
 .loggedin .content {
     margin-top:0;
