@@ -4,31 +4,29 @@ header.big {
     padding:0;
     text-align:center;
     color:#FFF;
-
     top:-10px;
-
     height:460px;
-
     overflow:hidden;
+
+    -webkit-box-shadow:none;
+    -moz-box-shadow:none;
+    box-shadow:none;
+}
+
+header.big:after {
+    content:'';
+    display:block;
+
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
 
     -webkit-box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
     -moz-box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
     box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
 }
-
-/*header.big .shadow, header.big .shadow::before {
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-}
-header.big .shadow::before {
-    display:block;
-    content:'';
-
-
-}*/
 
 .welcome {
     text-align:center;
