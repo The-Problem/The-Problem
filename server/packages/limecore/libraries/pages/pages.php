@@ -18,6 +18,8 @@ class Pages {
      * @var Head The page head
      */
     public static $head;
+
+    public static $template;
     
     private static $pages = array();
     
@@ -127,6 +129,8 @@ class Pages {
         
         $template = $page->template();
         if (!$template) return false;
+        self::$template = $template;
+
         $template->head($head);
         $page->head($head);
         Events::call("pagehead", array(self::$head));

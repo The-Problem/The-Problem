@@ -45,19 +45,8 @@
 
 		}
 
-		public static function make(){
-			$currentUser = $_SESSION['username'];
-		}
-
 		private static function processNotification($notification){
-			
-			/*0 - "Angela has assigned you to  bug #50 'Needs More Unicorns'"
-			1 - "'Oversized Buttons' has just been submitted to Users"
-			2 - "'Oversized Buttons' has had its status changed to 'WIP'"
-			3 - "Patrick commented on 'Needs More Unicorns'"
-			4 - "Tom +1'd your bug, 'Needs More Dragons'"
-			5 - "Patrick mentioned you in a comment from 'Needs More Dragons"*/
-
+		
 			Library::get('objects');
 
 			$message = "";
@@ -121,7 +110,7 @@
 			}else if ($type == self::TYPE_PLUSONE){
 				$typeQuery = 
 							"SELECT Object_Type
-							FROM Objects
+							FROM objects
 							WHERE Object_ID = ?";
 				$targetType = Connection::query($typeQuery, "s", array($targetOne))[0]["Object_Type"];
 
@@ -161,8 +150,6 @@
 
 
 			}else if($type == self::TYPE_MENTION){
-				"You were mentioned in a comment from 'Oversized Buttons'";
-
 				$commentQuery =
 								"SELECT Comment_Text, sections.Section_Name as 'Section_Name'
 								FROM comments
