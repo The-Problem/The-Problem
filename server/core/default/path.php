@@ -195,7 +195,7 @@ class Path {
             }
             $components["host"] = $host;
             
-            self::$webpath = http_build_url($components);
+            self::$webpath = String::trimend(http_build_url($components), "/");
         }
         return self::$webpath;
     }
