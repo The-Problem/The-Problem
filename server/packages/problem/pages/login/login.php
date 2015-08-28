@@ -53,7 +53,7 @@ class LoginPage implements IPage{
 				<?php if(isset($message)) echo "<p>" . $message . "</p>";?>
 				<input id='userField' type='text' name='username' placeholder='Username / Email' value='<?php if(isset($_POST['username'])) echo $_POST['username']; ?>'><br>
 				<input id='passField' type='password' name='password' placeholder='Password'><br>
-				<button class='highlight' action='submit'><u>SIGN IN</u></button>
+				<button action='submit'>SIGN IN</button>
 			</form>
 		</div>
 

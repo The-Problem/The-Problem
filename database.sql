@@ -123,6 +123,8 @@ CREATE TABLE IF NOT EXISTS `developers` (
 
 INSERT INTO `developers` (`Section_ID`, `Username`) VALUES
   (1, 'Andrew'),
+  (1, 'dr2n'),
+  (2, 'dr2n'),
   (2, 'exterminate'),
   (3, 'exterminate'),
   (3, 'mrfishie'),
@@ -286,21 +288,25 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `Last_Logon_Time`) VALUES
-  ('Andrew', 'fireme@mailinator.net', 'Andrew', 'pleaseBoss1', 0, '', NULL),
-  ('bullseye', 'bullseye@mailinator.net', 'Mr T', 'againNagain0', 0, '', NULL),
-  ('dr2n', 'darren.yx.fu@gmail.com', 'Darren Fu', 'password01', 4, 'A creator.', '2015-08-22 13:42:22'),
-  ('exterminate', 'david@mailinator.net', 'David', 'sleepyDog2', 0, '', '2015-08-23 17:44:36'),
-  ('flame', 'flame@mailinator.net', 'Andria', 'noOneCanSee6', 0, '', NULL),
-  ('Jas', 'jjj@mailinator.net', 'Jas', 'rightio3', 0, '', NULL),
-  ('jackass', 'jackass@mailinator.net', 'Jake Peearaa', 'moon3Shadow', 0, '', NULL),
-  ('KaiXinGuo', 'kai@mailinator.net', 'Kai', 'wellThi5IsAProblem', 0, '', NULL),
-  ('KatieLilly', 'jrn@mailinator.net', 'Katie Lilly', 'flashCookies1994372', 0, '', NULL),
-  ('Liam', 'LIAM@mailinator.net', 'Liam Prok', 'helloW0rld', 0, '', NULL),
-  ('meltingPoint', 'mp@mailinator.net', 'Jess', '4myDreamz', 0, '', NULL),
-  ('mrfishie', 'mrfishie101@hotmail.com', 'Tom', 'correct horse battery staple', 4, 'Hi! I make websites and lights do cool things.', '2015-08-25 18:04:24'),
-  ('powerRangers46', 'pewpew@mailinator.net', 'Zac Langlands', 'Lo000L', 0, '', NULL),
-  ('unhelpful', 'unhelpful@mailinator.net', 'Ben Loungin', 'yjhghtd44790vjhg', 0, '', NULL);
-
+('Andrew', 'fireme@mailinator.net', 'Andrew', 'pleaseBoss1', 0, '', NULL),
+('bullseye', 'bullseye@mailinator.net', 'Mr T', 'againNagain0', 0, '', NULL),
+('dr2n', 'darren.yx.fu@gmail.com', 'Darren Fu', 'superPiggy46', 4, '\r\n\r\nOften with a love of the French language comes a love of French culture and an interest in the way the French-speaking world does things differently to us.\r\n\r\nOur seasonal events are designed to bring together like-minded people in a social situation while enjoying the best food, wine, film, fashion (and much more) the French have to offer.\r\n\r\nFor all levels and interests - there’s be something for everybody...even a trip to Nouméa in April 2015, too. There will also be a three-day trip to a secret destination for a French Festival in October 2015. Let us know if you''d like to be kept in the loop.\r\n', '2015-08-26 16:50:02'),
+('exterminate', 'david@mailinator.net', 'David', 'sleepyDog2', 0, '', NULL),
+('flame', 'flame@mailinator.net', 'Andria', 'noOneCanSee6', 0, '', NULL),
+('gottatrythis', 'gtythis@mailinator.net', 'Donald', 'takeme5555', 0, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum', '2015-08-28 17:32:21'),
+('hackers', 'davee3@mailinator.net', 'Dave', 'breakingIn12', 0, '', '2015-08-26 21:23:20'),
+('Jas', 'jjj@mailinator.net', 'Jas', 'rightio3', 0, '', NULL),
+('jackass', 'jackass@mailinator.net', 'Jake Peearaa', 'moon3Shadow', 0, '', NULL),
+('KaiXinGuo', 'kai@mailinator.net', 'Kai', 'wellThi5IsAProblem', 0, '', NULL),
+('KatieLilly', 'jrn@mailinator.net', 'Katie Lilly', 'flashCookies1994372', 0, '', NULL),
+('Liam', 'LIAM@mailinator.net', 'Liam Prok', 'helloW0rld', 1, '', '2015-08-26 21:09:09'),
+('MichaelK', 'mike@mailinator.net', 'Michael', 'don''tBePicky1', 0, '', NULL),
+('meltingPoint', 'mp@mailinator.net', 'Jess', '4myDreamz', 0, '', NULL),
+('mrfishie', 'mrfishie101@hotmail.com', 'Tom', 'correct horse battery staple', 4, 'Hi! I make websites and lights do cool things.', NULL),
+('powerRangers46', 'pewpew@mailinator.net', 'Zac Langlands', 'Lo000L', 0, '', NULL),
+('SmithJohn', 'jsjs@mailinator.net', 'John Smith', 'joinin768', 0, 'There''s probably not a single person in this development team that''s as skilled as I am in making tea.', NULL),
+('that''sMe', 'hu@mailinator.net', 'DoctorHu', 'firefox555', 0, '', NULL),
+('unhelpful', 'unhelpful@mailinator.net', 'Ben Loungin', 'yjhghtd44790vjhg', 0, '', NULL);
 -- --------------------------------------------------------
 
 --
@@ -311,6 +317,14 @@ CREATE TABLE IF NOT EXISTS `watchers` (
   `Object_ID` int(11) NOT NULL,
   `Username` varchar(20) COLLATE latin1_general_cs NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+--
+-- Dumping data for table `watchers`
+--
+
+INSERT INTO `watchers` (`Object_ID`, `Username`) VALUES
+(1, 'dr2n'),
+(5, 'dr2n');
 
 --
 -- Indexes for dumped tables

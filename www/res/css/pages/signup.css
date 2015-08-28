@@ -1,7 +1,4 @@
 /*Body Styling*/
-body{
-	padding-bottom: 100px;
-}
 
 .body {
 	margin-left: auto;
@@ -56,6 +53,11 @@ fieldset {
 	width: 480px;
 	height: 48px;
 }
+
+.highlight {
+	float: right;
+}
+
 	/*Elements in each form*/
 
 	label{

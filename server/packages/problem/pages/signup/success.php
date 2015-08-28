@@ -46,7 +46,7 @@ class SignupSuccessPage implements IPage{
 		<h2>Your Avatar</h2>
 		<p>The Problem uses avatars which are connected to your Gravatar email address. If you don't have a Gravatar, we've generated for you your own identicon.</p>
 
-		<img id='profilePic' src='<?php echo Users::getUser('current')->getAvatarLink(); ?>' />
+		<img id='profilePic' src='<?php echo Users::getUser('current')->getAvatarLink(200); ?>' />
 		<h2>Your Bio</h2>
 		<p>Write something about yourself to help others know you.</p>
 		

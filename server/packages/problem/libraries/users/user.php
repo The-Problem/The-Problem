@@ -187,9 +187,10 @@
 						.'<a href="' . $verifyLink . '">' . $verifyLink . "</a></div></body>";
 
 
-			$headers = "From : <The Problem> noreply@theproblem.dreamhosters.com" . "\r\n";
-			$headers .= "Reply-To: <The Problem> noreply@theproblem.dreamhosters.com" . "\r\n";
+			$headers = "From: noreply@theproblem.dreamhosters.com" . "\r\n";
+			$headers .= "Reply-To: noreply@theproblem.dreamhosters.com" . "\r\n";
 			$headers .= "Content-type: text/html" . "\r\n";
+
 
 			return mail($to, $subject, $messageHTML, $headers);
 		}

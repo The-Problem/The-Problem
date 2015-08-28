@@ -58,9 +58,9 @@ button:hover, button:focus {
 button.highlight {
     background-color: #ef5350;
     color: white;
-    float: right;
     width: 125px;
     height: 40px;
+    margin-top: 30px;
     transition: background-color 0.1s;
 }
 

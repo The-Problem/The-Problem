@@ -64,7 +64,6 @@ class SignupPage implements IPage{
 				return 2;
 			}
 			if (!$this::passedCAPTCHA()){
-				echo "failed captcha<br>";
 				return 2;
 			}
 

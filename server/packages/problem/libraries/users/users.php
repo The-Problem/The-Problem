@@ -66,18 +66,28 @@
 		
 		//logs user in using $_SESSION[]
 		public static function login($username, $password){
+
+			if (filter_var($username, FILTER_VALIDATE_EMAIL)){
+				$passwordQuery =
+						"SELECT Username
+						FROM users
+						WHERE Email = ? AND Password = ?";
+			}else{
+				$passwordQuery = "SELECT Username FROM users WHERE Username = ? AND Password = ?";
+			}
 			
-			$passwordQuery = "SELECT *  FROM users WHERE Username = ? AND Password = ?";
 			$queryResult = Connection::query($passwordQuery, "ss", array($username, $password));
 			
-			$updateLogonTimeQuery = "UPDATE users SET Last_Logon_Time = NOW() WHERE Username = ?";
-			$updateResult = Connection::query($updateLogonTimeQuery, "s", array($username));
 
 			if ($queryResult){
-				$_SESSION['username'] = $username;
+				$_SESSION['username'] = $queryResult[0]['Username'];
+				$updateLogonTimeQuery = "UPDATE users SET Last_Logon_Time = NOW() WHERE Username = ?";
+				$updateResult = Connection::query($updateLogonTimeQuery, "s", array($username));
+				return true;
 			}
 
-			return $queryResult;
+			return false;
+
 		}
 
 		//logs current user off
