@@ -21,7 +21,7 @@
 		//change the password
 		public function setPassword($newPassword){
 			//find current password
-			$currentPasswordQuery = 
+			/*$currentPasswordQuery = 
 					"SELECT Password
 					FROM users
 					WHERE username = ?";
@@ -29,7 +29,13 @@
 
 			if ($newPass)
 			$query = "UPDATE users SET Password = ? WHERE Username = ?'";
-			$queryResult = Connection::query($query, "ss", array($newPassword, $this->username));
+			$queryResult = Connection::query($query, "ss", array($newPassword, $this->username));*/
+
+			$passwordHash = password_hash($newPassword);
+
+			$setPasswordQuery = 
+					"UPDATE users SET Password = ? WHERE Username = ?";
+			$setPassword = Connection::query($setPasswordQuery, "ss", array($passwordHash, $this->username));
 
 		}
 

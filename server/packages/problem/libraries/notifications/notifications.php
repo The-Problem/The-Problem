@@ -116,10 +116,10 @@
 
 				if ($targetType == Objects::TYPE_BUG){
 					$bugQuery = 
-								"SELECT Bugs.Name as 'Bug_Name', Sections.Name as 'Section_Name'
+								"SELECT bugs.Name as 'Bug_Name', sections.Name as 'Section_Name'
 								FROM Bugs
-									LEFT JOIN Sections ON Bugs.Section_ID = Sections.Section_ID
-								WHERE Bugs.Object_ID = ?";
+									LEFT JOIN Sections ON bugs.Section_ID = sections.Section_ID
+								WHERE bugs.Object_ID = ?";
 
 					$bugInfo = Connection::query($bugQuery, "s", array($targetOne))[0];
 					$bugName = $bugInfo['Bug_Name'];
@@ -128,10 +128,10 @@
 					$message = $trigger . " +1'd your bug " . $bugName;
 				}else if ($targetType == Objects::TYPE_COMMENT){
 					$commentQuery = 
-									"SELECT Comment_Text, Bugs.Name as 'Bug_Name', Sections.Name as 'Section_Name'
+									"SELECT Comment_Text, bugs.Name as 'Bug_Name', sections.Name as 'Section_Name'
 									FROM Comments
-										LEFT JOIN Bugs ON Comments.Bug_ID = Bugs.Bug_ID
-										LEFT JOIN Sections ON Sections.Section_ID = Bugs.Section_ID
+										LEFT JOIN Bugs ON comments.Bug_ID = bugs.Bug_ID
+										LEFT JOIN Sections ON sections.Section_ID = bugs.Section_ID
 									WHERE Comments.Object_ID = ?";
 
 					$commentInfo = Connection::query($commentQuery, "s", array($targetOne))[0];

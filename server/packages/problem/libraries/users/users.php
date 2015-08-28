@@ -11,14 +11,20 @@
 		const RANK_UNVERIFIED = 0;
 
 		const VERIFY_SALT = 'salty';
+		const PASSWORD_SALT = 'wellthatsaproblem';
 
 		//create user from required information
 		public static function newUser($username, $password, $name, $email){
-			$username = trim($username);
-			$name = trim($name);
-			$email = trim($email);
-			$userCreateQuery = "INSERT INTO users (Username, Email, Name, Password, Rank) VALUES ( ? , ? , ? , ? , 0)";
-			$query = Connection::query($userCreateQuery, "ssss", array($username, $email, $name, $password));
+			$username = htmlentities(trim($username));
+			$name = htmlentities(trim($name));
+			$email = htmlentities(trim($email));
+			$password = htmlentities(trim($password));
+
+			$userCreateQuery = "INSERT INTO users (Username, Email, Name, Rank) VALUES ( ? , ? , ? , 0)";
+			$query = Connection::query($userCreateQuery, "sss", array($username, $email, $name));
+
+			$freshUser = self::getUser($username);
+			$freshUser->setPassword($password);
 
 			$_SESSION['username'] = $username;
 
@@ -66,23 +72,23 @@
 		
 		//logs user in using $_SESSION[]
 		public static function login($username, $password){
+			Library::get('password');
 
 			if (filter_var($username, FILTER_VALIDATE_EMAIL)){
 				$passwordQuery =
-						"SELECT Username
+						"SELECT Username, Password
 						FROM users
-						WHERE Email = ? AND Password = ?";
+						WHERE Email = ?";
 			}else{
-				$passwordQuery = "SELECT Username FROM users WHERE Username = ? AND Password = ?";
+				$passwordQuery = "SELECT Username, Password FROM users WHERE Username = ?";
 			}
-			
-			$queryResult = Connection::query($passwordQuery, "ss", array($username, $password));
-			
 
-			if ($queryResult){
-				$_SESSION['username'] = $queryResult[0]['Username'];
+			$passwordHashResult = Connection::query($passwordQuery, "s", array($username));
+
+			if ($passwordHashResult && password_verify($password, $passwordHashResult[0]['Password'])){
+				$_SESSION['username'] = $passwordHashResult[0]['Username'];
 				$updateLogonTimeQuery = "UPDATE users SET Last_Logon_Time = NOW() WHERE Username = ?";
-				$updateResult = Connection::query($updateLogonTimeQuery, "s", array($username));
+				$updateResult = Connection::query($updateLogonTimeQuery, "s", array($passwordHasResult[0]['Username']));
 				return true;
 			}
 

@@ -29,12 +29,16 @@ class SignupSuccessPage implements IPage{
 	}
 
 	public function body(){
-		$_SESSION['signedup'] = false;
 		Library::get('users');
 		$currentUser = Users::getUser("current");
-		$currentUser->sendVerificationEmail();
+
+		if (!$_SESSION['verificationSent']){
+			$currentUser->sendVerificationEmail();
+			$_SESSION['verificationSent'] = true;
+		}
 
 		if (isset($_POST['bio'])){
+			$_SESSION['signedup'] = false;
 			$currentUser->setBio($_POST['bio']);
 			Path::redirect(Path::getclientfolder());
 		}
