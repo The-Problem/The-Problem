@@ -1,24 +1,24 @@
--- phpMyAdmin SQL Dump
--- version 4.4.13
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Aug 25, 2015 at 05:13 PM
--- Server version: 5.5.34
--- PHP Version: 5.5.9
+
+
+
+
+
+
+
+
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
---
--- Database: `the-problem`
---
 
--- --------------------------------------------------------
 
---
--- Table structure for table `bugs`
---
+
+
+
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `bugs` (
   `Bug_ID` int(11) NOT NULL,
@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS `bugs` (
   `Assigned` varchar(20) COLLATE latin1_general_cs DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
---
--- Dumping data for table `bugs`
---
+
+
+
 
 INSERT INTO `bugs` (`Bug_ID`, `Section_ID`, `Object_ID`, `Name`, `Status`, `Description`, `Creation_Date`, `Author`, `Edit_Date`, `RID`, `Assigned`) VALUES
   (43, 1, 21, 'Login Button Disappearing', 0, 'The login button disappears from the screen whenever I try to click on it. I can''t click on it and haven''t been able to log on for three weeks. Very annoying, please fix ASAP.', '2015-08-01 00:00:00', 'exterminate', '2015-08-01 00:00:00', 1, 'Andrew'),
@@ -51,11 +51,11 @@ INSERT INTO `bugs` (`Bug_ID`, `Section_ID`, `Object_ID`, `Name`, `Status`, `Desc
   (55, 1, 24, 'Oversized Buttons', 4, 'Buttons on the logon page are the size of the entire screen.', '2015-08-12 00:00:00', 'meltingPoint', '2015-08-12 00:00:00', 4, 'dr2n'),
   (56, 1, 25, 'Character Jumble', 1, 'All the characters in my username have become jumbled up.', '2015-08-05 00:00:00', 'powerRangers46', '2015-08-05 00:00:00', 5, 'Jas');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `comments`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `comments` (
   `Comment_ID` int(11) NOT NULL,
@@ -68,11 +68,11 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `Raw_Text` longtext COLLATE latin1_general_cs NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `configuration`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `configuration` (
   `Type` varchar(20) COLLATE latin1_general_cs NOT NULL,
@@ -80,20 +80,20 @@ CREATE TABLE IF NOT EXISTS `configuration` (
   `Value` text COLLATE latin1_general_cs NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
---
--- Dumping data for table `configuration`
---
+
+
+
 
 INSERT INTO `configuration` (`Type`, `Name`, `Value`) VALUES
   ('overview-name', 'sitename', 'The Problem'),
   ('overview-visibility', 'registration', 'open'),
   ('overview-visibility', 'visibility', 'public');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `cookies`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `cookies` (
   `id` int(11) NOT NULL,
@@ -106,20 +106,20 @@ CREATE TABLE IF NOT EXISTS `cookies` (
   `http` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `developers`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `developers` (
   `Section_ID` int(11) NOT NULL,
   `Username` varchar(20) COLLATE latin1_general_cs NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
---
--- Dumping data for table `developers`
---
+
+
+
 
 INSERT INTO `developers` (`Section_ID`, `Username`) VALUES
   (1, 'Andrew'),
@@ -131,11 +131,11 @@ INSERT INTO `developers` (`Section_ID`, `Username`) VALUES
   (4, 'mrfishie'),
   (2, 'unhelpful');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `grouppermissions`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `grouppermissions` (
   `Object_ID` int(11) NOT NULL,
@@ -143,9 +143,9 @@ CREATE TABLE IF NOT EXISTS `grouppermissions` (
   `Rank` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
---
--- Dumping data for table `grouppermissions`
---
+
+
+
 
 INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
   (0, 'site.view', 0),
@@ -166,11 +166,11 @@ INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
   (30, 'bug.comment', 1),
   (31, 'bug.comment', 1);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `notifications`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `notifications` (
   `Notification_ID` int(11) NOT NULL,
@@ -183,20 +183,20 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `Type` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `objects`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `objects` (
   `Object_ID` int(11) NOT NULL,
   `Object_Type` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
---
--- Dumping data for table `objects`
---
+
+
+
 
 INSERT INTO `objects` (`Object_ID`, `Object_Type`) VALUES
   (0, -1),
@@ -217,11 +217,11 @@ INSERT INTO `objects` (`Object_ID`, `Object_Type`) VALUES
   (30, 1),
   (31, 1);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `plusones`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `plusones` (
   `Object_ID` int(11) NOT NULL,
@@ -229,11 +229,11 @@ CREATE TABLE IF NOT EXISTS `plusones` (
   `Time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `sections`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `sections` (
   `Section_ID` int(11) NOT NULL,
@@ -244,9 +244,9 @@ CREATE TABLE IF NOT EXISTS `sections` (
   `Color` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
---
--- Dumping data for table `sections`
---
+
+
+
 
 INSERT INTO `sections` (`Section_ID`, `Name`, `Object_ID`, `Description`, `Slug`, `Color`) VALUES
   (1, 'Users', 1, 'The user management system in The Problem.', 'users', 6),
@@ -255,11 +255,11 @@ INSERT INTO `sections` (`Section_ID`, `Name`, `Object_ID`, `Description`, `Slug`
   (4, 'User Permissions', 4, 'User permission management system that works in The Problem.', 'user-permissions', 9),
   (5, 'Notifications', 5, 'Notification system in The Problem notifying users of bug assignment, commenting, +1 and section activities as they occur.', 'notifications', 14);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `userpermissions`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `userpermissions` (
   `Object_ID` int(11) NOT NULL,
@@ -267,11 +267,11 @@ CREATE TABLE IF NOT EXISTS `userpermissions` (
   `Username` varchar(20) COLLATE latin1_general_cs NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `users`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `users` (
   `Username` varchar(20) COLLATE latin1_general_cs NOT NULL,
@@ -283,11 +283,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Last_Logon_Time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
---
--- Dumping data for table `users`
---
+
+
+
 
 INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `Last_Logon_Time`) VALUES
+
 ('Andrew', 'fireme@mailinator.net', 'Andrew', 'pleaseBoss1', 0, '', NULL),
 ('bullseye', 'bullseye@mailinator.net', 'Mr T', 'againNagain0', 0, '', NULL),
 ('dr2n', 'darren.yx.fu@gmail.com', 'Darren Fu', 'superPiggy46', 4, '\r\n\r\nOften with a love of the French language comes a love of French culture and an interest in the way the French-speaking world does things differently to us.\r\n\r\nOur seasonal events are designed to bring together like-minded people in a social situation while enjoying the best food, wine, film, fashion (and much more) the French have to offer.\r\n\r\nFor all levels and interests - there’s be something for everybody...even a trip to Nouméa in April 2015, too. There will also be a three-day trip to a secret destination for a French Festival in October 2015. Let us know if you''d like to be kept in the loop.\r\n', '2015-08-26 16:50:02'),
@@ -309,9 +310,10 @@ INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `La
 ('unhelpful', 'unhelpful@mailinator.net', 'Ben Loungin', 'yjhghtd44790vjhg', 0, '', NULL);
 -- --------------------------------------------------------
 
---
--- Table structure for table `watchers`
---
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `watchers` (
   `Object_ID` int(11) NOT NULL,
@@ -330,9 +332,12 @@ INSERT INTO `watchers` (`Object_ID`, `Username`) VALUES
 -- Indexes for dumped tables
 --
 
---
--- Indexes for table `bugs`
---
+
+
+
+
+
+
 ALTER TABLE `bugs`
 ADD PRIMARY KEY (`Bug_ID`),
 ADD KEY `Section_ID` (`Section_ID`),
@@ -340,43 +345,43 @@ ADD KEY `Object_ID` (`Object_ID`),
 ADD KEY `Author` (`Author`),
 ADD KEY `Assigned` (`Assigned`);
 
---
--- Indexes for table `comments`
---
+
+
+
 ALTER TABLE `comments`
 ADD PRIMARY KEY (`Comment_ID`),
 ADD KEY `Bug_ID` (`Bug_ID`),
 ADD KEY `Username` (`Username`),
 ADD KEY `Object_ID` (`Object_ID`);
 
---
--- Indexes for table `configuration`
---
+
+
+
 ALTER TABLE `configuration`
 ADD PRIMARY KEY (`Type`,`Name`);
 
---
--- Indexes for table `cookies`
---
+
+
+
 ALTER TABLE `cookies`
 ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `developers`
---
+
+
+
 ALTER TABLE `developers`
 ADD PRIMARY KEY (`Section_ID`,`Username`),
 ADD KEY `Username` (`Username`);
 
---
--- Indexes for table `grouppermissions`
---
+
+
+
 ALTER TABLE `grouppermissions`
 ADD PRIMARY KEY (`Object_ID`,`Permission_Name`) USING BTREE;
 
---
--- Indexes for table `notifications`
---
+
+
+
 ALTER TABLE `notifications`
 ADD PRIMARY KEY (`Notification_ID`),
 ADD KEY `Triggered_By` (`Triggered_By`),
@@ -384,146 +389,146 @@ ADD KEY `Received_By` (`Received_By`),
 ADD KEY `Target_One` (`Target_One`),
 ADD KEY `Target_Two` (`Target_Two`);
 
---
--- Indexes for table `objects`
---
+
+
+
 ALTER TABLE `objects`
 ADD PRIMARY KEY (`Object_ID`);
 
---
--- Indexes for table `plusones`
---
+
+
+
 ALTER TABLE `plusones`
 ADD PRIMARY KEY (`Object_ID`,`Username`),
 ADD KEY `Username` (`Username`);
 
---
--- Indexes for table `sections`
---
+
+
+
 ALTER TABLE `sections`
 ADD PRIMARY KEY (`Section_ID`),
 ADD KEY `Object_ID` (`Object_ID`);
 
---
--- Indexes for table `userpermissions`
---
+
+
+
 ALTER TABLE `userpermissions`
 ADD PRIMARY KEY (`Object_ID`,`Permission_Name`,`Username`),
 ADD KEY `Username` (`Username`);
 
---
--- Indexes for table `users`
---
+
+
+
 ALTER TABLE `users`
 ADD PRIMARY KEY (`Username`);
 
---
--- Indexes for table `watchers`
---
+
+
+
 ALTER TABLE `watchers`
 ADD PRIMARY KEY (`Object_ID`),
 ADD KEY `Username` (`Username`);
 
---
--- AUTO_INCREMENT for dumped tables
---
 
---
--- AUTO_INCREMENT for table `bugs`
---
+
+
+
+
+
+
 ALTER TABLE `bugs`
 MODIFY `Bug_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=57;
---
--- AUTO_INCREMENT for table `comments`
---
+
+
+
 ALTER TABLE `comments`
 MODIFY `Comment_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
---
--- AUTO_INCREMENT for table `cookies`
---
+
+
+
 ALTER TABLE `cookies`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `notifications`
---
+
+
+
 ALTER TABLE `notifications`
 MODIFY `Notification_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `objects`
---
+
+
+
 ALTER TABLE `objects`
 MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=114;
---
--- AUTO_INCREMENT for table `sections`
---
+
+
+
 ALTER TABLE `sections`
 MODIFY `Section_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `bugs`
---
+
+
+
+
+
+
 ALTER TABLE `bugs`
 ADD CONSTRAINT `bugs_ibfk_1` FOREIGN KEY (`Section_ID`) REFERENCES `sections` (`Section_ID`),
 ADD CONSTRAINT `bugs_ibfk_2` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`),
 ADD CONSTRAINT `bugs_ibfk_3` FOREIGN KEY (`Author`) REFERENCES `users` (`Username`),
 ADD CONSTRAINT `bugs_ibfk_4` FOREIGN KEY (`Assigned`) REFERENCES `users` (`Username`);
 
---
--- Constraints for table `comments`
---
+
+
+
 ALTER TABLE `comments`
 ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`Bug_ID`) REFERENCES `bugs` (`Bug_ID`),
 ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`),
 ADD CONSTRAINT `comments_ibfk_3` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`);
 
---
--- Constraints for table `developers`
---
+
+
+
 ALTER TABLE `developers`
 ADD CONSTRAINT `developers_ibfk_1` FOREIGN KEY (`Section_ID`) REFERENCES `sections` (`Section_ID`),
 ADD CONSTRAINT `developers_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`);
 
---
--- Constraints for table `grouppermissions`
---
+
+
+
 ALTER TABLE `grouppermissions`
 ADD CONSTRAINT `grouppermissions_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`);
 
---
--- Constraints for table `notifications`
---
+
+
+
 ALTER TABLE `notifications`
 ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`Triggered_By`) REFERENCES `users` (`Username`),
 ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`Received_By`) REFERENCES `users` (`Username`),
 ADD CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`Target_One`) REFERENCES `objects` (`Object_ID`),
 ADD CONSTRAINT `notifications_ibfk_4` FOREIGN KEY (`Target_Two`) REFERENCES `objects` (`Object_ID`);
 
---
--- Constraints for table `plusones`
---
+
+
+
 ALTER TABLE `plusones`
 ADD CONSTRAINT `plusones_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`),
 ADD CONSTRAINT `plusones_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`);
 
---
--- Constraints for table `sections`
---
+
+
+
 ALTER TABLE `sections`
 ADD CONSTRAINT `sections_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`);
 
---
--- Constraints for table `userpermissions`
---
+
+
+
 ALTER TABLE `userpermissions`
 ADD CONSTRAINT `userpermissions_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`),
 ADD CONSTRAINT `userpermissions_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`);
 
---
--- Constraints for table `watchers`
---
+
+
+
 ALTER TABLE `watchers`
 ADD CONSTRAINT `watchers_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`),
 ADD CONSTRAINT `watchers_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`);

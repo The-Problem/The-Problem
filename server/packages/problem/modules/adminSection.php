@@ -65,9 +65,7 @@ class AdminSectionModule implements IModule {
                         } else { ?>No bugs<?php } ?></td></tr>
             </table>
         </div>
-        <div class="section developer-list" data-current-devs="<?php echo htmlentities((json_encode(array_map(function($item) {
-            return $item["Username"];
-        }, $developers)))); ?>">
+        <div class="section developer-list">
             <h3>Developers</h3>
             <p class="total">There <?php echo $dev_str; ?>.</p>
 
@@ -77,7 +75,7 @@ class AdminSectionModule implements IModule {
                     $gravatar_id = md5(strtolower(trim($dev["Email"])));
                     $gravatar = "http://www.gravatar.com/avatar/$gravatar_id?d=identicon&s=30";
 
-                    ?><tr>
+                    ?><tr data-username="<?php echo htmlentities($dev["Username"]); ?>">
                     <td class="user-image" style='background-image:url("<?php echo $gravatar; ?>");'></td>
                     <td class="user-name"><?php echo htmlentities($dev["Username"]); ?></td>
                     <td class="user-remove"><a href="javascript:void(0)" title="Remove developer"><i class="fa fa-times"></i></a></td>

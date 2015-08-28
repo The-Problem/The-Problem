@@ -29,19 +29,23 @@ class AjaxAdminDevSearchPage implements IPage {
         $query = $_GET['query'];
         $section_id = $_GET['section'];
 
-        $devs = Connection::query("SELECT DISTINCT users.Username AS Username, Email FROM users
-                                     LEFT JOIN developers ON (users.Username = developers.Username)
-                                   WHERE COALESCE(developers.Section_ID, 0) != ? AND users.Username LIKE ?
-                                   ORDER BY Username LIMIT 5", "is", array(
-            $section_id, "%$query%"
+        $devs = Connection::query("SELECT * FROM users
+  WHERE users.Username LIKE ?
+  AND users.Username NOT IN (SELECT developers.Username
+                                 FROM developers
+                               WHERE developers.Section_ID = ?)
+ORDER BY users.Username LIMIT 5", "si", array(
+            "%$query%", $section_id
         ));
 
         $items = array_map(function($dev) {
             $gravatar_id = md5(strtolower(trim($dev["Email"])));
             $gravatar = "http://www.gravatar.com/avatar/$gravatar_id?d=identicon&s=30";
 
-            return '<tr><td class="user-image" style=\'background-image:url("' . $gravatar . '");"\'></td>' .
-                   '<td class="user-name">' . htmlentities($dev["Username"]) . '</td></tr>';
+            $username = htmlentities($dev["Username"]);
+
+            return '<tr data-username="' . $username . '"><td class="user-image" style=\'background-image:url("' . $gravatar . '");"\'></td>' .
+                   '<td class="user-name">' . $username . '</td></tr>';
         }, $devs);
 
         return $items;
