@@ -10,7 +10,7 @@ class Objects {
     public static function permission($object_id, $type, $username = NULL, $section = NULL) {
         $keyname = "0$object_id.$username.$type";
         if (array_key_exists($keyname, self::$permissions)) return self::$permissions[$keyname];
-        
+
         $results = Connection::query("
 SELECT COUNT(*) AS Has_Permission,
   userpermissions.Username,

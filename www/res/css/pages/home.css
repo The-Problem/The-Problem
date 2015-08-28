@@ -7,12 +7,28 @@ header.big {
 
     top:-10px;
 
+    height:460px;
+
+    overflow:hidden;
+
     -webkit-box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
     -moz-box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
     box-shadow:0 0 10px 0 rgba(0,0,0,0.4) inset;
-
-    height:460px;
 }
+
+/*header.big .shadow, header.big .shadow::before {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+header.big .shadow::before {
+    display:block;
+    content:'';
+
+
+}*/
 
 .welcome {
     text-align:center;
@@ -27,8 +43,10 @@ header.big {
 }
 
 .content {
-    margin-top:466px;
+    margin-top:450px;
+    padding-top:20px;
     text-align:center;
+    background-color:#FFF;
 }
 .loggedin .content {
     margin-top:0;
@@ -40,6 +58,10 @@ header.big {
 header.big img {
     margin-top:70px;
     vertical-align:-33px;
+}
+header .scroll-container {
+    z-index:-1;
+    position:relative;
 }
 header h1 {
     font-size:2.6em;

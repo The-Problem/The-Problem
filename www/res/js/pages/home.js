@@ -6,9 +6,17 @@ LimePHP.register("page.home", function() {
         $body = $("body"),
         $$body = $(".body"),
         $header = $("header.big, header.entire-page"),
-        $$header = $("header");
+        $$header = $("header"),
+        $scrollContainer = $("header.big .scroll-container");
 
     var loggedin = $body.hasClass("loggedin");
+
+    var $window = $(window);
+    $window.on('scroll', function(e) {
+        $scrollContainer.css('top', $window.scrollTop() / 2);
+    });
+    $window.scroll();
+
 
     function search(val) {
         if (val === "") {
@@ -34,7 +42,7 @@ LimePHP.register("page.home", function() {
         }
     }
 
-    search($search.val());
+    if ($search.length) search($search.val());
 
     $search.on("keydown", function(e) {
         if (e.keyCode === 13) {

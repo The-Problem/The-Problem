@@ -102,19 +102,21 @@ SELECT *, (SELECT COUNT(*) FROM bugs
 FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
 
 <header class="big<?php if (!$viewable) echo ' entire-page'; ?>">
-    <h1><img src="<?php echo $logo->clientpath; ?>" alt="The Problem" title="The Problem" /><span><?php echo htmlentities(Pages::$head->title); ?></span></h1>
-    <h2>Login or register to get started</h2>
+    <div class="scroll-container">
+        <h1><img src="<?php echo $logo->clientpath; ?>" alt="The Problem" title="The Problem" /><span><?php echo htmlentities(Pages::$head->title); ?></span></h1>
+        <h2>Login or register to get started</h2>
 
-    <form method="post" action="<?php echo Path::getclientfolder('login'); ?>" class="login-box">
-        <p class="login-error"></p>
-        <input type="text" name="username" placeholder="Username or email" />
-        <input type="password" name="password" placeholder="Password" />
+        <form method="post" action="<?php echo Path::getclientfolder('login'); ?>" class="login-box">
+            <p class="login-error"></p>
+            <input type="text" name="username" placeholder="Username or email" />
+            <input type="password" name="password" placeholder="Password" />
 
-        <div class="buttons">
-            <button class="login-btn">LOGIN</button><button class="register-btn">REGISTER</button>
-        </div>
-    </form>
-    <div class="login-spinner spinner"><div class='circle circle-1'></div><div class='circle circle-2'></div><div class='circle circle-3'></div><div class='circle circle-4'></div><div class='circle circle-5'></div><div class='circle circle-6'></div><div class='circle circle-7'></div><div class='circle circle-8'></div></div>
+            <div class="buttons">
+                <button class="login-btn">LOGIN</button><button class="register-btn">REGISTER</button>
+            </div>
+        </form>
+        <div class="login-spinner spinner"><div class='circle circle-1'></div><div class='circle circle-2'></div><div class='circle circle-3'></div><div class='circle circle-4'></div><div class='circle circle-5'></div><div class='circle circle-6'></div><div class='circle circle-7'></div><div class='circle circle-8'></div></div>
+    </div>
 </header>
 
 <div class="content">
