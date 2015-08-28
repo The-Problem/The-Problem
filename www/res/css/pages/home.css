@@ -99,6 +99,10 @@ header .login-box button {
 }
 header .login-spinner {
     display:none;
+    margin-top:50px;
+}
+header .login-spinner .circle {
+    background-color:#FFF;
 }
 header .login-error {
     font-size:0.8em;
