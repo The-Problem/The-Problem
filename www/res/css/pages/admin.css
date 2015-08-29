@@ -230,6 +230,9 @@
 .developer-list table tr, .username-selector tr {
     border-bottom:solid 1px #DDD;
 }
+.developer-list table tr:last-child {
+    border-bottom:none;
+}
 .developer-list table td, .username-selector td {
     height:30px;
 }
@@ -247,7 +250,6 @@
 .developer-list input {
     padding:5px;
     border:solid 1px #DDD;
-    border-top:none;
     width:577px;
     background-color:#FCFCFC;
 }
@@ -268,4 +270,31 @@
 }
 .username-selector tr:hover {
     background-color:#F1F1F1;
+}
+
+.add-section, .table-row .buttons button {
+    padding:5px 10px;
+}
+.add-section {
+    margin-top:10px;
+    float:right;
+}
+.table-row.new-section .new-section-name {
+    padding:5px;
+    width:579px;
+}
+.table-row.new-section textarea {
+    border:none;
+    margin-top:1px;
+    padding:5px;
+    resize:none;
+    width:579px;
+}
+.table-row .section.buttons {
+    text-align:right;
+    background-color:#F1F1F1;
+    padding:5px;
+}
+.table-row .buttons button {
+    margin-left:5px;
 }

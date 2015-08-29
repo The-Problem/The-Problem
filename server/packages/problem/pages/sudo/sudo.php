@@ -37,7 +37,7 @@ class SudoPage implements IPage {
                 $_SESSION["sudo"] = time();
                 Path::redirect($_GET['return']);
             } else $message = "Invalid password. Please try again.";
-            
+
         }
 
         ?>

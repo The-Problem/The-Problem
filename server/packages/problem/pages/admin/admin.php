@@ -91,6 +91,8 @@ class AdminPage implements IPage {
         <?php
     }
     public function sections() {
+        Pages::$head->script("lib/autosize.min");
+
         $sections = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID
@@ -145,6 +147,7 @@ FROM sections
     }
     ?>
 </div>
+<button class="green add-section"><i class="fa fa-plus"></i> Add Section</button>
         <?php
     }
     public function permissions() {

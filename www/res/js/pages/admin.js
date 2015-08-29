@@ -55,7 +55,7 @@ LimePHP.register("page.admin", function() {
 
     var $rows = $(".section-list .table-row");
 
-    $rows.children(".overview").on('click', function() {
+    $(document).on('click', ".section-list .table-row .overview",  function() {
         var $overview = $(this);
         var $row = $overview.parent(".table-row");
         var $options = $row.children(".options");
@@ -118,12 +118,7 @@ LimePHP.register("page.admin", function() {
         var sectionId = $section.data("id");
         var username = $row.data("username");
 
-        var r = LimePHP.request("get", LimePHP.path("ajax/admin/removeDev"), {
-            section: sectionId,
-            username: username
-        }, "json");
-
-        r.success = function() {
+        function removeRow() {
             $row.remove();
 
             var $devCount = $section.find(".overview .developers");
@@ -134,11 +129,20 @@ LimePHP.register("page.admin", function() {
             $row.find(".developer-list .total").text("There " + (newAmount === 1 ? "is " : "are ") + newAmount + " developer" + (newAmount === 1 ? "" : "s") + ".");
 
             $input.data("usernameCache", {});
-        };
+        }
 
-        r.complete = function() {
-            $row.data('submitting', false);
-        };
+        if (sectionId) {
+            var r = LimePHP.request("get", LimePHP.path("ajax/admin/removeDev"), {
+                section: sectionId,
+                username: username
+            }, "json");
+
+            r.success = removeRow;
+
+            r.complete = function () {
+                $row.data('submitting', false);
+            };
+        } else removeRow();
     });
     $(document).on("click", ".username-selector tr", function() {
         if (currentSelected === false) return;
@@ -147,21 +151,22 @@ LimePHP.register("page.admin", function() {
         $selector.hide();
 
         var $this = $(this);
-        var $row = $(".table-row[data-id=" + currentSelected + "]");
+        var $row;
+        if (currentSelected) $row = $(".table-row[data-id=" + currentSelected + "]");
+        else $row = $(".table-row.new-section");
         var $table = $row.find(".developer-list table");
         var $input = $row.find(".developer-list input");
+        var $devCount = $row.find(".overview .developers");
         $input.attr('disabled', true);
 
         var userImage = $this.children('.user-image').css('background-image'),
             userName = $this.children('.user-name').text();
 
         var dataUsername = $this.data('username');
-        var r = LimePHP.request("get", LimePHP.path("ajax/admin/addDev"), {
-            section: currentSelected,
-            username: dataUsername
-        }, "json");
 
-        r.success = function() {
+        var newAmount = parseInt($devCount.text()) + 1;
+
+        function addRow() {
             var $image = $("<td class='user-image'></td>");
             $image.css("background-image", userImage);
             var $name = $("<td class='user-name'></td>");
@@ -175,19 +180,31 @@ LimePHP.register("page.admin", function() {
 
             $input.data("usernameCache", {});
 
-            var $devCount = $row.find(".overview .developers");
-            var newAmount = parseInt($devCount.text()) + 1;
             $devCount.text(newAmount);
 
             if (newAmount === 0) newAmount = "no";
             $row.find(".developer-list .total").text("There " + (newAmount === 1 ? "is " : "are ") + newAmount + " developer" + (newAmount === 1 ? "" : "s") + ".");
-        };
+        }
 
-        r.complete = function() {
+        if (currentSelected) {
+            var r = LimePHP.request("get", LimePHP.path("ajax/admin/addDev"), {
+                section: currentSelected,
+                username: dataUsername
+            }, "json");
+
+            r.success = addRow;
+
+            r.complete = function () {
+                $input.val("");
+                $input.attr('disabled', false);
+                $input.focus();
+            };
+        } else {
+            addRow();
             $input.val("");
             $input.attr('disabled', false);
             $input.focus();
-        };
+        }
     });
 
     function showResultsFor(term, $input, rowId) {
@@ -226,4 +243,109 @@ LimePHP.register("page.admin", function() {
         $selector.html(items.join(""));
         $selector.show();
     }
+
+    var $addSection = $(".add-section");
+    $addSection.on('click', function() {
+        var $addSection = $(this);
+        $addSection.hide();
+
+        var color = Math.floor(Math.random() * 15) + 1;
+
+        var $newRow = $('<div class="table-row new-section">' +
+            '<div class="overview" style="display:none">' +
+                '<p class="name"></p>' +
+                '<p class="description"></p>' +
+                '<p class="developers">0</p>' +
+                '<p class="bugs">No bugs</p>' +
+            '</div><div class="options" style="display:block">' +
+                '<div class="section-header">' +
+                    '<div class="section-tile color-' + color + '"></div>' +
+                    '<div class="right-column">' +
+                        '<div class="section info">' +
+                            '<h2><input type="text" class="new-section-name" placeholder="Section Name" /></h2>' +
+                            '<textarea class="new-section-description" placeholder="Section Description"></textarea>' +
+                        '</div>' +
+                        '<div class="section developer-list">' +
+                            '<h3>Developers</h3>' +
+                            '<p class="total">Developers are the people who work on your section, and have some ' +
+                            'elevated privelidges.</p>' +
+                            '<table></table>' +
+                            '<input type="text" placeholder="Add a developer..." />' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="section buttons">' +
+                    '<button class="cancel-add-section">Cancel</button>' +
+                    '<button class="green finish-add-section" data-color="' + color + '">Apply</button>' +
+                '</div>' +
+            '</div>' +
+        '</div>');
+        $(".section-list").append($newRow);
+        autosize($newRow.find('textarea'));
+        $newRow.find("input.new-section-name").focus();
+    });
+    $(document).on('click', '.cancel-add-section', function() {
+        $(".table-row.new-section").remove();
+        $addSection.show();
+    });
+    $(document).on('keydown', '.new-section-name', function() {
+        var $this = $(this);
+        setTimeout(function() {
+            if ($.trim($this.val()).length) $this.removeClass("error");
+        }, 0);
+    });
+    $(document).on('click', '.finish-add-section', function() {
+        var $this = $(this);
+
+        var $name = $(".new-section-name"), name = $name.val();
+        if (!$.trim(name).length) {
+            $name.addClass("error");
+            return;
+        }
+
+        var $description = $(".new-section-description"), description = $description.val();
+        var $devRows = $(".new-section .developer-list table tr");
+
+        var devs = $devRows.map(function() {
+            return $(this).data('username');
+        }).toArray();
+
+        var $buttons = $(".new-section .buttons");
+
+        var $inputs = $([$name, $description, ".new-section .developer-list input"]);
+        $inputs.attr('disabled', true);
+        $buttons.hide();
+
+        var r = LimePHP.request("post", LimePHP.path("ajax/admin/addSection"), {
+            name: name,
+            description: description,
+            devs: devs,
+            color: $this.data("color")
+        }, "json");
+
+        r.success = function(data) {
+            var $newRow = $("<div class='table-row'></div>");
+            $newRow.data("id", data.id);
+
+            var $name = $("<p class='name'></p>").text(name);
+            var $description = $("<p class='description'></p>").text(description);
+            var $developers = $("<p class='developers'></p>").text(devs.length);
+            if (!devs.length) {
+                $developers.addClass("highlight");
+                $newRow.addClass("highlight");
+            }
+
+            var $bugs = $("<p class='bugs'>No bugs</p>");
+            var $overview = $("<div class='overview'></div>");
+            $overview.append($name).append($description).append($developers).append($bugs);
+
+            var $options = $("<div class='options' style='display:none'></div>");
+            $newRow.append($overview).append($options);
+
+            $(".section-list").append($newRow);
+
+            $(".table-row.new-section").remove();
+            $addSection.show();
+        };
+    });
 });

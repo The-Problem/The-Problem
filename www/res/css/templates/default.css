@@ -44,6 +44,9 @@ a:hover {
 input, select, button, textarea {
     font:inherit;
 }
+input.error {
+    background-color:#ffcdd2;
+}
 
 button {
     padding:10px 10px;
@@ -51,7 +54,7 @@ button {
     background-color:#E0E0E0;
 }
 
-button:hover, button:focus {
+button:hover {
     background-color:#BDBDBD;
 }
 
@@ -66,6 +69,13 @@ button.highlight {
 
 button.highlight:hover {
     background-color: #c62828;
+}
+
+button.green {
+    background-color:#8bc34a;
+}
+button.green:hover {
+    background-color:#aed581;
 }
 
 input {

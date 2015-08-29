@@ -136,7 +136,7 @@
 
 					$commentInfo = Connection::query($commentQuery, "s", array($targetOne))[0];
 
-					$commentText = $commentInfo['Comment_Text'];
+					$commentText = strip_tags($commentInfo['Comment_Text']);
 					$bugName = $commentInfo['Bug_Name'];
 					$sectionName = $commentInfo['Section_Name'];
 
