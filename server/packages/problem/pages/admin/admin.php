@@ -1,9 +1,10 @@
 <?php
 class AdminPage implements IPage {
     private $pages = array(
-        "overview" => "Overview",
-        "sections" => "Sections",
-        "permissions" => "Permissions"
+        "overview" => "<i class='fa fa-cogs'></i>Overview",
+        "sections" => "<i class='fa fa-database'></i>Sections",
+        "users" => "<i class='fa fa-users'></i>Users",
+        "permissions" => "<i class='fa fa-bolt'></i>Permissions"
     );
 
     private $page = "overview";
@@ -109,6 +110,9 @@ FROM sections
 
 <table class="username-selector"></table>
 <div class="section-list">
+    <div class="table-search">
+        <input type="text" placeholder="Search sections..." />
+    </div>
     <div class="table-header">
         <p class="name">Name</p><!--
         --><p class="description">Description</p><!--
@@ -127,7 +131,7 @@ FROM sections
         $is_highlight = !$section["Developers"] || $percentage < 0.1;
 
         ?>
-        <div data-id="<?php echo $section["Section_ID"]; ?>"
+        <div data-id="<?php echo $section["Section_ID"]; ?>" data-search="<?php echo htmlentities(strtolower($section["Name"])); ?>"
              class="table-row<?php if ($is_highlight) echo ' highlight'; if($last_highlighted) echo ' top-highlight'; ?>">
             <div class="overview">
                 <p class="name"><?php echo htmlentities($section["Name"]); ?></p><!--
@@ -150,6 +154,9 @@ FROM sections
 <button class="green add-section"><i class="fa fa-plus"></i> Add Section</button>
         <?php
     }
+    public function users() {
+
+    }
     public function permissions() {
 
     }
@@ -163,6 +170,7 @@ FROM sections
         switch ($this->page) {
             case 'sections': $this->sections(); break;
             case 'permissions': $this->permissions(); break;
+            case 'users': $this->users(); break;
             default: $this->overview(); break;
         }
         ?>

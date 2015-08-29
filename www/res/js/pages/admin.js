@@ -53,6 +53,25 @@ LimePHP.register("page.admin", function() {
     });
 
 
+    var $tableRows = $(".table-row");
+    var $tableSearch = $(".table-search input");
+    $tableSearch.on('keydown', function(e) {
+        if (e.keyCode == 13) {
+            $tableRows.filter(':visible').first().children('.overview').click();
+            return;
+        }
+
+        setTimeout(function() {
+            var term = $.trim($tableSearch.val().toLowerCase());
+
+            $tableRows.each(function() {
+                var $this = $(this);
+                if ($this.data('search').toLowerCase().indexOf(term) === -1 || $this.hasClass('new-section')) $this.hide();
+                else $this.show();
+            });
+        }, 0);
+    });
+
     var $rows = $(".section-list .table-row");
 
     $(document).on('click', ".section-list .table-row .overview",  function() {
@@ -326,6 +345,7 @@ LimePHP.register("page.admin", function() {
         r.success = function(data) {
             var $newRow = $("<div class='table-row'></div>");
             $newRow.data("id", data.id);
+            $newRow.data("search", name.toLowerCase());
 
             var $name = $("<p class='name'></p>").text(name);
             var $description = $("<p class='description'></p>").text(description);

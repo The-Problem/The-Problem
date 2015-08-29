@@ -50,7 +50,7 @@ class AdminSectionModule implements IModule {
 
         ?>
 <div class="section-header">
-    <a class="close" href="#"><i class="fa fa-times"></i></a>
+    <a class="close" href="#"><i class="fa fa-minus-square"></i></a>
     <div class="section-tile color-<?php echo $section["Color"]; ?>" style="<?php echo $style; ?>"></div><div class="right-column">
         <div class="section info">
             <h2><a href="<?php echo Path::getclientfolder("bugs", $section["Slug"]); ?>"><?php echo $name; ?></a></h2>
