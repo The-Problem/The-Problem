@@ -177,7 +177,7 @@ ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username, $us
         <div class="notification-list">
             <?php
             foreach ($bugs as $bug) {
-                $url = Path::getclientfolder($bug["Slug"], $bug["RID"]);
+                $url = Path::getclientfolder("bugs", $bug["Slug"], $bug["RID"]);
                 $title = htmlentities($bug["Bug_Name"]);
 
                 $comments = $bug["Comments"];

@@ -25,18 +25,63 @@ class BugsNewPage implements IPage {
 
     public function head(Head &$head) {
         if (array_key_exists("name", $_POST)) {
-
-
             // create the object
             Connection::query("INSERT INTO objects (Object_Type) VALUES (1)");
             $object_id = Connection::insertid();
+
+            // PROCESS BUG CONTENTS
+            $value = $_POST['description'];
+
+            // find @mentions
+            $mentions = array();
+            preg_match_all("/@([^@ ]+)/", $value, $mentions);
+
+            $items = array_unique($mentions[1]);
+            foreach ($items as $name) {
+                $user = Connection::query("SELECT Username FROM users WHERE Username = ?", "s", array($name));
+                if (count($user)) {
+                    Connection::query("INSERT INTO notifications
+                                     (Triggered_By, Received_By, Target_One, Target_Two, Creation_Date, Type)
+                              VALUES (           ?,           ?,          ?,          ?,             ?,    ?)", "ssiisi", array(
+                        $_SESSION["username"], $name, $this->section_obj, $object_id, date('Y-m-d H:i:s'), 3
+                    ));
+
+                    $value = str_replace("@$name", "[@$name](" . Path::getclientfolder("~$name") . ")", $value);
+                }
+            }
+
+            // find #bugs
+            $bug_refs = array();
+            preg_match_all("/([\\w-]*)#(\\d+)/", $value, $bug_refs);
+
+            $section_names = $bug_refs[1];
+            $bug_ids = $bug_refs[2];
+
+            $bugs = array();
+            foreach ($bug_ids as $k => $id) {
+                $section_name = $section_names[$k];
+                if (!strlen($section_name)) {
+                    $section_name = $this->section;
+                    array_push($bugs, array(strtolower($section_name), $id, "#$id"));
+                }
+
+                array_push($bugs, array(strtolower($section_name), $id, "$section_name#$id"));
+            }
+            $unique_bugs = array_unique($bugs);
+            foreach ($unique_bugs as $b) {
+                $value = str_replace($b[2], "[" . $b[2] . "](" . Path::getclientfolder("bugs", $b[0], $b[1])  . ")", $value);
+            }
+
+            Library::get('parsedown');
+            $parsedown = new Parsedown();
+            $value = $parsedown->text($value);
 
             $rid = Connection::query("SELECT COUNT(*) + 1 AS New_RID FROM bugs WHERE bugs.Section_ID = ?", "i", array($this->section_id));
 
             Connection::query("INSERT INTO bugs (Section_ID, Object_ID, Name, Status, Description, Creation_Date, Author, RID)
                                          VALUES (         ?,         ?,    ?,      1,           ?,             ?,      ?, ?)",
                 "iissssi", array(
-                    $this->section_obj, $object_id, $_POST['name'], $_POST['description'], date("Y-m-d H:i:s"), $_SESSION["username"], $rid[0]["New_RID"]
+                    $this->section_obj, $object_id, $_POST['name'], $value, date("Y-m-d H:i:s"), $_SESSION["username"], $rid[0]["New_RID"]
                 ));
 
             Connection::query("INSERT INTO watchers (Object_ID, Username) VALUES (?, ?)", "is", array($object_id, $_SESSION["username"]));
@@ -59,6 +104,9 @@ class BugsNewPage implements IPage {
             $default_comment = Connection::query("SELECT Value FROM configuration
                                                WHERE Type = 'permissions-default-comments'
                                                AND Name = 'create'");
+            $default_upvote = Connection::query("SELECT Value FROM configuration
+                                               WHERE Type = 'permissions-default-comments'
+                                               AND Name = 'upvote'");
 
             Objects::allow_rank($object_id, "bug.view", $default_view[0]["Value"]);
             Objects::allow_rank($object_id, "bug.change-status", $default_status[0]["Value"]);
@@ -66,6 +114,7 @@ class BugsNewPage implements IPage {
             Objects::allow_rank($object_id, "bug.delete", $default_delete[0]["Value"]);
             Objects::allow_rank($object_id, "bug.assign", $default_assign[0]["Value"]);
             Objects::allow_rank($object_id, "bug.comment", $default_comment[0]["Value"]);
+            Objects::allow_rank($object_id, "comment.upvote", $default_upvote[0]["Value"]);
 
             Path::redirect(Path::getclientfolder("bugs", $this->section, $rid[0]["New_RID"]));
         }

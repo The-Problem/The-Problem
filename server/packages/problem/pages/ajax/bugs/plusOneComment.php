@@ -23,6 +23,7 @@ class AjaxBugsPlusOneCommentPage implements IPage {
         $action = $_POST['action'];
 
         Library::get("objects");
+
         if (!Objects::permission($id, 'comment.upvote', $_SESSION["username"])) return array("error" => "You do not have permission to perform that action");
 
         if ($action === 'downvote') {
