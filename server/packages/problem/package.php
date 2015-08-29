@@ -31,6 +31,10 @@ class ProblemPackage implements IPackage {
                 "login",
                 "users",
                 "bugs"
+            ),
+            "Jobs" => array(
+                "importDB",
+                "pullFromRepo"
             )
         ));
 

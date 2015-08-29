@@ -19,3 +19,6 @@ $args = $argv;
 array_shift($args);
 $job = array_shift($args);
 Jobs::execute($job, $args);
+
+Library::flush_cache();
+l_include_flush();
