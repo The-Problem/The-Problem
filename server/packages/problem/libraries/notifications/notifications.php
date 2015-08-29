@@ -69,7 +69,7 @@
 				$message = $trigger . " has assigned you to bug #" . $bugID . ", '" . $bugName . "'";
 
 			}else if ($type == self::TYPE_SECTION){
-				$bugInfoQuery = "SELECT bugs.Bug_ID, bugs.Name as 'Bug_Name', sections.Name as 'Section_Name' FROM Bugs LEFT JOIN Sections ON bugs.Section_ID =sections.Section_ID WHERE bugs.Object_ID = ?";
+				$bugInfoQuery = "SELECT bugs.Bug_ID, bugs.Name as 'Bug_Name', sections.Name as 'Section_Name' FROM bugs LEFT JOIN sections ON bugs.Section_ID =sections.Section_ID WHERE bugs.Object_ID = ?";
 				$bugInfo = Connection::query($bugInfoQuery, "s", array($targetOne))[0];
 				$bugName = $bugInfo['Bug_Name'];
 				$sectionName = $bugInfo['Section_Name'];
@@ -77,7 +77,7 @@
 				$message = $trigger . " has just submitted '" . $bugName . "' to '" . $sectionName . "' ";
 
 			}else if($type == self::TYPE_BUG){
-				$bugInfoQuery = "SELECT Status, bugs.Name as Bug_Name, sections.Name as Section_Name FROM Bugs LEFT JOIN Sections ON Bugs.Section_ID = Sections.Section_ID WHERE Bugs.Object_ID = ?";
+				$bugInfoQuery = "SELECT Status, bugs.Name as Bug_Name, sections.Name as Section_Name FROM bugs LEFT JOIN sections ON bugs.Section_ID = sections.Section_ID WHERE bugs.Object_ID = ?";
 				$bugInfo = Connection::query($bugInfoQuery, "s", array($targetOne))[0];
 
 				$bugName = $bugInfo['Bug_Name'];
@@ -92,7 +92,7 @@
 				$commentQuery = 
 				"SELECT comments.Bug_ID as 'Bug_Number', sections.Name as 'Section_Name', comments.Comment_Text
 				FROM comments
-				LEFT JOIN bugs ON comments.Bug_ID = Bugs.Bug_ID
+				LEFT JOIN bugs ON comments.Bug_ID = bugs.Bug_ID
 				LEFT JOIN sections ON bugs.Section_ID = sections.Section_ID
 				WHERE comments.Object_ID = ?";
 
@@ -117,8 +117,8 @@
 				if ($targetType == Objects::TYPE_BUG){
 					$bugQuery = 
 								"SELECT bugs.Name as 'Bug_Name', sections.Name as 'Section_Name'
-								FROM Bugs
-									LEFT JOIN Sections ON bugs.Section_ID = sections.Section_ID
+								FROM bugs
+									LEFT JOIN sections ON bugs.Section_ID = sections.Section_ID
 								WHERE bugs.Object_ID = ?";
 
 					$bugInfo = Connection::query($bugQuery, "s", array($targetOne))[0];
@@ -129,10 +129,10 @@
 				}else if ($targetType == Objects::TYPE_COMMENT){
 					$commentQuery = 
 									"SELECT Comment_Text, bugs.Name as 'Bug_Name', sections.Name as 'Section_Name'
-									FROM Comments
-										LEFT JOIN Bugs ON comments.Bug_ID = bugs.Bug_ID
-										LEFT JOIN Sections ON sections.Section_ID = bugs.Section_ID
-									WHERE Comments.Object_ID = ?";
+									FROM comments
+										LEFT JOIN bugs ON comments.Bug_ID = bugs.Bug_ID
+										LEFT JOIN sections ON sections.Section_ID = bugs.Section_ID
+									WHERE comments.Object_ID = ?";
 
 					$commentInfo = Connection::query($commentQuery, "s", array($targetOne))[0];
 
