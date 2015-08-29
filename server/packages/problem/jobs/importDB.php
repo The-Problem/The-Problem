@@ -25,6 +25,10 @@ class ImportDBJob implements IJob {
         echo "Using SQL file '" . htmlentities($filename) . "'\n";
 
         $file = file_get_contents($filename);
+
+        // remove problematic line
+        $file = str_replace("/*!40101 SET NAMES utf8mb4 */;", "", $file);
+
         $con->multi_query($file);
         do $con->use_result(); while ($con->more_results() && $con->next_result());
         if ($con->errno) echo "[ERROR] $con->error ($con->errno)\n";

@@ -23,15 +23,15 @@ class Jobs {
     public static function execute($job, $args) {
         $class = self::load($job);
         
-        ob_start();
-        $class->startexecute($args, $options);
+        //ob_start();
+        $class->startexecute($args, $args);
         Events::call("job.$job");
         Events::call("job");
         $class->endexecute();
         
-        Library::get("string");
+        /*Library::get("string");
         $c = array_filter(explode("\n", ob_get_clean()));
-        echo String::implode($c, "[" . ucwords($job) . "] ", "\n");
+        echo String::implode($c, "[" . ucwords($job) . "] ", "\n");*/
     }
     
     private static function load($job) {
