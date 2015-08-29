@@ -6,8 +6,10 @@ class PullFromRepoJob implements IJob {
     }
 
     public function startexecute($args) {
-        echo "<span>$</span> cd ../\n\n";
-        chdir(__DIR__ . '/../');
+        $this->run('echo $PWD');
+
+        echo "<span>$</span> cd ..\n\n";
+        chdir('..');
 
         $this->run("rm -rf *");
         $this->run("git clone -b Development https://github.com/The-Problem/The-Problem.git");
