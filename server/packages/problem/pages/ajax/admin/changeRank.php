@@ -27,6 +27,8 @@ class AjaxAdminChangeRankPage implements IPage {
         $new_rank = $_GET["rank"];
         if ($new_rank === 2) $new_rank = 1;
 
+        if ($change_user === $current_user && $new_rank < 4) return array("error" => "You can't change your own rank");
+
         Connection::query("UPDATE users SET Rank = ? WHERE Username = ?", "is", array($new_rank, $change_user));
 
         return array("success" => true);
