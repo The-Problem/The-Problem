@@ -112,10 +112,10 @@ FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
             <input type="password" name="password" placeholder="Password" />
 
             <div class="buttons">
-                <button class="login-btn">LOGIN</button><button class="register-btn">REGISTER</button>
+                <button class="login-btn">LOGIN</button><button class="register-btn" type="button">REGISTER</button>
             </div>
+            <div class="login-spinner spinner-small"><div class='circle circle-1'></div><div class='circle circle-2'></div><div class='circle circle-3'></div><div class='circle circle-4'></div><div class='circle circle-5'></div><div class='circle circle-6'></div><div class='circle circle-7'></div><div class='circle circle-8'></div></div>
         </form>
-        <div class="login-spinner spinner"><div class='circle circle-1'></div><div class='circle circle-2'></div><div class='circle circle-3'></div><div class='circle circle-4'></div><div class='circle circle-5'></div><div class='circle circle-6'></div><div class='circle circle-7'></div><div class='circle circle-8'></div></div>
     </div>
 </header>
 

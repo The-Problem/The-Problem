@@ -60,7 +60,9 @@ LimePHP.register("page.home", function() {
         $loginSpinner = $(".login-spinner"),
         $loginError = $(".login-error"),
         $username = $login.children("input[name=username]"),
-        $password = $login.children("input[name=password]");
+        $password = $login.children("input[name=password]"),
+        $loginInputs = $login.children('input'),
+        $loginButtons = $(".login-box .buttons");
 
 
     function showLoginAnimation() {
@@ -115,10 +117,14 @@ LimePHP.register("page.home", function() {
 
 
     $login.on('submit', function(e) {
-        if (loggedin) return;
+        if ($login.data("allowSubmit")) return;
+
         e.preventDefault();
 
-        $login.hide();
+        if (loggedin) return;
+
+        $loginInputs.attr('disabled', true);
+        $loginButtons.hide();
         $loginSpinner.show();
 
         var r = LimePHP.request('post', LimePHP.path('ajax/user/login'), {
@@ -129,6 +135,9 @@ LimePHP.register("page.home", function() {
         r.success = function(data) {
             $body.addClass("loggedin");
             loggedin = true;
+
+            $login.hide();
+            $loginSpinner.hide();
 
             showLoginAnimation();
 
@@ -177,10 +186,13 @@ LimePHP.register("page.home", function() {
             $password.val("");
             $login.show();
             $password.focus();
+
+            $loginButtons.attr('disabled', false);
+            $loginSpinner.hide();
         };
 
         r.complete = function() {
-            $loginSpinner.hide();
+
         };
 
         return false;
@@ -188,6 +200,11 @@ LimePHP.register("page.home", function() {
     $(".register-btn").on('click', function(e) {
         e.preventDefault();
 
+        $loginInputs.attr('disabled', true);
+        $loginButtons.hide();
+        $loginSpinner.show();
+
+        $login.data("allowSubmit", true);
         $login.attr("action", LimePHP.path("signup"));
         $login.submit();
 

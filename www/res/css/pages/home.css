@@ -65,7 +65,7 @@ header.big.moving:after {
     text-align:center;
     background-color:#FFF;
 
-    transition:margin-top 1s;
+    /*transition:margin-top 1s;*/
 }
 .loggedin .content {
     margin-top:0;
@@ -127,7 +127,9 @@ header .login-box button {
 }
 header .login-spinner {
     display:none;
-    margin-top:50px;
+    float:right;
+    margin-top:20px;
+    margin-right:20px;
 }
 header .login-spinner .circle {
     background-color:#FFF;
@@ -183,13 +185,7 @@ header.entire-page {
 .notification-list section p {
     margin:0;
 }
-/*.notification-list .message a {
-    color:#ef5350;
-    /*text-decoration:none;
-}
-.notification-list .message a:hover {
-    text-decoration:underline;
-}*/
+
 .notification-list .stats {
     font-size:0.8em;
     margin-top:5px;
