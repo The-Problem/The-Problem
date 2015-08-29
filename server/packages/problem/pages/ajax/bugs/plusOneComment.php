@@ -17,12 +17,13 @@ class AjaxBugsPlusOneCommentPage implements IPage {
     public function head(Head &$head) { }
 
     public function body() {
-        if (is_null($_SESSION["username"])) return array("error" => "You do not have permission to perform that action");
-
-        // todo: permissions
+        //if (is_null($_SESSION["username"])) return array("error" => "You do not have permission to perform that action");
 
         $id = $_POST['id'];
         $action = $_POST['action'];
+
+        Library::get("objects");
+        if (!Objects::permission($id, 'comment.upvote', $_SESSION["username"])) return array("error" => "You do not have permission to perform that action");
 
         if ($action === 'downvote') {
             Connection::query("DELETE FROM plusones WHERE Object_ID = ? AND Username = ?", "is", array(

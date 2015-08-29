@@ -357,3 +357,33 @@
 .user-list .overview .username a {
     color:#000;
 }
+
+.permission-defaults table {
+    border-collapse:collapse;
+}
+.permission-defaults table tr:nth-child(even) {
+    background-color:#F1F1F1;
+}
+.permission-defaults table td, .permission-defaults table th {
+    border:solid 1px #DDD;
+}
+.permission-defaults table td {
+    padding:0;
+}
+.permission-defaults table th {
+    font-weight:300;
+    text-align:left;
+    padding:5px;
+}
+.permission-defaults table select {
+    border:none;
+    width:100%;
+    height:33px;
+}
+
+select {
+    background-color:#FAFAFA;
+}
+select:hover {
+    background-color:#F1F1F1;
+}

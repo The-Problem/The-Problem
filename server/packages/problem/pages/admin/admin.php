@@ -248,8 +248,111 @@ FROM users
 </div>
         <?php
     }
-    public function permissions() {
 
+
+    public function permissions() {
+        $data = Connection::query("SELECT Type, Name, Value FROM configuration
+                                    WHERE Type = 'permissions-default-section'
+                                       OR Type = 'permissions-default-bugs'
+                                       OR Type = 'permissions-default-comments'");
+
+        $defaults = array();
+        foreach ($data as $item) {
+            $type = $item["Type"];
+            $name = $item["Name"];
+            $value = $item["Value"];
+
+            if (!array_key_exists($type, $defaults)) $defaults[$type] = array();
+            $defaults[$type][$name] = $value;
+        }
+        function options($defaults, $type, $name, $guest = true) {
+            $value = $defaults[$type][$name];
+
+            $arr = array(
+                "<option value='1'" . ($value == 1 ? ' selected' : '') . ">Normal user</option>",
+                "<option value='2'" . ($value == 2 ? ' selected' : '') . ">Section developer</option>",
+                "<option value='3'" . ($value == 3 ? ' selected' : '') . ">Moderator</option>",
+                "<option value='4'" . ($value == 4 ? ' selected' : '') . ">Administrator</option>"
+            );
+            if ($guest) {
+                array_unshift($arr, "<option value='0'" . ($value == 0 ? ' selected' : '') . ">Guest/unverified</option>");
+            }
+
+            return implode("\n", $arr);
+        }
+
+        ?>
+        <div class="permission-defaults">
+        <section data-type="permissions-default-section">
+            <h2>Section Defaults</h2>
+            <table>
+                <tr>
+                    <th><label for="permissions-default-sections-view">Viewing sections:</label></th>
+                    <td><select name="view" id="permissions-default-sections-view"><?php echo options($defaults, "permissions-default-section", "view"); ?></select></td>
+                </tr>
+            </table>
+            <p class="help">Changing the default section permissions will change the permissions on all sections
+            that use the default values.</p>
+            <p class="tip">You can change permissions for individual sections below.</p>
+        </section>
+        <section data-type="permissions-default-bugs">
+            <h2>Bug Defaults</h2>
+            <table>
+                <tr>
+                    <th><label for="permissions-default-bugs-view">Viewing bugs:</label></th>
+                    <td><select name="view" id="permissions-default-bugs-view"><?php echo options($defaults, "permissions-default-bugs", "view"); ?></select></td>
+                </tr>
+                <tr>
+                    <th><label for="permissions-default-bugs-create">Creating bugs:</label></th>
+                    <td><select name="create" id="permissions-default-bugs-create"><?php echo options($defaults, "permissions-default-bugs", "create", false); ?></select></td>
+                </tr>
+                <tr>
+                    <th><label for="permissions-default-bugs-edit">Editing bugs:</label></th>
+                    <td><select name="edit" id="permissions-default-bugs-edit"><?php echo options($defaults, "permissions-default-bugs", "edit"); ?></select></td>
+                </tr>
+                <tr>
+                    <th><label for="permissions-default-bugs-delete">Deleting bugs:</label></th>
+                    <td><select name="delete" id="permissions-default-bugs-delete"><?php echo options($defaults, "permissions-default-bugs", "delete"); ?></select></td>
+                </tr>
+                <tr>
+                    <th><label for="permissions-default-bugs-status">Changing bugs status:</label></th>
+                    <td><select name="status" id="permissions-default-bugs-status"><?php echo options($defaults, "permissions-default-bugs", "status"); ?></select></td>
+                </tr>
+                <tr>
+                    <th><label for="permissions-default-bugs-assigning">Assigning a user:</label></th>
+                    <td><select name="assigning" id="permissions-default-bugs-assigning"><?php echo options($defaults, "permissions-default-bugs", "assigning"); ?></select></td>
+                </tr>
+            </table>
+            <p class="help">Changing the default bug permissions will change the permissions on all bugs
+                that use the default values.</p>
+            <p class="tip">You can change permissions for individual bugs below.</p>
+        </section>
+        <section data-type="permissions-default-comments">
+            <h2>Comment Defaults</h2>
+            <table>
+                <tr>
+                    <th><label for="permissions-default-comments-create">Creating comments:</label></th>
+                    <td><select name="create" id="permissions-default-comments-create"><?php echo options($defaults, "permissions-default-comments", "create", false); ?></select></td>
+                </tr>
+                <tr>
+                    <th><label for="permissions-default-comments-upvote">Upvoting comments:</label></th>
+                    <td><select name="upvote" id="permissions-default-comments-upvote"><?php echo options($defaults, "permissions-default-comments", "upvote", false); ?></select></td>
+                </tr>
+                <tr>
+                    <th><label for="permissions-default-comments-edit">Editing comments:</label></th>
+                    <td><select name="edit" id="permissions-default-comments-edit"><?php echo options($defaults, "permissions-default-comments", "edit"); ?></select></td>
+                </tr>
+                <tr>
+                    <th><label for="permissions-default-comments-delete">Deleting comments:</label></th>
+                    <td><select name="delete" id="permissions-default-comments-delete"><?php echo options($defaults, "permissions-default-comments", "delete"); ?></select></td>
+                </tr>
+            </table>
+            <p class="help">Changing the default comment permissions will change the permissions on all comments
+                that use the default values.</p>
+            <p class="tip">You can change permissions for individual comments below.</p>
+        </section>
+        </div>
+        <?php
     }
 
     public function body() {

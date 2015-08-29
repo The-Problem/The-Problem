@@ -31,7 +31,7 @@ LimePHP.register("page.admin", function() {
 
 
 
-    var $inputs = $("section input");
+    var $inputs = $("section input, section select");
 
     var currentSelected = false;
 
@@ -48,7 +48,7 @@ LimePHP.register("page.admin", function() {
 
         var value = $this.val();
 
-        var $disabled = $section.find('input');
+        var $disabled = $section.find('input, select');
 
         $disabled.attr('disabled', true);
 

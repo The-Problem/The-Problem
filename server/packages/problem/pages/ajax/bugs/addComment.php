@@ -84,10 +84,22 @@ class AjaxBugsAddCommentPage implements IPage {
             "isisss", array($_POST['bug'], $_SESSION["username"], $object_id, date("Y-m-d H:i:s"), $value, $_POST['value']));
         $comment_id = Connection::insertid();
 
+        $default_edit = Connection::query("SELECT Value FROM configuration
+                                             WHERE Type = 'permissions-default-comments'
+                                             AND Name = 'edit'");
+        $default_delete = Connection::query("SELECT Value FROM configuration
+                                               WHERE Type = 'permissions-default-comments'
+                                               AND Name = 'delete'");
+        $default_upvote = Connection::query("SELECT Value FROM configuration
+                                               WHERE Type = 'permissions-default-comments'
+                                               AND Name = 'upvote'");
+
         Objects::allow_user($object_id, "comment.edit", $_SESSION["username"]);
         Objects::allow_user($object_id, "comment.remove", $_SESSION["username"]);
-        Objects::allow_rank($object_id, "comment.edit", 2);
-        Objects::allow_rank($object_id, "comment.remove", 3);
+
+        Objects::allow_rank($object_id, "comment.edit", $default_edit[0]["Value"]);
+        Objects::allow_rank($object_id, "comment.remove", $default_delete[0]["Value"]);
+        Objects::allow_rank($object_id, "comment.upvote", $default_upvote[0]["Value"]);
 
         Connection::query("INSERT INTO notifications
                              (Triggered_By, Received_By,                    Target_One, Target_Two, Creation_Date, Type)
