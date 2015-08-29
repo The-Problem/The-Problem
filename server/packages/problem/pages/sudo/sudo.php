@@ -30,16 +30,14 @@ class SudoPage implements IPage {
         $message = "Please re-enter your password. You won't need to do this for another hour.";
 
         if (isset($_POST['password'])) {
-            // todo: password hashing
-            $res = Connection::query("SELECT COUNT(*) AS Count FROM users WHERE Username = ? AND Password = ?", "ss", array(
-                $_SESSION['username'],
-                $_POST['password']
-            ));
+            $res = Connection::query("SELECT Password FROM users WHERE Username = ?", "s", array($_SESSION['username']));
 
-            if ($res[0]["Count"]) {
+            Library::get("password");
+            if (password_verify($_POST['password'], $res[0]["Password"])) {
                 $_SESSION["sudo"] = time();
                 Path::redirect($_GET['return']);
             } else $message = "Invalid password. Please try again.";
+            
         }
 
         ?>
