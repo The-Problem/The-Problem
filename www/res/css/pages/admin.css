@@ -217,6 +217,9 @@
     width:599px;
     border-right:solid 1px #DDD;
 }
+.section-list .highlight .right-column {
+    border-right-color:#e57373;
+}
 .section-list .section-header .section {
     padding:5px;
 }
