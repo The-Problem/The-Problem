@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 29, 2015 at 01:44 PM
+-- Generation Time: Aug 29, 2015 at 02:25 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.9
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `bugs` (
   `Edit_Date` datetime DEFAULT NULL,
   `RID` int(11) NOT NULL,
   `Assigned` varchar(20) COLLATE latin1_general_cs DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `bugs`
@@ -49,7 +49,9 @@ INSERT INTO `bugs` (`Bug_ID`, `Section_ID`, `Object_ID`, `Name`, `Status`, `Desc
   (52, 3, 30, 'Statewide Block', 3, 'Section tiles on the home page are all saying ''Statewide Block''.', '2015-08-15 17:00:00', 'unhelpful', '2015-08-15 17:00:00', 2, 'Andrew'),
   (53, 3, 31, 'Improvement: Rainbow Background', 0, 'A rainbow background on the homepage of The Problem would make everyone''s lives much happier. This is a much needed feature.', '2015-08-04 00:00:00', 'dr2n', '2015-08-04 00:00:00', 3, 'KaiXinGuo'),
   (55, 1, 24, 'Oversized Buttons', 4, 'Buttons on the logon page are the size of the entire screen.', '2015-08-12 00:00:00', 'meltingPoint', '2015-08-12 00:00:00', 4, 'dr2n'),
-  (56, 1, 25, 'Character Jumble', 1, 'All the characters in my username have become jumbled up.', '2015-08-05 00:00:00', 'powerRangers46', '2015-08-05 00:00:00', 5, 'Jas');
+  (56, 1, 25, 'Character Jumble', 1, 'All the characters in my username have become jumbled up.', '2015-08-05 00:00:00', 'powerRangers46', '2015-08-05 00:00:00', 5, 'Jas'),
+  (57, 1, 42, 'Test Bug', 1, 'This is a test', '2015-08-29 12:12:23', 'mrfishie', NULL, 6, NULL),
+  (58, 1, 43, 'Another Test', 1, 'This is a test bug!', '2015-08-29 12:15:52', 'mrfishie', NULL, 7, NULL);
 
 -- --------------------------------------------------------
 
@@ -66,7 +68,14 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `Edit_Date` datetime DEFAULT NULL,
   `Comment_Text` text COLLATE latin1_general_cs NOT NULL,
   `Raw_Text` longtext COLLATE latin1_general_cs NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`Comment_ID`, `Bug_ID`, `Username`, `Object_ID`, `Creation_Date`, `Edit_Date`, `Comment_Text`, `Raw_Text`) VALUES
+  (2, 58, 'mrfishie', 44, '2015-08-29 12:19:39', NULL, '<p>Awesome!</p>', 'Awesome!');
 
 -- --------------------------------------------------------
 
@@ -160,10 +169,15 @@ CREATE TABLE IF NOT EXISTS `grouppermissions` (
 
 INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
   (0, 'site.view', 0),
+  (1, 'section.create-bug', 1),
   (1, 'section.view', 0),
+  (2, 'section.create-bug', 1),
   (2, 'section.view', 0),
+  (3, 'section.create-bug', 1),
   (3, 'section.view', 0),
+  (4, 'section.create-bug', 1),
   (4, 'section.view', 0),
+  (5, 'section.create-bug', 1),
   (5, 'section.view', 0),
   (21, 'bug.comment', 1),
   (22, 'bug.comment', 1),
@@ -175,7 +189,32 @@ INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
   (28, 'bug.comment', 1),
   (29, 'bug.comment', 1),
   (30, 'bug.comment', 1),
-  (31, 'bug.comment', 1);
+  (31, 'bug.comment', 1),
+  (40, 'bug.assign', 2),
+  (40, 'bug.change-status', 2),
+  (40, 'bug.delete', 3),
+  (40, 'bug.edit', 2),
+  (40, 'bug.view', 0),
+  (41, 'bug.assign', 2),
+  (41, 'bug.change-status', 2),
+  (41, 'bug.delete', 3),
+  (41, 'bug.edit', 2),
+  (41, 'bug.view', 0),
+  (42, 'bug.assign', 2),
+  (42, 'bug.change-status', 2),
+  (42, 'bug.comment', 1),
+  (42, 'bug.delete', 3),
+  (42, 'bug.edit', 2),
+  (42, 'bug.view', 0),
+  (43, 'bug.assign', 2),
+  (43, 'bug.change-status', 2),
+  (43, 'bug.comment', 1),
+  (43, 'bug.delete', 3),
+  (43, 'bug.edit', 2),
+  (43, 'bug.view', 0),
+  (44, 'comment.edit', 2),
+  (44, 'comment.remove', 3),
+  (44, 'comment.upvote', 1);
 
 -- --------------------------------------------------------
 
@@ -192,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `Creation_Date` datetime NOT NULL,
   `IsRead` tinyint(1) NOT NULL DEFAULT '0',
   `Type` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `notifications`
@@ -200,7 +239,8 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 
 INSERT INTO `notifications` (`Notification_ID`, `Triggered_By`, `Received_By`, `Target_One`, `Target_Two`, `Creation_Date`, `IsRead`, `Type`) VALUES
   (1, 'mrfishie', 'mrfishie', 32, NULL, '2015-08-29 05:03:57', 0, 4),
-  (2, 'mrfishie', 'mrfishie', 32, NULL, '2015-08-29 05:03:59', 0, 4);
+  (2, 'mrfishie', 'mrfishie', 32, NULL, '2015-08-29 05:03:59', 0, 4),
+  (3, 'mrfishie', 'mrfishie', 44, 43, '2015-08-29 12:19:39', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -211,7 +251,7 @@ INSERT INTO `notifications` (`Notification_ID`, `Triggered_By`, `Received_By`, `
 CREATE TABLE IF NOT EXISTS `objects` (
   `Object_ID` int(11) NOT NULL,
   `Object_Type` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `objects`
@@ -235,7 +275,12 @@ INSERT INTO `objects` (`Object_ID`, `Object_Type`) VALUES
   (29, 1),
   (30, 1),
   (31, 1),
-  (32, 2);
+  (32, 2),
+  (40, 1),
+  (41, 1),
+  (42, 1),
+  (43, 1),
+  (44, 2);
 
 -- --------------------------------------------------------
 
@@ -286,6 +331,14 @@ CREATE TABLE IF NOT EXISTS `userpermissions` (
   `Permission_Name` varchar(20) COLLATE latin1_general_cs NOT NULL,
   `Username` varchar(20) COLLATE latin1_general_cs NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+--
+-- Dumping data for table `userpermissions`
+--
+
+INSERT INTO `userpermissions` (`Object_ID`, `Permission_Name`, `Username`) VALUES
+  (44, 'comment.edit', 'mrfishie'),
+  (44, 'comment.remove', 'mrfishie');
 
 -- --------------------------------------------------------
 
@@ -349,7 +402,11 @@ INSERT INTO `watchers` (`Object_ID`, `Username`) VALUES
   (1, 'dr2n'),
   (5, 'dr2n'),
   (29, 'mrfishie'),
-  (32, 'mrfishie');
+  (32, 'mrfishie'),
+  (40, 'mrfishie'),
+  (41, 'mrfishie'),
+  (42, 'mrfishie'),
+  (43, 'mrfishie');
 
 --
 -- Indexes for dumped tables
@@ -457,12 +514,12 @@ ADD KEY `Username` (`Username`);
 -- AUTO_INCREMENT for table `bugs`
 --
 ALTER TABLE `bugs`
-MODIFY `Bug_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=57;
+MODIFY `Bug_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=59;
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `Comment_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `Comment_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `cookies`
 --
@@ -472,12 +529,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-MODIFY `Notification_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `Notification_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `objects`
 --
 ALTER TABLE `objects`
-MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
+MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT for table `sections`
 --
