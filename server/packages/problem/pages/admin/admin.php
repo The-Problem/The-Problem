@@ -1,10 +1,10 @@
 <?php
 class AdminPage implements IPage {
     private $pages = array(
-        "overview" => "<i class='fa fa-cogs'></i>Overview",
-        "sections" => "<i class='fa fa-database'></i>Sections",
-        "users" => "<i class='fa fa-users'></i>Users",
-        "permissions" => "<i class='fa fa-bolt'></i>Permissions"
+        "overview" => "<span><i class='fa fa-cogs'></i></span>Overview",
+        "sections" => "<span><i class='fa fa-database'></i></span>Sections",
+        "users" => "<span><i class='fa fa-users'></i></span>Users",
+        "permissions" => "<span><i class='fa fa-bolt'></i></span>Permissions"
     );
 
     private $page = "overview";
@@ -274,7 +274,7 @@ FROM users
             ?>
         <a class="item<?php if ($path === $last) echo ' last';
                             if ($path === $this->page) echo ' selected'; ?>" href="<?php echo Path::getclientfolder('admin', $path);
-        ?>" title="<?php echo $name; ?>"><?php echo $name; ?></a>
+        ?>" title="<?php echo trim(strip_tags($name)); ?>"><?php echo $name; ?></a>
             <?php
         }
         ?>

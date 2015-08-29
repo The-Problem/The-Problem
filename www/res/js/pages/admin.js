@@ -9,6 +9,28 @@ LimePHP.register("page.admin", function() {
         }
     };
 
+    var saveStack = 0,
+        $currentAdminTab = $(".container nav .item.selected i"),
+        currentAdminTabClass = $currentAdminTab.attr('class');
+
+    function startSaving() {
+        saveStack++;
+
+        if (saveStack !== 1) return;
+        $currentAdminTab.attr('class', 'fa fa-cog fa-spin');
+    }
+
+    function stopSaving() {
+        saveStack--;
+        if (saveStack < 0) saveStack = 0;
+
+        if (saveStack = 0) return;
+        $currentAdminTab.attr('class', currentAdminTabClass);
+    }
+
+
+
+
     var $inputs = $("section input");
 
     var currentSelected = false;
@@ -30,6 +52,7 @@ LimePHP.register("page.admin", function() {
 
         $disabled.attr('disabled', true);
 
+        startSaving();
         var hooks = LimePHP.request("post", LimePHP.path("ajax/admin/update"), {
             type: type,
             name: name,
@@ -47,6 +70,7 @@ LimePHP.register("page.admin", function() {
         };
 
         hooks.complete = function() {
+            stopSaving();
             $disabled.attr('disabled', false);
             if (handlers.post) handlers.post($this.val(), $section);
         };
@@ -151,6 +175,7 @@ LimePHP.register("page.admin", function() {
         }
 
         if (sectionId) {
+            startSaving();
             var r = LimePHP.request("get", LimePHP.path("ajax/admin/removeDev"), {
                 section: sectionId,
                 username: username
@@ -159,6 +184,7 @@ LimePHP.register("page.admin", function() {
             r.success = removeRow;
 
             r.complete = function () {
+                stopSaving();
                 $row.data('submitting', false);
             };
         } else removeRow();
@@ -206,6 +232,7 @@ LimePHP.register("page.admin", function() {
         }
 
         if (currentSelected) {
+            startSaving();
             var r = LimePHP.request("get", LimePHP.path("ajax/admin/addDev"), {
                 section: currentSelected,
                 username: dataUsername
@@ -214,6 +241,7 @@ LimePHP.register("page.admin", function() {
             r.success = addRow;
 
             r.complete = function () {
+                stopSaving();
                 $input.val("");
                 $input.attr('disabled', false);
                 $input.focus();
@@ -335,6 +363,7 @@ LimePHP.register("page.admin", function() {
         $inputs.attr('disabled', true);
         $buttons.hide();
 
+        startSaving();
         var r = LimePHP.request("post", LimePHP.path("ajax/admin/addSection"), {
             name: name,
             description: description,
@@ -367,6 +396,8 @@ LimePHP.register("page.admin", function() {
             $(".table-row.new-section").remove();
             $addSection.show();
         };
+
+        r.complete = stopSaving;
     });
 
     var $userListSelect = $(".user-list select");
@@ -382,6 +413,7 @@ LimePHP.register("page.admin", function() {
 
         $this.attr('disabled', true);
 
+        startSaving();
         var r = LimePHP.request("get", LimePHP.path("ajax/admin/changeRank"), {
             username: $row.data('username'),
             rank: $this.val()
@@ -394,6 +426,7 @@ LimePHP.register("page.admin", function() {
             $this.attr("class", $this.children(":selected").text().toLowerCase());
         };
         r.complete = function() {
+            stopSaving();
             $this.attr('disabled', false);
             $this.data('previous', $this.val());
         };
