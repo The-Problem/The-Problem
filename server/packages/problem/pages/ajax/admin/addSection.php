@@ -35,8 +35,12 @@ class AjaxAdminAddSectionPage implements IPage {
         $default_view = Connection::query("SELECT Value FROM configuration
                                                WHERE Type = 'permissions-default-section'
                                                AND Name = 'view'");
+        $default_create = Connection::query("SELECT Value FROM configuration
+                                               WHERE Type = 'permissions-default-bugs'
+                                               AND Name = 'create'");
 
         Objects::allow_rank($object_id, 'section.view', $default_view[0]["Value"]);
+        Objects::allow_rank($object_id, 'section.create-bug', $default_create[0]["Value"]);
 
         // calculate slug
         $slug = preg_replace('/\\W/', '-', strtolower($new_name));

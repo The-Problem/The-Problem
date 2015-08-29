@@ -13,7 +13,7 @@ class BugsPage implements IPage {
         return true;
     }
     public function subpages() {
-        return true;
+        return false;
     }
 
     public function head(Head &$head) {
@@ -23,7 +23,8 @@ class BugsPage implements IPage {
         if ($count === 2) {
             $this->section = $this->path[1];
         } else if ($count > 2) {
-            Pages::showpagefrompath(array("bugs", "bug", $this->path[1], $this->path[2]), false);
+            if ($this->path[2] === "new") Pages::showpagefrompath(array("bugs", "new", $this->path[1]), false);
+            else Pages::showpagefrompath(array("bugs", "bug", $this->path[1], $this->path[2]), false);
         }
 
         $head->title .= " - " . $this->section;
