@@ -14,7 +14,7 @@ class DefaultTemplate implements ITemplate {
     public $title;
 
     public function __construct() {
-
+        if ($_SESSION['sudo'] < time() - 3600) $_SESSION['sudo'] = false;
     }
 
     public function Head(Head &$head) {
@@ -114,7 +114,6 @@ class DefaultTemplate implements ITemplate {
             echo '<h1 class="title left"><a href="' . htmlentities(Path::getclientfolder()) . '" title="Home">' .
                 '<img alt="The Problem" title="Home" src="' . $logo->clientpath . '" /><span>' . htmlentities($this->title) . '</span></a></h1>';
 
-            if ($_SESSION['sudo'] < time() - 3600) $_SESSION['sudo'] = false;
             if ($_SESSION['sudo'] !== false) echo '<div class="center">Sudo mode active -
 <a href="' . Path::getclientfolder("ajax", "sudo", "disable") . '?return=' . urlencode(htmlentities($_SERVER['REQUEST_URI'])) . '">disable</a></div>';
 
