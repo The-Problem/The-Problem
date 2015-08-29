@@ -18,7 +18,7 @@ class PullFromRepoJob implements IJob {
         $this->run("cp server/profile-production.php server/profile.php");
         $this->run("cp ../database.php server/database.php");
 
-        echo "<span>$</span> php server/core/job.php importDB database.sql";
+        echo "<span>$</span> php server/core/job.php importDB database.sql\n";
         Library::get('jobs');
         Jobs::execute("importDB", array("database.sql"));
     }
