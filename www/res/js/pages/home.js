@@ -187,7 +187,8 @@ LimePHP.register("page.home", function() {
             $login.show();
             $password.focus();
 
-            $loginButtons.attr('disabled', false);
+            $loginInputs.attr('disabled', false);
+            $loginButtons.show();
             $loginSpinner.hide();
         };
 
