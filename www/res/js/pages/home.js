@@ -145,7 +145,7 @@ LimePHP.register("page.home", function() {
 
             if (data.devSections.length) {
                 var $devHeader = $("<h2>Sections where you're a developer</h2>");
-                var $sectionList = $("<div class='section-list'></div>");
+                var $sectionList = $("<div class='list-table'></div>");
                 $sectionList.html(data.devSections);
 
                 $devHeader.prependTo($leftColumn).after($sectionList);

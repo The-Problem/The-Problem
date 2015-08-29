@@ -83,7 +83,7 @@ ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
     <div class="left-column">
         <?php if (count($devSections)) { ?>
         <h2>Sections where you're a developer</h2>
-        <div class="section-list">
+        <div class="list-table">
             <?php
             foreach($devSections as $section) {
                 Modules::getoutput("sectionTile", $section);
@@ -134,7 +134,7 @@ FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
 
             ?>
         <input class="search-box" type="search" placeholder="Search all sections" />
-        <div class="section-list searchable">
+        <div class="list-table searchable">
             <?php
             foreach ($sections as $section) {
                 Modules::getoutput("sectionTile", $section);

@@ -275,7 +275,7 @@ LimePHP.register("page.admin", function() {
                 '<p class="name"></p>' +
                 '<p class="description"></p>' +
                 '<p class="developers">0</p>' +
-                '<p class="bugs">No bugs</p>' +
+                '<p class="bugs"><em class="none">No bugs</em></p>' +
             '</div><div class="options" style="display:block">' +
                 '<div class="section-header">' +
                     '<div class="section-tile color-' + color + '"></div>' +
@@ -366,6 +366,36 @@ LimePHP.register("page.admin", function() {
 
             $(".table-row.new-section").remove();
             $addSection.show();
+        };
+    });
+
+    var $userListSelect = $(".user-list select");
+
+    $userListSelect.on('focus', function() {
+        var $this = $(this);
+        $this.data('previous', $this.val());
+    });
+    $userListSelect.on('change', function() {
+        var $this = $(this);
+        var $row = $this.parents(".table-row");
+        $this.attr("class", $this.children(":selected").text().toLowerCase());
+
+        $this.attr('disabled', true);
+
+        var r = LimePHP.request("get", LimePHP.path("ajax/admin/changeRank"), {
+            username: $row.data('username'),
+            rank: $this.val()
+        }, "json");
+
+        var previous = $this.data('previous');
+
+        r.error = function(err) {
+            $this.val(previous);
+            $this.attr("class", $this.children(":selected").text().toLowerCase());
+        };
+        r.complete = function() {
+            $this.attr('disabled', false);
+            $this.data('previous', $this.val());
         };
     });
 });

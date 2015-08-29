@@ -1,8 +1,8 @@
-.section-list section {
+.list-table section {
     margin-right:5px;
 }
 
-.section-list section, .section-list section a {
+.list-table section, .list-table section a {
     display:inline-block;
     width:150px;
     height:150px;
@@ -10,7 +10,7 @@
     box-sizing:border-box;
 }
 
-.section-list section a {
+.list-table section a {
     display:table;
 
     color:#FFF;
@@ -21,24 +21,24 @@
 
     padding:5px;
 }
-.section-list section .container {
+.list-table section .container {
     display:table-cell;
     vertical-align:middle;
 }
 
-.section-list section h3 {
+.list-table section h3 {
     font-size:1.4em;
 }
-.section-list section p {
+.list-table section p {
     margin:0;
     font-size:0.9em;
     color:#EEE;
 }
-.section-list .section-stats span {
+.list-table .section-stats span {
     display:block;
 }
 
-.section-list section a:hover {
+.list-table section a:hover {
     opacity:0.8;
 }
 

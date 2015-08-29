@@ -24,7 +24,6 @@ class AdminPage implements IPage {
         $rank = $rank_res[0]["Rank"];
 
         if ($rank < 4) return false;
-        if (!$_SESSION['sudo']) Path::redirect(Path::getclientfolder("sudo") . "?return=" . urlencode($_SERVER['REQUEST_URI']));
         return true;
     }
     public function subpages() {
@@ -32,6 +31,8 @@ class AdminPage implements IPage {
     }
 
     public function head(Head &$head) {
+        if (!$_SESSION['sudo']) Path::redirect(Path::getclientfolder("sudo") . "?return=" . urlencode($_SERVER['REQUEST_URI']));
+
         $head->title .= " - Admin";
         $head->stylesheet("pages/admin");
         $head->script("pages/admin");
@@ -109,7 +110,7 @@ FROM sections
         ?>
 
 <table class="username-selector"></table>
-<div class="section-list">
+<div class="section-list list-table">
     <div class="table-search">
         <input type="text" placeholder="Search sections..." />
     </div>
@@ -138,8 +139,8 @@ FROM sections
                 --><p class="description"><?php echo htmlentities($section["Description"]); ?></p><!--
                 --><p class="developers<?php if (!$section["Developers"]) echo ' highlight'; ?>"><?php echo $section["Developers"]; ?></p><!--
                 --><p class="bugs">
-                    <?php if ($total === 0) { ?>No bugs<?php } else { ?>
-                        <?php echo $section["Open_Bugs"]; ?> open, <?php echo $section["Closed_Bugs"]; ?> closed (<?php echo floor($percentage * 100); ?>%)
+                    <?php if ($total === 0) { ?><em class="none">No bugs</em><?php } else { ?>
+                        <?php echo $section["Open_Bugs"]; ?> <i class="fa fa-check"></i> - <?php echo $section["Closed_Bugs"]; ?> <i class="fa fa-times"></i> (<?php echo floor($percentage * 100); ?>%)
                     <?php } ?>
                 </p>
             </div><div class="options" style="display:none"></div>
@@ -155,7 +156,97 @@ FROM sections
         <?php
     }
     public function users() {
+        Pages::$head->script("lib/jquery.timeago");
 
+        $ranks = array(
+            0 => "Unverified",
+            1 => "Standard",
+            3 => "Moderator",
+            4 => "Administrator"
+        );
+
+        $users = Connection::query("
+SELECT *, (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Author = users.Username
+           AND bugs.Status = 1) AS Open_Bugs,
+          (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Author = users.Username
+           AND bugs.Status != 1) AS Closed_Bugs,
+          (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Assigned = users.Username
+           AND bugs.Status = 1) AS Open_Assigned_Bugs,
+          (SELECT COUNT(*) FROM bugs
+           WHERE bugs.Assigned = users.Username
+           AND bugs.Status != 1) AS Closed_Assigned_Bugs,
+          (SELECT GROUP_CONCAT(DISTINCT sections.Name SEPARATOR ', ') FROM developers
+             JOIN sections ON (sections.Section_ID = developers.Section_ID)
+           WHERE developers.Username = users.Username
+           GROUP BY users.Username) AS Developing
+FROM users
+  ORDER BY Username ASC");
+        ?>
+<div class="user-list list-table">
+    <div class="table-search">
+        <input type="text" placeholder="Search users..." />
+    </div>
+    <div class="table-header">
+        <p class="username">Username</p><!--
+        --><p class="rank">Rank</p><!--
+        --><p class="last-logon">Last Login</p><!--
+        --><p class="my-bugs">My Bugs</p><!--
+        --><p class="assigned-bugs">Assigned to</p><!--
+        --><p class="developing">Develops</p>
+    </div>
+    <?php
+        foreach ($users as $user) {
+            $total_bugs = $user["Closed_Bugs"] + $user["Open_Bugs"];
+            if ($total_bugs > 0) $bug_percentage = $user["Closed_Bugs"] / $total_bugs;
+            else $bug_percentage = 1.1;
+
+            $total_assigned = $user["Closed_Assigned_Bugs"] + $user["Open_Assigned_Bugs"];
+            if ($total_assigned > 0) $assigned_percentage = $user["Closed_Assigned_Bugs"] / $total_assigned;
+            else $assigned_percentage = 1.1;
+
+            $lastlogon = new DateTime($user["Last_Logon_Time"]);
+
+            $username = htmlentities($user["Username"]);
+
+            ?>
+            <div data-username="<?php echo $user["Username"]; ?>" data-search="<?php echo htmlentities(strtolower($user["Username"])); ?>" class="table-row">
+                <div class="overview">
+                    <p class="username"><a href="<?php echo Path::getclientfolder("~$username"); ?>" title="View <?php echo $username; ?>'s profile"><?php echo $username; ?></a></p><!--
+                    --><p class="rank">
+                        <label><select class="<?php echo strtolower($ranks[$user["Rank"]]); ?>">
+                            <?php foreach ($ranks as $number => $rank) {
+                                echo "<option value='$number'" . ($number === $user["Rank"] ? "selected" : "") . " class='" . strtolower($rank) . "'>$rank</option>";
+                            } ?>
+                        </select></label>
+                    </p><!--
+                    --><p class="last-logon">
+                        <?php if ($user["Last_Logon_Time"]) { ?><span class="timeago" title="<?php echo $lastlogon->format("c"); ?>"></span><?php }
+                        else { ?><em class="none">Never</em><?php } ?>
+                    </p><!--
+                    --><p class="my-bugs">
+                        <?php if ($total_bugs === 0) { ?><em class="none">No bugs</em><?php } else {
+                            echo $user["Open_Bugs"]; ?> <i class="fa fa-check"></i> - <?php echo $user["Closed_Bugs"]; ?> <i class="fa fa-times"></i> (<?php echo floor($bug_percentage * 100); ?>%)
+                        <?php } ?>
+                    </p><!--
+                    --><p class="assigned-bugs">
+                        <?php if ($total_assigned === 0) { ?><em class="none">No bugs</em><?php } else {
+                            echo $user["Open_Assigned_Bugs"]; ?> <i class="fa fa-check"></i> - <?php echo $user["Closed_Assigned_Bugs"]; ?> <i class="fa fa-times"></i> (<?php echo floor($assigned_percentage * 100); ?>%)
+                        <?php } ?>
+                    </p><!--
+                    --><p class="developing">
+                        <?php if (strlen($user["Developing"])) echo htmlentities($user["Developing"]);
+                              else echo "<em class='none'>None</em>"; ?>
+                    </p>
+                </div>
+            </div>
+            <?php
+        }
+    ?>
+</div>
+        <?php
     }
     public function permissions() {
 

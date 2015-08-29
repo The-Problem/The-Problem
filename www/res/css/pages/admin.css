@@ -96,10 +96,11 @@
     color:#999;
 }
 
-.section-list {
+.list-table {
     width:750px;
+    font-size:0.9em;
 }
-.section-list .table-header p, .section-list .overview p {
+.list-table .table-header p, .list-table .overview p {
     display:inline-block;
     vertical-align:top;
     margin:0;
@@ -111,38 +112,56 @@
 
     box-sizing:border-box;
 }
-.section-list .table-header p.name, .section-list .overview p.name {
-    /*width:125px;*/
+.list-table .table-header p.name, .list-table .overview p.name {
     width:20%;
 }
-.section-list .table-header p.description, .section-list .overview p.description {
-    /*width:250px;*/
-    width:40%;
+.list-table .table-header p.description, .list-table .overview p.description {
+    width:50%;
 }
-.section-list .table-header p.developers, .section-list .overview p.developers {
+.list-table .table-header p.developers, .list-table .overview p.developers {
     width:10%;
 }
-.section-list .table-header p.bugs, .section-list .overview p.bugs {
-    width:30%;
+.list-table .table-header p.bugs, .list-table .overview p.bugs {
+    width:20%;
 }
 
-.section-list .table-header, .section-list .table-row {
+.list-table .table-header p.username, .list-table .overview p.username {
+    width:17%;
+}
+.list-table .table-header p.rank, .list-table .overview p.rank {
+    width:15%;
+}
+.list-table .table-header p.last-logon, .list-table .overview p.last-logon {
+    width:20%;
+}
+.list-table .table-header p.my-bugs, .list-table .overview p.my-bugs,
+.list-table .table-header p.assigned-bugs, .list-table .overview p.assigned-bugs {
+    width:15%;
+}
+.list-table .table-header p.developing, .list-table .overview p.developing {
+    width:18%;
+}
+
+.list-table .overview p.developers {
+    text-align:right;
+}
+.list-table .table-header, .list-table .table-row {
     border-top:solid 1px #DDD;
     border-left:solid 1px #DDD;
     box-sizing:border-box;
     width:750px;
 }
-.section-list div:last-child.table-header, .section-list div:last-child.table-row {
+.list-table div:last-child.table-header, .list-table div:last-child.table-row {
     border-bottom:solid 1px #DDD;
 }
-.section-list .table-header p, .section-list .table-row .overview p {
+.list-table .table-header p, .list-table .table-row .overview p {
     border-right:solid 1px #DDD;
 }
 
-.section-list .table-header {
+.list-table .table-header {
     background-color:#DDD;
 }
-.section-list .table-row:nth-child(odd) .overview {
+.list-table .table-row:nth-child(odd) .overview {
     background-color:#F9F9F9;
 }
 .section-list .table-row .overview:hover {
@@ -153,49 +172,49 @@
     background-color:#EBEBEB;
 }
 
-.section-list .table-row.highlight .overview, .section-list div:last-child.table-row.highlight .overview {
+.list-table .table-row.highlight .overview, .list-table div:last-child.table-row.highlight .overview {
     background-color:#ffebee;
 }
-.section-list .table-row.highlight, .section-list div:last-child.table-row.highlight {
+.list-table .table-row.highlight, .list-table div:last-child.table-row.highlight {
     border-color:#e57373;
 }
-.section-list .table-row:nth-child(odd).highlight .overview {
+.list-table .table-row:nth-child(odd).highlight .overview {
     background-color:#ffcdd2;
 }
 
-.section-list .table-row.top-highlight {
+.list-table .table-row.top-highlight {
     border-top-color:#e57373;
 }
-.section-list .table-row.highlight .overview p {
+.list-table .table-row.highlight .overview p {
     border-color:#e57373;
 }
-.section-list .table-row p.highlight {
+.list-table .table-row p.highlight {
     background-color:#ef9a9a;
 }
 
-.section-list .table-row.highlight .overview:hover, .section-list div:last-child.table-row.highlight .overview:hover {
+.list-table .table-row.highlight .overview:hover, .list-table div:last-child.table-row.highlight .overview:hover {
     background-color:#FBC0C4;
 }
-.section-list .table-row:nth-child(odd).highlight .overview:hover, .section-list div:last-child:nth-child(odd).table-row.highlight .overview:hover {
+.list-table .table-row:nth-child(odd).highlight .overview:hover, .list-table div:last-child:nth-child(odd).table-row.highlight .overview:hover {
     background-color:#F7B4B6;
 }
 
-.section-list .options p {
+.list-table .options p {
     padding:0;
     margin:0;
 }
-.section-list .section-header {
+.list-table .section-header {
     /*background-color:#FFF;*/
     position:relative;
 }
-.section-list .section-header h2 a {
+.list-table .section-header h2 a {
     color:#000;
 }
-.section-list .section-header table th {
+.list-table .section-header table th {
     text-align:left;
     margin-right:5px;
 }
-.section-list .section-header table th, .section-list .section-header table td {
+.list-table .section-header table th, .list-table .section-header table td {
     vertical-align:top;
 }
 .section-header .close {
@@ -204,26 +223,26 @@
     right:15px;
     color:#000;
 }
-.section-list .section-tile {
+.list-table .section-tile {
     position:relative;
     margin-top:-1px;
     margin-left:-1px;
 }
-.section-list .section-tile, .section-list .right-column {
+.list-table .section-tile, .list-table .right-column {
     display:inline-block;
     vertical-align:top;
 }
-.section-list .right-column {
+.list-table .right-column {
     width:599px;
     border-right:solid 1px #DDD;
 }
-.section-list .highlight .right-column {
+.list-table .highlight .right-column {
     border-right-color:#e57373;
 }
-.section-list .section-header .section {
+.list-table .section-header .section {
     padding:5px;
 }
-.section-list .section-header .section:nth-child(odd) {
+.list-table .section-header .section:nth-child(odd) {
     background-color:#F1F1F1;
 }
 
@@ -310,4 +329,28 @@
 .table-search input {
     padding:5px;
     width:738px;
+}
+
+.user-list .table-row p.rank {
+    padding:0;
+}
+.user-list .table-row p.rank select {
+    border:none;
+    width:100%;
+    height:31px;
+}
+.user-list .unverified {
+    background-color:#eeeeee;
+}
+.user-list .standard {
+    background-color:#90caf9;
+}
+.user-list .moderator {
+    background-color:#9fa8da;
+}
+.user-list .administrator {
+    background-color:#ef9a9a;
+}
+.user-list .overview .username a {
+    color:#000;
 }

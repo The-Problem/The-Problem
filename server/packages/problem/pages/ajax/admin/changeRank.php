@@ -1,7 +1,6 @@
 <?php
-class AjaxAdminAddDevPage implements IPage {
+class AjaxAdminChangeRankPage implements IPage {
     public function __construct(PageInfo &$page) {
-
     }
 
     public function template() {
@@ -24,13 +23,11 @@ class AjaxAdminAddDevPage implements IPage {
         $rank = $rank_res[0]["Rank"];
         if ($rank < 4) return array("error" => "You do not have the required permission to perform this action");
 
-        $dev_user = $_GET['username'];
-        $dev_section = $_GET['section'];
+        $change_user = $_GET["username"];
+        $new_rank = $_GET["rank"];
+        if ($new_rank === 2) $new_rank = 1;
 
-        Connection::query("INSERT INTO developers (Section_ID, Username) VALUES (?, ?)", "is", array(
-            $dev_section,
-            $dev_user
-        ));
+        Connection::query("UPDATE users SET Rank = ? WHERE Username = ?", "is", array($new_rank, $change_user));
 
         return array("success" => true);
     }
