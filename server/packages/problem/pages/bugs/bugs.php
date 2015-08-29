@@ -108,6 +108,7 @@ class BugsPage implements IPage {
 		
 		?>
 <h2>Bug list</h2>
+<h3><a href="<?php echo Path::getclientfolder("bugs", $this->section, "new"); ?>">CREATE NEW</a></h3>
 <ul>
 <?php
 $bugs = Connection::query("SELECT RID, bugs.Name FROM bugs
