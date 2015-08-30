@@ -203,7 +203,7 @@
 		}
 
 		public function sendPasswordEmail(){
-			$hash = md5($this->username + self::PASSWORD_SALT);
+			$hash = md5($this->username . self::PASSWORD_SALT);
 
 			$changeLink = "http://www.theproblem.dreamhosters.com/login/newPassword?username=" . $this->username . "&code=" . $hash;
 
