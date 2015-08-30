@@ -16,7 +16,8 @@ class CommentsModule implements IModule {
                                                     AND plusones.Username = ?) AS My_Plus_Ones,
                                                  (SELECT COUNT(*) FROM developers
                                                   WHERE developers.Section_ID = ?
-                                                  AND developers.Username = comments.Username) AS Is_Developer
+                                                  AND developers.Username = comments.Username) AS Is_Developer,
+                                                  comments.Object_ID AS Object_ID
                                          FROM comments
                                            JOIN objects ON (comments.Object_ID = objects.Object_ID)
                                            JOIN users ON (comments.Username = users.Username)

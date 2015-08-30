@@ -39,6 +39,8 @@ class CommentModule implements IModule {
         $can_delete = Objects::permission($comment["Object_ID"], "comment.remove", $_SESSION["username"], $comment["Bug_Section_ID"]);
         $can_plusone = Objects::permission($comment["Object_ID"], "comment.upvote", $_SESSION["username"], $comment["Bug_Section_ID"]);
 
+        $current_user = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($_SESSION['username']));
+
         ?>
 <div class="comment" data-id="<?php echo $comment["Object_ID"]; ?>">
     <div class="left-column">
@@ -49,6 +51,10 @@ class CommentModule implements IModule {
             <?php if ($rank) {?><span class="rank <?php echo $rank; ?>"><?php echo strtoupper($rank); ?></span><?php } ?>
             <a href="<?php echo $userlink; ?>"><?php echo htmlentities($comment["Username"]); ?></a>
             commented <span class="timeago" title="<?php echo $creation_date->format("c"); ?>"></span>
+
+            <?php if ($current_user[0]["Rank"] >= 4) { ?>
+                - <a href="<?php echo Path::getclientfolder("admin", "object", $comment["Object_ID"]); ?>">Permissions</a>
+            <?php } ?>
 
             <?php if ($can_delete) { ?><div class="right delete"><a href="javascript:void(0)" title="Delete this comment"><i class="fa fa-times"></i></a></div><?php } ?>
             <?php if ($can_edit) { ?><div class="right edit"><a href="javascript:void(0)" title="Edit this comment"><i class="fa fa-pencil"></i></a></div><?php } ?>

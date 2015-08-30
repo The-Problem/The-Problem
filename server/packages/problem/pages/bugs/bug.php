@@ -78,6 +78,8 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Raw_Description AS Bug_Raw_D
         Library::get("objects");
         echo "<h4 style='width:625px;margin:0 auto;padding:0 0 20px 75px'>" . $statuses[$this->bug["Status"]];
 
+        $user = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($_SESSION["username"]));
+
         if (Objects::permission($this->bug["Bug_ObjectID"], "bug.change-status", $_SESSION['username'], $this->bug["Section_ID"])) {
             if ($this->bug["Status"] !== 1) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=1">Open</a>';
             if ($this->bug["Status"] !== 2) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=2">Close</a>';
@@ -85,7 +87,6 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Raw_Description AS Bug_Raw_D
             if ($this->bug["Status"] !== 4) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=4">WIP</a>';
         }
         echo "</h4>";
-
 
         Modules::getoutput("comments", $this->bug);
     }

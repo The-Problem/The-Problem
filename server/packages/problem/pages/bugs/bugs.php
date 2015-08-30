@@ -35,6 +35,13 @@ class BugsPage implements IPage {
         $coverImage = new Image("section", "section", array(
             "format" => "jpeg"
         ));
+
+        $current_user = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($_SESSION['username']));
+        $bugs = Connection::query("SELECT bugs.Name, bugs.Bug_ID, bugs.Author, bugs.Creation_date, bugs.Status, bugs.RID, bugs.Object_ID from bugs JOIN sections ON (sections.Section_ID = bugs.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
+
+        $section = Connection::query("SELECT Object_ID, Section_ID FROM sections
+                                        WHERE Slug = ?", "s", array($this->section));
+
         ?>
 
 <div id="sectionHead">
@@ -53,6 +60,7 @@ class BugsPage implements IPage {
     <div id="centerArea">
         <div id="topsection">
             <input id="searchBox" type="search" placeholder="What are you looking for?">
+            <?php if ($current_user[0]["Rank"] >= 4) { ?><a id="permissionsLink" href="<?php echo Path::getclientfolder("admin", "object", $section[0]["Object_ID"]); ?>">Permissions</a><?php } ?>
             <button type="button" id="newBug"><i class="fa fa-plus"></i></button>
         </div>
         <table id="bugsTable">
@@ -82,9 +90,12 @@ class BugsPage implements IPage {
                 </td>
             </tr>
             <?php
-            $bugs = Connection::query("SELECT bugs.Name, bugs.Bug_ID, bugs.Author, bugs.Creation_date, bugs.Status, bugs.RID  from bugs JOIN sections ON (sections.Section_ID = bugs.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
 
+            Library::get("objects");
+            $permissions = Objects::user_permissions("bug.view", $_SESSION['username'], $section[0]["Section_ID"]);
             foreach ($bugs as $bug){
+                if (!in_array($bug["Object_ID"], $permissions)) continue;
+
                 echo "<tr>
                     <td class='bugEntry'>
                         <div class='leftColumn'>
