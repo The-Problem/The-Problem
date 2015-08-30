@@ -30,7 +30,7 @@ class AjaxBugsEditCommentPage implements IPage {
 
         if (!count($comment)) return array("error" => "Invalid comment ID");
 
-        if (!Objects::permission($object_id, "comment.edit", $_SESSION["username"], $comment["Bug_Section_ID"]))
+        if (!Objects::permission($object_id, "comment.edit", $_SESSION["username"], $comment[0]["Bug_Section_ID"]))
             return array("error" => "You do not have permission to perform that action");
 
         $mentions = array();
