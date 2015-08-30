@@ -1,11 +1,7 @@
 LimePHP.register("modules.userDetails", function() {
-	document.getElementById('userDetailsButton').addEventListener('click', openUserPanel, false);
+	document.getElementById('userDetailsButton').addEventListener('click', showPanel, false);
 
-	function openUserPanel(event){
-		showPanel();
-	}
-
-	function showPanel(){
+	function showPanel(event){
 		document.getElementById('userDetailsScreen').style.display = "block";
 		document.getElementById('userDetailsScreen').style.backgroundColor = "rgba(0,0,0,0.4)";
 		document.getElementById('detailsPanel').style.top = "50px";
