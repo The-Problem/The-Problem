@@ -1,14 +1,15 @@
-LimePHP.register("modules.notification", function() {;
+LimePHP.register("modules.notification", function() {
 	//get latest 10 notifications
-	fetchNotifications();
-	var lastRefreshTime = timeNow();
 
-	setInterval(recalculateTimes, 1000);
+		fetchNotifications();
+		var longTimeAgo = new Date(0);
+		window.lastRefreshTime = longTimeAgo.toISOString();
+		window.refreshRate = 5;
 
-	//add button event listeners
-	document.getElementById('notificationButton').addEventListener('click', toggleNotifications, false);
-	document.getElementById('refreshButton').addEventListener('click', refreshNotifications, false);
-	var notificationsOpen = false;
+		//add button event listeners
+		document.getElementById('notificationButton').addEventListener('click', toggleNotifications, false);
+		document.getElementById('refreshButton').addEventListener('click', refreshNotifications, false);
+		window.notificationsOpen = false;
 
 	//turn notification panel on or off
 	function toggleNotifications(event){
@@ -69,14 +70,31 @@ LimePHP.register("modules.notification", function() {;
 		notificationRequest.success = notificationsArrived;
 		notificationRequest.error = notificationsLost;
 
-		//setTimeout(refreshNotifications, 30000);
+		setTimeout(refreshNotifications, 5000);
+		
+		function notificationsArrived(package){
+
+			if (package.length >= 1){
+				lastRefreshTime = package[0]['time'];
+			}
+
+			for (var i = 0; i < package.length; i++){
+				addNotification(package[i], false);
+			}
+		}
+		
+		function notificationsLost(error){
+			refreshDone();
+			console.log('Notifications lost on initial fetch:');
+			console.log(error);
+		}
 	}
 
 	function refreshNotifications(){
 		showRefreshing();
 
 		var notificationSettings = {
-			"time": Math.round(lastRefreshTime), 
+			"time": lastRefreshTime, 
 			"before": 0,
 		}
 
@@ -84,85 +102,45 @@ LimePHP.register("modules.notification", function() {;
 		notificationRequest.success = notificationsArrived;
 		notificationRequest.error = notificationsLost;
 
-		console.log("Refreshing with: ");
-		console.log(notificationSettings);
-		setTimeout(refreshNotifications, 30000);
+		setTimeout(refreshNotifications, refreshRate * 1000);
+
+		function notificationsArrived(package){
+			refreshDone();
+			var notificationList = document.getElementById('notifications');
+
+			if (package.length >= 1){
+				lastRefreshTime = package[0]['time'];
+			}
+
+			for (var i = package.length-1; i >= 0; i--){
+				addNotification(package[i], true);
+			}
+		}
+		
+		function notificationsLost(error){
+			refreshDone();
+			console.log('Notifications lost on refresh:');
+			console.log(error);
+		}
 	}
 
-	function notificationsArrived(package){
 
-		refreshDone();
-
-
+	function addNotification(currentNotification, addToTop){
+		
+		var statHTML = "<span class='timeago' title='" + currentNotification['time'] + "'></span>" + ' - ' + "<a href='" + LimePHP.path('bugs/' + currentNotification['sectionSlug']) + "'>" + currentNotification['sectionName'] + "</a>";
 		var notificationList = document.getElementById('notifications');
-
-		for (notification in package){
-			var currentNotification = package[notification];
-			console.log(currentNotification)
-			var statHTML = "<span class='time' time='" + currentNotification['time'] + "'>" + timeago(currentNotification['time']) + "</span>" + ' - ' + currentNotification['section'];
-			notificationList.innerHTML = "<section class='notificationCell'><p class='message'>" + currentNotification['message'] + "</p><p class='stats'>" + statHTML + "</p></section>" + notificationList.innerHTML;
-			lastRefreshTime = currentNotification['time'];
+		
+		var notificationCell = document.createElement('a');
+		notificationCell.setAttribute('href', currentNotification['link']);
+		notificationCell.innerHTML = "<section class='notificationCell'><p class='message'>" + currentNotification['message'] + "</p><p class='stats'>" + statHTML + "</p></section>";
+		
+		if (addToTop){
+			notificationList.insertBefore(notificationCell, notificationList.children[0]);
+		}else{
+			notificationList.appendChild(notificationCell);
 		}
-	}
 
-	function notificationsLost(error){
-		refreshDone();
-		console.log('Notifications lost:');
-		console.log(error);
-	}
-
-
-	function timeNow(){
-		var date = new Date();
-		return date.getTime();
-	}
-
-    function timeago(pastTime){
-	    var second = 1000;
-	    var minute = 60 * second;
-	    var hour = minute * 60;
-	    var day = hour * 24;
-	    var week = day * 7;
-	    var month = week * 4;
-	    var year = month * 12;
-
-	    var timeDifference = timeNow() - (pastTime * 1000);
-
-	    output = timeDifference / 1000;
-
-	    if (timeDifference < minute){
-	        output = "Just now";
-	    }else if (timeDifference < hour){
-	        output = Math.round(timeDifference/minute) + " minute";
-	    }else if (timeDifference < day){
-	        output = Math.round(timeDifference/hour) + " hour";
-	    }else if (timeDifference < week){
-	        output = Math.round(timeDifference/day) + " day";
-	    }else if (timeDifference < month){
-	        output = Math.round(timeDifference / week) + " week";
-	    }else if (timeDifference < year){
-	        output = Math.round(timeDifference / month) + " month";
-	    }else{
-	        output = Math.round(timeDifference / year) + " year";
-	    }
-
-	    if (output.substring(0, 2) != "1 " && output != "Just now"){
-	        output += "s ago";
-	    }else if (output.substring(0, 2) == "1 " && output != "Just now"){
-	        output += " ago";
-	    }
-
-	    return output;
-	}
-
-	function recalculateTimes(){
-		var timeSpans = document.getElementsByClassName('time');
-
-		for (var i = 0; i < timeSpans.length; i++){
-			var fuzzyTime = timeago(timeSpans[i].getAttribute('time'));
-			timeSpans[i].innerHTML = fuzzyTime;
-		}
+		$(notificationCell.children[0].children[1].children[0]).timeago();
 	}
 
 });
-

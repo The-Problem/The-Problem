@@ -15,10 +15,6 @@
 
 		//create user from required information
 		public static function newUser($username, $password, $name, $email){
-			if (!self::usernameAvailable($username) || !self::emailAvailable($email)){
-				return false;
-			}
-			
 			$username = htmlentities(trim($username));
 			$name = htmlentities(trim($name));
 			$email = htmlentities(trim($email));
@@ -30,8 +26,10 @@
 			$freshUser = self::getUser($username);
 			$freshUser->setPassword($password);
 
+			$_SESSION['username'] = $username;
+
 			self::login($username, $password);
-			return $true;
+			return $query;
 		}
 
 		//returns User object with properties and methods for a single user
@@ -52,38 +50,41 @@
 			}
 		}
 
+	
+
 		//returns whether a username may be used
 		public static function usernameAvailable($username){
 			//returns whether a username is availale for use
-			if (strlen($username) < 2 || strpos($username, " ")){
-				return 2;
+			if (!preg_match('/^[\w\d-_]{1,20}$/', $username)){
+				return false;
 			}
 
 			$usernameQuery  = "SELECT COUNT(Username) FROM users WHERE Username = ? ";
 			$queryResult = Connection::query($usernameQuery, "s", array($username));
 
 			if ($queryResult[0]["COUNT(Username)"] == 0){
-				return 1;
+				return true;
 			}else{
-				return 0;
+				return false;
 			}
 
 		}
 
+		//checks whether an email is valid or already used
 		public static function emailAvailable($email){
-			if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-				return 2;
+			if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+				return false;
 			}
 
 			$emailQuery = 
-					"SELECT Username FROM users WHERE Email = ?";
-			$queryResult = Connection::query($emailQuery, "s", array($email));
+				"SELECT Username FROM users WHERE Email = ?";
+			$emailResult = Connection::query($emailQuery, "s", array($email));
 
-			if ($queryResult){
-				return 1;
+			if (count($emailResult) != 0){
+				return false;
 			}
 
-			return 0;
+			return true;
 		}
 		
 		//logs user in using $_SESSION[]
@@ -103,8 +104,9 @@
 
 			if ($passwordHashResult && password_verify($password, $passwordHashResult[0]['Password'])){
 				$_SESSION['username'] = $passwordHashResult[0]['Username'];
-				$updateLogonTimeQuery = "UPDATE users SET Last_Logon_Time = NOW() WHERE Username = ?";
-				$updateResult = Connection::query($updateLogonTimeQuery, "s", array($passwordHasResult[0]['Username']));
+				$updateLogonTimeQuery = "UPDATE users SET Last_Logon_Time = ? WHERE Username = ?";
+				$currentTime = date("Y:m:d H:i:s");
+				$updateResult = Connection::query($updateLogonTimeQuery, "ss", array($currentTime, $passwordHashResult[0]['Username']));
 				return true;
 			}
 

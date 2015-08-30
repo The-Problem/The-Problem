@@ -69,19 +69,20 @@
 	height:120px;
 }
 
-#notifications .notificationCell > p {
+.notificationCell > p {
 	margin: 0px 0px;
 }
 
-#notifications .notificationCell:nth-child(2n+1){
+.notificationCell:nth-child(2n+1){
 	background-color: #1A1A1A;
 }
 
-#notification .notificationCell .message {
+.notificationCell > .message {
 	float: left;
+	margin-bottom: 0px;
 }
 
-#notification .notificationCell .stats {
+.notificationCell > .stats {
 	margin-top: 10px;
 	float: right;
 	font-size: 12px;

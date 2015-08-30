@@ -18,7 +18,8 @@ class ProblemPackage implements IPackage {
                 "comments",
                 "comment",
                 "headerBar",
-                "loggedInHome"
+                "loggedInHome",
+                "userDetails"
             ),
             "Templates" => array(
                 "default"
