@@ -435,7 +435,7 @@ INSERT INTO `userpermissions` (`Object_ID`, `Permission_Name`, `Username`) VALUE
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `Username` varchar(20) COLLATE latin1_general_cs NOT NULL,
+  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `Email` text COLLATE latin1_general_cs NOT NULL,
   `Name` text COLLATE latin1_general_cs NOT NULL,
   `Password` text COLLATE latin1_general_cs NOT NULL,
