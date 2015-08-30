@@ -64,9 +64,11 @@ class BugsPage implements IPage {
         }
 
 
-        $bugs = Connection::query("SELECT bugs.Name, bugs.Bug_ID, bugs.Creation_Date, bugs.Author, bugs.Status, bugs.RID, (SELECT COUNT(*) FROM comments WHERE comments.Bug_ID = bugs.Bug_ID) as com  from bugs JOIN sections ON (sections.Section_ID = bugs.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
+        $bugs = Connection::query("SELECT bugs.Name, bugs.Bug_ID, bugs.Creation_Date, bugs.Author, bugs.Status, bugs.RID, bugs.Object_ID, (SELECT COUNT(*) FROM comments WHERE comments.Bug_ID = bugs.Bug_ID) as com  from bugs JOIN sections ON (sections.Section_ID = bugs.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
         $devs = Connection::query("SELECT DISTINCT developers.Username from developers JOIN sections ON (sections.Section_ID = developers.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
         $authors = Connection::query("SELECT DISTINCT bugs.Author from bugs JOIN sections ON (sections.Section_ID = bugs.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
+        
+        $current_user = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($_SESSION['username']));
         ?>
 
 <div id="sectionHead">
@@ -140,7 +142,7 @@ class BugsPage implements IPage {
             </tr>
             <?php
             foreach ($bugs as $bug){
-                if (!in_array($bug["Bug_ID"], $permissions)) continue;
+                if (!in_array($bug["Object_ID"], $permissions)) continue;
                 echo "<tr>
                     <td class='bugEntry'>
                         <div class='leftColumn'>
