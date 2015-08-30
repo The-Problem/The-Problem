@@ -24,25 +24,20 @@ class LoginNewPasswordPage implements IPage{
 	}
 	
 	public function body(){
-		Library::get('users');
-		$currentUser = Users::getUser('current');
-				if ($_SESSION['username'] == $_GET['username']){
-			$code = $_GET['code'];
-
-			$actualCode = md5($currentUser->username + $currentUser::PASSWORD_SALT);
-			echo $currentUser::PASSWORD_SALT;
-			echo $actualCode;
-			echo "<br>";
-			echo $code;
-
-			if ($code == $actualCode){
-				echo 'thecodeisright';
-			}else{
-				echo 'thecodeiswrong';
-			}
+	Library::get('users');
+	$currentUser = Users::getUser('current');
+	
+	if ($_SESSION['username'] == $_GET['username']){
+		$code = $_GET['code'];
+		$actualCode = md5($currentUser->username . $currentUser::PASSWORD_SALT);
+		if ($code == $actualCode){
+			return true;
 		}else{
-			echo 'usernameiswrong';
+			return false;
 		}
+	}else{
+		return false;
+	}
 
 		function validPassword($password){
 			if (strlen($password) < 8){
