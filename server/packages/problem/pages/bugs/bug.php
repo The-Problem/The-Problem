@@ -37,7 +37,7 @@ class BugsBugPage implements IPage {
         }
 
         $res = Connection::query("
-SELECT *, bugs.Description AS Bug_Description, bugs.Object_ID AS Bug_ObjectID, bugs.Name AS Bug_Name FROM bugs
+SELECT *, bugs.Description AS Bug_Description, bugs.Raw_Description AS Bug_Raw_Description, bugs.Object_ID AS Bug_ObjectID, bugs.Name AS Bug_Name FROM bugs
     JOIN sections ON (sections.Section_ID = bugs.Section_ID)
     WHERE sections.Slug = ?
     AND bugs.RID = ?", "si", array($path[2], $path[3]));

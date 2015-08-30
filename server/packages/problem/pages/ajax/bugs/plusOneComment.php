@@ -47,9 +47,9 @@ class AjaxBugsPlusOneCommentPage implements IPage {
                                  (Triggered_By, Received_By,                    Target_One, Target_Two, Creation_Date, Type)
                           VALUES (           ?, (SELECT Username
                                                    FROM watchers
-                                                 WHERE watchers.Object_ID = ?),          ?,       NULL,             ?,    ?)",
-                "siisi", array(
-                    $_SESSION["username"], $id, $id, $now, 4
+                                                 WHERE watchers.Object_ID = ?),          ?,       NULL,             ?,    4)",
+                "siis", array(
+                    $_SESSION["username"], $id, $id, $now
                 ));
 
             // start watching the bug

@@ -21,12 +21,24 @@ class AjaxBugsEditCommentPage implements IPage {
 
         Library::get('objects');
 
-        $comment = Connection::query("
+        $object_type = Connection::query("SELECT Object_Type FROM objects WHERE Object_ID = ?", "i", array($object_id));
+        $is_bug = $object_type[0]["Object_Type"] === 1;
+
+        if ($is_bug) {
+            // edit a bug
+            $comment = Connection::query("
+            SELECT bugs.Object_ID AS Bug_Object_ID, sections.Slug AS Section_Slug, bugs.Author AS Comment_Author FROM bugs
+              JOIN sections ON (bugs.Section_ID = sections.Section_ID)
+            WHERE bugs.Object_ID = ?
+            ", "i", array($object_id));
+        } else {
+            $comment = Connection::query("
         SELECT bugs.Object_ID AS Bug_Object_ID, bugs.Section_ID AS Bug_Section_ID, sections.Slug AS Section_Slug, comments.Username AS Comment_Author FROM comments
           JOIN bugs ON (comments.Bug_ID = bugs.Bug_ID)
           JOIN sections ON (bugs.Section_ID = sections.Section_ID)
         WHERE comments.Object_ID = ?
         ", "i", array($object_id));
+        }
 
         if (!count($comment)) return array("error" => "Invalid comment ID");
 
@@ -41,8 +53,13 @@ class AjaxBugsEditCommentPage implements IPage {
             "section_slug" => $comment[0]["Section_Slug"]
         ));
 
-        Connection::query("UPDATE comments SET Comment_Text = ?, Raw_Text = ? WHERE comments.Object_ID = ?", "ssi",
-            array($value, $_POST['value'], $object_id));
+        if ($is_bug) {
+            Connection::query("UPDATE bugs SET Description = ?, Raw_Description = ? WHERE bugs.Object_ID = ?", "ssi",
+                array($value, $_POST['value'], $object_id));
+        } else {
+            Connection::query("UPDATE comments SET Comment_Text = ?, Raw_Text = ? WHERE comments.Object_ID = ?", "ssi",
+                array($value, $_POST['value'], $object_id));
+        }
 
 
         return array("value" => $value);

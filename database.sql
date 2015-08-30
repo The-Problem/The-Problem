@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 30, 2015 at 09:43 AM
+-- Generation Time: Aug 30, 2015 at 11:30 AM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.9
 
@@ -28,28 +28,29 @@ CREATE TABLE IF NOT EXISTS `bugs` (
   `Status` int(11) NOT NULL,
   `Description` text COLLATE latin1_general_cs,
   `Creation_Date` datetime NOT NULL,
-  `Author` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `Author` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `Edit_Date` datetime DEFAULT NULL,
   `RID` int(11) NOT NULL,
-  `Assigned` varchar(20) COLLATE latin1_general_ci DEFAULT NULL
+  `Assigned` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
+  `Raw_Description` longtext COLLATE latin1_general_cs NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `bugs`
 --
 
-INSERT INTO `bugs` (`Bug_ID`, `Section_ID`, `Object_ID`, `Name`, `Status`, `Description`, `Creation_Date`, `Author`, `Edit_Date`, `RID`, `Assigned`) VALUES
-  (1, 1, 7, 'Login Button Disappearing', 1, '<p>The login button disappears from the screen whenever I try to click on it. I can''t click on it and haven''t been able to log on for three weeks. Very annoying, please fix ASAP.</p>', '2015-08-30 05:14:09', 'mrfishie', NULL, 1, NULL),
-  (2, 1, 8, 'Confusion between users', 1, '<p>User profile pages are being filled with details from other users. The <a href="http://localhost/The-Problem/www/%7Edr2n/">@dr2n</a> profile page shows the avatar of @zac</p>', '2015-08-30 05:15:22', 'mrfishie', NULL, 2, NULL),
-  (3, 1, 9, 'Can''t Change Password', 1, '<p>There is no option to change my password. I accidentally typed in my password while saying it out loud over the intercom and now everyone is able to log in.</p>', '2015-08-30 05:18:33', 'mrfishie', NULL, 3, NULL),
-  (4, 2, 10, 'Limited Character Support', 1, '<p>Many symbols show up as rectangles when typed out as section names.</p>', '2015-08-30 05:19:04', 'mrfishie', NULL, 1, NULL),
-  (5, 2, 11, 'Cover Pixelation', 1, '<p>Cover photo in sections appear to be a pixelated mess. You can''t even make out my face in this one.</p>', '2015-08-30 05:19:43', 'mrfishie', NULL, 2, NULL),
-  (6, 2, 12, 'No Colours', 1, '<p>All sections are in black and white.</p>', '2015-08-30 05:20:08', 'mrfishie', NULL, 3, NULL),
-  (7, 2, 13, 'Sections Don''t Load', 1, '<p>There''s an error message saying &quot;STATEWIDE BLOCK&quot; after I log on in the home page. I can''t see the sections that I''m developing in.</p>', '2015-08-30 05:20:58', 'mrfishie', NULL, 4, NULL),
-  (8, 3, 14, 'Statewide Block', 1, '<p>Section tiles on the home page are all saying &quot;Statewide Block&quot;.</p>', '2015-08-30 05:22:20', 'mrfishie', NULL, 1, NULL),
-  (9, 3, 15, 'Improvement: Rainbow Background', 1, '<p>A rainbow background on the homepage of The Problem would make everyone''s lives much happier. This is a much needed feature.</p>', '2015-08-30 05:23:09', 'mrfishie', NULL, 2, NULL),
-  (10, 1, 16, 'Oversized Buttons', 1, '<p>Buttons on the logon page are the size of the entire screen.</p>', '2015-08-30 05:23:32', 'mrfishie', NULL, 4, NULL),
-  (11, 1, 17, 'Character Jumble', 1, '<p>All the characters in my username have become jumbled up.</p>', '2015-08-30 05:24:00', 'mrfishie', NULL, 5, NULL);
+INSERT INTO `bugs` (`Bug_ID`, `Section_ID`, `Object_ID`, `Name`, `Status`, `Description`, `Creation_Date`, `Author`, `Edit_Date`, `RID`, `Assigned`, `Raw_Description`) VALUES
+  (1, 1, 7, 'Login Button Disappearing', 1, '<p>The login button disappears from the screen whenever I try to click on it. I can''t click on it and haven''t been able to log on for three weeks. Very annoying, please fix ASAP.</p>', '2015-08-30 05:14:09', 'mrfishie', NULL, 1, NULL, 'The login button disappears from the screen whenever I try to click on it. I can''t click on it and haven''t been able to log on for three weeks. Very annoying, please fix ASAP.'),
+  (2, 1, 8, 'Confusion between users', 1, '<p>User profile pages are being filled with details from other users. The <a href="http://localhost/The-Problem/www/%7Edr2n/">@dr2n</a> profile page shows the avatar of @zac</p>', '2015-08-30 05:15:22', 'mrfishie', NULL, 2, NULL, 'User profile pages are being filled with details from other users. The @dr2n profile page shows the avatar of @zac'),
+  (3, 1, 9, 'Can''t Change Password', 1, '<p>There is no option to change my password. I accidentally typed in my password while saying it out loud over the intercom and now everyone is able to log in.</p>', '2015-08-30 05:18:33', 'mrfishie', NULL, 3, NULL, 'There is no option to change my password. I accidentally typed in my password while saying it out loud over the intercom and now everyone is able to log in.'),
+  (4, 2, 10, 'Limited Character Support', 1, '<p>Many symbols show up as rectangles when typed out as section names.</p>', '2015-08-30 05:19:04', 'mrfishie', NULL, 1, NULL, 'Many symbols show up as rectangles when typed out as section names.'),
+  (5, 2, 11, 'Cover Pixelation', 1, '<p>Cover photo in sections appear to be a pixelated mess. You can''t even make out my face in this one.</p>', '2015-08-30 05:19:43', 'mrfishie', NULL, 2, NULL, 'Cover photo in sections appear to be a pixelated mess. You can''t even make out my face in this one.'),
+  (6, 2, 12, 'No Colours', 1, '<p>All sections are in black and white.</p>', '2015-08-30 05:20:08', 'mrfishie', NULL, 3, NULL, 'All sections are in black and white.'),
+  (7, 2, 13, 'Sections Don''t Load', 1, '<p>There''s an error message saying &quot;STATEWIDE BLOCK&quot; after I log on in the home page. I can''t see the sections that I''m developing in.</p>', '2015-08-30 05:20:58', 'mrfishie', NULL, 4, NULL, 'There''s an error message saying "STATEWIDE BLOCK" after I log on in the home page. I can''t see the sections that I''m developing in.'),
+  (8, 3, 14, 'Statewide Block', 1, '<p>Section tiles on the home page are all saying &quot;Statewide Block&quot;.</p>', '2015-08-30 05:22:20', 'mrfishie', NULL, 1, NULL, 'Section tiles on the home page are all saying "Statewide Block".'),
+  (9, 3, 15, 'Improvement: Rainbow Background', 1, '<p>A rainbow background on the homepage of The Problem would make everyone''s lives much happier. This is a much needed feature.</p>', '2015-08-30 05:23:09', 'mrfishie', NULL, 2, NULL, 'A rainbow background on the homepage of The Problem would make everyone''s lives much happier. This is a much needed feature.'),
+  (10, 1, 16, 'Oversized Buttons', 1, '<p>Buttons on the logon page are the size of the entire screen.</p>', '2015-08-30 05:23:32', 'mrfishie', NULL, 4, NULL, 'Buttons on the logon page are the size of the entire screen.'),
+  (11, 1, 17, 'Character Jumble', 1, '<p>All the characters in my username have become jumbled up.</p>', '2015-08-30 05:24:00', 'mrfishie', NULL, 5, NULL, 'All the characters in my username have become jumbled up.');
 
 -- --------------------------------------------------------
 
@@ -60,7 +61,7 @@ INSERT INTO `bugs` (`Bug_ID`, `Section_ID`, `Object_ID`, `Name`, `Status`, `Desc
 CREATE TABLE IF NOT EXISTS `comments` (
   `Comment_ID` int(11) NOT NULL,
   `Bug_ID` int(11) NOT NULL,
-  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `Username` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `Object_ID` int(11) NOT NULL,
   `Creation_Date` datetime NOT NULL,
   `Edit_Date` datetime DEFAULT NULL,
@@ -125,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `cookies` (
 
 CREATE TABLE IF NOT EXISTS `developers` (
   `Section_ID` int(11) NOT NULL,
-  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL
+  `Username` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
@@ -256,8 +257,8 @@ INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
 
 CREATE TABLE IF NOT EXISTS `notifications` (
   `Notification_ID` int(11) NOT NULL,
-  `Triggered_By` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
-  `Received_By` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `Triggered_By` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
+  `Received_By` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `Target_One` int(11) NOT NULL,
   `Target_Two` int(11) DEFAULT NULL,
   `Creation_Date` datetime NOT NULL,
@@ -314,7 +315,7 @@ INSERT INTO `objects` (`Object_ID`, `Object_Type`) VALUES
 
 CREATE TABLE IF NOT EXISTS `plusones` (
   `Object_ID` int(11) NOT NULL,
-  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `Username` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `Time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
@@ -353,7 +354,7 @@ INSERT INTO `sections` (`Section_ID`, `Name`, `Object_ID`, `Description`, `Slug`
 CREATE TABLE IF NOT EXISTS `userpermissions` (
   `Object_ID` int(11) NOT NULL,
   `Permission_Name` varchar(20) COLLATE latin1_general_cs NOT NULL,
-  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL
+  `Username` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
@@ -477,7 +478,7 @@ INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `La
 
 CREATE TABLE IF NOT EXISTS `watchers` (
   `Object_ID` int(11) NOT NULL,
-  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL
+  `Username` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
@@ -634,3 +635,72 @@ MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 ALTER TABLE `sections`
 MODIFY `Section_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `bugs`
+--
+ALTER TABLE `bugs`
+ADD CONSTRAINT `bugs_ibfk_4` FOREIGN KEY (`Assigned`) REFERENCES `users` (`Username`),
+ADD CONSTRAINT `bugs_ibfk_1` FOREIGN KEY (`Section_ID`) REFERENCES `sections` (`Section_ID`),
+ADD CONSTRAINT `bugs_ibfk_2` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`),
+ADD CONSTRAINT `bugs_ibfk_3` FOREIGN KEY (`Author`) REFERENCES `users` (`Username`);
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+ADD CONSTRAINT `comments_ibfk_3` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`),
+ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`Bug_ID`) REFERENCES `bugs` (`Bug_ID`),
+ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`);
+
+--
+-- Constraints for table `developers`
+--
+ALTER TABLE `developers`
+ADD CONSTRAINT `developers_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`),
+ADD CONSTRAINT `developers_ibfk_1` FOREIGN KEY (`Section_ID`) REFERENCES `sections` (`Section_ID`);
+
+--
+-- Constraints for table `grouppermissions`
+--
+ALTER TABLE `grouppermissions`
+ADD CONSTRAINT `grouppermissions_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`);
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+ADD CONSTRAINT `notifications_ibfk_4` FOREIGN KEY (`Target_Two`) REFERENCES `objects` (`Object_ID`),
+ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`Triggered_By`) REFERENCES `users` (`Username`),
+ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`Received_By`) REFERENCES `users` (`Username`),
+ADD CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`Target_One`) REFERENCES `objects` (`Object_ID`);
+
+--
+-- Constraints for table `plusones`
+--
+ALTER TABLE `plusones`
+ADD CONSTRAINT `plusones_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`),
+ADD CONSTRAINT `plusones_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`);
+
+--
+-- Constraints for table `sections`
+--
+ALTER TABLE `sections`
+ADD CONSTRAINT `sections_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`);
+
+--
+-- Constraints for table `userpermissions`
+--
+ALTER TABLE `userpermissions`
+ADD CONSTRAINT `userpermissions_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`),
+ADD CONSTRAINT `userpermissions_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`);
+
+--
+-- Constraints for table `watchers`
+--
+ALTER TABLE `watchers`
+ADD CONSTRAINT `watchers_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`),
+ADD CONSTRAINT `watchers_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`);
