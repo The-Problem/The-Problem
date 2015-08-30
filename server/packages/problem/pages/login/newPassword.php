@@ -95,7 +95,7 @@ class LoginNewPasswordPage implements IPage{
 			}
 
 			if ($canChange){
-				$currentUser->setPassword($_POST['newPassword']);
+				echo $currentUser->setPassword($_POST['newPassword']);
 				$message = 'Your password has been changed';
 			}
 		}
