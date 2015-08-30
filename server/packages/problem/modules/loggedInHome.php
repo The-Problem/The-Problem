@@ -120,7 +120,7 @@ ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username, $us
                         <p class="message"><?php echo $notification["message"]; ?></p>
                         <p class="stats">
                             <span class="timeago" title="<?php echo $notification["time"]; ?>"></span>
-                            - <a href="<?php echo Path::getclientfolder("bugs", $notification["sectionSlug"]); ?>"><?php echo htmlentities($notification["section"]); ?></a>
+                            - <a href="<?php echo Path::getclientfolder("bugs", $notification["sectionSlug"]); ?>"><?php echo htmlentities($notification["sectionName"]); ?></a>
                         </p>
                     </section>
                     <?php
