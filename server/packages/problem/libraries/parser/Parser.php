@@ -1,6 +1,6 @@
 <?php
 class Parser {
-    static $mentions = "/@([^@ ]+)/";
+    static $mentions = "/@([\\w\\d-_]{1,20})/";
     static $hashtags = "/([\\w-]*)#(\\d+)/";
 
     static function parse($value, $user_from, $properties) {
