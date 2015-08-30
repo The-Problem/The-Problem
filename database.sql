@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 30, 2015 at 11:30 AM
+-- Generation Time: Aug 30, 2015 at 04:18 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.9
 
@@ -466,6 +466,7 @@ INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `La
   ('MichaelK', 'mike@mailinator.net', 'Michael', '$2y$10$WvnzAt1GpmdtzTpWBlIAt.7hjD6hV3GPdXhj2OucoUTKCHqIwO9Om', 1, '', NULL),
   ('mrfishie', 'mrfishie101@hotmail.com', 'Tom', '$2y$10$U5ETgL5NPBp9tBnXvch2DOJa3sdv4cwzsn6R4KtWvFjP0Mn/0pAdW', 4, '', NULL),
   ('powerRangers46', 'pewpew@mailinator.net', 'Zac Langlands', '$2y$10$gaWKZaH7MynEmM3jh2kedufZteWHLylkSIq3OSemQc.MndX1JtZ46', 1, '', NULL),
+  ('radke', 'example@example.com', 'Mrs Radke', '$2y$10$CVmMTAeBcGtsimNMKB8xpe05QFqvXjjmOVdYD0Xx6kWjGNXYWuQ0S', 4, 'I''m a teacher!', NULL),
   ('SmithJohn', 'jsjs@mailinator.net', 'John Smith', '$2y$10$2li2WzaQKhw/3zV23ViRKeXxRaHzHczYyw0V.w3nQtMBosSICxp4.', 1, 'Part human, part Timelord.', NULL),
   ('that''''sMe', 'hu@mailinator.net', 'DoctorHu', '$2y$10$l0.XSdUuBCmRBKQg3Sk1WOVtBi5Th2dJkgKsQwmP3fJZCB1pNkcC.', 1, '', NULL),
   ('unhelpful', 'unhelpful@mailinator.net', 'Ben Loungin', '$2y$10$YSUbxjAhtgjbGsD3sudrweyR/HYkrs6v6K9LorRlE0BZrsAf/ZWv2', 1, '', NULL);
