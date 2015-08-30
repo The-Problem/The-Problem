@@ -9,6 +9,7 @@ class LoginNewPasswordPage implements IPage{
 
 	public function permission(){	
 		//change this, users should only be able to see this page when they are not logged in
+		return true;
 		Library::get('users');
 		$currentUser = Users::getUser('current');
 
