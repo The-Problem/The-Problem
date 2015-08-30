@@ -28,7 +28,7 @@ class AjaxBugsEditCommentPage implements IPage {
         if ($is_bug) {
             // edit a bug
             $comment = Connection::query("
-            SELECT bugs.Object_ID AS Bug_Object_ID, sections.Slug AS Section_Slug, bugs.Author AS Comment_Author, sections.Object_ID AS Section_ObjectID FROM bugs
+            SELECT bugs.Object_ID AS Bug_Object_ID, sections.Slug AS Section_Slug, bugs.Author AS Comment_Author FROM bugs
               JOIN sections ON (bugs.Section_ID = sections.Section_ID)
             WHERE bugs.Object_ID = ?
             ", "i", array($object_id));
@@ -51,7 +51,6 @@ class AjaxBugsEditCommentPage implements IPage {
         // Parse contents of the comment
         Library::get("parser");
         $value = Parser::parse($value, $comment[0]["Comment_Author"], array(
-            "section_object_id" => $comment[0]["Section_ObjectID"],
             "parent_object_id" => $comment[0]["Bug_Object_ID"],
             "current_object_id" => $object_id,
             "section_slug" => $comment[0]["Section_Slug"]

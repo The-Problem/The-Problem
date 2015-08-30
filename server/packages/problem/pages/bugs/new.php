@@ -32,7 +32,6 @@ class BugsNewPage implements IPage {
             // Parse contents of the post
             Library::get("parser");
             $value = Parser::parse($_POST['description'], $_SESSION["username"], array(
-                "section_object_id" => $this->section_obj,
                 "parent_object_id" => $object_id,
                 "current_object_id" => $object_id,
                 "section_slug" => $this->section

@@ -19,7 +19,7 @@ class AjaxBugsAddCommentPage implements IPage {
 
     public function body() {
         // Get some bug information
-        $bug = Connection::query("SELECT bugs.Object_ID AS Object_ID, bugs.Section_ID AS Section_ID, sections.Object_ID AS Section_ObjectID, sections.Slug AS Section_Slug, Author FROM bugs
+        $bug = Connection::query("SELECT bugs.Object_ID AS Object_ID, bugs.Section_ID AS Section_ID, sections.Slug AS Section_Slug, Author FROM bugs
                                     JOIN sections ON (sections.Section_ID = bugs.Section_ID)
                                     WHERE Bug_ID = ?", "i", array($_POST['bug']));
 
@@ -39,7 +39,6 @@ class AjaxBugsAddCommentPage implements IPage {
         // Parse contents of the comment
         Library::get("parser");
         $value = Parser::parse($_POST['value'], $_SESSION["username"], array(
-            "section_object_id" => $bug[0]["Section_ObjectID"],
             "parent_object_id" => $bug[0]["Object_ID"],
             "current_object_id" => $object_id,
             "section_slug" => $bug["Section_Slug"]
