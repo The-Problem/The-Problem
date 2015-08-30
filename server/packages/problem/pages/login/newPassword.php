@@ -32,7 +32,7 @@ class LoginNewPasswordPage implements IPage{
 			$actualCode = md5($currentUser->username + $currentUser::PASSWORD_SALT);
 			echo $currentUser::PASSWORD_SALT;
 			echo $actualCode;
-			echo "<br>"l
+			echo "<br>";
 			echo $code;
 
 			if ($code == $actualCode){
