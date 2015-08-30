@@ -120,4 +120,10 @@ HAVING userpermissions.Username = users.Username
                                                         AND Rank = ?", "isi",
             array($object_id, $type, $rank));
     }
+    public static function deny_all_groups($object_id, $type) {
+        Connection::query("DELETE FROM grouppermissions WHERE Object_ID = ?
+                                                          AND Permission_Name = ?", "is", array(
+            $object_id, $type
+        ));
+    }
 }

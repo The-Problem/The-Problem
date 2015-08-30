@@ -77,16 +77,19 @@ LimePHP.register("page.admin", function() {
     });
 
 
-    var $tableRows = $(".table-row");
-    var $tableSearch = $(".table-search input");
-    $tableSearch.on('keydown', function(e) {
+    var $tables = $(".list-table");
+    $tables.find(".table-search input").on('keydown', function(e) {
+        var $this = $(this);
+        var $table = $this.parents(".list-table");
+        var $tableRows = $table.children(".table-row");
+
         if (e.keyCode == 13) {
             $tableRows.filter(':visible').first().children('.overview').click();
             return;
         }
 
         setTimeout(function() {
-            var term = $.trim($tableSearch.val().toLowerCase());
+            var term = $.trim($this.val().toLowerCase());
 
             $tableRows.each(function() {
                 var $this = $(this);
@@ -424,6 +427,40 @@ LimePHP.register("page.admin", function() {
         r.error = function(err) {
             $this.val(previous);
             $this.attr("class", $this.children(":selected").text().toLowerCase());
+        };
+        r.complete = function() {
+            stopSaving();
+            $this.attr('disabled', false);
+            $this.data('previous', $this.val());
+        };
+    });
+
+    var $permissionListSelect = $(".permission-list select");
+
+    $permissionListSelect.on('focus', function() {
+        var $this = $(this);
+        $this.data('previous', $this.val());
+    });
+    $permissionListSelect.on('change', function() {
+        var $this = $(this);
+        var $row = $this.parents(".table-row");
+
+        var permissionName = $row.data("permission");
+        var objectId = $row.data("object");
+
+        $this.attr("disabled", true);
+
+        startSaving();
+        var r = LimePHP.request("get", LimePHP.path("ajax/admin/permissionRank"), {
+            permission: permissionName,
+            object: objectId,
+            rank: $this.val()
+        }, "json");
+
+        var previous = $this.data('previous');
+
+        r.error = function(err) {
+            $this.val(previous);
         };
         r.complete = function() {
             stopSaving();

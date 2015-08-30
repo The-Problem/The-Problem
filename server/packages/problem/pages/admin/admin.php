@@ -350,6 +350,204 @@ FROM users
             <p class="tip">You can change permissions for individual comments below.</p>
         </section>
         </div>
+        <div class="section-permissions">
+            <?php
+            $section_permissions = array(
+                "section.view" => "Viewing the section"
+            );
+            $first_section = "section.view";
+
+            $bug_permissions = array(
+                "bug.view" => "Viewing the bug",
+                "bug.comment" => "Commenting on the bug",
+                "comment.edit" => "Editing the bug",
+                "comment.remove" => "Removing the bug",
+                "comment.upvote" => "Upvoting the bug",
+                "bug.assign" => "Changing the assigned user",
+                "bug.change-status" => "Changing the status"
+            );
+            $first_bug = "bug.view";
+
+            $comment_permissions = array(
+                "comment.edit" => "Editing the comment",
+                "comment.remove" => "Removing the comment",
+                "comment.upvote" => "Upvoting the comment"
+            );
+            $first_comment = "comment.edit";
+
+            $ranks = array(
+                0 => "Guest/unverified",
+                1 => "Normal user",
+                2 => "Section developer",
+                3 => "Moderator",
+                4 => "Administrator"
+            );
+
+            function get_options($ranks, $rank) {
+                $result = "";
+
+                foreach ($ranks as $r => $text) {
+                    $result .= '<option value="' . $r . '"' . ($r === $rank ? " selected" : "") . '>' . $text . '</option>';
+                }
+
+                return $result;
+            }
+
+            $sections = Connection::query("SELECT Name, Slug, Object_ID FROM sections");
+            $bugs = Connection::query("SELECT bugs.Name AS Name, bugs.Object_ID AS Object_ID, sections.Slug AS Section_Slug, RID FROM bugs
+                                         JOIN sections ON (sections.Section_ID = bugs.Section_ID)");
+            $comments = Connection::query("SELECT comments.Comment_Text AS Name, comments.Object_ID AS Object_ID, sections.Slug AS Section_Slug, RID FROM comments
+                                             JOIN bugs ON (comments.Bug_ID = bugs.Bug_ID)
+                                             JOIN sections ON (sections.Section_ID = bugs.Section_ID)");
+
+            ?>
+            <h2>Section Permissions</h2>
+            <div class="permission-list section-permission-list list-table">
+                <div class="table-search">
+                    <input type="text" placeholder="Search sections..." />
+                </div>
+                <div class="table-header">
+                    <p class="name">Name</p><!--
+                    --><p class="permission">Permission</p><!--
+                    --><p class="rank">Rank</p>
+                </div>
+                <?php
+                    foreach ($sections as $section) {
+                        $permissions = Connection::query("SELECT Permission_Name, Rank FROM grouppermissions
+                                                            WHERE Object_ID = ?", "i", array($section["Object_ID"]));
+
+                        $assoc_permissions = array();
+                        foreach ($permissions as $p) {
+                            $assoc_permissions[$p["Permission_Name"]] = $p["Rank"];
+                        }
+
+                        foreach ($section_permissions as $name => $desc) {
+                            $rank = 5;
+                            if (array_key_exists($name, $assoc_permissions)) $rank = $assoc_permissions[$name];
+
+                            ?>
+                            <div class="table-row<?php if ($name == $first_section) echo ' first-item'; ?>"
+                                 data-search="<?php echo htmlentities(strtolower($section["Name"] . " " . $desc)); ?>"
+                                 data-object="<?php echo $section["Object_ID"]; ?>"
+                                 data-permission="<?php echo $name; ?>">
+                                <div class="overview">
+                                    <p class="name">
+                                        <a href="<?php echo Path::getclientfolder('bugs', $section["Slug"]); ?>"><?php echo htmlentities($section["Name"]); ?></a>
+                                    </p><!--
+                                    --><p class="permission"><?php echo $desc; ?></p><!--
+                                    --><p class="rank">
+                                        <label><select>
+                                            <?php echo get_options($ranks, $rank); ?>
+                                        </select></label>
+                                    </p>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                ?>
+            </div>
+
+
+
+            <h2>Bug Permissions</h2>
+            <div class="permission-list bug-permission-list list-table">
+                <div class="table-search">
+                    <input type="text" placeholder="Search bugs..." />
+                </div>
+                <div class="table-header">
+                    <p class="name">Name</p><!--
+                    --><p class="permission">Permission</p><!--
+                    --><p class="rank">Rank</p>
+                </div>
+                <?php
+                foreach ($bugs as $comment) {
+                    $permissions = Connection::query("SELECT Permission_Name, Rank FROM grouppermissions
+                                                            WHERE Object_ID = ?", "i", array($comment["Object_ID"]));
+
+                    $assoc_permissions = array();
+                    foreach ($permissions as $p) {
+                        $assoc_permissions[$p["Permission_Name"]] = $p["Rank"];
+                    }
+
+                    foreach ($bug_permissions as $name => $desc) {
+                        $rank = 5;
+                        if (array_key_exists($name, $assoc_permissions)) $rank = $assoc_permissions[$name];
+
+                        ?>
+                        <div class="table-row<?php if ($name == $first_bug) echo ' first-item'; ?>"
+                             data-search="<?php echo htmlentities(strtolower($comment["Name"] . " " . $desc)); ?>"
+                             data-object="<?php echo $comment["Object_ID"]; ?>"
+                             data-permission="<?php echo $name; ?>"
+                            >
+                            <div class="overview">
+                                <p class="name">
+                                    <a href="<?php echo Path::getclientfolder('bugs', $comment["Section_Slug"], $comment["RID"]); ?>"><?php echo htmlentities($comment["Name"]); ?></a>
+                                </p><!--
+                                    --><p class="permission"><?php echo $desc; ?></p><!--
+                                    --><p class="rank">
+                                    <label><select>
+                                            <?php echo get_options($ranks, $rank); ?>
+                                        </select></label>
+                                </p>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
+            </div>
+
+
+
+            <h2>Comment Permissions</h2>
+            <div class="permission-list comment-permission-list list-table">
+                <div class="table-search">
+                    <input type="text" placeholder="Search bugs..." />
+                </div>
+                <div class="table-header">
+                    <p class="name">Name</p><!--
+                    --><p class="permission">Permission</p><!--
+                    --><p class="rank">Rank</p>
+                </div>
+                <?php
+                foreach ($comments as $comment) {
+                    $permissions = Connection::query("SELECT Permission_Name, Rank FROM grouppermissions
+                                                            WHERE Object_ID = ?", "i", array($comment["Object_ID"]));
+
+                    $assoc_permissions = array();
+                    foreach ($permissions as $p) {
+                        $assoc_permissions[$p["Permission_Name"]] = $p["Rank"];
+                    }
+
+                    foreach ($comment_permissions as $name => $desc) {
+                        $rank = 5;
+                        if (array_key_exists($name, $assoc_permissions)) $rank = $assoc_permissions[$name];
+
+                        ?>
+                        <div class="table-row<?php if ($name == $first_comment) echo ' first-item'; ?>"
+                             data-search="<?php echo htmlentities(strtolower($comment["Name"] . " " . $desc)); ?>"
+                             data-object="<?php echo $comment["Object_ID"]; ?>"
+                             data-permission="<?php echo $name; ?>"
+                            >
+                            <div class="overview">
+                                <p class="name">
+                                    <a href="<?php echo Path::getclientfolder('bugs', $comment["Section_Slug"], $comment["RID"]); ?>"><?php echo htmlentities(strip_tags($comment["Name"])); ?></a>
+                                </p><!--
+                                    --><p class="permission"><?php echo $desc; ?></p><!--
+                                    --><p class="rank">
+                                    <label><select>
+                                            <?php echo get_options($ranks, $rank); ?>
+                                        </select></label>
+                                </p>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
+            </div>
+        </div>
         <?php
     }
 
