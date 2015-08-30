@@ -10,7 +10,7 @@ class BugsBugPage implements IPage {
         // if there is an instruction to change the bug status
         if (array_key_exists('status', $_GET)) {
             // get the bug information
-            $bug = Connection::query("SELECT bugs.Object_ID AS Object_ID, Bug_ID, Status, Author FROM bugs
+            $bug = Connection::query("SELECT bugs.Object_ID AS Object_ID, Bug_ID, Status FROM bugs
                                         JOIN sections ON (sections.Section_ID = bugs.Section_ID)
                                       WHERE sections.Slug = ?
                                         AND bugs.RID = ?", "si", array($path[2], $path[3]));
@@ -73,6 +73,8 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Raw_Description AS Bug_Raw_D
     }
 
     public function body() {
+        Library::get("objects");
+
         $statuses = array(
             0 => "DELETED",
             1 => "OPEN",
@@ -81,17 +83,19 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Raw_Description AS Bug_Raw_D
             4 => "WIP"
         );
 
-        // display the bug name and status
-        echo "<h2 style='width:625px;margin:0 auto;padding:30px 0 10px 75px'>" . htmlentities($this->bug["Bug_Name"]) . "</h2>";
-
-        Library::get("objects");
-        echo "<h4 style='width:625px;margin:0 auto;padding:0 0 20px 75px'>";
-
-        
-        echo "</h4>";
-
-
-
+        function detectStatus($status){
+            if ($status === "0"){
+                return "grey";
+            }else if ($status === "1"){
+                return  "green";
+            } else if ($status === "2"){
+                return  "red";
+            } else if ($status === "3"){
+                return  "orange";
+            } else if ($status === "4"){
+                return  "yellow";
+            }
+        }
     ?>
 <div id="centerArea">
     <div id="bugInfo">
@@ -108,17 +112,22 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Raw_Description AS Bug_Raw_D
             <h3>Status</h3>
             <div id="statuses">
             <?php
-                echo "<h4><span id='status'>" . $statuses[$this->bug["Status"]] . "</span>";
+                echo "<h4><span id='status' class='" . detectStatus(htmlentities($this->bug["Status"])) . "'>" . $statuses[$this->bug["Status"]] . "</span>";
 
                 if (Objects::permission($this->bug["Bug_ObjectID"], "bug.change-status", $_SESSION['username'], $this->bug["Section_ID"])) {
-                if ($this->bug["Status"] !== 1) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=1">Open</a>';
-                if ($this->bug["Status"] !== 2) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=2">Close</a>';
-                if ($this->bug["Status"] !== 3) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=3">Duplicate</a>';
-                if ($this->bug["Status"] !== 4) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=4">WIP</a>';
-                
+                    if ($this->bug["Status"] !== 1) echo ' <br> <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=1">Open</a>';
+                    if ($this->bug["Status"] !== 2) echo ' <br> <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=2">Close</a>';
+                    if ($this->bug["Status"] !== 3) echo ' <br> <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=3">Duplicate</a>';
+                    if ($this->bug["Status"] !== 4) echo ' <br> <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=4">WIP</a>';             
+                }
                 echo "</h4>";
         }
             ?>
+
+            <h3>Assignee</h3>
+            <h4>Ran out</h4>
+            <h3>Notifications</h3>
+            <h4>of time</h4>
                 
             </div>
         </div>

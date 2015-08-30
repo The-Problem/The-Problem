@@ -43,7 +43,10 @@ class BugsPage implements IPage {
             $returnalt = "";
             $returnval = "";
 
-            if ($status === "1"){
+            if ($status === "0"){
+                $returnalt = "deleted";
+                $returnval = "fa-check fa-grey";
+            }else if ($status === "1"){
                 $returnalt = "open";
                 $returnval =  "fa-check";
             } else if ($status === "2"){

@@ -8,6 +8,7 @@ p{
 
 #centerArea{
 	margin: auto;
+	margin-top: 100px;
 	width: 960px;
 }
 
@@ -24,7 +25,7 @@ p{
 }
 
 #bugContent{
-    overflow: hidden; /* Clearfix! */
+    overflow: hidden;
 }
 
 #leftColumn{
@@ -47,5 +48,35 @@ p{
 }
 
 #status{
-	border: 1px solid black
+	border: 1px solid;
+	margin-top: 5px;
+}
+
+.green{
+	color: #76ff03;
+	border-color: #76ff03;
+}
+
+.red{
+	color: #ff1744;
+	border-color: #ff1744;
+}
+
+.orange{
+	color: #ff9100;
+	border-color: #ff9100;
+}
+
+.grey{
+	color: #808080;
+	border-color: #808080;
+}
+
+.yellow{
+	color: #ffea00;
+	border-color: #ffea00;
+}
+
+h4{
+	margin: 10px 0;
 }
