@@ -17,6 +17,7 @@ class UsersPage implements IPage {
     }
     public function head(Head &$head) {
         $head->stylesheet('pages/users');
+        $head->script('pages/users');
     }
 
     private function recentActivity(){
@@ -97,7 +98,7 @@ class UsersPage implements IPage {
             }
         </style>
 
-        <div id='userCover'>
+        <div id='userCover' class='parallax'>
             <div class='backgroundStrip'>
                 <div id='userInfoWrap'>
                     <img class='profilePic' src="<?php echo $currentUser->getAvatarLink(120); ?>"/>
