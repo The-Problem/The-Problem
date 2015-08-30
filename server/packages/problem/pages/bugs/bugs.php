@@ -69,14 +69,14 @@ class BugsPage implements IPage {
         $authors = Connection::query("SELECT DISTINCT bugs.Author from bugs JOIN sections ON (sections.Section_ID = bugs.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
         
         $current_user = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($_SESSION['username']));
-        $section = Connection::query("SELECT Object_ID FROM sections WHERE Slug = ?", "s", array($this->section));
+        $section = Connection::query("SELECT Object_ID, Name FROM sections WHERE Slug = ?", "s", array($this->section));
         ?>
 
 <div id="sectionHead">
     <img src="<?php echo $coverImage->clientpath?>" id="coverImage">
     <div id="infoCard">
         <div id="infoCentre">
-            <h1 id="sectionTitle"><?php echo $this->section ?></h1>
+            <h1 id="sectionTitle"><?php echo htmlentities($section[0]["Name"]); ?></h1>
             <div id="developerArea">
                 <h2 id="developers">Developers</h2>
                 <div id="devImages">
