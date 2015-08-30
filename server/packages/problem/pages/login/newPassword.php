@@ -30,6 +30,8 @@ class LoginNewPasswordPage implements IPage{
 			$_code = $_GET['code'];
 
 			$actualCode = md5($currentUser->username + $currentUser::PASSWORD_SALT);
+			echo $currentUser::PASSWORD_SALT;
+			echo $acturalCode;
 
 			if ($code == $actualCode){
 				echo 'thecodeisright';
