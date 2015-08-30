@@ -31,10 +31,12 @@ class UserDetailsModule implements IModule {
 					<label>Prefered Name</label><br><input id='nameField' type='text' value='<?php echo $currentUser->name;?>'><i id='nameIcon' class='verifyIcon'></i><br>
 					<label>Email</label><br><input id='emailField' type='text' value="<?php echo $currentUser->email; ?>"><i id='emailIcon' class='verifyIcon'></i><br>
 					<label>Your Bio</label><br><textarea id='bioField' form='userDetailsForm'><?php echo $currentUser->bio; ?></textarea>
+					<i id='passwordIcon' class='verifyIcon'></i>
 					<button id='passwordButton' class='formButton'>Change Password</button>
 					<button class='formButton'>Upload Cover Photo</button>
 
 					</form>
+					<p id='formMessage'></p>
 				</div>
 
 				<div id='messageDiv'>

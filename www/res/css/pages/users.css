@@ -20,14 +20,16 @@ h2 {
 	width: 100vw;
 	height: 180px;
 	background-color: rgba(0,0,0,0.5);
+	text-align:center;
 }
 
 #userInfoWrap {
+	display: inline-block;
 	margin-top: 25px;
 	margin-left: auto;
 	margin-right: auto;
-	width: 375px;
 	height: 120px;
+	text-align:left;
 }
 
 #userInfoWrap h1 {

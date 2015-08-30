@@ -123,3 +123,17 @@ input:-ms-input-placeholder {
 .verifyIcon:hover {
 	transform: scale(0.1);
 }
+
+#formMessage {
+	float: left;
+	margin: 0 0;
+	padding: 0 0;
+}
+
+#passwordIcon {
+	color: white;
+	float: left;
+	position: relative;
+	top: 40px;
+	left: -20px;
+}

@@ -26,6 +26,19 @@ LimePHP.register("modules.userDetails", function() {
 	function changePassword(event){
 		event.preventDefault();
 		var request = LimePHP.request("post", LimePHP.path("ajax/user/changePassword"), { "username": username}, "json");
+		changeIconState('password', 2);
+		request.success = passwordSuccess;
+		request.error = passwordError;
+	}
+
+	function passwordSuccess(success){
+		document.getElementById('formMessage').innerHTML = "A link has been emailed to you."
+		changeIconState('password', 1);
+	}
+
+	function passwordError(error){
+		console.log('error:');
+		console.log(error);
 	}
 
 
@@ -38,7 +51,7 @@ LimePHP.register("modules.userDetails", function() {
 
 	var formTests = {
 		"name": testName,
-		"email": testEmail
+		"email": testEmail,
 	};
 
 	for (var element in formElements){
@@ -142,6 +155,7 @@ LimePHP.register("modules.userDetails", function() {
 		request.error = setEmailFail;
 		return 2;
 	}
+
 
 	function setEmailSuccess(success){
 
