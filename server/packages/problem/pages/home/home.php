@@ -27,78 +27,23 @@ class HomePage implements IPage {
             "format" => "png"
         ));
 
-        $username = $_SESSION["username"];
-
-        $sections = array();
+        if ($_SESSION["username"]) Modules::getoutput("loggedInHome");
+        else {
 
         Library::get("objects");
-        $ids = Objects::user_permissions("section.view", $username);
+        $ids = Objects::user_permissions("section.view", NULL);
         $amount = count($ids);
         $clause = implode(',', array_fill(0, $amount, '?'));
         $types = str_repeat('i', $amount);
 
-        $viewable = Objects::permission(0, "site.view", $username);
+        $viewable = Objects::permission(0, "site.view", NULL);
 
-        if ($username) {
-            $params = array_merge(array($username), $ids);
-
-            $user = Connection::query("
-SELECT * FROM users
-  WHERE Username = ?", "s", array($username));
-
-            $devSections = Connection::query("
+        $sections = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM bugs
-           WHERE bugs.Section_ID = sections.Section_ID
-           AND bugs.Status = 1) AS Open_Bugs,
-          (SELECT COUNT(*) FROM bugs
-           WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
-FROM sections
-  WHERE Section_ID IN (SELECT Section_ID FROM developers
-                       WHERE developers.Username = ?)
-  AND sections.Object_ID IN ($clause)
-ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
-
-            $sections = Connection::query("
-SELECT *, (SELECT COUNT(*) FROM bugs
-           WHERE bugs.Section_ID = sections.Section_ID
-           AND bugs.Status = 1) AS Open_Bugs,
-          (SELECT COUNT(*) FROM bugs
-           WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
-FROM sections
-  WHERE Section_ID NOT IN (SELECT Section_ID FROM developers
-                           WHERE developers.Username = ?)
-  AND sections.Object_ID IN ($clause)
-ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
-
-            ?>
-<div class="welcome">
-    <h1>Welcome, <a href="<?php echo Path::getclientfolder("~" . htmlentities($username)); ?>"><?php echo htmlentities($user[0]["Name"]); ?></a>.</h1>
-</div>
-
-<div class="content">
-
-<div class="columns">
-
-    <?php if ($viewable) { ?>
-    <div class="left-column">
-        <?php if (count($devSections)) { ?>
-        <h2>Sections where you're a developer</h2>
-        <div class="list-table">
-            <?php
-            foreach($devSections as $section) {
-                Modules::getoutput("sectionTile", $section);
-            }
-            ?>
-        </div>
-        <h2>More Sections</h2>
-        <?php } else { ?><h2>Sections</h2><?php } } ?>
-<?php } else {
-            $sections = Connection::query("
-SELECT *, (SELECT COUNT(*) FROM bugs
-           WHERE bugs.Section_ID = sections.Section_ID
-           AND bugs.Status = 1) AS Open_Bugs,
-          (SELECT COUNT(*) FROM bugs
-           WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
+       WHERE bugs.Section_ID = sections.Section_ID
+       AND bugs.Status = 1) AS Open_Bugs,
+      (SELECT COUNT(*) FROM bugs
+       WHERE bugs.Section_ID = sections.Section_ID) AS All_Bugs
 FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
 
 <header class="big<?php if (!$viewable) echo ' entire-page'; ?>">
@@ -126,9 +71,6 @@ FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
     <?php if ($viewable) { ?>
     <div class="left-column">
         <h2>Sections</h2>
-    <?php } ?>
-<?php } ?>
-    <?php if ($viewable) { ?>
         <?php if (count($sections)) {
             Library::get("objects");
 
@@ -146,80 +88,7 @@ FROM sections WHERE sections.Object_ID IN ($clause)", "$types", $ids); ?>
     </div>
     <?php } ?>
 
-    <?php if ($username) {
-        Library::get("notifications");
-
-        $bugs = Connection::query("
-SELECT *, (SELECT COUNT(*) FROM comments
-           WHERE comments.Bug_ID = bugs.Bug_ID) AS Comments,
-          (SELECT COUNT(*) FROM plusones
-           WHERE plusones.Object_ID = bugs.Object_ID) AS Plusones,
-          bugs.Name AS Bug_Name,
-          sections.Name AS Section_Name
-  FROM bugs
-    JOIN sections ON bugs.Section_ID = sections.Section_ID
-  WHERE Author = ? OR Assigned = ?
-ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username, $username));
-
-        $notifications = Notifications::get(array(
-            "limit" => 10 - count($bugs)
-        ));
-
-        ?>
-    <div class="right-column">
-        <h2>Notifications</h2>
-        <div class="notification-list">
-            <?php if (count($notifications)) {
-                foreach ($notifications as $notification) {
-                    ?>
-                    <section>
-                        <p class="message"><?php echo $notification["message"]; ?></p>
-                        <p class="stats">
-                            <span class="timeago" title="<?php echo date('c', $notification["time"]); ?>"></span>
-                            - <a href="<?php echo Path::getclientfolder("bugs", $notification["sectionSlug"]); ?>"><?php echo htmlentities($notification["section"]); ?></a>
-                        </p>
-                    </section>
-                    <?php
-                }
-            } else echo "<p class='none'>No notifications yet</p>"; ?>
-        </div>
-
-        <h2>My Bugs</h2>
-        <div class="notification-list">
-            <?php
-            if (count($bugs)) {
-                foreach ($bugs as $bug) {
-                    $url = Path::getclientfolder("bugs", $bug["Slug"], $bug["RID"]);
-                    $title = htmlentities($bug["Bug_Name"]);
-
-                    $comments = $bug["Comments"];
-                    $plusones = $bug["Plusones"];
-
-                    if ($comments === 0) $comments = "no";
-                    if ($plusones === 0) $plusones = "no";
-
-
-                    ?>
-                    <section>
-                        <p class="message">
-                            <a href="<?php echo $url; ?>" title="<?php echo $title; ?>"><?php echo $title; ?></a>
-                        </p>
-
-                        <p class="stats">Sometime -
-                            <a href="<?php echo $url; ?>#comments"><?php echo $comments; ?>
-                                comment<?php echo $comments === 1 ? "" : "s"; ?></a> -
-                            <a href="<?php echo $url; ?>#plusones"><?php echo $plusones; ?>
-                                upvote<?php echo $plusones === 1 ? "" : "s"; ?></a>
-                        </p>
-                    </section>
-                    <?php
-                }
-            } else echo "<p class='none'>You haven't created any bugs yet</p>";
-            ?>
-        </div>
-    <?php } ?>
-
 </div>
 
 </div>
-<?php } }
+<?php } } }

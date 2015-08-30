@@ -35,7 +35,6 @@ LimePHP.register("page.home", function() {
                     amount++;
                 }
             });
-            console.log(amount);
 
             if (amount) $none.css("display", "none");
             else $none.css("display", "");
@@ -44,7 +43,9 @@ LimePHP.register("page.home", function() {
 
     if ($search.length) search($search.val());
 
-    $search.on("keydown", function(e) {
+    $(document).on("keydown", ".search-box", function(e) {
+        var $this = $(this);
+
         if (e.keyCode === 13) {
             // go to the first section
             var $showing = $sections.filter(":visible");
@@ -52,7 +53,7 @@ LimePHP.register("page.home", function() {
         }
 
         setTimeout(function() {
-            search($search.val());
+            search($this.val());
         }, 0);
     });
 
@@ -139,46 +140,29 @@ LimePHP.register("page.home", function() {
             $login.hide();
             $loginSpinner.hide();
 
-            showLoginAnimation();
-
-            var $welcomeH1 = $("<h1>Welcome, <a></a>.</h1>");
-            $welcomeH1.children("a").attr('href', LimePHP.path("~" + data.username))
-                                    .text(data.name);
-
-            var $welcome = $("<div class='welcome'></div>");
-            $welcome.append($welcomeH1).prependTo($$body);
-
-            var $leftColumn = $(".content .left-column");
-
-            var $sectionH2 = $leftColumn.children('h2');
-
-            if (data.devSections.length) {
-                var $devHeader = $("<h2>Sections where you're a developer</h2>");
-                var $sectionList = $("<div class='list-table'></div>");
-                $sectionList.html(data.devSections);
-
-                $devHeader.prependTo($leftColumn).after($sectionList);
-                $sectionH2.text("More Sections");
-            }
-
-            $searchable.html(data.sections);
-            $sections = $searchable.children("section");
-
-            var $rightColumn = $("<div class='right-column'></div>");
-            if (data.notifications.length) {
-                $rightColumn.append("<h2>Notifications</h2><div class='notification-list'>" + data.notifications + "</div>");
-            }
-            if (data.myBugs.length) {
-                $rightColumn.append("<h2>My Bugs</h2><div class='notification-list'>" + data.myBugs + "</div>");
-            }
-            $(".columns").append($rightColumn);
-
+            // Add items to header
             $$header.html($$header.html() + data.header);
 
+            // show the logged in homepage module
+            LimePHP.library("modules").get("loggedInHome", $(".content"), [], false, true, function() {
+                // refresh elements
+                $search = $(".search-box");
+                $searchable = $(".searchable");
+                $sections = $searchable.children("section");
+                $none = $searchable.children(".none");
+
+                // refresh timeago
+                $(".content span.timeago").timeago();
+            });
+
+            // show the notification sidebar
             var $notifications = $("<div></div>").hide();
             $body.append($notifications);
 
             LimePHP.library("modules").get("notification", $notifications, {}, false, true);
+
+            // the page is ready, show the animation
+            showLoginAnimation();
         };
 
         r.error = function(err, status) {
