@@ -29,8 +29,6 @@ class HeaderBarModule implements IModule {
         // display the "Hi" text
         if ($this->username) {
             echo '<span class="user">Hi, <a href="' . Path::getclientfolder("~" . htmlentities($this->username)) . '">' . htmlentities($this->user[0]["Name"]) . '</a></span>';
-        } else {
-            echo '<span class="user"><a href="' . Path::getclientfolder("login") . '">Login</a> - <a href="' . Path::getclientfolder("register") . '">register</a></span>';
         }
 
         // show the buttons
