@@ -117,6 +117,17 @@
 
 		}
 
+		public static function checkPassword($username, $password){
+			$passwordQuery = "SELECT Username, Password FROM users WHERE Username = ?";
+			$passwordHashResult = Connection::query($passwordQuery, "s", array($username));
+
+			if ($passwordHashResult && password_verify($password, $passwordHashResult[0]['Password'])){
+				return true;
+			}
+
+			return false;	
+		}
+
 		//logs current user off
 		public static function logoff(){
 			if ($_SESSION['username'] == NULL){

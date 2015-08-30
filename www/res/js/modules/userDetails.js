@@ -13,6 +13,7 @@ LimePHP.register("modules.userDetails", function() {
 		document.getElementById('saveButton').addEventListener('click', validateForm, false);
 		document.getElementById('cancelButton').addEventListener('click', closeUserPanel, false);
 		document.getElementById('userDetailsScreen').addEventListener('click', closeUserPanel, false);
+		document.getElementById('passwordButton').addEventListener('click', changePassword, false);
 	}
 
 	function closeUserPanel(event){
@@ -24,6 +25,11 @@ LimePHP.register("modules.userDetails", function() {
 		setTimeout(function(){
 			document.getElementById('userDetailsScreen').style.display = "none";
 		}, 500);
+	}
+
+	function changePassword(event){
+		event.preventDefault();
+		var request = LimePHP.request("post", LimePHP.path("ajax/user/changePassword"), { "username": username}, "json");
 	}
 
 

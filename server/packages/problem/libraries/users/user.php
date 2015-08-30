@@ -3,6 +3,7 @@
 	//class User provides access to user properties and methods
 
 	class User{
+		const PASSWORD_SALT = 'changePassword';
 
 		function __construct($username){
 			$userQuery = "SELECT * FROM users WHERE Username = ?";
@@ -183,7 +184,6 @@
 
 			$to = $this->email;
 			$subject = "Verfiy your account with" .  htmlentities(Pages::$template->title) . "!";
-			date_default_timezone_set("Australia/Brisbane");
 
 			$messageHTML = 
 
@@ -198,6 +198,30 @@
 			$headers .= "Reply-To: noreply@theproblem.dreamhosters.com" . "\r\n";
 			$headers .= "Content-type: text/html" . "\r\n";
 
+
+			return mail($to, $subject, $messageHTML, $headers);
+		}
+
+		public function sendPasswordEmail(){
+			$hash = md5($this->username + self::PASSWORD_SALT);
+
+			$changeLink = "http://www.theproblem.dreamhosters.com/login/newPassword?username=" . $this->username . "&code=" . $hash;
+
+			$to = $this->email;
+			$subject = "Change your" .  htmlentities(Pages::$template->title) . "Password";
+
+			$messageHTML = 
+
+						'<body style="padding-left: 0px; padding-right: 0px; padding-top: 0px; padding-bottom: 0px; margin-left: 0px; margin-right: 0px;' 
+						. 'margin-top: 0px; margin-bottom: 0px"><div style="font-family: sans-serif">'. "\r\n" 
+						."<h1>Want your password changed?</h1>"
+						."<p>Click the link below to be taken to the password change page.</p><br>"
+						.'<a href="' . $changeLink . '">' . $changeLink . "</a></div></body>";
+
+
+			$headers = "From: noreply@theproblem.dreamhosters.com" . "\r\n";
+			$headers .= "Reply-To: noreply@theproblem.dreamhosters.com" . "\r\n";
+			$headers .= "Content-type: text/html" . "\r\n";
 
 			return mail($to, $subject, $messageHTML, $headers);
 		}
