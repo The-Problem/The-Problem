@@ -92,7 +92,7 @@ class BugsPage implements IPage {
                             <p class='bugSubmitter'> Submitted";
             ?>
 
-            <span class="timeago" title="<?php echo date("c", strtotime($bug["Creation_Date"])); ?>"></span>
+            <span class="timeago" title="<?php echo date("c", strtotime($bug["Creation_date"])); ?>"></span>
 
             <?php
                 echo " ago by " . htmlentities($bug["Author"]) . "</p>
