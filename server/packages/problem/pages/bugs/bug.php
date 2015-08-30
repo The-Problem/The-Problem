@@ -121,7 +121,6 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Raw_Description AS Bug_Raw_D
                     if ($this->bug["Status"] !== 4) echo ' <br> <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=4">WIP</a>';             
                 }
                 echo "</h4>";
-        }
             ?>
 
             <h3>Assignee</h3>
