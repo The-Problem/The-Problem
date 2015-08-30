@@ -16,7 +16,8 @@ class ProblemPackage implements IPackage {
                 "adminSection",
                 "comments",
                 "comment",
-                "headerBar"
+                "headerBar",
+                "userDetails"
             ),
             "Templates" => array(
                 "default"

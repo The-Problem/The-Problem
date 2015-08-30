@@ -42,6 +42,7 @@
 
 		//changes the bio of the current user
 		public function setBio($bio){
+			$bio = nl2br(htmlentities($bio));
 			$setQuery = 'UPDATE users SET Bio = ? WHERE Username = ?';
 			$result = Connection::query($setQuery, "ss", array($bio, $this->username));
 		}
@@ -166,7 +167,7 @@
 	
 		public function getBugs(){
 			$query = 
-				"SELECT bugs.Name as 'Bug_Name', sections.Name as 'Section_Name', sections.Color as 'Colour'
+				"SELECT bugs.Name as 'Bug_Name', bugs.RID as 'RID', sections.Name as 'Section_Name', sections.Color as 'Colour', sections.Slug as 'Section_Slug'
                 FROM bugs
                     LEFT JOIN sections ON bugs.Section_ID = sections.Section_ID
                     LEFT JOIN plusones ON bugs.Object_ID = plusones.Object_ID

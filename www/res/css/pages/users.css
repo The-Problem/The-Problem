@@ -55,9 +55,9 @@ h2 {
 #contentBody{
 	margin-top: 340px;
 	width: 100vw;
-	box-shadow:0 0 10px 0 rgba(0,0,0,0.4);
+	box-shadow: 0px -15px 22px -3px rgba(0,0,0,0.4);
 	background-color: white;
-	padding-bottom: 400px;
+	padding-bottom: 300px;
 
 }
 
@@ -75,33 +75,72 @@ h2 {
 	margin-right: auto;
 }
 
-.activityTable {
+#activityRows {
+	box-sizing: border-box;
 	width: 700px;
 	margin-left: auto;
-	margin-right: auto;
+	margin-right: auto;	
 }
 
-.activityTable td {
-	height: 35px;
+.recentRow:nth-child(1){
 	border-top: solid 2px #8ec850;
-	border-bottom: solid 2px #8ec850;
-	border: none;
-	border-collapse: collapse;
 }
 
-.assignedTable {
+.recentRow {
+	padding-left: 30px;
+	padding-right: 30px;
+	height: 35px;
+	border-bottom: solid 2px #8ec850;
+}
+
+.recentRow > p {
+	line-height: 35px;
+	display: inline;
+	margin: 0 0;
+	padding: 0 0;
+}
+
+.activityLeft {
+	float: left;
+	width: 100px;
+}
+
+.activityMid {
+	float: left;
+	width: 400px;
+}
+
+.activityRight {
+	float: right;
+	clear: none;
+}
+
+.assignedRows {
 	width: 700px;
 	margin-left: auto;
 	margin-right: auto;
 	color: white;
-	border: none;
-	border-collapse: separate;
-	border-spacing: 0 5px;
 }
 
-.assignedTable td {
-	padding-left: 50px;
+.assignedRow {
+	margin-bottom: 5px;
 	height: 40px;
+	transition: filter 0.4s;
+}
+
+.assignedRow:hover{
+	filter: brightness(1.15);	
+}
+
+.assignedRow > p {
+	display: inline;
+	padding-left: 50px;
+	line-height: 40px;
+	color: white;
+}
+
+a {
+	text-decoration: none;
 }
 
 #developingSections {
@@ -141,4 +180,9 @@ h2 {
 	filter: brightness(1.15);
 }
 
+.highlight {
+	position: relative;
+	top: -30px;
+	width: 200px !important;
+}
 

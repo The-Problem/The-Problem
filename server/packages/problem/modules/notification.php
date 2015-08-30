@@ -7,7 +7,9 @@ class NotificationModule implements IModule {
 
 	public function getcode($params = array(), Head $h){
 		$h->stylesheet("modules/notification");
+		$h->script("");
 		$h->script("modules/notification");
+		
 
 		?>
 

@@ -21,12 +21,11 @@ class UsersPage implements IPage {
     }
 
     private function recentActivity(){
-        Library::get('notifications');
         $recentActivity = Notifications::getWhereTriggerIs($this->user);
 
         $tableRows = "";
         for ($i = 0; $i < count($recentActivity); $i++){
-            $tableRows .= "<tr><td>" . $recentActivity[$i]['sectionName'] . "</td><td>" . $recentActivity[$i]['message'] . "</td></tr>";
+            $tableRows .= "<div class='recentRow'><p class='activityLeft'>" . $recentActivity[$i]['sectionName'] . "</p><p class='activityMid'>" . $recentActivity[$i]['message'] . "</p><p class='activityRight'>" . $recentActivity[$i]['fuzzyTime'] . "</p></div>";
         }
 
         return $tableRows;
@@ -37,7 +36,7 @@ class UsersPage implements IPage {
         $output = "";
 
         for ($i = 0; $i <= count($bugs); $i++){
-            $output .= "<tr class='color-" .  $bugs[$i]['Colour'] . "'><td>" . $bugs[$i]['Section_Name'] . "</td><td>" . $bugs[$i]['Bug_Name'] . "</td></tr>";
+            $output .= "<a href='" . Path::getclientfolder("bugs", $bugs[$i]['Section_Slug'], $bugs[$i]['RID']) . "'><div class='assignedRow color-" .  $bugs[$i]['Colour'] . "'><p>" . $bugs[$i]['Section_Name'] . "</p><p>" . $bugs[$i]['Bug_Name'] . "</p></div></a>";
         }
 
         return array($output, count($bugs));
@@ -113,23 +112,32 @@ class UsersPage implements IPage {
         <div id='contentBody'>
             
             <div class='bodyWrap'>
+                <?php
+                    if ($_SESSION['Username'] = $currentUser){
+                        echo "<button id='userDetailsButton' class='highlight'>CHANGE MY DETAILS</button>";
+                        Modules::getoutput("userDetails", array(
+                            "username" => $currentUser->username
+                        ));
+                    }
+                ?>
+
                 <div id='aboutDiv' class='contentDiv'>
                     <h2>About</h2>
-                    <p class='bioText'><?php echo $currentUser->bio; ?></p>
+                    <p class='bioText'><?php echo nl2br($currentUser->bio); ?></p>
                 </div>
 
                 <div id='activityDiv' class='contentDiv'>
                     <h2>Recent activity</h2>
-                    <table class='activityTable'>
+                    <div id='activityRows'>
                         <?php echo $recentRows; ?>                    
-                    </table>
+                    </div>
                 </div>
 
                 <div id='assignedDiv' class='contentDiv'>
                     <h2>Assigned bugs (<?php echo $assignedRows[1]; ?>)</h2>
-                    <table class='assignedTable'>
+                    <div class='assignedRows'>
                         <?php echo $assignedRows[0] ?>
-                    </table>
+                    </div>
                 </div>
 
                 <div id='developingIn'>
