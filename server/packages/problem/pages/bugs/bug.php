@@ -69,7 +69,7 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Raw_Description AS Bug_Raw_D
         return false;
     }
     public function head(Head &$head) {
-
+        $head->stylesheet("pages/bug");
     }
 
     public function body() {
@@ -85,18 +85,47 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Raw_Description AS Bug_Raw_D
         echo "<h2 style='width:625px;margin:0 auto;padding:30px 0 10px 75px'>" . htmlentities($this->bug["Bug_Name"]) . "</h2>";
 
         Library::get("objects");
-        echo "<h4 style='width:625px;margin:0 auto;padding:0 0 20px 75px'>" . $statuses[$this->bug["Status"]];
+        echo "<h4 style='width:625px;margin:0 auto;padding:0 0 20px 75px'>";
 
-        // if we have permission to change the status, show status change links
-        if (Objects::permission($this->bug["Bug_ObjectID"], "bug.change-status", $_SESSION['username'], $this->bug["Section_ID"])) {
-            if ($this->bug["Status"] !== 1) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=1">Open</a>';
-            if ($this->bug["Status"] !== 2) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=2">Close</a>';
-            if ($this->bug["Status"] !== 3) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=3">Duplicate</a>';
-            if ($this->bug["Status"] !== 4) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=4">WIP</a>';
-        }
+        
         echo "</h4>";
 
-        // display the comment list
-        Modules::getoutput("comments", $this->bug);
-    }
-}
+
+
+    ?>
+<div id="centerArea">
+    <div id="bugInfo">
+        <?php echo "<h1><a id='section' href='" . Path::getclientfolder("bugs", $this->path[2]) . "'>" . htmlentities($this->path[2]) . "</a> > " . htmlentities($this->bug["Bug_Name"]) . "<span id='RID'> #" . $this->path[3] . "</span></h1>";
+        echo "<h3> submitted by " . htmlentities($this->bug["Author"]);?> <span class="timeago" title="<?php echo date("c", strtotime($this->bug["Creation_Date"])); ?>"></span>
+    </div>
+    <div id="bugContent">
+        <div id="leftColumn">
+            <?php
+                Modules::getoutput("comments", $this->bug);
+            ?>
+        </div>
+        <div id="rightColumn">
+            <h3>Status</h3>
+            <div id="statuses">
+            <?php
+                echo "<h4><span id='status'>" . $statuses[$this->bug["Status"]] . "</span>";
+
+                if (Objects::permission($this->bug["Bug_ObjectID"], "bug.change-status", $_SESSION['username'], $this->bug["Section_ID"])) {
+                if ($this->bug["Status"] !== 1) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=1">Open</a>';
+                if ($this->bug["Status"] !== 2) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=2">Close</a>';
+                if ($this->bug["Status"] !== 3) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=3">Duplicate</a>';
+                if ($this->bug["Status"] !== 4) echo ' - <a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?status=4">WIP</a>';
+                
+                echo "</h4>";
+        }
+            ?>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<?php    }
+}?>

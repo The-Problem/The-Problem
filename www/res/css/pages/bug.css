@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+}
+
+p{
+	display: inline;
+}
+
+#centerArea{
+	margin: auto;
+	width: 960px;
+}
+
+#bugInfo{
+	width: 100%;
+}
+
+#section{
+	text-transform: capitalize;
+}
+
+#RID, h3{
+	color: #808080;
+}
+
+#bugContent{
+    overflow: hidden; /* Clearfix! */
+}
+
+#leftColumn{
+	margin-top: 30px;
+	width: 625px;
+	float:left;
+}
+
+#rightColumn{
+	margin-top: 30px;
+	width: 240px;
+	border-left: 1px solid #808080;
+	min-height: 200px;
+	float: right;
+	padding-left: 20px;
+}
+
+#statuses{
+	width: 240px;
+}
+
+#status{
+	border: 1px solid black
+}

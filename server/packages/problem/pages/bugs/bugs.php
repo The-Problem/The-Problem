@@ -31,26 +31,57 @@ class BugsPage implements IPage {
     }
 
     public function body() {
+        Library::get("objects");
+        $permissions = Objects::user_permissions("bug.view", $_SESSION['username'], $this->section);
+
         Library::get("image");
         $coverImage = new Image("section", "section", array(
             "format" => "jpeg"
         ));
 
-        $current_user = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($_SESSION['username']));
-        $bugs = Connection::query("SELECT bugs.Name, bugs.Bug_ID, bugs.Author, bugs.Creation_date, bugs.Status, bugs.RID, bugs.Object_ID from bugs JOIN sections ON (sections.Section_ID = bugs.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
+        function detectStatus($status){
+            $returnalt = "";
+            $returnval = "";
 
-        $section = Connection::query("SELECT Object_ID, Section_ID FROM sections
-                                        WHERE Slug = ?", "s", array($this->section));
+            if ($status === "1"){
+                $returnalt = "open";
+                $returnval =  "fa-check";
+            } else if ($status === "2"){
+                $returnalt = "closed";
+                $returnval =  "fa-times";
+            } else if ($status === "3"){
+                $returnalt = "a duplicate";
+                $returnval =  "fa-times fa-orange";
+            } else if ($status === "4"){
+                $returnalt = "a WiP";
+                $returnval =  "fa-pencil";
+            }
 
+            return "<i title='This bug is " . $returnalt . "!' class='fa " . $returnval . " fa-black'></i>" ;
+        }
+
+
+        $bugs = Connection::query("SELECT bugs.Name, bugs.Bug_ID, bugs.Creation_Date, bugs.Author, bugs.Status, bugs.RID, (SELECT COUNT(*) FROM comments WHERE comments.Bug_ID = bugs.Bug_ID) as com  from bugs JOIN sections ON (sections.Section_ID = bugs.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
+        $devs = Connection::query("SELECT DISTINCT developers.Username from developers JOIN sections ON (sections.Section_ID = developers.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
+        $authors = Connection::query("SELECT DISTINCT bugs.Author from bugs JOIN sections ON (sections.Section_ID = bugs.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
         ?>
 
 <div id="sectionHead">
     <img src="<?php echo $coverImage->clientpath?>" id="coverImage">
     <div id="infoCard">
         <div id="infoCentre">
-            <h1 id="sectionTitle">Alpha Beta</h1>
+            <h1 id="sectionTitle"><?php echo $this->section ?></h1>
             <div id="developerArea">
                 <h2 id="developers">Developers</h2>
+                <div id="devImages">
+                <?php
+                Library::get('users');
+                foreach ($devs as $dev){
+                $selectedDev = Users::getUser(htmlentities($dev["Username"]));
+                echo "<a href='" . Path::getclientfolder("~" . htmlentities($dev["Username"])) . "'>" . "<img class='profilePicture' title='" . htmlentities($dev["Username"]) . "' src='" . $selectedDev->getAvatarLink(40) . "'/></a>";
+                }
+                ?>
+                </div>
             </div>
         </div>
     </div>
@@ -61,13 +92,14 @@ class BugsPage implements IPage {
         <div id="topsection">
             <input id="searchBox" type="search" placeholder="What are you looking for?">
             <?php if ($current_user[0]["Rank"] >= 4) { ?><a id="permissionsLink" href="<?php echo Path::getclientfolder("admin", "object", $section[0]["Object_ID"]); ?>">Permissions</a><?php } ?>
-            <button type="button" id="newBug"><i class="fa fa-plus"></i></button>
+            <form action="<?php echo Path::getclientfolder("bugs", $this->section, "new"); ?>"><button type="submit" id="newBug"><i class="fa fa-plus"></i></button></form>
         </div>
         <table id="bugsTable">
             <tr>
                 <td id="toprow">
                 <select id="sort">
                         <option value="initial" selected="selected" disabled="disabled">Sort</option>
+                        <option value="0">None</option>
                         <option value="1">Alphabetical</option>
                         <option value="2">Alpha - Reverse</option>
                         <option value="3">Newest</option>
@@ -75,70 +107,68 @@ class BugsPage implements IPage {
                     </select>
                     <select id="status">
                         <option value="initial" selected="selected" disabled="disabled">Status</option>
+                        <option value="-1">None</option>
+                        <option value="0">Deleted</option>
                         <option value="1">Open</option>
                         <option value="2">Closed</option>
-                        <option value="3">WiP</option>
+                        <option value="3">Duplicate</option>
+                        <option value="4">WiP</option>
                     </select>
                     <select id="submitted">
                         <option value="initial" selected="selected" disabled="disabled">Submitted</option>
-                        <option value="t1">INSERT SUBMITTERS HERE</option>
+                        <option value="0">None</option>
+                        <?php
+                        foreach ($authors as $author){
+                            echo "<option value='" . htmlentities($author["Author"]) . "'>" . htmlentities($author["Author"]) . "</option>";
+                        }
+                        ?>
                     </select>
                     <select id="assignee">
                         <option value="initial" selected="selected" disabled="disabled">Assignee</option>
-                        <option value="1">INSERT DEVS HERE</option>
+                        <option value="0">None</option>
+                        <?php
+                        foreach ($devs as $dev){
+                            echo "<option value='" . htmlentities($dev["Username"]) . "'>" . htmlentities($dev["Username"]) . "</option>";
+                        }
+                        ?>
                 </select>
+                <h6>Hint: Try hovering over the coloured symbols</h6>
                 </td>
             </tr>
             <?php
-
-            Library::get("objects");
-            $permissions = Objects::user_permissions("bug.view", $_SESSION['username'], $section[0]["Section_ID"]);
             foreach ($bugs as $bug){
-                if (!in_array($bug["Object_ID"], $permissions)) continue;
-
+                if (!in_array($bug["Bug_ID"], $permissions)) continue;
                 echo "<tr>
                     <td class='bugEntry'>
                         <div class='leftColumn'>
-                            <p class='bugName'>" . htmlentities($bug["Name"]) . "</p>
+                            <a href='" . Path::getclientfolder("bugs", $this->section, $bug["RID"]) . "'<p class='bugName'>" . htmlentities($bug["Name"]) . "</p></a>
                             <p class='bugSubmitter'> Submitted";
             ?>
 
-            <span class="timeago" title="<?php echo date("c", strtotime($bug["Creation_date"])); ?>"></span>
+            <span class="timeago" title="<?php echo date("c", strtotime($bug["Creation_Date"])); ?>"></span>
 
             <?php
-                echo " ago by " . htmlentities($bug["Author"]) . "</p>
+                echo"by " . "<a href='" . Path::getclientfolder("~" . htmlentities($bug["Author"])) . "'>" . htmlentities($bug["Author"]) . "</a></p>
                         </div>
-                         
                         <div class='rightColumn'>
-                            <p class='RID'>" . htmlentities($bug["RID"]) . "</p>
-                            <i class='fa fa-check fa-black'></i>
-                            <i class='fa fa-comment fa-black'></i>
-                            <p class='commentNumber'>0</p>
+                            <p class='RID'>#" . htmlentities($bug["RID"]) . "</p>"
+                            . detectStatus(htmlentities($bug["Status"])) . 
+                            "<i class='fa fa-comments fa-black'></i>
+                            <p class='commentNumber'>" . htmlentities($bug["com"]) . "</p>
                         </div>
                     </td>
                 </tr>";}
             ?>
+            <tr style="display: none">
+                <td>
+                    <div class="leftColumn">
+                        <p class="bugName">Nothing here... but us chickens</p>
+                    </div>
+                </td>
+            </tr>
         </table>
     </div>
 </div>
-
-<?php 
-        echo "Showing section: $this->section";
-		
-		?>
-<h2>Bug list</h2>
-<h3><a href="<?php echo Path::getclientfolder("bugs", $this->section, "new"); ?>">CREATE NEW</a></h3>
-<ul>
-<?php
-$bugs = Connection::query("SELECT RID, bugs.Name FROM bugs
-                     JOIN sections ON (sections.Section_ID = bugs.Section_ID)
-				   WHERE sections.Slug = ?", "s", array($this->section));
-
-foreach ($bugs as $bug) {
-	echo "<li><a href='" . Path::getclientfolder("bugs", $this->section, $bug["RID"]) . "'>" . htmlentities($bug["Name"]) . "</a></li>";
-}
-?>
-</ul>
         <?php
     }
 }

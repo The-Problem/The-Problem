@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+#createBox{
+	min-height: 100px;
+	margin: 120px auto;
+	background-color: #ef5350;
+	width: 550px;
+	padding: 50px 50px;
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.4);
+	color: white;
+}
+
+#bugName{
+	width: 100%;
+	margin: 10px 0;
+}
+
+#bugDesc{
+	width: 100%;
+	max-width: 100%;
+	min-height: 150px;
+	margin-bottom: 20px;
+}
