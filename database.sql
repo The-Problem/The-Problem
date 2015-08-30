@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 30, 2015 at 07:28 AM
+-- Generation Time: Aug 30, 2015 at 09:43 AM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.9
 
@@ -60,7 +60,7 @@ INSERT INTO `bugs` (`Bug_ID`, `Section_ID`, `Object_ID`, `Name`, `Status`, `Desc
 CREATE TABLE IF NOT EXISTS `comments` (
   `Comment_ID` int(11) NOT NULL,
   `Bug_ID` int(11) NOT NULL,
-  `Username` varchar(20) COLLATE latin1_general_cs NOT NULL,
+  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `Object_ID` int(11) NOT NULL,
   `Creation_Date` datetime NOT NULL,
   `Edit_Date` datetime DEFAULT NULL,
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `cookies` (
 
 CREATE TABLE IF NOT EXISTS `developers` (
   `Section_ID` int(11) NOT NULL,
-  `Username` varchar(20) COLLATE latin1_general_cs NOT NULL
+  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
@@ -174,78 +174,78 @@ INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
   (7, 'bug.change-status', 2),
   (7, 'bug.comment', 1),
   (7, 'bug.view', 0),
-  (7, 'comment.delete', 3),
   (7, 'comment.edit', 2),
+  (7, 'comment.remove', 3),
   (7, 'comment.upvote', 1),
   (8, 'bug.assign', 2),
   (8, 'bug.change-status', 2),
   (8, 'bug.comment', 1),
   (8, 'bug.view', 0),
-  (8, 'comment.delete', 3),
   (8, 'comment.edit', 2),
+  (8, 'comment.remove', 3),
   (8, 'comment.upvote', 1),
   (9, 'bug.assign', 2),
   (9, 'bug.change-status', 2),
   (9, 'bug.comment', 1),
   (9, 'bug.view', 0),
-  (9, 'comment.delete', 3),
   (9, 'comment.edit', 2),
+  (9, 'comment.remove', 3),
   (9, 'comment.upvote', 1),
   (10, 'bug.assign', 2),
   (10, 'bug.change-status', 2),
   (10, 'bug.comment', 1),
   (10, 'bug.view', 0),
-  (10, 'comment.delete', 3),
   (10, 'comment.edit', 2),
+  (10, 'comment.remove', 3),
   (10, 'comment.upvote', 1),
   (11, 'bug.assign', 2),
   (11, 'bug.change-status', 2),
   (11, 'bug.comment', 1),
   (11, 'bug.view', 0),
-  (11, 'comment.delete', 3),
   (11, 'comment.edit', 2),
+  (11, 'comment.remove', 3),
   (11, 'comment.upvote', 1),
   (12, 'bug.assign', 2),
   (12, 'bug.change-status', 2),
   (12, 'bug.comment', 1),
   (12, 'bug.view', 0),
-  (12, 'comment.delete', 3),
   (12, 'comment.edit', 2),
+  (12, 'comment.remove', 3),
   (12, 'comment.upvote', 1),
   (13, 'bug.assign', 2),
   (13, 'bug.change-status', 2),
   (13, 'bug.comment', 1),
   (13, 'bug.view', 0),
-  (13, 'comment.delete', 3),
   (13, 'comment.edit', 2),
+  (13, 'comment.remove', 3),
   (13, 'comment.upvote', 1),
   (14, 'bug.assign', 2),
   (14, 'bug.change-status', 2),
   (14, 'bug.comment', 1),
   (14, 'bug.view', 0),
-  (14, 'comment.delete', 3),
   (14, 'comment.edit', 2),
+  (14, 'comment.remove', 3),
   (14, 'comment.upvote', 1),
   (15, 'bug.assign', 2),
   (15, 'bug.change-status', 2),
   (15, 'bug.comment', 1),
   (15, 'bug.view', 0),
-  (15, 'comment.delete', 3),
   (15, 'comment.edit', 2),
+  (15, 'comment.remove', 3),
   (15, 'comment.upvote', 1),
   (16, 'bug.assign', 2),
   (16, 'bug.change-status', 2),
   (16, 'bug.comment', 1),
   (16, 'bug.view', 0),
-  (16, 'comment.delete', 3),
   (16, 'comment.edit', 2),
+  (16, 'comment.remove', 3),
   (16, 'comment.upvote', 1),
   (17, 'bug.assign', 2),
   (17, 'bug.change-status', 2),
   (17, 'bug.comment', 1),
   (17, 'bug.view', 0),
-  (17, 'comment.delete', 3),
   (17, 'comment.edit', 2),
+  (17, 'comment.remove', 3),
   (17, 'comment.upvote', 1);
 
 -- --------------------------------------------------------
@@ -314,7 +314,7 @@ INSERT INTO `objects` (`Object_ID`, `Object_Type`) VALUES
 
 CREATE TABLE IF NOT EXISTS `plusones` (
   `Object_ID` int(11) NOT NULL,
-  `Username` varchar(20) COLLATE latin1_general_cs NOT NULL,
+  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `Time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
@@ -353,7 +353,7 @@ INSERT INTO `sections` (`Section_ID`, `Name`, `Object_ID`, `Description`, `Slug`
 CREATE TABLE IF NOT EXISTS `userpermissions` (
   `Object_ID` int(11) NOT NULL,
   `Permission_Name` varchar(20) COLLATE latin1_general_cs NOT NULL,
-  `Username` varchar(20) COLLATE latin1_general_cs NOT NULL
+  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
@@ -435,7 +435,7 @@ INSERT INTO `userpermissions` (`Object_ID`, `Permission_Name`, `Username`) VALUE
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `Username` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `Email` text COLLATE latin1_general_cs NOT NULL,
   `Name` text COLLATE latin1_general_cs NOT NULL,
   `Password` text COLLATE latin1_general_cs NOT NULL,
@@ -456,13 +456,13 @@ INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `La
   ('flame', 'flame@mailinator.net', 'Andria', '$2y$10$HTVsREh6wUUCXvkS/j2jn.8pGYK8xasclpQ3Y.AgL200gJaX/n6fe', 1, '', NULL),
   ('gottatrythis', 'gtythis@mailinator.net', 'Donald', '$2y$10$WsXkXva/GjCZH4RVh8PimOhbck3iE7zocD4dggoFNnG/N/96JLJ7O', 1, '', NULL),
   ('hackers', 'davee3@mailinator.net', 'Dave', '$2y$10$WDLr8vRly3T8xAK.FIgrrOwEicx/T.atsAMLJFr3zsDK18e4iYf0q', 1, '', NULL),
-  ('Jas', 'jjj@mailinator.net', 'Jas', '$2y$10$2MGjSeNqQPpzbRwv7NlT2ONRi6dy5H.LEiN3s5sHmWPF5g8hNyefm', 1, '', NULL),
   ('jackass', 'jackass@mailinator.net', 'Jake Peearaa', '$2y$10$VpoA34YIoKM9e4hdgyhS6O471OnGnr.ZsU.hf3Igx5L7DxoO3AZba', 1, '', NULL),
+  ('Jas', 'jjj@mailinator.net', 'Jas', '$2y$10$2MGjSeNqQPpzbRwv7NlT2ONRi6dy5H.LEiN3s5sHmWPF5g8hNyefm', 1, '', NULL),
   ('KaiXinGuo', 'kai@mailinator.net', 'Kai', '$2y$10$/f65xs.Da1AXJAqCmxpT1.onHjAb9XNfWaMZ9B0p8BXLMHUxUKjCm', 1, '', NULL),
   ('KatieLilly', 'jrn@mailinator.net', 'Katie Lilly', '$2y$10$jc5WCLrj3rD8NNlcef7weepoJ.aZ1vlqjCs9RdQM16XfCPqbDbE/m', 1, '', NULL),
   ('Liam', 'LIAM@mailinator.net', 'Liam Prok', '$2y$10$Kkmh9Y3aAjmqVraLy0jGd.8y0joHcnL4gWDCidDLhEjBp568z3TK6', 1, '', NULL),
-  ('MichaelK', 'mike@mailinator.net', 'Michael', '$2y$10$WvnzAt1GpmdtzTpWBlIAt.7hjD6hV3GPdXhj2OucoUTKCHqIwO9Om', 1, '', NULL),
   ('meltingPoint', 'mp@mailinator.net', 'Jess', '$2y$10$8mQX8.RooNnye.zStiHmc.45lVDR2uU11a3zMVmaQ9H3F.lptjeP.', 1, '', NULL),
+  ('MichaelK', 'mike@mailinator.net', 'Michael', '$2y$10$WvnzAt1GpmdtzTpWBlIAt.7hjD6hV3GPdXhj2OucoUTKCHqIwO9Om', 1, '', NULL),
   ('mrfishie', 'mrfishie101@hotmail.com', 'Tom', '$2y$10$U5ETgL5NPBp9tBnXvch2DOJa3sdv4cwzsn6R4KtWvFjP0Mn/0pAdW', 4, '', NULL),
   ('powerRangers46', 'pewpew@mailinator.net', 'Zac Langlands', '$2y$10$gaWKZaH7MynEmM3jh2kedufZteWHLylkSIq3OSemQc.MndX1JtZ46', 1, '', NULL),
   ('SmithJohn', 'jsjs@mailinator.net', 'John Smith', '$2y$10$2li2WzaQKhw/3zV23ViRKeXxRaHzHczYyw0V.w3nQtMBosSICxp4.', 1, 'Part human, part Timelord.', NULL),
@@ -477,7 +477,7 @@ INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `La
 
 CREATE TABLE IF NOT EXISTS `watchers` (
   `Object_ID` int(11) NOT NULL,
-  `Username` varchar(20) COLLATE latin1_general_cs NOT NULL
+  `Username` varchar(20) COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
@@ -597,7 +597,7 @@ ADD PRIMARY KEY (`Username`);
 -- Indexes for table `watchers`
 --
 ALTER TABLE `watchers`
-ADD PRIMARY KEY (`Object_ID`, `Username`),
+ADD PRIMARY KEY (`Object_ID`,`Username`),
 ADD KEY `Username` (`Username`);
 
 --
@@ -634,72 +634,3 @@ MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 ALTER TABLE `sections`
 MODIFY `Section_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `bugs`
---
-ALTER TABLE `bugs`
-ADD CONSTRAINT `bugs_ibfk_1` FOREIGN KEY (`Section_ID`) REFERENCES `sections` (`Section_ID`),
-ADD CONSTRAINT `bugs_ibfk_2` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`),
-ADD CONSTRAINT `bugs_ibfk_3` FOREIGN KEY (`Author`) REFERENCES `users` (`Username`),
-ADD CONSTRAINT `bugs_ibfk_4` FOREIGN KEY (`Assigned`) REFERENCES `users` (`Username`);
-
---
--- Constraints for table `comments`
---
-ALTER TABLE `comments`
-ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`Bug_ID`) REFERENCES `bugs` (`Bug_ID`),
-ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`),
-ADD CONSTRAINT `comments_ibfk_3` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`);
-
---
--- Constraints for table `developers`
---
-ALTER TABLE `developers`
-ADD CONSTRAINT `developers_ibfk_1` FOREIGN KEY (`Section_ID`) REFERENCES `sections` (`Section_ID`),
-ADD CONSTRAINT `developers_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`);
-
---
--- Constraints for table `grouppermissions`
---
-ALTER TABLE `grouppermissions`
-ADD CONSTRAINT `grouppermissions_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`);
-
---
--- Constraints for table `notifications`
---
-ALTER TABLE `notifications`
-ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`Triggered_By`) REFERENCES `users` (`Username`),
-ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`Received_By`) REFERENCES `users` (`Username`),
-ADD CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`Target_One`) REFERENCES `objects` (`Object_ID`),
-ADD CONSTRAINT `notifications_ibfk_4` FOREIGN KEY (`Target_Two`) REFERENCES `objects` (`Object_ID`);
-
---
--- Constraints for table `plusones`
---
-ALTER TABLE `plusones`
-ADD CONSTRAINT `plusones_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`),
-ADD CONSTRAINT `plusones_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`);
-
---
--- Constraints for table `sections`
---
-ALTER TABLE `sections`
-ADD CONSTRAINT `sections_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`);
-
---
--- Constraints for table `userpermissions`
---
-ALTER TABLE `userpermissions`
-ADD CONSTRAINT `userpermissions_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`),
-ADD CONSTRAINT `userpermissions_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`);
-
---
--- Constraints for table `watchers`
---
-ALTER TABLE `watchers`
-ADD CONSTRAINT `watchers_ibfk_1` FOREIGN KEY (`Object_ID`) REFERENCES `objects` (`Object_ID`),
-ADD CONSTRAINT `watchers_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `users` (`Username`);
