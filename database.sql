@@ -143,16 +143,19 @@ CREATE TABLE IF NOT EXISTS `developers` (
 --
 
 INSERT INTO `developers` (`Section_ID`, `Username`) VALUES
+  (1, 'Andrew'),
   (1, 'dr2n'),
   (4, 'dr2n'),
   (5, 'dr2n'),
   (1, 'exterminate'),
   (2, 'exterminate'),
+  (3, 'exterminate'),
   (2, 'mrfishie'),
   (3, 'mrfishie'),
   (4, 'mrfishie'),
   (2, 'radke'),
-  (5, 'radke');
+  (5, 'radke'),
+  (2, 'unhelpful');
 
 -- --------------------------------------------------------
 

@@ -71,18 +71,21 @@
 		}
 
 		//checks whether an email is valid or already used
-		public static function emailAvailable($email){
+		public static function emailAvailable($email, $new = true){
 			if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 				return false;
 			}
 
-			$emailQuery = 
-				"SELECT Username FROM users WHERE Email = ?";
-			$emailResult = Connection::query($emailQuery, "s", array($email));
+			if ($new){
+				$emailQuery = 
+					"SELECT Username FROM users WHERE Email = ?";
+				$emailResult = Connection::query($emailQuery, "s", array($email));
 
-			if (count($emailResult) != 0){
-				return false;
+				if (count($emailResult) != 0){
+					return false;
+				}	
 			}
+
 
 			return true;
 		}

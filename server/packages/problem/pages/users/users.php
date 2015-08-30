@@ -113,7 +113,7 @@ class UsersPage implements IPage {
             
             <div class='bodyWrap'>
                 <?php
-                    if ($_SESSION['Username'] = $currentUser){
+                    if ($_SESSION['username'] == $currentUser->username){
                         echo "<button id='userDetailsButton' class='highlight'>CHANGE MY DETAILS</button>";
                         Modules::getoutput("userDetails", array(
                             "username" => $currentUser->username
