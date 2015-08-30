@@ -152,6 +152,9 @@ LimePHP.register("page.admin", function() {
     $(document).on("mousedown", ".username-selector", function() {
         canHide = false;
     });
+    $(document).on("mouseup", ".username-selector", function() {
+        canHide = true;
+    });
     $(document).on("click", ".user-remove", function() {
         var $remove = $(this);
         var $row = $remove.parents(".developer-list tr");
@@ -427,40 +430,6 @@ LimePHP.register("page.admin", function() {
         r.error = function(err) {
             $this.val(previous);
             $this.attr("class", $this.children(":selected").text().toLowerCase());
-        };
-        r.complete = function() {
-            stopSaving();
-            $this.attr('disabled', false);
-            $this.data('previous', $this.val());
-        };
-    });
-
-    var $permissionListSelect = $(".permission-list select");
-
-    $permissionListSelect.on('focus', function() {
-        var $this = $(this);
-        $this.data('previous', $this.val());
-    });
-    $permissionListSelect.on('change', function() {
-        var $this = $(this);
-        var $row = $this.parents(".table-row");
-
-        var permissionName = $row.data("permission");
-        var objectId = $row.data("object");
-
-        $this.attr("disabled", true);
-
-        startSaving();
-        var r = LimePHP.request("get", LimePHP.path("ajax/admin/permissionRank"), {
-            permission: permissionName,
-            object: objectId,
-            rank: $this.val()
-        }, "json");
-
-        var previous = $this.data('previous');
-
-        r.error = function(err) {
-            $this.val(previous);
         };
         r.complete = function() {
             stopSaving();

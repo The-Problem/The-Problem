@@ -1,0 +1,88 @@
+.body {
+    width:900px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:100px;
+}
+
+section {
+    border-bottom:solid 1px #CCC;
+    padding-top:10px;
+}
+section:last-child {
+    border-bottom:none;
+}
+.columns .left-column, .columns .right-column {
+    display:inline-block;
+    vertical-align:top;
+    width:439px;
+    padding:5px 0;
+}
+.columns .right-column {
+    padding-left:10px;
+    border-left:solid 1px #CCC;
+}
+.columns .left-column {
+    padding-right:10px;
+}
+
+.columns p {
+    margin:0;
+}
+
+.columns .right-column em, .columns .left-column em {
+    display:inline-block;
+    margin:5px 0;
+}
+
+
+.user-list, .username-selector {
+    border:solid 1px #DDD;
+    border-bottom:none;
+    border-collapse:collapse;
+    width:439px;
+}
+.user-list tr, .username-selector tr {
+    border-bottom:solid 1px #DDD;
+}
+.user-list tr:last-child {
+    border-bottom:none;
+}
+.user-list td, .username-selector td {
+    height:30px;
+}
+.user-list .user-image, .user-list .user-remove, .username-selector .user-image {
+    text-align:center;
+    width:30px;
+}
+.user-list .user-image, .username-selector .user-image {
+    background: no-repeat center;
+}
+.user-list .user-name, .username-selector .user-name {
+    padding:0 5px;
+    line-height:30px;
+}
+input.add-user {
+    padding:5px;
+    border:solid 1px #DDD;
+    width:427px;
+    background-color:#FCFCFC;
+}
+
+.username-selector {
+    position:absolute;
+    background-color:#FFF;
+    z-index:5;
+    margin-top:10px;
+    border-color:#AAA;
+}
+.username-selector tr {
+    cursor:pointer;
+    border-color:#AAA;
+}
+.username-selector tr:nth-child(even) {
+    background-color:#FCFCFC;
+}
+.username-selector tr:hover {
+    background-color:#F1F1F1;
+}
