@@ -9,39 +9,43 @@
 
 		private static $bugStatus = array('DELETED', 'OPEN', 'CLOSED', 'DUPLICATE', 'WIP');
 
-		public static function get($limit = 10, $time = NULL, $before = false){
+		public static function get($settings){
 
 			//get notification data as associative array from database depending on arguments
 			$currentUser = $_SESSION['username'];
 
-			if ($time != NULL){
-				if ($before){
+			if ($settings['time']){
+				if ($settings['before']){
 					//return the first $limit number of notifications before $time
 					$notificationQuery = "SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type FROM notifications WHERE Received_By= ? AND Creation_Date <= ? ORDER BY Creation_Date DESC LIMIT ?";
-					$queryResult = Connection::query($notificationQuery, "sss", array($currentUser, $time));
+					$queryResult = Connection::query($notificationQuery, "sss", array($currentUser, $settings['time']));
+					echo 'this';
 				}else{
 					//return all notifications after $time
-					$notificationQuery = "SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type FROM notifications WHERE Received_By= ? AND Creation_Date >= ? ORDER BY Creation_Date DESC";
-					$queryResult = Connection::query($notificationQuery, "ss", array($currentUser, $time));
+					$notificationQuery = "SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type FROM notifications WHERE Received_By = ? AND Creation_Date >= ? ORDER BY Creation_Date DESC";
+					$queryResult = Connection::query($notificationQuery, "ss", array($currentUser, date("Y:m:d H:i:s", $settings['time'])));
 				}
 
 			}else{
 				//return the first $limit number of notifications as of now
-				$notificationQuery = "SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type FROM notifications WHERE Received_By = ? ORDER BY Creation_Date DESC LIMIT ?";
-				$queryResult = Connection::query($notificationQuery, "ss", array($currentUser, $limit));
+				if (!isset($settings['limit'])){
+					$settings['limit'] = 10;
+				}
+				$notificationQuery = "SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type FROM notifications WHERE Received_By = ? ORDER BY Creation_Date ASC LIMIT ?";
+				$queryResult = Connection::query($notificationQuery, "ss", array($currentUser, $settings['limit']));
+			
 			}
 
 			//loop through notification data from create html
 
-			$html = "";
+			$notificationElements = array();
 
 			for ($i = 0; $i < count($queryResult); $i++){
 				$notificationDetails = self::processNotification($queryResult[$i]);
-				$notSection = "<section class='notificationCell'><p class='message'>" . $notificationDetails['message'] . "</p><p class='stats'>" . $notificationDetails['stats'] . "</p></section>";
-				$html .= $notSection;
+				array_push($notificationElements, $notificationDetails);
 			}
 
-			return $html;
+			return $notificationElements;
 
 		}
 
@@ -126,7 +130,9 @@
 					$sectionName = $bugInfo['Section_Name'];
 
 					$message = $trigger . " +1'd your bug " . $bugName;
+
 				}else if ($targetType == Objects::TYPE_COMMENT){
+
 					$commentQuery = 
 									"SELECT Comment_Text, bugs.Name as 'Bug_Name', sections.Name as 'Section_Name'
 									FROM comments
@@ -168,9 +174,11 @@
 			$output = array(
 				"fuzzyTime" => $fuzzyTime,
 				"sectionName" => $sectionName, 
-				"time" => $notification['Creation_Date'],
+				"time" => strtotime($notification['Creation_Date']),
 				"message" => $message,
-				"stats" => $stats
+				"stats" => $stats,
+				"read" => $notification['IsRead'],
+				"section" => $sectionName
 
 				);
 

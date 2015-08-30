@@ -19,6 +19,7 @@
 	font-weight: lighter;
     margin-top: 0px;
     margin-bottom: 0px;
+    float: left;
 }
 
 #notificationHeader {
@@ -28,12 +29,36 @@
 	width: 100%;
 	background-color: #b94a48;
 	color: white;	
-	padding-left: 30px;
+    padding-right: 20px;
+    padding-left: 30px;
+}
+
+.sideButton {
+	float: right;
+	line-height: 80px;
+	text-align: center;
+	width: 30px;
+	color: white;
+	transition: color 0.2s;
+	cursor: pointer;
+}
+
+.sideButton:hover {
+	color: #4d2224;
 }
 
 #notifications {
 	height: calc(100vh - 60px - 80px);
 	overflow-y: auto;
+}
+
+.notificationCell {
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.notificationCell:hover {
+	background-color: black !important;
 }
 
 #notifications .notificationCell {
@@ -61,4 +86,18 @@
 	float: right;
 	font-size: 12px;
 	clear: both;
+}
+
+#screen {
+	display: none;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 9997;
+}
+
+.stats {
+	float: right;
 }
