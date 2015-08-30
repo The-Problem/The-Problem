@@ -8,12 +8,21 @@ class BugsBugPage implements IPage {
         $this->path = $path;
 
         if (array_key_exists('status', $_GET)) {
-            $bug = Connection::query("SELECT bugs.Object_ID AS Object_ID, Bug_ID, Status FROM bugs
+            $bug = Connection::query("SELECT bugs.Object_ID AS Object_ID, Bug_ID, Status, Author FROM bugs
                                         JOIN sections ON (sections.Section_ID = bugs.Section_ID)
                                       WHERE sections.Slug = ?
                                         AND bugs.RID = ?", "si", array($path[2], $path[3]));
 
             if ($bug[0]["Status"] != $_GET["status"]) {
+                // if the bug was deleted, un-delete it
+                if ($bug[0]["Status"] === 0) {
+                    $default_view = Connection::query("SELECT Value FROM configuration
+                                             WHERE Type = 'permissions-default-bugs'
+                                             AND Name = 'view'");
+                    Objects::allow_rank($bug[0]["Object_ID"], "bug.view", $default_view[0]["Value"]);
+                    Objects::allow_user($bug[0]["Object_ID"], "bug.view", $bug[0]["Author"]);
+                }
+
                 Connection::query("UPDATE bugs
                            SET bugs.Status = ?
                              WHERE bugs.Bug_ID = ?", "ii", array($_GET['status'], $bug[0]["Bug_ID"]));
@@ -43,7 +52,10 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Object_ID AS Bug_ObjectID, b
     public function permission() {
         Library::get("objects");
 
-        return Objects::permission($this->bug["Bug_ObjectID"], "bug.view", $_SESSION['username'], $this->bug["Section_ID"]);
+        $viewable = Objects::permission($this->bug["Bug_ObjectID"], "bug.view", $_SESSION['username'], $this->bug["Section_ID"]);
+
+        if (!$viewable) Path::redirect(Path::getclientfolder("bugs", $this->path[2]));
+        return true;
     }
     public function subpages() {
         return false;

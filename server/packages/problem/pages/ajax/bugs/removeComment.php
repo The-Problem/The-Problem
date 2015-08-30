@@ -23,28 +23,32 @@ class AjaxBugsRemoveCommentPage implements IPage {
           WHERE objects.Object_ID = ?
         ", "i", array($object_id));
 
-        if ($object[0]["Object_Type"] === 1) {
-            // delete a bug
-            Library::get('objects');
-            Objects::allow_rank($object_id, "bug.view", 3);
-
-            $section = Connection::query("SELECT Slug FROM bugs
-                                            JOIN sections ON (bugs.Section_ID = sections.Section_ID)
-                                          WHERE bugs.Object_ID = ?", "i", array($object_id));
-
-            return array("success" => true, "redirect" => Path::getclientfolder("bugs", $section[0]["Slug"]));
-        } else {
-            $comment = Connection::query("
+        $comment = Connection::query("
         SELECT bugs.Section_ID AS Bug_Section_ID FROM comments
           JOIN bugs ON (comments.Bug_ID = bugs.Bug_ID)
           JOIN sections ON (bugs.Section_ID = sections.Section_ID)
         WHERE comments.Object_ID = ?
         ", "i", array($object_id));
 
-            Library::get('objects');
-            if (!Objects::permission($object_id, 'comment.remove', $_SESSION['username'], $comment[0]["Bug_Section_ID"]))
-                return array("error" => "You do not have permission to perform this action");
+        Library::get('objects');
+        if (!Objects::permission($object_id, 'comment.remove', $_SESSION['username'], $comment[0]["Bug_Section_ID"]))
+            return array("error" => "You do not have permission to perform this action");
 
+        if ($object[0]["Object_Type"] === 1) {
+            // delete a bug
+            Library::get('objects');
+            Objects::allow_rank($object_id, "bug.view", 3);
+
+            Connection::query("UPDATE bugs SET Status = 0 WHERE Object_ID = ?", "i", array($object_id));
+
+            $section = Connection::query("SELECT Slug, Author, RID FROM bugs
+                                            JOIN sections ON (bugs.Section_ID = sections.Section_ID)
+                                          WHERE bugs.Object_ID = ?", "i", array($object_id));
+
+            Objects::deny_user($object_id, "bug.view", $section[0]["Author"]);
+
+            return array("success" => true, "redirect" => Path::getclientfolder("bugs", $section[0]["Slug"], $section[0]["RID"]));
+        } else {
             Connection::query("DELETE FROM comments WHERE Object_ID = ?", "i", array($object_id));
             Connection::query("DELETE FROM grouppermissions WHERE Object_ID = ?", "i", array($object_id));
             Connection::query("DELETE FROM userpermissions WHERE Object_ID = ?", "i", array($object_id));
