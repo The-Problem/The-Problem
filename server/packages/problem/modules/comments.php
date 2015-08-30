@@ -9,6 +9,7 @@ class CommentsModule implements IModule {
     public function spinnersize() { return Modules::SPINNER_LARGE; }
 
     public function getcode($bug = array(), Head $h) {
+        // get all of the comments and some extra required fields
         $comments = Connection::query("SELECT *, (SELECT COUNT(*) FROM plusones
                                                   WHERE plusones.Object_ID = objects.Object_ID) AS Plus_Ones,
                                                  (SELECT COUNT(*) FROM plusones
@@ -28,10 +29,16 @@ class CommentsModule implements IModule {
 <div class="comments">
     <?php
 
+    // The OP (original post) is also displayed as a comment, so we need to convert the data from the bugs
+    // table into something the "comment" module can understand.
+
+    // get info on the poster of the bug
     $poster = Connection::query("SELECT Rank, Email, (SELECT COUNT(*) FROM developers
                                                WHERE developers.Section_ID = ?
                                                AND developers.Username = users.Username) AS Is_Developer FROM users WHERE Username = ?",
         "is", array($bug["Section_ID"], $bug["Author"]));
+
+    // find how many people has plus-oned the bug
     $plusones = Connection::query("
 SELECT COUNT(*) AS Plus_Ones,
        (SELECT COUNT(*) FROM plusones
@@ -39,6 +46,7 @@ SELECT COUNT(*) AS Plus_Ones,
           AND plusones.Username = ?) AS Mine
   FROM plusones WHERE Object_ID = ?", "isi", array($bug["Bug_ObjectID"], $_SESSION["username"], $bug["Bug_ObjectID"]));
 
+    // create the OP array
     array_unshift($comments, array(
         "Username" => $bug["Author"],
         "Email" => $poster[0]["Email"],
@@ -54,18 +62,22 @@ SELECT COUNT(*) AS Plus_Ones,
         "Bug_Section_ID" => $bug["Section_ID"]
     ));
 
+    // display all of the comments
     Library::get("modules");
     foreach ($comments as $comment) {
+        // we need this in the "comment" module for the OP badge
         $comment["Bug_Author"] = $bug["Author"];
         $comment["Bug_Section_ID"] = $bug["Section_ID"];
         Modules::getoutput("comment", $comment);
     }
 
+    // find if we are allowed to comment
     Library::get("objects");
     $can_comment = Objects::permission($bug["Bug_ObjectID"], "bug.comment", $_SESSION["username"], $bug["Section_ID"]);
 
 
     if ($can_comment) {
+        // show the comment format if we can comment
         $username = $_SESSION["username"];
         if (is_null($username)) $email = "guest@example.com";
         else {
@@ -73,6 +85,7 @@ SELECT COUNT(*) AS Plus_Ones,
             $email = $user[0]["Email"];
         }
 
+        // we want to display the current users icon
         $gravatar_id = md5(strtolower(trim($email)));
         $gravatar = "http://www.gravatar.com/avatar/$gravatar_id?d=identicon&s=60";
     ?>

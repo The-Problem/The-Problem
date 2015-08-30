@@ -17,6 +17,7 @@ class AjaxAdminAddDevPage implements IPage {
     public function head(Head &$head) { }
 
     public function body() {
+        // prevent changing anything without being logged in as an administrator
         $current_user = $_SESSION["username"];
         if (!$current_user) return array("error" => "You do not have the required permission to perform this action");
 
@@ -24,9 +25,11 @@ class AjaxAdminAddDevPage implements IPage {
         $rank = $rank_res[0]["Rank"];
         if ($rank < 4) return array("error" => "You do not have the required permission to perform this action");
 
+        // fetch from the URL
         $dev_user = $_GET['username'];
         $dev_section = $_GET['section'];
 
+        // insert into the developer table
         Connection::query("INSERT INTO developers (Section_ID, Username) VALUES (?, ?)", "is", array(
             $dev_section,
             $dev_user

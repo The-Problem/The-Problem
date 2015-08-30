@@ -17,9 +17,11 @@ class AdminPage implements IPage {
         return Templates::findtemplate("default");
     }
     public function permission() {
+        // we only want administrators viewing our page, so first check if the person is logged in
         $username = $_SESSION["username"];
         if (!$username) return false;
 
+        // then if they have a rank >= 4
         $rank_res = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($username));
         $rank = $rank_res[0]["Rank"];
 
@@ -31,6 +33,7 @@ class AdminPage implements IPage {
     }
 
     public function head(Head &$head) {
+        // if they do not have SUDO mode enabled, redirect them to the SUDO page first
         if (!$_SESSION['sudo']) Path::redirect(Path::getclientfolder("sudo") . "?return=" . urlencode($_SERVER['REQUEST_URI']));
 
         $head->title .= " - Admin";
@@ -39,12 +42,15 @@ class AdminPage implements IPage {
     }
 
     public function overview() {
+        // get all configuration options to display
         $data = Connection::query("SELECT Type, Name, Value FROM configuration WHERE Type = 'overview-visibility' OR Type = 'overview-name'");
 
+        // default values
         $sitename = "The Problem";
         $visibility = "public";
         $registration = "open";
 
+        // map to the variables
         foreach ($data as $item) {
             if ($item["Type"] === "overview-name") {
                 if ($item["Name"] === "sitename") $sitename = $item["Value"];
@@ -95,6 +101,7 @@ class AdminPage implements IPage {
     public function sections() {
         Pages::$head->script("lib/autosize.min");
 
+        // fetch a list of all the sections and statistics from them
         $sections = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID
@@ -125,6 +132,8 @@ FROM sections
     $last_highlighted = false;
 
     foreach ($sections as $section) {
+        // the section appears highlighted if it doesn't have any developers (bad)
+        // or the percentage of closed bugs to all bugs is less than 10% (bad)
         $total = $section["Closed_Bugs"] + $section["Open_Bugs"];
         if ($total > 0) $percentage = $section["Closed_Bugs"] / $total;
         else $percentage = 1.1;
@@ -138,7 +147,7 @@ FROM sections
                 <p class="name"><?php echo htmlentities($section["Name"]); ?></p><!--
                 --><p class="description"><?php echo htmlentities($section["Description"]); ?></p><!--
                 --><p class="developers<?php if (!$section["Developers"]) echo ' highlight'; ?>"><?php echo $section["Developers"]; ?></p><!--
-                --><p class="bugs">
+                --><p class="bugs<?php if ($percentage < 0.1) echo ' highlight'; ?>">
                     <?php if ($total === 0) { ?><em class="none">No bugs</em><?php } else { ?>
                         <?php echo $section["Open_Bugs"]; ?> <i class="fa fa-check"></i> - <?php echo $section["Closed_Bugs"]; ?> <i class="fa fa-times"></i> (<?php echo floor($percentage * 100); ?>%)
                     <?php } ?>
@@ -147,6 +156,8 @@ FROM sections
         </div>
         <?php
 
+        // due to how the table is formatted, we need to add a class on the next
+        // row of a highlighted one
         $last_highlighted = false;
         if ($is_highlight) $last_highlighted = true;
     }
@@ -163,6 +174,7 @@ FROM sections
             4 => "Administrator"
         );
 
+        // fetch statistics about the user
         $users = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM bugs
            WHERE bugs.Author = users.Username
@@ -197,6 +209,7 @@ FROM users
     </div>
     <?php
         foreach ($users as $user) {
+            // calculate bug statistics
             $total_bugs = $user["Closed_Bugs"] + $user["Open_Bugs"];
             if ($total_bugs > 0) $bug_percentage = $user["Closed_Bugs"] / $total_bugs;
             else $bug_percentage = 1.1;
@@ -249,11 +262,13 @@ FROM users
 
 
     public function permissions() {
+        // fetch the configuration options that we need
         $data = Connection::query("SELECT Type, Name, Value FROM configuration
                                     WHERE Type = 'permissions-default-section'
                                        OR Type = 'permissions-default-bugs'
                                        OR Type = 'permissions-default-comments'");
 
+        // map to a sane format with 2D arrays
         $defaults = array();
         foreach ($data as $item) {
             $type = $item["Type"];
@@ -263,6 +278,8 @@ FROM users
             if (!array_key_exists($type, $defaults)) $defaults[$type] = array();
             $defaults[$type][$name] = $value;
         }
+
+        // displays a <select> with the specified item selected
         function options($defaults, $type, $name, $guest = true) {
             $value = $defaults[$type][$name];
 
@@ -359,6 +376,7 @@ FROM users
 <div class="container">
     <div class="panel">
         <?php
+        // depending on the subpage, call a different function
         switch ($this->page) {
             case 'sections': $this->sections(); break;
             case 'permissions': $this->permissions(); break;
@@ -371,6 +389,7 @@ FROM users
         end($this->pages);
         $last = key($this->pages);
 
+        // display the page list on the side
         foreach ($this->pages as $path => $name) {
             ?>
         <a class="item<?php if ($path === $last) echo ' last';

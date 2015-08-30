@@ -19,11 +19,14 @@ class AjaxUserLoginPage implements IPage {
         $username = trim($_POST['username']);
         $password = $_POST['password'];
 
+        // validate the login information
         if (strlen($username) > 0 && strlen($password) > 0) {
             Library::get("users");
             $loggedin = Users::login($username, $password);
 
             if ($loggedin) {
+                // capture the header bar HTML so that the client can add it to the HTML
+                // without refreshing the page
                 ob_start();
                 Modules::getoutput("headerBar");
                 $header = ob_get_flush();

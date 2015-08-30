@@ -16,6 +16,7 @@ class AjaxAdminRemoveDevPage implements IPage {
     public function head(Head &$head) { }
 
     public function body() {
+        // prevent changing anything without being logged in as an administrator
         $current_user = $_SESSION["username"];
         if (!$current_user) return array("error" => "You do not have the required permission to perform this action");
 
@@ -23,9 +24,11 @@ class AjaxAdminRemoveDevPage implements IPage {
         $rank = $rank_res[0]["Rank"];
         if ($rank < 4) return array("error" => "You do not have the required permission to perform this action");
 
+        // get the values from the URL
         $dev_user = $_GET['username'];
         $dev_section = $_GET['section'];
 
+        // delete the developer from the database
         Connection::query("DELETE FROM developers WHERE Section_ID = ? AND Username = ?", "is", array(
             $dev_section,
             $dev_user

@@ -22,20 +22,25 @@ class HomePage implements IPage {
     }
 
     public function body() {
+        // get the logo image
         Library::get("image");
         $logo = new Image("branding", "logo", array(
             "format" => "png"
         ));
 
+        // if the user is logged in, use the "loggedInHome" module instead
         if ($_SESSION["username"]) Modules::getoutput("loggedInHome");
         else {
 
+        // get all sections the user can view and generate some SQL for that
         Library::get("objects");
         $ids = Objects::user_permissions("section.view", NULL);
         $amount = count($ids);
         $clause = implode(',', array_fill(0, $amount, '?'));
         $types = str_repeat('i', $amount);
 
+        // find if the user can view the site, if not, they get a full-page login screen
+        // otherwise they can see the section list
         $viewable = Objects::permission(0, "site.view", NULL);
 
         $sections = Connection::query("

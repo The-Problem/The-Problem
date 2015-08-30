@@ -21,6 +21,7 @@ class AjaxBugsEditCommentPage implements IPage {
 
         Library::get('objects');
 
+        // find if the comment is actually the bug OP
         $object_type = Connection::query("SELECT Object_Type FROM objects WHERE Object_ID = ?", "i", array($object_id));
         $is_bug = $object_type[0]["Object_Type"] === 1;
 
@@ -40,8 +41,10 @@ class AjaxBugsEditCommentPage implements IPage {
         ", "i", array($object_id));
         }
 
+        // make sure we have a valid comment/bug
         if (!count($comment)) return array("error" => "Invalid comment ID");
 
+        // make sure the user has the required permissions to edit the comment/bug
         if (!Objects::permission($object_id, "comment.edit", $_SESSION["username"], $comment[0]["Bug_Section_ID"]))
             return array("error" => "You do not have permission to perform that action");
 
@@ -53,6 +56,7 @@ class AjaxBugsEditCommentPage implements IPage {
             "section_slug" => $comment[0]["Section_Slug"]
         ));
 
+        // update the comment/bug in the database
         if ($is_bug) {
             Connection::query("UPDATE bugs SET Description = ?, Raw_Description = ? WHERE bugs.Object_ID = ?", "ssi",
                 array($value, $_POST['value'], $object_id));

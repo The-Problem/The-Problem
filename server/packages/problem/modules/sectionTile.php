@@ -14,9 +14,9 @@ class SectionTileModule implements IModule {
         $open = $section["Open_Bugs"];
         $all = $section["All_Bugs"];
 
-        //if ($open === 0) $open = "no";
         if ($all === 0) $all = "No";
 
+        // get the color or image for the section tile
         $style = "";
         if ($section["Color"] === 0) {
             Library::get("image");

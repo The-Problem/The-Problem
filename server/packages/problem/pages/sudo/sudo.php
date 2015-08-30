@@ -6,11 +6,13 @@ class SudoPage implements IPage {
         return Templates::findtemplate("default");
     }
     public function permission() {
+        // if SUDO is enabled, go to the provided return page
         if ($_SESSION['sudo']) {
             Path::redirect($_GET['return']);
             return true;
         }
 
+        // make sure the user is logged in and is an admin
         $username = $_SESSION["username"];
         if (!$username) return false;
 
@@ -29,6 +31,8 @@ class SudoPage implements IPage {
     public function body() {
         $message = "Please re-enter your password. You won't need to do this for another hour.";
 
+        // validate password if it is provided, and then redirect to return page or
+        // display an error message
         if (isset($_POST['password'])) {
             $res = Connection::query("SELECT Password FROM users WHERE Username = ?", "s", array($_SESSION['username']));
 

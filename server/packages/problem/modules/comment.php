@@ -15,9 +15,13 @@ class CommentModule implements IModule {
     public function spinnersize() { return Modules::SPINNER_LARGE; }
 
     public function getcode($comment = array(), Head $h) {
+        // create the Gravatar URL for the user icon
         $gravatar_id = md5(strtolower(trim($comment["Email"])));
         $gravatar = "http://www.gravatar.com/avatar/$gravatar_id?d=identicon&s=60";
 
+        // find the rank for the badges beside the users name
+        // remember that developers are per-section, so we have a special case
+        // here
         $r = $comment["Rank"];
         if ($comment["Is_Developer"]) $r = max(2, $r);
         $rank = $this->ranks[$r];
@@ -27,20 +31,23 @@ class CommentModule implements IModule {
 
         $userlink = htmlentities(Path::getclientfolder("~" . $comment["Username"]));
 
+        // get the data for the plus one box
         $has_plus_oned = $comment["My_Plus_Ones"];
-
         $next = $comment["Plus_Ones"];
         if ($has_plus_oned) $next--;
         else $next++;
 
         Library::get("objects");
 
+        // find what we can do
         $can_edit = Objects::permission($comment["Object_ID"], "comment.edit", $_SESSION["username"], $comment["Bug_Section_ID"]);
         $can_delete = Objects::permission($comment["Object_ID"], "comment.remove", $_SESSION["username"], $comment["Bug_Section_ID"]);
         $can_plusone = Objects::permission($comment["Object_ID"], "comment.upvote", $_SESSION["username"], $comment["Bug_Section_ID"]);
 
+        // get the current user's rank to decide on whether we should show the Permissions link
         $current_user = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($_SESSION['username']));
 
+        // output everything
         ?>
 <div class="comment" data-id="<?php echo $comment["Object_ID"]; ?>">
     <div class="left-column">

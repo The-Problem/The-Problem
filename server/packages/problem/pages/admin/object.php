@@ -51,6 +51,7 @@ class AdminObjectPage implements IPage {
             4 => "Administrator"
         );
 
+        // creates a <select> tag with the specified item selected
         function get_options($ranks, $rank) {
             $result = "";
 
@@ -61,6 +62,7 @@ class AdminObjectPage implements IPage {
             return $result;
         }
 
+        // list of permission names for different object types
         $permissions = array(
             0 => array(
                 "section.view" => "view the section",
@@ -82,8 +84,10 @@ class AdminObjectPage implements IPage {
             )
         );
 
+        // display the header
         echo "<h1>" . $type_str[$this->object_type] . " Permissions</h1>";
 
+        // fetch the permission values from the database
         $permission_names = $permissions[$this->object_type];
         $group_permissions = Connection::query("SELECT Permission_Name, Rank FROM grouppermissions WHERE Object_ID = ?",
             "i", array($this->object_id));
@@ -96,6 +100,7 @@ class AdminObjectPage implements IPage {
             $perm_rank = $permission["Rank"];
             $description = $permission_names[$perm_name];
 
+            // get any users with the permission granted
             $users = Connection::query("SELECT users.Username AS Username, Email FROM userpermissions
                                           JOIN users ON (userpermissions.Username = users.Username)
                                           WHERE Object_ID = ?
@@ -115,6 +120,7 @@ class AdminObjectPage implements IPage {
             <table class="user-list">
                 <?php
                 foreach ($users as $user) {
+                    // display the user icon
                     $gravatar_id = md5(strtolower(trim($user["Email"])));
                     $gravatar = "http://www.gravatar.com/avatar/$gravatar_id?d=identicon&s=30";
 

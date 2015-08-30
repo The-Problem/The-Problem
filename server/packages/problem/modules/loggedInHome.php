@@ -9,7 +9,8 @@ class LoggedInHomeModule implements IModule {
         $ids = Objects::user_permissions("section.view", $username);
         if (!count($ids)) $ids = array(0);
 
-
+        // build a part of the query based on the "section.view" permission, so we only select ones that
+        // we can actually view
         $amount = count($ids);
         $clause = implode(',', array_fill(0, $amount, '?'));
         $types = str_repeat('i', $amount);
@@ -22,6 +23,7 @@ class LoggedInHomeModule implements IModule {
 SELECT * FROM users
   WHERE Username = ?", "s", array($username));
 
+        // we show the sections that the user is developing in separately, so we need a separate query
         $devSections = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID
@@ -34,6 +36,7 @@ FROM sections
   AND sections.Object_ID IN ($clause)
 ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
 
+        // get the other sections that the user doesn't develop
         $sections = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID
@@ -60,6 +63,7 @@ ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
         <h2>Sections where you're a developer</h2>
         <div class="list-table">
             <?php
+            // output developer sections
             foreach($devSections as $section) {
                 Modules::getoutput("sectionTile", $section);
             }
@@ -72,9 +76,12 @@ ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
         <input class="search-box" type="search" placeholder="Search all sections" />
         <div class="list-table searchable">
             <?php
+            // output remaining sections
             foreach ($sections as $section) {
                 Modules::getoutput("sectionTile", $section);
             }
+
+            // this is shown if there are no search results
             ?>
             <div class="none" style="display:none">We couldn't find anything matching that query.</div>
         </div>
@@ -84,6 +91,7 @@ ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
         <?php
         Library::get("notifications");
 
+        // get all bugs and some statistics
         $bugs = Connection::query("
 SELECT *, (SELECT COUNT(*) FROM comments
            WHERE comments.Bug_ID = bugs.Bug_ID) AS Comments,
@@ -96,6 +104,9 @@ SELECT *, (SELECT COUNT(*) FROM comments
   WHERE Author = ? OR Assigned = ?
 ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username, $username));
 
+        // the bugs are limited to 5, and notifications are 10 - amount of bugs
+        // so we will always end up with at least 5 notifications if there are
+        // any
         $notifications = Notifications::get(array(
             "limit" => 10 - count($bugs)
         ));
@@ -127,6 +138,8 @@ ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username, $us
                     $comments = $bug["Comments"];
                     $plusones = $bug["Plusones"];
 
+                    // get the latest activity time, either from the latest comment
+                    // or the bug itself if there are no comments
                     $time = Connection::query("
 SELECT  COALESCE(
                   (SELECT MAX(Creation_Date) AS Creation_Date

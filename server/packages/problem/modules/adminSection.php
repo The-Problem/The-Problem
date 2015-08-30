@@ -13,6 +13,7 @@ class AdminSectionModule implements IModule {
          * "id" => The ID of the section
          */
 
+        // get information on the section we are displaying
         $sections = Connection::query("SELECT *, (SELECT COUNT(*) FROM bugs
            WHERE bugs.Section_ID = sections.Section_ID
            AND bugs.Status = 1) AS Open_Bugs,
@@ -22,10 +23,12 @@ class AdminSectionModule implements IModule {
         $section = $sections[0];
         $name = htmlentities($section["Name"]);
 
+        // fetch all developers to display in a table
         $developers = Connection::query("SELECT users.Username AS Username, Email FROM developers
                                            JOIN users ON (developers.Username = users.Username)
                                          WHERE developers.Section_ID = ?", "i", array($params["id"]));
 
+        // create the section tile
         $style = "";
         if ($section["Color"] === 0) {
             Library::get("image");
@@ -39,6 +42,7 @@ class AdminSectionModule implements IModule {
             $style = "background-image:url('" . htmlentities($img->clientpath) . "')";
         }
 
+        // calculate percentages for the bug stats
         $total = $section["Closed_Bugs"] + $section["Open_Bugs"];
         if ($total > 0) $percentage = $section["Closed_Bugs"] / $total;
         else $percentage = 1.1;
@@ -48,6 +52,7 @@ class AdminSectionModule implements IModule {
         else if ($developer_count === 1) $dev_str = "is 1 developer";
         else $dev_str = "are $developer_count developers";
 
+        // output everything
         ?>
 <div class="section-header">
     <a class="close" href="#"><i class="fa fa-minus-square"></i></a>

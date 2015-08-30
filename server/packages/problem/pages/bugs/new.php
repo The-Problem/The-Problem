@@ -37,16 +37,20 @@ class BugsNewPage implements IPage {
                 "section_slug" => $this->section
             ));
 
+            // calculate the new relative ID of the bug
             $rid = Connection::query("SELECT COUNT(*) + 1 AS New_RID FROM bugs WHERE bugs.Section_ID = ?", "i", array($this->section_id));
 
+            // create the bug object
             Connection::query("INSERT INTO bugs (Section_ID, Object_ID, Name, Status, Description, Raw_Description, Creation_Date, Author, RID)
                                          VALUES (         ?,         ?,    ?,      1,           ?,               ?,              ?,      ?,  ?)",
                 "iisssssi", array(
                     $this->section_id, $object_id, $_POST['name'], $value, $_POST['description'], date("Y-m-d H:i:s"), $_SESSION["username"], $rid[0]["New_RID"]
                 ));
 
+            // make the author of the bug follow the bug
             Connection::query("INSERT INTO watchers (Object_ID, Username) VALUES (?, ?)", "is", array($object_id, $_SESSION["username"]));
 
+            // add a notification to followers of the section
             Connection::query("INSERT INTO notifications
                                  (Triggered_By, Received_By,                    Target_One, Target_Two, Creation_Date, Type)
                           VALUES (           ?, (SELECT Username
@@ -54,6 +58,7 @@ class BugsNewPage implements IPage {
                                                  WHERE watchers.Object_ID = ?),          ?,          ?,             ?,    1)",
                 "siiis", array($_SESSION["username"], $this->section_obj, $object_id, $this->section_obj, date('Y-m-d H:i:s')));
 
+            // get default permission values
             $default_view = Connection::query("SELECT Value FROM configuration
                                              WHERE Type = 'permissions-default-bugs'
                                              AND Name = 'view'");
@@ -76,6 +81,7 @@ class BugsNewPage implements IPage {
                                                WHERE Type = 'permissions-default-comments'
                                                AND Name = 'upvote'");
 
+            // set permission defaults for ranks
             Objects::allow_rank($object_id, "bug.view", $default_view[0]["Value"]);
             Objects::allow_rank($object_id, "bug.change-status", $default_status[0]["Value"]);
             Objects::allow_rank($object_id, "comment.edit", $default_edit[0]["Value"]);
@@ -84,6 +90,7 @@ class BugsNewPage implements IPage {
             Objects::allow_rank($object_id, "bug.comment", $default_comment[0]["Value"]);
             Objects::allow_rank($object_id, "comment.upvote", $default_upvote[0]["Value"]);
 
+            // set permissions for the author of the bug
             Objects::allow_user($object_id, "bug.view", $_SESSION['username']);
             Objects::allow_user($object_id, "bug.change-status", $_SESSION["username"]);
             Objects::allow_user($object_id, "comment.edit", $_SESSION["username"]);
@@ -91,6 +98,7 @@ class BugsNewPage implements IPage {
             Objects::allow_user($object_id, "bug.comment", $_SESSION["username"]);
             Objects::allow_user($object_id, "comment.upvote", $_SESSION["username"]);
 
+            // redirect to the bug page
             Path::redirect(Path::getclientfolder("bugs", $this->section, $rid[0]["New_RID"]));
         }
 

@@ -16,6 +16,7 @@ class AjaxAdminPermissionRankPage implements IPage {
     public function head(Head &$head) { }
 
     public function body() {
+        // prevent changing anything without being logged in as an administrator
         $current_user = $_SESSION["username"];
         if (!$current_user) return array("error" => "You do not have the required permission to perform this action");
 
@@ -23,12 +24,14 @@ class AjaxAdminPermissionRankPage implements IPage {
         $rank = $rank_res[0]["Rank"];
         if ($rank < 4) return array("error" => "You do not have the required permission to perform this action");
 
+        // get the values from the URL
         $change_permission = $_GET["permission"];
         $change_object = $_GET["object"];
         $new_rank = $_GET["rank"];
 
         Library::get("objects");
 
+        // use the object library to set the rank
         Objects::allow_rank($change_object, $change_permission, $new_rank);
 
         return array("success" => true);
