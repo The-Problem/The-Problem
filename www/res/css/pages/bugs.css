@@ -1,7 +1,5 @@
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 p{
@@ -79,7 +77,6 @@ p{
 
 #bugsTable{
 	width: 960px;
-	min-height: 500px;
 }
 
 td{
@@ -129,7 +126,7 @@ tr{
 	margin: 5px;
 }
 
-.fa{
+.fa-black{
 	color: black;
 }
 

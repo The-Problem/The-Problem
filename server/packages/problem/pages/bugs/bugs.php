@@ -81,24 +81,32 @@ class BugsPage implements IPage {
                 </select>
                 </td>
             </tr>
-            <tr>
-                <td class="bugEntry">
-                    <div class="leftColumn">    
-                        <p class="bugName">asdasds</p>
-                        <p class="bugSubmitter">asdasdd</p>
-                    </div>
-                    <div class="rightColumn">
-                        <p class="RID">#23</p>
-                        <i class="fa fa-check"></i>
-                        <i class="fa fa-comment"></i>
-                        <p class="commentNumber">0</p>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-            </tr>
-            <tr>
-            </tr>
+            <?php
+            $bugs = Connection::query("SELECT bugs.Name, bugs.Bug_ID, bugs.Author, bugs.Creation_date, bugs.Status, bugs.RID  from bugs JOIN sections ON (sections.Section_ID = bugs.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
+
+            foreach ($bugs as $bug){
+                echo "<tr>
+                    <td class='bugEntry'>
+                        <div class='leftColumn'>
+                            <p class='bugName'>" . htmlentities($bug["Name"]) . "</p>
+                            <p class='bugSubmitter'> Submitted";
+            ?>
+
+            <span class="timeago" title="<?php echo date("c", strtotime($bug["Creation_Date"])); ?>"></span>
+
+            <?php
+                echo " ago by " . htmlentities($bug["Author"]) . "</p>
+                        </div>
+                         
+                        <div class='rightColumn'>
+                            <p class='RID'>" . htmlentities($bug["RID"]) . "</p>
+                            <i class='fa fa-check fa-black'></i>
+                            <i class='fa fa-comment fa-black'></i>
+                            <p class='commentNumber'>0</p>
+                        </div>
+                    </td>
+                </tr>";}
+            ?>
         </table>
     </div>
 </div>
