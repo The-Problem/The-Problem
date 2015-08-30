@@ -118,7 +118,7 @@ class BugsNewPage implements IPage {
             Objects::allow_rank($object_id, "bug.view", $default_view[0]["Value"]);
             Objects::allow_rank($object_id, "bug.change-status", $default_status[0]["Value"]);
             Objects::allow_rank($object_id, "comment.edit", $default_edit[0]["Value"]);
-            Objects::allow_rank($object_id, "comment.delete", $default_delete[0]["Value"]);
+            Objects::allow_rank($object_id, "comment.remove", $default_delete[0]["Value"]);
             Objects::allow_rank($object_id, "bug.assign", $default_assign[0]["Value"]);
             Objects::allow_rank($object_id, "bug.comment", $default_comment[0]["Value"]);
             Objects::allow_rank($object_id, "comment.upvote", $default_upvote[0]["Value"]);
