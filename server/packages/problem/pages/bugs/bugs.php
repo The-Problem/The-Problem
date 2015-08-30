@@ -69,6 +69,7 @@ class BugsPage implements IPage {
         $authors = Connection::query("SELECT DISTINCT bugs.Author from bugs JOIN sections ON (sections.Section_ID = bugs.Section_ID) WHERE sections.Slug = ?","s",array($this->section));
         
         $current_user = Connection::query("SELECT Rank FROM users WHERE Username = ?", "s", array($_SESSION['username']));
+        $section = Connection::query("SELECT Object_ID FROM sections WHERE Slug = ?", "s", array($this->section));
         ?>
 
 <div id="sectionHead">
