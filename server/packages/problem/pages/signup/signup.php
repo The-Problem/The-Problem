@@ -60,7 +60,7 @@ class SignupPage implements IPage{
 			if ($_POST["password"] != $_POST['rpassword']){
 				return 2;
 			}
-			if (!Users::emailAvailable($_POST['email'])){
+			if (!Users::emailAvailable($_POST['email'], true)){
 				return 2;
 			}
 			if (!$this::passedCAPTCHA()){

@@ -124,7 +124,7 @@ function testName(name){
 }
 
 function testEmail(address){
-	var request = LimePHP.request("get", LimePHP.path("ajax/signup/checkEmail"), { "address": address }, "json");
+	var request = LimePHP.request("get", LimePHP.path("ajax/signup/checkEmail"), { "address": address, "new": true }, "json");
 	request.success = setEmailSuccess;
 	request.error = setEmailFail;
 	return 2;

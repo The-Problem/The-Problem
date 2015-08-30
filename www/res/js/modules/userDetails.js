@@ -1,6 +1,5 @@
 LimePHP.register("modules.userDetails", function() {
 	document.getElementById('userDetailsButton').addEventListener('click', openUserPanel, false);
-	showPanel();
 
 	function openUserPanel(event){
 		showPanel();
@@ -136,7 +135,7 @@ LimePHP.register("modules.userDetails", function() {
 	}
 
 	function testEmail(address){
-		var request = LimePHP.request("get", LimePHP.path("ajax/signup/checkEmail"), { "address": address }, "json");
+		var request = LimePHP.request("get", LimePHP.path("ajax/signup/checkEmail"), { "address": address, "new": false }, "json");
 		request.success = setEmailSuccess;
 		request.error = setEmailFail;
 		return 2;
