@@ -24,7 +24,12 @@ class AjaxBugsPlusOneCommentPage implements IPage {
 
         Library::get("objects");
 
-        if (!Objects::permission($id, 'comment.upvote', $_SESSION["username"])) return array("error" => "You do not have permission to perform that action");
+        $section = Connection::query("SELECT bugs.Section_ID AS Section_ID FROM bugs
+                                        LEFT JOIN comments ON (comments.Bug_ID = bugs.Bug_ID)
+                                      WHERE comments.Object_ID = ?
+                                         OR bugs.Object_ID = ?", "ii", array($id, $id));
+
+        if (!Objects::permission($id, 'comment.upvote', $_SESSION["username"], $section[0]["Section_ID"])) return array("error" => "You do not have permission to perform that action");
 
         if ($action === 'downvote') {
             Connection::query("DELETE FROM plusones WHERE Object_ID = ? AND Username = ?", "is", array(

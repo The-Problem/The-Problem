@@ -19,8 +19,8 @@ class CommentsModule implements IModule {
                                                   WHERE developers.Section_ID = ?
                                                   AND developers.Username = comments.Username) AS Is_Developer
                                          FROM comments
-                                         JOIN objects ON (comments.Object_ID = objects.Object_ID)
-                                         JOIN users ON (comments.Username = users.Username)
+                                           JOIN objects ON (comments.Object_ID = objects.Object_ID)
+                                           JOIN users ON (comments.Username = users.Username)
                                          WHERE comments.Bug_ID = ?", "sii", array($_SESSION["username"], $bug["Section_ID"], $bug["Bug_ID"]));
 
 
@@ -50,12 +50,14 @@ SELECT COUNT(*) AS Plus_Ones,
         "Plus_Ones" => $plusones[0]["Plus_Ones"],
         "My_Plus_Ones" => $plusones[0]["Mine"],
         "Is_Developer" => $poster[0]["Is_Developer"],
-        "Object_ID" => $bug["Bug_ObjectID"]
+        "Object_ID" => $bug["Bug_ObjectID"],
+        "Bug_Section_ID" => $bug["Section_ID"]
     ));
 
     Library::get("modules");
     foreach ($comments as $comment) {
         $comment["Bug_Author"] = $bug["Author"];
+        $comment["Bug_Section_ID"] = $bug["Section_ID"];
         Modules::getoutput("comment", $comment);
     }
 

@@ -35,8 +35,8 @@ class CommentModule implements IModule {
 
         Library::get("objects");
         //var_dump($comment["Object_ID"]);
-        $can_edit = Objects::permission($comment["Object_ID"], "comment.edit", $_SESSION["username"]);
-        $can_delete = Objects::permission($comment["Object_ID"], "comment.remove", $_SESSION["username"]);
+        $can_edit = Objects::permission($comment["Object_ID"], "comment.edit", $_SESSION["username"], $comment["Section_ID"]);
+        $can_delete = Objects::permission($comment["Object_ID"], "comment.remove", $_SESSION["username"], $comment["Section_ID"]);
 
         ?>
 <div class="comment" data-id="<?php echo $comment["Object_ID"]; ?>">

@@ -18,8 +18,15 @@ class AjaxBugsRemoveCommentPage implements IPage {
     public function body() {
         $object_id = $_GET['id'];
 
+        $comment = Connection::query("
+        SELECT bugs.Section_ID AS Bug_Section_ID FROM comments
+          JOIN bugs ON (comments.Bug_ID = bugs.Bug_ID)
+          JOIN sections ON (bugs.Section_ID = sections.Section_ID)
+        WHERE comments.Object_ID = ?
+        ", "i", array($object_id));
+
         Library::get('objects');
-        if (!Objects::permission($object_id, 'comment.remove', $_SESSION['username']))
+        if (!Objects::permission($object_id, 'comment.remove', $_SESSION['username'], $comment[0]["Bug_Section_ID"]))
             return array("error" => "You do not have permission to perform this action");
 
         Connection::query("DELETE FROM comments WHERE Object_ID = ?", "i", array($object_id));

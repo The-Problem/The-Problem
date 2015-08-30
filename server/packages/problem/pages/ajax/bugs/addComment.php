@@ -25,8 +25,8 @@ class AjaxBugsAddCommentPage implements IPage {
         if (!count($bug)) return array("error" => "Invalid bug ID");
 
         Library::get('objects');
-        //$can_comment = Objects::permission($bug["Object_ID"], "bug.comment", $_SESSION["username"], $bug["Section_ID"]);
-        $can_comment = true;
+        $can_comment = Objects::permission($bug[0]["Object_ID"], "bug.comment", $_SESSION["username"], $bug[0]["Section_ID"]);
+        //$can_comment = true;
 
         if (!$can_comment) return array("error" => "You do not have permission to perform that action");
 
