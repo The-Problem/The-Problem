@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 30, 2015 at 04:18 PM
+-- Generation Time: Aug 30, 2015 at 04:53 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.9
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `bugs` (
   `RID` int(11) NOT NULL,
   `Assigned` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
   `Raw_Description` longtext COLLATE latin1_general_cs NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `bugs`
@@ -50,7 +50,8 @@ INSERT INTO `bugs` (`Bug_ID`, `Section_ID`, `Object_ID`, `Name`, `Status`, `Desc
   (8, 3, 14, 'Statewide Block', 1, '<p>Section tiles on the home page are all saying &quot;Statewide Block&quot;.</p>', '2015-08-30 05:22:20', 'mrfishie', NULL, 1, NULL, 'Section tiles on the home page are all saying "Statewide Block".'),
   (9, 3, 15, 'Improvement: Rainbow Background', 1, '<p>A rainbow background on the homepage of The Problem would make everyone''s lives much happier. This is a much needed feature.</p>', '2015-08-30 05:23:09', 'mrfishie', NULL, 2, NULL, 'A rainbow background on the homepage of The Problem would make everyone''s lives much happier. This is a much needed feature.'),
   (10, 1, 16, 'Oversized Buttons', 1, '<p>Buttons on the logon page are the size of the entire screen.</p>', '2015-08-30 05:23:32', 'mrfishie', NULL, 4, NULL, 'Buttons on the logon page are the size of the entire screen.'),
-  (11, 1, 17, 'Character Jumble', 1, '<p>All the characters in my username have become jumbled up.</p>', '2015-08-30 05:24:00', 'mrfishie', NULL, 5, NULL, 'All the characters in my username have become jumbled up.');
+  (11, 1, 17, 'Character Jumble', 1, '<p>All the characters in my username have become jumbled up.</p>', '2015-08-30 05:24:00', 'mrfishie', NULL, 5, NULL, 'All the characters in my username have become jumbled up.'),
+  (12, 5, 18, 'Help!', 4, '<p>What do I do?</p>', '2015-08-30 14:23:01', 'radke', NULL, 1, NULL, 'What do I do?');
 
 -- --------------------------------------------------------
 
@@ -67,7 +68,15 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `Edit_Date` datetime DEFAULT NULL,
   `Comment_Text` text COLLATE latin1_general_cs NOT NULL,
   `Raw_Text` longtext COLLATE latin1_general_cs NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`Comment_ID`, `Bug_ID`, `Username`, `Object_ID`, `Creation_Date`, `Edit_Date`, `Comment_Text`, `Raw_Text`) VALUES
+  (1, 12, 'mrfishie', 19, '2015-08-30 14:24:49', NULL, '<p>Hi, <a href="http://localhost/The-Problem/www/%7Eradke/">@radke</a>, on the homepage, you can select a section. Sections contain a list of bugs, and you can view a bug and its comments by clicking on it. There''s also a <strong>NEW</strong> button which you can use to create new bugs.</p>', 'Hi, @radke, on the homepage, you can select a section. Sections contain a list of bugs, and you can view a bug and its comments by clicking on it. There''s also a **NEW** button which you can use to create new bugs.'),
+  (2, 12, 'mrfishie', 20, '2015-08-30 14:40:03', NULL, '<p><a href="http://localhost/The-Problem/www/%7Eradke/">@radke</a> we are currently working on this issue and will inform you when it is complete.</p>', '@radke we are currently working on this issue and will inform you when it is complete.');
 
 -- --------------------------------------------------------
 
@@ -141,7 +150,9 @@ INSERT INTO `developers` (`Section_ID`, `Username`) VALUES
   (2, 'exterminate'),
   (2, 'mrfishie'),
   (3, 'mrfishie'),
-  (4, 'mrfishie');
+  (4, 'mrfishie'),
+  (2, 'radke'),
+  (5, 'radke');
 
 -- --------------------------------------------------------
 
@@ -247,7 +258,20 @@ INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
   (17, 'bug.view', 0),
   (17, 'comment.edit', 2),
   (17, 'comment.remove', 3),
-  (17, 'comment.upvote', 1);
+  (17, 'comment.upvote', 1),
+  (18, 'bug.assign', 2),
+  (18, 'bug.change-status', 2),
+  (18, 'bug.comment', 1),
+  (18, 'bug.view', 0),
+  (18, 'comment.edit', 2),
+  (18, 'comment.remove', 3),
+  (18, 'comment.upvote', 1),
+  (19, 'comment.edit', 2),
+  (19, 'comment.remove', 3),
+  (19, 'comment.upvote', 1),
+  (20, 'comment.edit', 2),
+  (20, 'comment.remove', 3),
+  (20, 'comment.upvote', 1);
 
 -- --------------------------------------------------------
 
@@ -264,14 +288,18 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `Creation_Date` datetime NOT NULL,
   `IsRead` tinyint(1) NOT NULL DEFAULT '0',
   `Type` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `notifications`
 --
 
 INSERT INTO `notifications` (`Notification_ID`, `Triggered_By`, `Received_By`, `Target_One`, `Target_Two`, `Creation_Date`, `IsRead`, `Type`) VALUES
-  (1, 'mrfishie', 'dr2n', 2, 8, '2015-08-30 05:15:22', 0, 3);
+  (1, 'mrfishie', 'dr2n', 2, 8, '2015-08-30 05:15:22', 0, 3),
+  (2, 'mrfishie', 'radke', 19, 18, '2015-08-30 14:24:49', 0, 5),
+  (3, 'mrfishie', 'radke', 19, 18, '2015-08-30 14:24:49', 0, 3),
+  (4, 'mrfishie', 'radke', 19, 18, '2015-08-30 14:25:04', 0, 5),
+  (5, 'mrfishie', 'radke', 20, 18, '2015-08-30 14:40:02', 0, 5);
 
 -- --------------------------------------------------------
 
@@ -282,7 +310,7 @@ INSERT INTO `notifications` (`Notification_ID`, `Triggered_By`, `Received_By`, `
 CREATE TABLE IF NOT EXISTS `objects` (
   `Object_ID` int(11) NOT NULL,
   `Object_Type` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `objects`
@@ -305,7 +333,10 @@ INSERT INTO `objects` (`Object_ID`, `Object_Type`) VALUES
   (14, 1),
   (15, 1),
   (16, 1),
-  (17, 1);
+  (17, 1),
+  (18, 1),
+  (19, 2),
+  (20, 2);
 
 -- --------------------------------------------------------
 
@@ -318,6 +349,13 @@ CREATE TABLE IF NOT EXISTS `plusones` (
   `Username` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `Time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+--
+-- Dumping data for table `plusones`
+--
+
+INSERT INTO `plusones` (`Object_ID`, `Username`, `Time`) VALUES
+  (18, 'mrfishie', '2015-08-30 14:25:11');
 
 -- --------------------------------------------------------
 
@@ -427,7 +465,17 @@ INSERT INTO `userpermissions` (`Object_ID`, `Permission_Name`, `Username`) VALUE
   (17, 'bug.view', 'mrfishie'),
   (17, 'comment.assign', 'mrfishie'),
   (17, 'comment.edit', 'mrfishie'),
-  (17, 'comment.upvote', 'mrfishie');
+  (17, 'comment.upvote', 'mrfishie'),
+  (19, 'comment.edit', 'mrfishie'),
+  (19, 'comment.remove', 'mrfishie'),
+  (20, 'comment.edit', 'mrfishie'),
+  (20, 'comment.remove', 'mrfishie'),
+  (18, 'bug.change-status', 'radke'),
+  (18, 'bug.comment', 'radke'),
+  (18, 'bug.view', 'radke'),
+  (18, 'comment.assign', 'radke'),
+  (18, 'comment.edit', 'radke'),
+  (18, 'comment.upvote', 'radke');
 
 -- --------------------------------------------------------
 
@@ -464,7 +512,7 @@ INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `La
   ('Liam', 'LIAM@mailinator.net', 'Liam Prok', '$2y$10$Kkmh9Y3aAjmqVraLy0jGd.8y0joHcnL4gWDCidDLhEjBp568z3TK6', 1, '', NULL),
   ('meltingPoint', 'mp@mailinator.net', 'Jess', '$2y$10$8mQX8.RooNnye.zStiHmc.45lVDR2uU11a3zMVmaQ9H3F.lptjeP.', 1, '', NULL),
   ('MichaelK', 'mike@mailinator.net', 'Michael', '$2y$10$WvnzAt1GpmdtzTpWBlIAt.7hjD6hV3GPdXhj2OucoUTKCHqIwO9Om', 1, '', NULL),
-  ('mrfishie', 'mrfishie101@hotmail.com', 'Tom', '$2y$10$U5ETgL5NPBp9tBnXvch2DOJa3sdv4cwzsn6R4KtWvFjP0Mn/0pAdW', 4, '', NULL),
+  ('mrfishie', 'mrfishie101@hotmail.com', 'Tom', '$2y$10$U5ETgL5NPBp9tBnXvch2DOJa3sdv4cwzsn6R4KtWvFjP0Mn/0pAdW', 4, '', '2015-08-30 14:52:23'),
   ('powerRangers46', 'pewpew@mailinator.net', 'Zac Langlands', '$2y$10$gaWKZaH7MynEmM3jh2kedufZteWHLylkSIq3OSemQc.MndX1JtZ46', 1, '', NULL),
   ('radke', 'example@example.com', 'Mrs Radke', '$2y$10$CVmMTAeBcGtsimNMKB8xpe05QFqvXjjmOVdYD0Xx6kWjGNXYWuQ0S', 4, 'I''m a teacher!', NULL),
   ('SmithJohn', 'jsjs@mailinator.net', 'John Smith', '$2y$10$2li2WzaQKhw/3zV23ViRKeXxRaHzHczYyw0V.w3nQtMBosSICxp4.', 1, 'Part human, part Timelord.', NULL),
@@ -502,7 +550,12 @@ INSERT INTO `watchers` (`Object_ID`, `Username`) VALUES
   (14, 'mrfishie'),
   (15, 'mrfishie'),
   (16, 'mrfishie'),
-  (17, 'mrfishie');
+  (17, 'mrfishie'),
+  (18, 'mrfishie'),
+  (19, 'mrfishie'),
+  (3, 'radke'),
+  (6, 'radke'),
+  (18, 'radke');
 
 --
 -- Indexes for dumped tables
@@ -610,12 +663,12 @@ ADD KEY `Username` (`Username`);
 -- AUTO_INCREMENT for table `bugs`
 --
 ALTER TABLE `bugs`
-MODIFY `Bug_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `Bug_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `Comment_ID` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `Comment_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `cookies`
 --
@@ -625,12 +678,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-MODIFY `Notification_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `Notification_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `objects`
 --
 ALTER TABLE `objects`
-MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `sections`
 --
