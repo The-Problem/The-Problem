@@ -52,13 +52,6 @@
 			}
 		}
 
-		public static function emailAvailable($email) {
-			// todo: darren
-			return true;
-		}
-
-	
-
 		//returns whether a username may be used
 		public static function usernameAvailable($username){
 			//returns whether a username is availale for use
