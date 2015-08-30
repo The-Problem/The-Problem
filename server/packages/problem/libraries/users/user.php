@@ -21,16 +21,14 @@
 		//change the password
 		public function setPassword($newPassword){
 			Library::get('password');
-			//find current password
-			/*$currentPasswordQuery = 
-					"SELECT Password
-					FROM users
-					WHERE username = ?";
-			$currentPassword = Connection::query($currentPasswordQuery, "s", array($this->username))[0]['password'];
 
-			if ($newPass)
-			$query = "UPDATE users SET Password = ? WHERE Username = ?'";
-			$queryResult = Connection::query($query, "ss", array($newPassword, $this->username));*/
+			if (strlen($newPassword) < 8){
+				return false;
+			}
+
+			if (!preg_match('/\d/', $password) || !preg_match('/[A-Z]/i', $password)){
+				return false;
+			}
 
 			$passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
 
@@ -38,6 +36,7 @@
 					"UPDATE users SET Password = ? WHERE Username = ?";
 			$setPassword = Connection::query($setPasswordQuery, "ss", array($passwordHash, $this->username));
 
+			return true;
 		}
 
 		//changes the bio of the current user
@@ -189,7 +188,7 @@
 
 						'<body style="padding-left: 0px; padding-right: 0px; padding-top: 0px; padding-bottom: 0px; margin-left: 0px; margin-right: 0px;' 
 						. 'margin-top: 0px; margin-bottom: 0px"><div style="font-family: sans-serif">'. "\r\n" 
-						."<h1>Welcome To" . $title_res[0]["Value"] . "!</h1>"
+						."<h1>Welcome To" . htmlentities(Pages::$template->title) . "!</h1>"
 						."<p>Click the link below to verify your account and get started.</p><br>"
 						.'<a href="' . $verifyLink . '">' . $verifyLink . "</a></div></body>";
 

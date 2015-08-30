@@ -18,10 +18,12 @@ class AjaxSignupCheckEmailPage implements IPage {
     
     public function body() {  
 	    header('Content-type: application/json');
+        Library::get('users');
 
-		$result = filter_var($_GET['address'], FILTER_VALIDATE_EMAIL);
+        $status = Users::emailAvailable($_GET['address']);
+
 		$returnArray = array(
-			"result" => $result
+			"result" => $status
 		);
 
 		echo json_encode($returnArray);

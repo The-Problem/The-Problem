@@ -15,6 +15,10 @@
 
 		//create user from required information
 		public static function newUser($username, $password, $name, $email){
+			if (!self::usernameAvailable($username) || !self::emailAvailable($email)){
+				return false;
+			}
+			
 			$username = htmlentities(trim($username));
 			$name = htmlentities(trim($name));
 			$email = htmlentities(trim($email));
@@ -26,10 +30,8 @@
 			$freshUser = self::getUser($username);
 			$freshUser->setPassword($password);
 
-			$_SESSION['username'] = $username;
-
 			self::login($username, $password);
-			return $query;
+			return $true;
 		}
 
 		//returns User object with properties and methods for a single user
@@ -61,18 +63,34 @@
 		public static function usernameAvailable($username){
 			//returns whether a username is availale for use
 			if (strlen($username) < 2 || strpos($username, " ")){
-				return false;
+				return 2;
 			}
 
 			$usernameQuery  = "SELECT COUNT(Username) FROM users WHERE Username = ? ";
 			$queryResult = Connection::query($usernameQuery, "s", array($username));
 
 			if ($queryResult[0]["COUNT(Username)"] == 0){
-				return true;
+				return 1;
 			}else{
-				return false;
+				return 0;
 			}
 
+		}
+
+		public static function emailAvailable($email){
+			if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+				return 2;
+			}
+
+			$emailQuery = 
+					"SELECT Username FROM users WHERE Email = ?";
+			$queryResult = Connection::query($emailQuery, "s", array($email));
+
+			if ($queryResult){
+				return 1;
+			}
+
+			return 0;
 		}
 		
 		//logs user in using $_SESSION[]
