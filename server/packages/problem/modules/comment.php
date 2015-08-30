@@ -53,7 +53,7 @@ class CommentModule implements IModule {
             <?php if ($can_delete) { ?><div class="right delete"><a href="javascript:void(0)" title="Delete this comment"><i class="fa fa-times"></i></a></div><?php } ?>
             <?php if ($can_edit) { ?><div class="right edit"><a href="javascript:void(0)" title="Edit this comment"><i class="fa fa-pencil"></i></a></div><?php } ?>
 
-            <div class="right plus-one<?php if ($can_plusone) echo " can"; ?>" data-has="<?php if ($has_plus_oned) echo 'true'; else echo 'false'; ?>">
+            <div class="right plus-one<?php if (!$can_plusone) echo " cant"; ?>" data-has="<?php if ($has_plus_oned) echo 'true'; else echo 'false'; ?>">
                 <?php if ($can_plusone) { ?><a href="javascript:void(0)" title="+1 this comment"><?php } ?>
                 <span class="current"><?php echo $comment["Plus_Ones"];
                     ?></span><span class="hover"> <?php if ($has_plus_oned) echo '-'; else echo '+';

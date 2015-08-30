@@ -91,7 +91,7 @@
 .comment .plus-one .hover, .comment .plus-one .next, .comment .plus-one .equals {
     width:0;
 }
-.comment .plus-one.can:hover .hover, .comment .plus-one.enabled .hover {
+.comment .plus-one:hover .hover, .comment .plus-one.enabled .hover {
     width:22px;
     margin-right:5px;
 }
