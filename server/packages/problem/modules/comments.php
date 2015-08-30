@@ -2,7 +2,6 @@
 class CommentsModule implements IModule {
     public function __construct() {
         Pages::$head->stylesheet("modules/comments");
-        Pages::$head->script("lib/jquery.timeago");
         Pages::$head->script("lib/autosize.min");
         Pages::$head->script("modules/comments");
     }

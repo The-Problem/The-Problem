@@ -161,14 +161,27 @@ SELECT *, (SELECT COUNT(*) FROM comments
   WHERE Author = ? OR Assigned = ?
 ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username, $username));
 
-        $notifications = Notifications::get(10 - count($bugs));
+        $notifications = Notifications::get(array(
+            "limit" => 10 - count($bugs)
+        ));
 
         ?>
     <div class="right-column">
         <h2>Notifications</h2>
         <div class="notification-list">
-            <?php if (strlen($notifications)) echo $notifications;
-                  else echo "<p class='none'>No notifications yet</p>"; ?>
+            <?php if (count($notifications)) {
+                foreach ($notifications as $notification) {
+                    ?>
+                    <section>
+                        <p class="message"><?php echo $notification["message"]; ?></p>
+                        <p class="stats">
+                            <span class="timeago" title="<?php echo date('c', $notification["time"]); ?>"></span>
+                            - <a href="<?php echo Path::getclientfolder("bugs", $notification["sectionSlug"]); ?>"><?php echo htmlentities($notification["section"]); ?></a>
+                        </p>
+                    </section>
+                    <?php
+                }
+            } else echo "<p class='none'>No notifications yet</p>"; ?>
         </div>
 
         <h2>My Bugs</h2>

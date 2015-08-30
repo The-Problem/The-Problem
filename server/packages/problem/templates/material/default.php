@@ -22,6 +22,8 @@ class DefaultTemplate implements ITemplate {
         $head->stylesheet("templates/default");
         $head->stylesheet("http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,700,700italic", true);
 
+        $head->script("lib/jquery.timeago");
+
         $head->package("problem");
         $head->addcode("<link type='text/plain' rel='author' href='" . Path::getclientfolder() . "humans.txt' />");
 

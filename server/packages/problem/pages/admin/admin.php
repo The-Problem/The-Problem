@@ -156,8 +156,6 @@ FROM sections
         <?php
     }
     public function users() {
-        Pages::$head->script("lib/jquery.timeago");
-
         $ranks = array(
             0 => "Unverified",
             1 => "Standard",
