@@ -28,10 +28,10 @@ CREATE TABLE IF NOT EXISTS `bugs` (
   `Status` int(11) NOT NULL,
   `Description` text COLLATE latin1_general_cs,
   `Creation_Date` datetime NOT NULL,
-  `Author` varchar(20) COLLATE latin1_general_cs NOT NULL,
+  `Author` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `Edit_Date` datetime DEFAULT NULL,
   `RID` int(11) NOT NULL,
-  `Assigned` varchar(20) COLLATE latin1_general_cs DEFAULT NULL
+  `Assigned` varchar(20) COLLATE latin1_general_ci DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
@@ -256,8 +256,8 @@ INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
 
 CREATE TABLE IF NOT EXISTS `notifications` (
   `Notification_ID` int(11) NOT NULL,
-  `Triggered_By` varchar(20) COLLATE latin1_general_cs DEFAULT NULL,
-  `Received_By` varchar(20) COLLATE latin1_general_cs NOT NULL,
+  `Triggered_By` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `Received_By` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `Target_One` int(11) NOT NULL,
   `Target_Two` int(11) DEFAULT NULL,
   `Creation_Date` datetime NOT NULL,
