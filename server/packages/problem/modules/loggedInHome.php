@@ -7,6 +7,9 @@ class LoggedInHomeModule implements IModule {
 
         Library::get("objects");
         $ids = Objects::user_permissions("section.view", $username);
+        if (!count($ids)) $ids = array(0);
+
+
         $amount = count($ids);
         $clause = implode(',', array_fill(0, $amount, '?'));
         $types = str_repeat('i', $amount);
@@ -75,7 +78,7 @@ ORDER BY Open_Bugs DESC, All_Bugs DESC", "s$types", $params);
             ?>
             <div class="none" style="display:none">We couldn't find anything matching that query.</div>
         </div>
-        <?php } else { ?><div class="none">Nothing here just yet...<?php } } ?>
+        <?php } else { ?><div class="none">Nothing here just yet...</div><?php } } ?>
     </div>
     <div class="right-column">
         <?php
@@ -113,10 +116,10 @@ ORDER BY Edit_Date DESC, Creation_Date DESC LIMIT 5", "ss", array($username, $us
                 }
             } else echo "<p class='none'>No notifications yet</p>"; ?>
         </div>
+        <?php if (count($bugs)) { ?>
         <h2>My Bugs</h2>
         <div class="notification-list">
             <?php
-            if (count($bugs)) {
                 foreach ($bugs as $bug) {
                     $url = Path::getclientfolder("bugs", $bug["Slug"], $bug["RID"]);
                     $title = htmlentities($bug["Bug_Name"]);
@@ -146,9 +149,9 @@ FROM bugs
                     </section>
                     <?php
                 }
-            } else echo "<p class='none'>You don't have any bugs yet</p>";
             ?>
         </div>
+        <?php } ?>
     </div>
 </div>
 

@@ -86,6 +86,13 @@ class BugsNewPage implements IPage {
 
             Connection::query("INSERT INTO watchers (Object_ID, Username) VALUES (?, ?)", "is", array($object_id, $_SESSION["username"]));
 
+            Connection::query("INSERT INTO notifications
+                                 (Triggered_By, Received_By,                    Target_One, Target_Two, Creation_Date, Type)
+                          VALUES (           ?, (SELECT Username
+                                                   FROM watchers
+                                                 WHERE watchers.Object_ID = ?),          ?,          ?,             ?,    1)",
+                "siiis", array($_SESSION["username"], $this->section_obj, $object_id, $this->section_obj, date('Y-m-d H:i:s')));
+
             $default_view = Connection::query("SELECT Value FROM configuration
                                              WHERE Type = 'permissions-default-bugs'
                                              AND Name = 'view'");
