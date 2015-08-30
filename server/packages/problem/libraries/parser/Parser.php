@@ -58,7 +58,7 @@ class Parser {
                 Connection::query("INSERT INTO notifications
                                      (Triggered_By, Received_By, Target_One, Target_Two, Creation_Date, Type)
                               VALUES (           ?,           ?,          ?,          ?,             ?,    5)", "ssiis", array(
-                    $user_from, $name, $properties["parent_object_id"], $properties["current_object_id"], date('Y-m-d H:i:s')
+                    $user_from, $name, $properties["current_object_id"], $properties["parent_object_id"], date('Y-m-d H:i:s')
                 ));
 
                 // replace instances in the text
