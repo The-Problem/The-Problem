@@ -41,7 +41,7 @@ class Parser {
                 // trigger a notification for the user
                 Connection::query("INSERT INTO notifications
                                      (Triggered_By, Received_By, Target_One, Target_Two, Creation_Date, Type)
-                              VALUES (           ?,           ?,          ?,          ?,             ?,    3)", "ssiis", array(
+                              VALUES (           ?,           ?,          ?,          ?,             ?,    5)", "ssiis", array(
                     $user_from, $name, $properties["parent_object_id"], $properties["current_object_id"], date('Y-m-d H:i:s')
                 ));
 
