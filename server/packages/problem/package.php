@@ -7,7 +7,8 @@ class ProblemPackage implements IPackage {
                 "objects",
                 "users",
                 "notifications",
-                "parsedown"
+                "parsedown",
+                "parser"
             ),
             "Modules" => array(
                 "terminal",

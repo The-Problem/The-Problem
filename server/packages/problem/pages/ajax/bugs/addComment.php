@@ -33,51 +33,13 @@ class AjaxBugsAddCommentPage implements IPage {
         Connection::query("INSERT INTO objects (Object_Type) VALUES (?)", "i", array(2));
         $object_id = Connection::insertid();
 
-        // find @mentions
-        $value = $_POST['value'];
-
-        $mentions = array();
-        preg_match_all("/@([^@ ]+)/", $value, $mentions);
-
-        $items = array_unique($mentions[1]);
-        foreach ($items as $name) {
-            $user = Connection::query("SELECT Username FROM users WHERE Username = ?", "s", array($name));
-            if (count($user)) {
-                Connection::query("INSERT INTO notifications
-                                     (Triggered_By, Received_By, Target_One, Target_Two, Creation_Date, Type)
-                              VALUES (           ?,           ?,          ?,          ?,             ?,    ?)", "ssiisi", array(
-                    $_SESSION["username"], $name, $bug[0]["Object_ID"], $object_id, date('Y-m-d H:i:s'), 3
-                ));
-
-                $value = str_replace("@$name", "[@$name](" . Path::getclientfolder("~$name") . ")", $value);
-            }
-        }
-
-        // find #bugs
-        $bug_refs = array();
-        preg_match_all("/([\\w-]*)#(\\d+)/", $value, $bug_refs);
-
-        $section_names = $bug_refs[1];
-        $bug_ids = $bug_refs[2];
-
-        $bugs = array();
-        foreach ($bug_ids as $k => $id) {
-            $section_name = $section_names[$k];
-            if (!strlen($section_name)) {
-                $section_name = $bug[0]["Section_Slug"];
-                array_push($bugs, array(strtolower($section_name), $id, "#$id"));
-            }
-
-            array_push($bugs, array(strtolower($section_name), $id, "$section_name#$id"));
-        }
-        $unique_bugs = array_unique($bugs);
-        foreach ($unique_bugs as $b) {
-            $value = str_replace($b[2], "[" . $b[2] . "](" . Path::getclientfolder("bugs", $b[0], $b[1])  . ")", $value);
-        }
-
-        Library::get('parsedown');
-        $parsedown = new Parsedown();
-        $value = $parsedown->text($value);
+        // Parse contents of the comment
+        Library::get("parser");
+        $value = Parser::parse($_POST['value'], $_SESSION["username"], array(
+            "parent_object_id" => $bug[0]["Object_ID"],
+            "current_object_id" => $object_id,
+            "section_slug" => $bug["Section_Slug"]
+        ));
 
         Connection::query("INSERT INTO comments (Bug_ID, Username, Object_ID, Creation_Date, Edit_Date, Comment_Text, Raw_Text)
                                          VALUES (     ?,        ?,         ?,             ?,      NULL,            ?,        ?)",

@@ -1,0 +1,7 @@
+{
+    "name": "Parser",
+    "author": "Tom Barham",
+    "description": "Parses the content in bugs and comments",
+    "requires": [],
+    "load": ["Parser"]
+}
