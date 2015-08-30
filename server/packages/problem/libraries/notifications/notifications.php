@@ -156,7 +156,7 @@
 
 			}else if($type == self::TYPE_MENTION){
 				$commentQuery =
-								"SELECT Comment_Text, sections.Section_Name as 'Section_Name'
+								"SELECT Comment_Text, sections.Name as 'Section_Name'
 								FROM comments
 									LEFT JOIN bugs ON comments.Bug_ID = bugs.Bug_ID
 									LEFT JOIN sections ON bugs.Section_ID = sections.Section_ID

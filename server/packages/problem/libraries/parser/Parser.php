@@ -16,6 +16,7 @@ class Parser {
          * Properties are:
          *
          * array(
+         *     "section_object_id" => Section ID of the bug
          *     "parent_object_id" => Object ID of the parent
          *     "current_object_id" => Object ID of the thing with the $value
          *     "section_slug" => Slug of the parent section
@@ -40,6 +41,7 @@ class Parser {
          * Properties are:
          *
          * array(
+         *     "section_object_id" => Section ID of the bug
          *     "parent_object_id" => Object ID of the parent
          *     "current_object_id" => Object ID of the thing with the $value
          * )
@@ -58,7 +60,7 @@ class Parser {
                 Connection::query("INSERT INTO notifications
                                      (Triggered_By, Received_By, Target_One, Target_Two, Creation_Date, Type)
                               VALUES (           ?,           ?,          ?,          ?,             ?,    5)", "ssiis", array(
-                    $user_from, $name, $properties["parent_object_id"], $properties["current_object_id"], date('Y-m-d H:i:s')
+                    $user_from, $name, $properties["section_object_id"], $properties["current_object_id"], date('Y-m-d H:i:s')
                 ));
 
                 // replace instances in the text
