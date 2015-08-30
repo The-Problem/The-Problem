@@ -1,6 +1,5 @@
 LimePHP.register("modules.userDetails", function() {
 	document.getElementById('userDetailsButton').addEventListener('click', openUserPanel, false);
-	showPanel();
 
 	function openUserPanel(event){
 		showPanel();
