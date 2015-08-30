@@ -27,7 +27,7 @@ class LoginNewPasswordPage implements IPage{
 		Library::get('users');
 		$currentUser = Users::getUser('current');
 				if ($_SESSION['username'] == $_GET['username']){
-			$_code = $_GET['code'];
+			$code = $_GET['code'];
 
 			$actualCode = md5($currentUser->username + $currentUser::PASSWORD_SALT);
 			echo $currentUser::PASSWORD_SALT;
