@@ -76,19 +76,21 @@ LimePHP.register("modules.notification", function() {;
 		showRefreshing();
 
 		var notificationSettings = {
-			"time": Math.round(lastRefreshTime/1000), 
+			"time": Math.round(lastRefreshTime), 
 			"before": 0,
 		}
 
 		var notificationRequest = LimePHP.request("get", LimePHP.path("ajax/notifications/load"), notificationSettings, "json");
 		notificationRequest.success = notificationsArrived;
 		notificationRequest.error = notificationsLost;
+
+		console.log("Refreshing with: ");
+		console.log(notificationSettings);
 		setTimeout(refreshNotifications, 30000);
 	}
 
 	function notificationsArrived(package){
 
-		lastRefreshTime = timeNow();
 		refreshDone();
 
 
@@ -99,6 +101,7 @@ LimePHP.register("modules.notification", function() {;
 			console.log(currentNotification)
 			var statHTML = "<span class='time' time='" + currentNotification['time'] + "'>" + timeago(currentNotification['time']) + "</span>" + ' - ' + currentNotification['section'];
 			notificationList.innerHTML = "<section class='notificationCell'><p class='message'>" + currentNotification['message'] + "</p><p class='stats'>" + statHTML + "</p></section>" + notificationList.innerHTML;
+			lastRefreshTime = currentNotification['time'];
 		}
 	}
 

@@ -19,7 +19,6 @@
 					//return the first $limit number of notifications before $time
 					$notificationQuery = "SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type FROM notifications WHERE Received_By= ? AND Creation_Date <= ? ORDER BY Creation_Date DESC LIMIT ?";
 					$queryResult = Connection::query($notificationQuery, "sss", array($currentUser, $settings['time']));
-					echo 'this';
 				}else{
 					//return all notifications after $time
 					$notificationQuery = "SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type FROM notifications WHERE Received_By = ? AND Creation_Date >= ? ORDER BY Creation_Date DESC";
@@ -31,7 +30,7 @@
 				if (!isset($settings['limit'])){
 					$settings['limit'] = 10;
 				}
-				$notificationQuery = "SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type FROM notifications WHERE Received_By = ? ORDER BY Creation_Date ASC LIMIT ?";
+				$notificationQuery = "SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type FROM notifications WHERE Received_By = ? ORDER BY Creation_Date DESC LIMIT ?";
 				$queryResult = Connection::query($notificationQuery, "ss", array($currentUser, $settings['limit']));
 			
 			}
@@ -174,7 +173,7 @@
 			$output = array(
 				"fuzzyTime" => $fuzzyTime,
 				"sectionName" => $sectionName, 
-				"time" => strtotime($notification['Creation_Date']),
+				"time" => date("c", strtotime($notification['Creation_Date'])),
 				"message" => $message,
 				"stats" => $stats,
 				"read" => $notification['IsRead'],
