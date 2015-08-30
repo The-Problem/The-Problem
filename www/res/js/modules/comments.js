@@ -81,8 +81,9 @@ LimePHP.register("module.comments", function() {
 
         var id = $comment.data("id");
         var r = LimePHP.request("get", LimePHP.path("ajax/bugs/removeComment"), { id: id }, "json");
-        r.success = function() {
-            $comment.remove();
+        r.success = function(data) {
+            if (data.redirect) location.href = data.redirect;
+            else $comment.remove();
         }
     });
 

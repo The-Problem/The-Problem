@@ -41,7 +41,9 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Object_ID AS Bug_ObjectID, b
         return Templates::findtemplate("default");
     }
     public function permission() {
-        return true;
+        Library::get("objects");
+
+        return Objects::permission($this->bug["Bug_ObjectID"], "bug.view", $_SESSION['username'], $this->bug["Section_ID"]);
     }
     public function subpages() {
         return false;

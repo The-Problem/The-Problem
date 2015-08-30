@@ -24,7 +24,15 @@ class AjaxBugsRemoveCommentPage implements IPage {
         ", "i", array($object_id));
 
         if ($object[0]["Object_Type"] === 1) {
+            // delete a bug
+            Library::get('objects');
+            Objects::allow_rank($object_id, "bug.view", 3);
 
+            $section = Connection::query("SELECT Slug FROM bugs
+                                            JOIN sections ON (bugs.Section_ID = sections.Section_ID)
+                                          WHERE bugs.Object_ID = ?", "i", array($object_id));
+
+            return array("success" => true, "redirect" => Path::getclientfolder("bugs", $section[0]["Slug"]));
         } else {
             $comment = Connection::query("
         SELECT bugs.Section_ID AS Bug_Section_ID FROM comments
