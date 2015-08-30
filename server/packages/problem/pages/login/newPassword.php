@@ -12,20 +12,6 @@ class LoginNewPasswordPage implements IPage{
 		return true;
 		Library::get('users');
 		$currentUser = Users::getUser('current');
-
-		if ($_SESSION['username'] == $_GET['username']){
-			$_code = $_GET['code'];
-
-			$actualCode = md5($currentUser->username + $currentUser::PASSWORD_SALT);
-
-			if ($code == $actualCode){
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			return false;
-		}
 	}
 
 	public function subpages(){
@@ -38,28 +24,21 @@ class LoginNewPasswordPage implements IPage{
 	}
 	
 	public function body(){
-		//Library::get('users');
+		Library::get('users');
 
-		/*if (isset($_POST['username'])){
-			$username = trim($_POST['username']);
-			$password = $_POST['password'];
+				if ($_SESSION['username'] == $_GET['username']){
+			$_code = $_GET['code'];
 
-			if (strlen($username) > 0 && strlen($password) > 0){
-				Library::get("users");
-				$loginState = Users::login($username, $password);
+			$actualCode = md5($currentUser->username + $currentUser::PASSWORD_SALT);
 
-				if ($loginState){
-					Path::redirect(Path::getclientfolder());
-				}else{
-					$message = "These login credentials appear to be incorrect. Please try again.";
-				}
+			if ($code == $actualCode){
+				echo 'thecodeisright';
 			}else{
-				$message = "Please enter a valid username/email and password.";
+				echo 'thecodeiswrong';
 			}
-		}else if ($_SESSION['verified']){
-			$message = "Your account has been activated. Please enter your username and password to login.";
-			$_SESSION['verified'] = false;
-		}*/
+		}else{
+			echo 'usernameiswrong';
+		}
 
 		function validPassword($password){
 			if (strlen($password) < 8){
@@ -95,7 +74,6 @@ class LoginNewPasswordPage implements IPage{
 			return true;
 		}
 
-		Library::get('users');
 		$currentUser = Users::getUser('current');
 
 		if (isset($_POST['oldPassword'])){
