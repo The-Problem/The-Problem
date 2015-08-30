@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 29, 2015 at 02:25 PM
+-- Generation Time: Aug 30, 2015 at 07:28 AM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.9
 
@@ -32,26 +32,24 @@ CREATE TABLE IF NOT EXISTS `bugs` (
   `Edit_Date` datetime DEFAULT NULL,
   `RID` int(11) NOT NULL,
   `Assigned` varchar(20) COLLATE latin1_general_cs DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `bugs`
 --
 
 INSERT INTO `bugs` (`Bug_ID`, `Section_ID`, `Object_ID`, `Name`, `Status`, `Description`, `Creation_Date`, `Author`, `Edit_Date`, `RID`, `Assigned`) VALUES
-  (43, 1, 21, 'Login Button Disappearing', 0, 'The login button disappears from the screen whenever I try to click on it. I can''t click on it and haven''t been able to log on for three weeks. Very annoying, please fix ASAP.', '2015-08-01 00:00:00', 'exterminate', '2015-08-01 00:00:00', 1, 'Andrew'),
-  (44, 1, 22, 'Confusion between users.', 2, 'User profile pages are being filled with details from other users. The DR2N profile page shows the avatar of Zac.', '2015-08-12 00:00:00', 'Jas', '2015-08-12 07:00:00', 2, 'Andrew'),
-  (45, 1, 23, 'Can''t Change Password', 1, 'There is no option to change my password. I accidentally typed in my password while saying it out loud over the intercom and now everyone is able to log in.', '2015-08-14 00:00:00', 'jackass', '2015-08-14 00:00:00', 3, 'KaiXinGuo'),
-  (46, 2, 26, 'Limited Character Support', 1, 'Many symbols show up as rectangles when typed out as section names.', '2015-08-13 00:00:00', 'bullseye', '2015-08-13 00:00:00', 1, 'Jas'),
-  (47, 2, 27, 'Cover Pixelation', 4, 'Cover photo in sections appear to be a pixelated mess. You can''t even make out my face in this one.', '2015-08-04 00:00:00', 'meltingPoint', '2015-08-04 00:00:00', 2, 'Jas'),
-  (48, 2, 28, 'No Colours', 2, 'All sections are in black and white.', '2015-08-01 00:00:00', 'powerRangers46', '2015-08-01 00:22:00', 3, 'dr2n'),
-  (49, 3, 29, 'Sections Don''t Load', 4, 'There''s an error message saying ''STATEWIDE BLOCK'' after I log on in the home page. I can''t see the sections that I''m developing in.', '2015-08-15 06:24:19', 'flame', '2015-08-15 12:03:11', 1, 'Andrew'),
-  (52, 3, 30, 'Statewide Block', 3, 'Section tiles on the home page are all saying ''Statewide Block''.', '2015-08-15 17:00:00', 'unhelpful', '2015-08-15 17:00:00', 2, 'Andrew'),
-  (53, 3, 31, 'Improvement: Rainbow Background', 0, 'A rainbow background on the homepage of The Problem would make everyone''s lives much happier. This is a much needed feature.', '2015-08-04 00:00:00', 'dr2n', '2015-08-04 00:00:00', 3, 'KaiXinGuo'),
-  (55, 1, 24, 'Oversized Buttons', 4, 'Buttons on the logon page are the size of the entire screen.', '2015-08-12 00:00:00', 'meltingPoint', '2015-08-12 00:00:00', 4, 'dr2n'),
-  (56, 1, 25, 'Character Jumble', 1, 'All the characters in my username have become jumbled up.', '2015-08-05 00:00:00', 'powerRangers46', '2015-08-05 00:00:00', 5, 'Jas'),
-  (57, 1, 42, 'Test Bug', 1, 'This is a test', '2015-08-29 12:12:23', 'mrfishie', NULL, 6, NULL),
-  (58, 1, 43, 'Another Test', 1, 'This is a test bug!', '2015-08-29 12:15:52', 'mrfishie', NULL, 7, NULL);
+  (1, 1, 7, 'Login Button Disappearing', 1, '<p>The login button disappears from the screen whenever I try to click on it. I can''t click on it and haven''t been able to log on for three weeks. Very annoying, please fix ASAP.</p>', '2015-08-30 05:14:09', 'mrfishie', NULL, 1, NULL),
+  (2, 1, 8, 'Confusion between users', 1, '<p>User profile pages are being filled with details from other users. The <a href="http://localhost/The-Problem/www/%7Edr2n/">@dr2n</a> profile page shows the avatar of @zac</p>', '2015-08-30 05:15:22', 'mrfishie', NULL, 2, NULL),
+  (3, 1, 9, 'Can''t Change Password', 1, '<p>There is no option to change my password. I accidentally typed in my password while saying it out loud over the intercom and now everyone is able to log in.</p>', '2015-08-30 05:18:33', 'mrfishie', NULL, 3, NULL),
+  (4, 2, 10, 'Limited Character Support', 1, '<p>Many symbols show up as rectangles when typed out as section names.</p>', '2015-08-30 05:19:04', 'mrfishie', NULL, 1, NULL),
+  (5, 2, 11, 'Cover Pixelation', 1, '<p>Cover photo in sections appear to be a pixelated mess. You can''t even make out my face in this one.</p>', '2015-08-30 05:19:43', 'mrfishie', NULL, 2, NULL),
+  (6, 2, 12, 'No Colours', 1, '<p>All sections are in black and white.</p>', '2015-08-30 05:20:08', 'mrfishie', NULL, 3, NULL),
+  (7, 2, 13, 'Sections Don''t Load', 1, '<p>There''s an error message saying &quot;STATEWIDE BLOCK&quot; after I log on in the home page. I can''t see the sections that I''m developing in.</p>', '2015-08-30 05:20:58', 'mrfishie', NULL, 4, NULL),
+  (8, 3, 14, 'Statewide Block', 1, '<p>Section tiles on the home page are all saying &quot;Statewide Block&quot;.</p>', '2015-08-30 05:22:20', 'mrfishie', NULL, 1, NULL),
+  (9, 3, 15, 'Improvement: Rainbow Background', 1, '<p>A rainbow background on the homepage of The Problem would make everyone''s lives much happier. This is a much needed feature.</p>', '2015-08-30 05:23:09', 'mrfishie', NULL, 2, NULL),
+  (10, 1, 16, 'Oversized Buttons', 1, '<p>Buttons on the logon page are the size of the entire screen.</p>', '2015-08-30 05:23:32', 'mrfishie', NULL, 4, NULL),
+  (11, 1, 17, 'Character Jumble', 1, '<p>All the characters in my username have become jumbled up.</p>', '2015-08-30 05:24:00', 'mrfishie', NULL, 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -68,14 +66,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `Edit_Date` datetime DEFAULT NULL,
   `Comment_Text` text COLLATE latin1_general_cs NOT NULL,
   `Raw_Text` longtext COLLATE latin1_general_cs NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
-
---
--- Dumping data for table `comments`
---
-
-INSERT INTO `comments` (`Comment_ID`, `Bug_ID`, `Username`, `Object_ID`, `Creation_Date`, `Edit_Date`, `Comment_Text`, `Raw_Text`) VALUES
-  (2, 58, 'mrfishie', 44, '2015-08-29 12:19:39', NULL, '<p>Awesome!</p>', 'Awesome!');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 -- --------------------------------------------------------
 
@@ -142,14 +133,14 @@ CREATE TABLE IF NOT EXISTS `developers` (
 --
 
 INSERT INTO `developers` (`Section_ID`, `Username`) VALUES
-  (1, 'Andrew'),
   (1, 'dr2n'),
-  (2, 'dr2n'),
+  (4, 'dr2n'),
+  (5, 'dr2n'),
+  (1, 'exterminate'),
   (2, 'exterminate'),
-  (3, 'exterminate'),
+  (2, 'mrfishie'),
   (3, 'mrfishie'),
-  (4, 'mrfishie'),
-  (2, 'unhelpful');
+  (4, 'mrfishie');
 
 -- --------------------------------------------------------
 
@@ -169,8 +160,6 @@ CREATE TABLE IF NOT EXISTS `grouppermissions` (
 
 INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
   (0, 'site.view', 0),
-  (1, 'section.create-bug', 1),
-  (1, 'section.view', 0),
   (2, 'section.create-bug', 1),
   (2, 'section.view', 0),
   (3, 'section.create-bug', 1),
@@ -179,42 +168,85 @@ INSERT INTO `grouppermissions` (`Object_ID`, `Permission_Name`, `Rank`) VALUES
   (4, 'section.view', 0),
   (5, 'section.create-bug', 1),
   (5, 'section.view', 0),
-  (21, 'bug.comment', 1),
-  (22, 'bug.comment', 1),
-  (23, 'bug.comment', 1),
-  (24, 'bug.comment', 1),
-  (25, 'bug.comment', 1),
-  (26, 'bug.comment', 1),
-  (27, 'bug.comment', 1),
-  (28, 'bug.comment', 1),
-  (29, 'bug.comment', 1),
-  (30, 'bug.comment', 1),
-  (31, 'bug.comment', 1),
-  (40, 'bug.assign', 2),
-  (40, 'bug.change-status', 2),
-  (40, 'bug.delete', 3),
-  (40, 'bug.edit', 2),
-  (40, 'bug.view', 0),
-  (41, 'bug.assign', 2),
-  (41, 'bug.change-status', 2),
-  (41, 'bug.delete', 3),
-  (41, 'bug.edit', 2),
-  (41, 'bug.view', 0),
-  (42, 'bug.assign', 2),
-  (42, 'bug.change-status', 2),
-  (42, 'bug.comment', 1),
-  (42, 'bug.delete', 3),
-  (42, 'bug.edit', 2),
-  (42, 'bug.view', 0),
-  (43, 'bug.assign', 2),
-  (43, 'bug.change-status', 2),
-  (43, 'bug.comment', 1),
-  (43, 'bug.delete', 3),
-  (43, 'bug.edit', 2),
-  (43, 'bug.view', 0),
-  (44, 'comment.edit', 2),
-  (44, 'comment.remove', 3),
-  (44, 'comment.upvote', 1);
+  (6, 'section.create-bug', 1),
+  (6, 'section.view', 0),
+  (7, 'bug.assign', 2),
+  (7, 'bug.change-status', 2),
+  (7, 'bug.comment', 1),
+  (7, 'bug.view', 0),
+  (7, 'comment.delete', 3),
+  (7, 'comment.edit', 2),
+  (7, 'comment.upvote', 1),
+  (8, 'bug.assign', 2),
+  (8, 'bug.change-status', 2),
+  (8, 'bug.comment', 1),
+  (8, 'bug.view', 0),
+  (8, 'comment.delete', 3),
+  (8, 'comment.edit', 2),
+  (8, 'comment.upvote', 1),
+  (9, 'bug.assign', 2),
+  (9, 'bug.change-status', 2),
+  (9, 'bug.comment', 1),
+  (9, 'bug.view', 0),
+  (9, 'comment.delete', 3),
+  (9, 'comment.edit', 2),
+  (9, 'comment.upvote', 1),
+  (10, 'bug.assign', 2),
+  (10, 'bug.change-status', 2),
+  (10, 'bug.comment', 1),
+  (10, 'bug.view', 0),
+  (10, 'comment.delete', 3),
+  (10, 'comment.edit', 2),
+  (10, 'comment.upvote', 1),
+  (11, 'bug.assign', 2),
+  (11, 'bug.change-status', 2),
+  (11, 'bug.comment', 1),
+  (11, 'bug.view', 0),
+  (11, 'comment.delete', 3),
+  (11, 'comment.edit', 2),
+  (11, 'comment.upvote', 1),
+  (12, 'bug.assign', 2),
+  (12, 'bug.change-status', 2),
+  (12, 'bug.comment', 1),
+  (12, 'bug.view', 0),
+  (12, 'comment.delete', 3),
+  (12, 'comment.edit', 2),
+  (12, 'comment.upvote', 1),
+  (13, 'bug.assign', 2),
+  (13, 'bug.change-status', 2),
+  (13, 'bug.comment', 1),
+  (13, 'bug.view', 0),
+  (13, 'comment.delete', 3),
+  (13, 'comment.edit', 2),
+  (13, 'comment.upvote', 1),
+  (14, 'bug.assign', 2),
+  (14, 'bug.change-status', 2),
+  (14, 'bug.comment', 1),
+  (14, 'bug.view', 0),
+  (14, 'comment.delete', 3),
+  (14, 'comment.edit', 2),
+  (14, 'comment.upvote', 1),
+  (15, 'bug.assign', 2),
+  (15, 'bug.change-status', 2),
+  (15, 'bug.comment', 1),
+  (15, 'bug.view', 0),
+  (15, 'comment.delete', 3),
+  (15, 'comment.edit', 2),
+  (15, 'comment.upvote', 1),
+  (16, 'bug.assign', 2),
+  (16, 'bug.change-status', 2),
+  (16, 'bug.comment', 1),
+  (16, 'bug.view', 0),
+  (16, 'comment.delete', 3),
+  (16, 'comment.edit', 2),
+  (16, 'comment.upvote', 1),
+  (17, 'bug.assign', 2),
+  (17, 'bug.change-status', 2),
+  (17, 'bug.comment', 1),
+  (17, 'bug.view', 0),
+  (17, 'comment.delete', 3),
+  (17, 'comment.edit', 2),
+  (17, 'comment.upvote', 1);
 
 -- --------------------------------------------------------
 
@@ -231,16 +263,14 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `Creation_Date` datetime NOT NULL,
   `IsRead` tinyint(1) NOT NULL DEFAULT '0',
   `Type` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `notifications`
 --
 
 INSERT INTO `notifications` (`Notification_ID`, `Triggered_By`, `Received_By`, `Target_One`, `Target_Two`, `Creation_Date`, `IsRead`, `Type`) VALUES
-  (1, 'mrfishie', 'mrfishie', 32, NULL, '2015-08-29 05:03:57', 0, 4),
-  (2, 'mrfishie', 'mrfishie', 32, NULL, '2015-08-29 05:03:59', 0, 4),
-  (3, 'mrfishie', 'mrfishie', 44, 43, '2015-08-29 12:19:39', 0, 3);
+  (1, 'mrfishie', 'dr2n', 2, 8, '2015-08-30 05:15:22', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -251,7 +281,7 @@ INSERT INTO `notifications` (`Notification_ID`, `Triggered_By`, `Received_By`, `
 CREATE TABLE IF NOT EXISTS `objects` (
   `Object_ID` int(11) NOT NULL,
   `Object_Type` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `objects`
@@ -259,28 +289,22 @@ CREATE TABLE IF NOT EXISTS `objects` (
 
 INSERT INTO `objects` (`Object_ID`, `Object_Type`) VALUES
   (0, -1),
-  (1, 0),
   (2, 0),
   (3, 0),
   (4, 0),
   (5, 0),
-  (21, 1),
-  (22, 1),
-  (23, 1),
-  (24, 1),
-  (25, 1),
-  (26, 1),
-  (27, 1),
-  (28, 1),
-  (29, 1),
-  (30, 1),
-  (31, 1),
-  (32, 2),
-  (40, 1),
-  (41, 1),
-  (42, 1),
-  (43, 1),
-  (44, 2);
+  (6, 0),
+  (7, 1),
+  (8, 1),
+  (9, 1),
+  (10, 1),
+  (11, 1),
+  (12, 1),
+  (13, 1),
+  (14, 1),
+  (15, 1),
+  (16, 1),
+  (17, 1);
 
 -- --------------------------------------------------------
 
@@ -307,18 +331,18 @@ CREATE TABLE IF NOT EXISTS `sections` (
   `Description` text COLLATE latin1_general_cs NOT NULL,
   `Slug` text COLLATE latin1_general_cs NOT NULL,
   `Color` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 --
 -- Dumping data for table `sections`
 --
 
 INSERT INTO `sections` (`Section_ID`, `Name`, `Object_ID`, `Description`, `Slug`, `Color`) VALUES
-  (1, 'Users', 1, 'The user management system in The Problem.', 'users', 6),
-  (2, 'Sections', 2, 'Bug sections which are in The Problem.', 'sections', 0),
-  (3, 'Home', 3, 'The home page for The Problem.', 'homepage', 11),
-  (4, 'User Permissions', 4, 'User permission management system that works in The Problem.', 'user-permissions', 9),
-  (5, 'Notifications', 5, 'Notification system in The Problem notifying users of bug assignment, commenting, +1 and section activities as they occur.', 'notifications', 14);
+  (1, 'Users', 2, 'The user management system in The Problem.', 'users', 7),
+  (2, 'Sections', 3, 'Bug sections which are in The Problem.', 'sections', 8),
+  (3, 'Home', 4, 'The home page for The Problem.', 'home', 14),
+  (4, 'User Permissions', 5, 'User permission management system that works in The Problem.', 'user-permissions', 11),
+  (5, 'Notifications', 6, 'Notification system in The Problem notifying users of bug assignment, commenting, +1 and section activities as they occur.', 'notifications', 1);
 
 -- --------------------------------------------------------
 
@@ -337,8 +361,72 @@ CREATE TABLE IF NOT EXISTS `userpermissions` (
 --
 
 INSERT INTO `userpermissions` (`Object_ID`, `Permission_Name`, `Username`) VALUES
-  (44, 'comment.edit', 'mrfishie'),
-  (44, 'comment.remove', 'mrfishie');
+  (7, 'bug.change-status', 'mrfishie'),
+  (7, 'bug.comment', 'mrfishie'),
+  (7, 'bug.view', 'mrfishie'),
+  (7, 'comment.assign', 'mrfishie'),
+  (7, 'comment.edit', 'mrfishie'),
+  (7, 'comment.upvote', 'mrfishie'),
+  (8, 'bug.change-status', 'mrfishie'),
+  (8, 'bug.comment', 'mrfishie'),
+  (8, 'bug.view', 'mrfishie'),
+  (8, 'comment.assign', 'mrfishie'),
+  (8, 'comment.edit', 'mrfishie'),
+  (8, 'comment.upvote', 'mrfishie'),
+  (9, 'bug.change-status', 'mrfishie'),
+  (9, 'bug.comment', 'mrfishie'),
+  (9, 'bug.view', 'mrfishie'),
+  (9, 'comment.assign', 'mrfishie'),
+  (9, 'comment.edit', 'mrfishie'),
+  (9, 'comment.upvote', 'mrfishie'),
+  (10, 'bug.change-status', 'mrfishie'),
+  (10, 'bug.comment', 'mrfishie'),
+  (10, 'bug.view', 'mrfishie'),
+  (10, 'comment.assign', 'mrfishie'),
+  (10, 'comment.edit', 'mrfishie'),
+  (10, 'comment.upvote', 'mrfishie'),
+  (11, 'bug.change-status', 'mrfishie'),
+  (11, 'bug.comment', 'mrfishie'),
+  (11, 'bug.view', 'mrfishie'),
+  (11, 'comment.assign', 'mrfishie'),
+  (11, 'comment.edit', 'mrfishie'),
+  (11, 'comment.upvote', 'mrfishie'),
+  (12, 'bug.change-status', 'mrfishie'),
+  (12, 'bug.comment', 'mrfishie'),
+  (12, 'bug.view', 'mrfishie'),
+  (12, 'comment.assign', 'mrfishie'),
+  (12, 'comment.edit', 'mrfishie'),
+  (12, 'comment.upvote', 'mrfishie'),
+  (13, 'bug.change-status', 'mrfishie'),
+  (13, 'bug.comment', 'mrfishie'),
+  (13, 'bug.view', 'mrfishie'),
+  (13, 'comment.assign', 'mrfishie'),
+  (13, 'comment.edit', 'mrfishie'),
+  (13, 'comment.upvote', 'mrfishie'),
+  (14, 'bug.change-status', 'mrfishie'),
+  (14, 'bug.comment', 'mrfishie'),
+  (14, 'bug.view', 'mrfishie'),
+  (14, 'comment.assign', 'mrfishie'),
+  (14, 'comment.edit', 'mrfishie'),
+  (14, 'comment.upvote', 'mrfishie'),
+  (15, 'bug.change-status', 'mrfishie'),
+  (15, 'bug.comment', 'mrfishie'),
+  (15, 'bug.view', 'mrfishie'),
+  (15, 'comment.assign', 'mrfishie'),
+  (15, 'comment.edit', 'mrfishie'),
+  (15, 'comment.upvote', 'mrfishie'),
+  (16, 'bug.change-status', 'mrfishie'),
+  (16, 'bug.comment', 'mrfishie'),
+  (16, 'bug.view', 'mrfishie'),
+  (16, 'comment.assign', 'mrfishie'),
+  (16, 'comment.edit', 'mrfishie'),
+  (16, 'comment.upvote', 'mrfishie'),
+  (17, 'bug.change-status', 'mrfishie'),
+  (17, 'bug.comment', 'mrfishie'),
+  (17, 'bug.view', 'mrfishie'),
+  (17, 'comment.assign', 'mrfishie'),
+  (17, 'comment.edit', 'mrfishie'),
+  (17, 'comment.upvote', 'mrfishie');
 
 -- --------------------------------------------------------
 
@@ -361,27 +449,25 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`Username`, `Email`, `Name`, `Password`, `Rank`, `Bio`, `Last_Logon_Time`) VALUES
-  ('Andrew', 'fireme@mailinator.net', 'Andrew', '$2y$10$o0bQZMYLGzVNqexQ9X5mTeGVTFLEtmdg2cRiyyWtlOzeAgGk6tUlm', 3, '', NULL),
-  ('bullseye', 'bullseye@mailinator.net', 'Mr T', '$2y$10$/WfS9BksZkg7ca3CCVTIsOGapLHFp1NH/HRKpITBqp.MPKkO/0ZXW', 1, '', NULL),
-  ('dr2n', 'darren.yx.fu@gmail.com', 'Darren Fu', '$2y$10$wKEIz4twWBU4zwd.1ufuHuN.903OQleNp3VK8CcwDvQM0KwODp9pC', 4, '\r\n\r\nOften with a love of the French language comes a love of French culture and an interest in the way the French-speaking world does things differently to us.\r\n\r\nOur seasonal events are designed to bring together like-minded people in a social situation while enjoying the best food, wine, film, fashion (and much more) the French have to offer.\r\n\r\nFor all levels and interests - there’s be something for everybody...even a trip to Nouméa in April 2015, too. There will also be a three-day trip to a secret destination for a French Festival in October 2015. Let us know if you''d like to be kept in the loop.\r\n', '2015-08-28 20:04:57'),
-  ('exterminate', 'david@mailinator.net', 'David', '$2y$10$GRuSi8B2e3pG2RcuQ9TemuwaUBa.qzepKjgAJjcmMLa8DDpgRtOTe', 1, '', NULL),
-  ('flame', 'flame@mailinator.net', 'Andria', '$2y$10$8.xBNUavPm7.hD3iG6QkxuNithxCGTMcgpUWIIuVRvrtVsbFAcWsO', 1, '', NULL),
-  ('gottatrythis', 'gtythis@mailinator.net', 'Donald', '$2y$10$YqzKYPd1hQyDuIpbXu1pbeFIxnUGKoMKeq8e0rW5UNpzns1XkxqqG', 3, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum', '2015-08-28 17:32:21'),
-  ('hackers', 'davee3@mailinator.net', 'Dave', '$2y$10$UDb3Zn8D0yjl2zo5p2AHJeG54z8XzbGy3fi3lYGQkO065cfpkQ8tm', 1, '', '2015-08-26 21:23:20'),
-  ('Jas', 'jjj@mailinator.net', 'Jas', '$2y$10$iZ2eKISWEvIQ7xyTElt.Terl.w9AvZSdFg4Ui3UZ/TLfFt4uh5k1a', 1, '', NULL),
-  ('jackass', 'jackass@mailinator.net', 'Jake Peearaa', '$2y$10$Doo6SZyzZmrxdKPBpJYYaeNk0fhiIGcXvR.9lJcU9Pmd4Y5WGSQKq', 1, '', NULL),
-  ('KaiXinGuo', 'kai@mailinator.net', 'Kai', '$2y$10$cA9eTBMpI5yZqkVJMMrrgubMMfdeNATCpV4DCziDNowlHdCTs9nfG', 1, '', NULL),
-  ('KatieLilly', 'jrn@mailinator.net', 'Katie Lilly', '$2y$10$NXiQVXX/ABzC/UXdR/YWMOjlqOO7HwJ2.oifS1GdC8Ial9RtqjyxS', 1, '', NULL),
-  ('Liam', 'LIAM@mailinator.net', 'Liam Prok', '$2y$10$.rnGQiCFaato0Km1.HJ5wenLgu/C5F.3hz/4mSvK33xWUsM3TCymK', 1, '', '2015-08-26 21:09:09'),
-  ('MichaelK', 'mike@mailinator.net', 'Michael', '$2y$10$vT7TaMeRGk6oomeNsB3AWOPB/f7lA9YsAWPtfxcoljF1OTOmqOB3y', 1, '', NULL),
-  ('madEagle', 'knights@mailinator.net', 'KnightsOfTheRoundTable', '$2y$10$Qgi2LRFQut0WV90Qz4omWe79Kh6ZUlmSxY.zB7/aFrvX1q8qfbxha', 1, 'Introducing I, knightsOfTheRoundTable, the first user on The Problem to take advantage of hashed password security!!.', '2015-08-28 21:26:50'),
-  ('meltingPoint', 'mp@mailinator.net', 'Jess', '$2y$10$N87Mlr4M/ITnZYEO7WOk.ePLQlaSHAMNbX.8mtBLLc42ehkWGaH5W', 1, '', NULL),
-  ('mrfishie', 'mrfishie101@hotmail.com', 'Tom', '$2y$10$c/qtBe2YnScne15pFX0fce88pwYbdmwdoJQCLqKCR7H1PBOijh7YG', 4, 'Hi! I make websites and lights do cool things.', NULL),
-  ('No.', 'nonono@no.com.au', 'No.', '$2y$10$pjEvx04jAMTHFLVd59WwD./ONCOJfLY.i.B2D.EhhoonLnAMa4why', 1, '', '2015-08-28 19:51:43'),
-  ('powerRangers46', 'pewpew@mailinator.net', 'Zac Langlands', '$2y$10$HZ8d0bep.Vie7VyAmsk9i.yy.DEFN8cIUQqUcJXpFE28iKN0QUfqe', 1, '', NULL),
-  ('SmithJohn', 'jsjs@mailinator.net', 'John Smith', '$2y$10$yA0PIxwKiSbrrLom7outhemOtfu9ksmqUQ/oWnYV/oP6zfKq6712O', 1, 'There''s probably not a single person in this development team that''s as skilled as I am in making tea.', NULL),
-  ('that''sMe', 'hu@mailinator.net', 'DoctorHu', '$2y$10$aetQkTLivZd1/ZnlX2ah8e3AvFHJzpQ3U.tXCPc18LC4b.HBSdKji', 1, '', NULL),
-  ('unhelpful', 'unhelpful@mailinator.net', 'Ben Loungin', '$2y$10$lxONG2iNdaphSGdE77G.Ee9hhhbFHUr7GI5cd55mWXRJU0y8LtKaa', 1, '', NULL);
+  ('Andrew', 'fireme@mailinator.net', 'Andrew', '$2y$10$lXc/DY.A4UYejVGAE.Wp1.WLPu9F6tB4ug1j2p/ihIxED.J64DniK', 1, '', NULL),
+  ('bullseye', 'bullseye@mailinator.net', 'Mr T', '$2y$10$tFMLnwu2k4bMvTUQv9JU3ut/y7vike5OYM7h/CL0xBVBne9UdZy/u', 1, '', NULL),
+  ('dr2n', 'darren.yx.fu@gmail.com', 'Darren Fu', '$2y$10$7Du9oKK0PH06Snxl4FgacekKhWzwyMXFUcQYrkuIJB.jdcez05LZe', 4, '', NULL),
+  ('exterminate', 'david@mailinator.net', 'David', '$2y$10$Y0RbUXWev/t53lzZfv3PW.cYbVUDUGvNU4JihTpj4Ews9xqPtS4ne', 1, '', NULL),
+  ('flame', 'flame@mailinator.net', 'Andria', '$2y$10$HTVsREh6wUUCXvkS/j2jn.8pGYK8xasclpQ3Y.AgL200gJaX/n6fe', 1, '', NULL),
+  ('gottatrythis', 'gtythis@mailinator.net', 'Donald', '$2y$10$WsXkXva/GjCZH4RVh8PimOhbck3iE7zocD4dggoFNnG/N/96JLJ7O', 1, '', NULL),
+  ('hackers', 'davee3@mailinator.net', 'Dave', '$2y$10$WDLr8vRly3T8xAK.FIgrrOwEicx/T.atsAMLJFr3zsDK18e4iYf0q', 1, '', NULL),
+  ('Jas', 'jjj@mailinator.net', 'Jas', '$2y$10$2MGjSeNqQPpzbRwv7NlT2ONRi6dy5H.LEiN3s5sHmWPF5g8hNyefm', 1, '', NULL),
+  ('jackass', 'jackass@mailinator.net', 'Jake Peearaa', '$2y$10$VpoA34YIoKM9e4hdgyhS6O471OnGnr.ZsU.hf3Igx5L7DxoO3AZba', 1, '', NULL),
+  ('KaiXinGuo', 'kai@mailinator.net', 'Kai', '$2y$10$/f65xs.Da1AXJAqCmxpT1.onHjAb9XNfWaMZ9B0p8BXLMHUxUKjCm', 1, '', NULL),
+  ('KatieLilly', 'jrn@mailinator.net', 'Katie Lilly', '$2y$10$jc5WCLrj3rD8NNlcef7weepoJ.aZ1vlqjCs9RdQM16XfCPqbDbE/m', 1, '', NULL),
+  ('Liam', 'LIAM@mailinator.net', 'Liam Prok', '$2y$10$Kkmh9Y3aAjmqVraLy0jGd.8y0joHcnL4gWDCidDLhEjBp568z3TK6', 1, '', NULL),
+  ('MichaelK', 'mike@mailinator.net', 'Michael', '$2y$10$WvnzAt1GpmdtzTpWBlIAt.7hjD6hV3GPdXhj2OucoUTKCHqIwO9Om', 1, '', NULL),
+  ('meltingPoint', 'mp@mailinator.net', 'Jess', '$2y$10$8mQX8.RooNnye.zStiHmc.45lVDR2uU11a3zMVmaQ9H3F.lptjeP.', 1, '', NULL),
+  ('mrfishie', 'mrfishie101@hotmail.com', 'Tom', '$2y$10$U5ETgL5NPBp9tBnXvch2DOJa3sdv4cwzsn6R4KtWvFjP0Mn/0pAdW', 4, '', NULL),
+  ('powerRangers46', 'pewpew@mailinator.net', 'Zac Langlands', '$2y$10$gaWKZaH7MynEmM3jh2kedufZteWHLylkSIq3OSemQc.MndX1JtZ46', 1, '', NULL),
+  ('SmithJohn', 'jsjs@mailinator.net', 'John Smith', '$2y$10$2li2WzaQKhw/3zV23ViRKeXxRaHzHczYyw0V.w3nQtMBosSICxp4.', 1, 'Part human, part Timelord.', NULL),
+  ('that''''sMe', 'hu@mailinator.net', 'DoctorHu', '$2y$10$l0.XSdUuBCmRBKQg3Sk1WOVtBi5Th2dJkgKsQwmP3fJZCB1pNkcC.', 1, '', NULL),
+  ('unhelpful', 'unhelpful@mailinator.net', 'Ben Loungin', '$2y$10$YSUbxjAhtgjbGsD3sudrweyR/HYkrs6v6K9LorRlE0BZrsAf/ZWv2', 1, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -399,14 +485,22 @@ CREATE TABLE IF NOT EXISTS `watchers` (
 --
 
 INSERT INTO `watchers` (`Object_ID`, `Username`) VALUES
-  (1, 'dr2n'),
+  (2, 'dr2n'),
   (5, 'dr2n'),
-  (29, 'mrfishie'),
-  (32, 'mrfishie'),
-  (40, 'mrfishie'),
-  (41, 'mrfishie'),
-  (42, 'mrfishie'),
-  (43, 'mrfishie');
+  (6, 'dr2n'),
+  (3, 'mrfishie'),
+  (4, 'mrfishie'),
+  (7, 'mrfishie'),
+  (8, 'mrfishie'),
+  (9, 'mrfishie'),
+  (10, 'mrfishie'),
+  (11, 'mrfishie'),
+  (12, 'mrfishie'),
+  (13, 'mrfishie'),
+  (14, 'mrfishie'),
+  (15, 'mrfishie'),
+  (16, 'mrfishie'),
+  (17, 'mrfishie');
 
 --
 -- Indexes for dumped tables
@@ -503,7 +597,7 @@ ADD PRIMARY KEY (`Username`);
 -- Indexes for table `watchers`
 --
 ALTER TABLE `watchers`
-ADD PRIMARY KEY (`Object_ID`),
+ADD PRIMARY KEY (`Object_ID`, `Username`),
 ADD KEY `Username` (`Username`);
 
 --
@@ -514,12 +608,12 @@ ADD KEY `Username` (`Username`);
 -- AUTO_INCREMENT for table `bugs`
 --
 ALTER TABLE `bugs`
-MODIFY `Bug_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=59;
+MODIFY `Bug_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `Comment_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `Comment_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `cookies`
 --
@@ -529,17 +623,17 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-MODIFY `Notification_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `Notification_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `objects`
 --
 ALTER TABLE `objects`
-MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
+MODIFY `Object_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-MODIFY `Section_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+MODIFY `Section_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --
