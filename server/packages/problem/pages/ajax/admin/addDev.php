@@ -32,6 +32,11 @@ class AjaxAdminAddDevPage implements IPage {
             $dev_user
         ));
 
+        // start watching the section
+        Connection::query("INSERT INTO watchers (Object_ID, Username)
+                                         VALUES ((SELECT Object_ID FROM sections
+                                                  WHERE Section_ID = ?), ?)", "is", array($dev_section, $dev_user));
+
         return array("success" => true);
     }
 }

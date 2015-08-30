@@ -50,6 +50,11 @@
 			}
 		}
 
+		public static function emailAvailable($email) {
+			// todo: darren
+			return true;
+		}
+
 	
 
 		//returns whether a username may be used

@@ -81,7 +81,7 @@ class BugsNewPage implements IPage {
             Connection::query("INSERT INTO bugs (Section_ID, Object_ID, Name, Status, Description, Creation_Date, Author, RID)
                                          VALUES (         ?,         ?,    ?,      1,           ?,             ?,      ?, ?)",
                 "iissssi", array(
-                    $this->section_obj, $object_id, $_POST['name'], $value, date("Y-m-d H:i:s"), $_SESSION["username"], $rid[0]["New_RID"]
+                    $this->section_id, $object_id, $_POST['name'], $value, date("Y-m-d H:i:s"), $_SESSION["username"], $rid[0]["New_RID"]
                 ));
 
             Connection::query("INSERT INTO watchers (Object_ID, Username) VALUES (?, ?)", "is", array($object_id, $_SESSION["username"]));
