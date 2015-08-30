@@ -37,6 +37,7 @@ class CommentModule implements IModule {
 
         $can_edit = Objects::permission($comment["Object_ID"], "comment.edit", $_SESSION["username"], $comment["Bug_Section_ID"]);
         $can_delete = Objects::permission($comment["Object_ID"], "comment.remove", $_SESSION["username"], $comment["Bug_Section_ID"]);
+        $can_plusone = Objects::permission($comment["Object_ID"], "comment.upvote", $_SESSION["username"], $comment["Bug_Section_ID"]);
 
         ?>
 <div class="comment" data-id="<?php echo $comment["Object_ID"]; ?>">
@@ -52,13 +53,13 @@ class CommentModule implements IModule {
             <?php if ($can_delete) { ?><div class="right delete"><a href="javascript:void(0)" title="Delete this comment"><i class="fa fa-times"></i></a></div><?php } ?>
             <?php if ($can_edit) { ?><div class="right edit"><a href="javascript:void(0)" title="Edit this comment"><i class="fa fa-pencil"></i></a></div><?php } ?>
 
-            <div class="right plus-one" data-has="<?php if ($has_plus_oned) echo 'true'; else echo 'false'; ?>">
-                <a href="javascript:void(0)" title="+1 this comment">
+            <div class="right plus-one<?php if ($can_plusone) echo " can"; ?>" data-has="<?php if ($has_plus_oned) echo 'true'; else echo 'false'; ?>">
+                <?php if ($can_plusone) { ?><a href="javascript:void(0)" title="+1 this comment"><?php } ?>
                 <span class="current"><?php echo $comment["Plus_Ones"];
                     ?></span><span class="hover"> <?php if ($has_plus_oned) echo '-'; else echo '+';
                     ?> 1</span><span class="equals"> = </span><span class="next"><?php echo $next;
                     ?></span><i class="fa fa-thumbs-<?php if ($has_plus_oned) echo 'down'; else echo 'up'; ?>"></i>
-                </a>
+                <?php if ($can_plusone) { ?></a><?php } ?>
             </div>
         </div>
         <div class="content">

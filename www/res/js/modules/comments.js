@@ -99,7 +99,7 @@ LimePHP.register("module.comments", function() {
         $comment.data('editing', true);
     });
 
-    $(document).on('click', '.comment .plus-one', function() {
+    $(document).on('click', '.comment .plus-one.can', function() {
         var $plusOne = $(this);
         if ($plusOne.data('loading')) return;
         $plusOne.data('loading', true);
