@@ -9,21 +9,7 @@ class LoginNewPasswordPage implements IPage{
 
 	public function permission(){	
 		//change this, users should only be able to see this page when they are not logged in
-		return true;
-		Library::get('users');
 		
-	}
-
-	public function subpages(){
-		return true;
-	}
-
-	public function head(Head &$head){
-		$head->title .= " - Log In";
-		$head->stylesheet("pages/login");
-	}
-	
-	public function body(){
 	Library::get('users');
 	$currentUser = Users::getUser('current');
 	
@@ -38,6 +24,19 @@ class LoginNewPasswordPage implements IPage{
 	}else{
 		return false;
 	}
+		
+	}
+
+	public function subpages(){
+		return true;
+	}
+
+	public function head(Head &$head){
+		$head->title .= " - Log In";
+		$head->stylesheet("pages/login");
+	}
+	
+	public function body(){
 
 		function validPassword($password){
 			if (strlen($password) < 8){
