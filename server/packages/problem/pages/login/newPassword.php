@@ -11,7 +11,7 @@ class LoginNewPasswordPage implements IPage{
 		//change this, users should only be able to see this page when they are not logged in
 		return true;
 		Library::get('users');
-		$currentUser = Users::getUser('current');
+		
 	}
 
 	public function subpages(){
@@ -25,7 +25,7 @@ class LoginNewPasswordPage implements IPage{
 	
 	public function body(){
 		Library::get('users');
-
+		$currentUser = Users::getUser('current');
 				if ($_SESSION['username'] == $_GET['username']){
 			$_code = $_GET['code'];
 
