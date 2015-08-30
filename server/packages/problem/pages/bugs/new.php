@@ -110,11 +110,18 @@ class BugsNewPage implements IPage {
 
             Objects::allow_rank($object_id, "bug.view", $default_view[0]["Value"]);
             Objects::allow_rank($object_id, "bug.change-status", $default_status[0]["Value"]);
-            Objects::allow_rank($object_id, "bug.edit", $default_edit[0]["Value"]);
-            Objects::allow_rank($object_id, "bug.delete", $default_delete[0]["Value"]);
+            Objects::allow_rank($object_id, "comment.edit", $default_edit[0]["Value"]);
+            Objects::allow_rank($object_id, "comment.delete", $default_delete[0]["Value"]);
             Objects::allow_rank($object_id, "bug.assign", $default_assign[0]["Value"]);
             Objects::allow_rank($object_id, "bug.comment", $default_comment[0]["Value"]);
             Objects::allow_rank($object_id, "comment.upvote", $default_upvote[0]["Value"]);
+
+            Objects::allow_user($object_id, "bug.view", $_SESSION['username']);
+            Objects::allow_user($object_id, "bug.change-status", $_SESSION["username"]);
+            Objects::allow_user($object_id, "comment.edit", $_SESSION["username"]);
+            Objects::allow_user($object_id, "comment.assign", $_SESSION["username"]);
+            Objects::allow_user($object_id, "bug.comment", $_SESSION["username"]);
+            Objects::allow_user($object_id, "comment.upvote", $_SESSION["username"]);
 
             Path::redirect(Path::getclientfolder("bugs", $this->section, $rid[0]["New_RID"]));
         }

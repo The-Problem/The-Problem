@@ -85,7 +85,7 @@ class AjaxAdminUpdatePage implements IPage {
                                          JOIN objects ON (objects.Object_ID = grouppermissions.Object_ID)
                                        SET grouppermissions.Rank = ?
                                          WHERE objects.Object_Type = 1
-                                           AND Permission_Name = 'bug.edit'
+                                           AND Permission_Name = 'comment.edit'
                                            AND Rank = ?", "ii", array($newval, $previous));
 
                     return $newval;
@@ -97,7 +97,7 @@ class AjaxAdminUpdatePage implements IPage {
                                          JOIN objects ON (objects.Object_ID = grouppermissions.Object_ID)
                                        SET grouppermissions.Rank = ?
                                          WHERE objects.Object_Type = 1
-                                           AND Permission_Name = 'bug.delete'
+                                           AND Permission_Name = 'comment.delete'
                                            AND Rank = ?", "ii", array($newval, $previous));
 
                     return $newval;
