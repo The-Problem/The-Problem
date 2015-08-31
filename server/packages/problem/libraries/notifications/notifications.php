@@ -34,8 +34,6 @@
 				$queryResult = Connection::query($notificationQuery, "ss", array($currentUser, $settings['limit']));
 			
 			}
-			
-			var_dump($queryResult);
 
 			//loop through notification data from create html
 
