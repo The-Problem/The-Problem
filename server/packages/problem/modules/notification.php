@@ -18,7 +18,6 @@ class NotificationModule implements IModule {
 			<div id='notificationHeader'>
 				<h2>Notifications</h2>
 				<div id='refreshButton' class='fa fa-refresh sideButton'></div>
-				<div id='newButton' class='fa fa-bell sideButton'></div>
 			</div>
 
 			<div id='notifications'></div>
