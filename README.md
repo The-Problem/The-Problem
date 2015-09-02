@@ -1,6 +1,10 @@
 # The Problem
 "Be one with the problem, young Skywalker"
 
+ > And it's done! (or somewhat finished)
+ > Unfortunately this project isn't going to be maintained anymore, as it was created for an assignment.
+ > You can still check out _The Problem_ by following the installation guide below, or visiting http://theproblem.dreamhosters.com
+
 ## Installation and Usage
 
 _The Problem_ is written in PHP with MySQL and uses some Apache-specific features, and as a result you will need an Apache/PHP/MySQL stack. We recommend installing [XAMPP](https://www.apachefriends.org/index.html).
@@ -19,8 +23,9 @@ The installation contains two directories: `www` and `server`. Move the files in
 
 The next step in setting up _The Problem_ is to choose your profile. In this case, 'profile' refers to a set of configuration options that _The Problem_ loads on startup. Specifically, this is the running environment, cache options, and other important options. There are two 'example' files, one for a development environment, and one for a production environment. Unless you know what you are doing, you should copy the `profile-production.php` file in the server directory to `profile.php`. Without having a `profile.php` file, _The Problem_ will not work.
 
-The next step is to setup all of the database tables and configuration. A `database.sql` file is available in the cloned directory. Create a new database for _The Problem_, and run this SQL in it (note: this can be done through the 'Import' feature in phpMyAdmin if that is installed). You may also want to create a user account with permissions for this database. Now, go to the `packages/limecore/libraries/connection/connection.php` file in the server folder, and change the values for the `host`, `username`, `password`, and `database` to correspond with those for your database.
+The next step is to setup all of the database tables and configuration. A `database.sql` file is available in the cloned directory. Create a new database for _The Problem_, and run this SQL in it (note: this can be done through the 'Import' feature in phpMyAdmin if that is installed). You may also want to create a user account with permissions for this database. 
+Now, copy the `database-example.php` to `database.php`, and change the values inside to correspond with those for your database.
 
-Now, start up Apache and navigate to the directory where you placed the `www` files, in your browser. You should be greeted with _The Problem_'s homepage. Congratulations! You've successfully setup _The Problem_.
+Start up Apache and navigate to the directory where you placed the `www` files, in your browser. You should be greeted with _The Problem_'s homepage. Congratulations! You've successfully setup _The Problem_.
 
 Thank you for participating in this computer-aided enrichment centre activity. We look forward to seeing you for the next round of testing.
