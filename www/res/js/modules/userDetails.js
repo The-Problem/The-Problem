@@ -71,7 +71,7 @@ LimePHP.register("modules.userDetails", function() {
 
 	function formSaved(success){
 		console.log('success');
-		console.log(success);
+		closeUserPanel();
 	}
 
 	function formError(error){
@@ -84,6 +84,7 @@ LimePHP.register("modules.userDetails", function() {
 		var canSubmit = true;
 		
 		for (element in formElements){
+			formTests[element]();
 			if (formElements[element] != 1){
 				console.log(element);
 				canSubmit = false;
