@@ -85,27 +85,27 @@ LimePHP.register("modules.userDetails", function() {
 		
 		for (element in formElements){
 			validateField(element);
-			if (formElements[element] != 1){
-				console.log(element);
-				canSubmit = false;
-				break;
-			}
 		}
 
-		if (!canSubmit){
-			document.getElementById('invalidMessage').innerHTML = "There were some issues with the details you entered.";
-			document.getElementById('messageDiv').style.height = "35px";
-
-			setTimeout(function(){
-				for (element in formElements){
-				validateField(element);
+		setTimeout(function(){
+			for (element in formElements){
+				if (formElements[element] != 1){
+					console.log(element);
+					canSubmit = false;
+					break;
 				}
+			}
+			
+			if (!canSubmit){
+				document.getElementById('invalidMessage').innerHTML = "There were some issues with the details you entered.";
+				document.getElementById('messageDiv').style.height = "35px";
+			}else{
+				document.getElementById('invalidMessage').innerHTML = "";
+				submitToAjax();
+			}
 
-			}, 200);
-		}else{
-			document.getElementById('invalidMessage').innerHTML = "";
-			submitToAjax();
-		}
+		}, 300);
+
 	}
 
 	function fieldChangeHandler(event){
