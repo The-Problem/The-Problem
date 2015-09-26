@@ -104,7 +104,7 @@ LimePHP.register("modules.userDetails", function() {
 				submitToAjax();
 			}
 
-		}, 300);
+		}, 800);
 
 	}
 
