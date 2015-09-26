@@ -80,7 +80,7 @@
 				"SELECT Username FROM users WHERE Email = ?";
 			$emailResult = Connection::query($emailQuery, "s", array($email));
 
-			if (count($emailResult) > 0 && $emailResult[0]['Username'] != $SESSION['username']){
+			if (count($emailResult) > 0 && $emailResult[0]['Username'] != $_SESSION['username']){
 				return false;
 			}	
 
