@@ -84,7 +84,7 @@ LimePHP.register("modules.userDetails", function() {
 		var canSubmit = true;
 		
 		for (element in formElements){
-			formTests[element]();
+			validDateField(element);
 			if (formElements[element] != 1){
 				console.log(element);
 				canSubmit = false;
