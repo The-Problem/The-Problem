@@ -20,7 +20,7 @@ class AjaxSignupCheckEmailPage implements IPage {
 	    header('Content-type: application/json');
         Library::get('users');
 
-        $status = Users::emailAvailable($_GET['address'], $_GET['new']);
+        $status = Users::emailAvailable($_GET['address']);
 
 		$returnArray = array(
 			"result" => $status
