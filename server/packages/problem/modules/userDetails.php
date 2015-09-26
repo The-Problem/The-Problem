@@ -1,5 +1,5 @@
 <?php
-
+//module for changing user details which appears on user pages
 class UserDetailsModule implements IModule {
 	public function spinnersize(){
 		return Modules::SPINNER_LARGE;
@@ -17,7 +17,7 @@ class UserDetailsModule implements IModule {
 		$gravatarLink = "https://public-api.wordpress.com/oauth2/authorize?client_id=1854&response_type=code&blog_id=0&state=5c8d5106ab20c9a043551ec56525bb0d10242058b320ce6881cd7ca99381be7a&redirect_uri=https%3A%2F%2Fen.gravatar.com%2Fconnect%2F%3Faction%3Drequest_access_token";
 
 		?>
-
+		
 		<div id='detailsPanel'>
 			<h2>Your Details</h2>
 			<div id='detailsWrap'>

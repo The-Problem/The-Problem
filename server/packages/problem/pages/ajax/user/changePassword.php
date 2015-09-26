@@ -1,4 +1,6 @@
 <?php
+//send an email to the curent user with link to password reset page
+//uses User library
 class AjaxUserChangePasswordPage implements IPage {
     public function __construct(PageInfo &$page) {
  

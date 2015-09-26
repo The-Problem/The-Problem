@@ -1,4 +1,6 @@
 <?php
+//module to be loaded in each page containing notifications page and script to load
+//notifications over ajax
 
 class NotificationModule implements IModule {
 	public function spinnersize(){

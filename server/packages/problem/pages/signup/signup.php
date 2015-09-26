@@ -1,4 +1,6 @@
 <?php
+//page for signing up
+//only accessable when logged out
 class SignupPage implements IPage{
 	private $template;
 

@@ -1,4 +1,5 @@
 <?php
+//user is taken to this page when clicking on email verify link
 class SignupVerifyPage implements IPage{
 	public function __construct(PageInfo &$page){
 	}

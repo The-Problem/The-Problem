@@ -1,4 +1,5 @@
 <?php
+//update user details from user page
 class AjaxUserChangeDetailsPage implements IPage {
     public function __construct(PageInfo &$page) {
  

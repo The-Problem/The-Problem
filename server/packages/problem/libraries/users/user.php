@@ -68,6 +68,7 @@
 			return $coverPhoto->clientpath;
 		}
 
+		//get summary information including bugs, sections being developed in and rank for user pages
 		public function getSummary(){
 			$bugQuery = 
 				"SELECT Last_Logon_Time, Rank, COUNT(DISTINCT Bug_ID) as 'Bugs'
@@ -100,12 +101,11 @@
 				$lastActive = $lastLogon;
 			}
 
-			//Find when number of bugs 
-
 			if ($developingSections > 0 && $rankInt == 1){
 				$rank = 2;
 			}
 
+			//determine name for rank
 			if ($rankInt == Users::RANK_ADMIN){
 				$rank = 'Administrator';
 			}else if($rankInt == Users::RANK_MOD){
@@ -169,7 +169,8 @@
 
 			return $userSections;
 		}
-	
+		
+		//returns array returned by MySQL for bugs  being developed for this user
 		public function getBugs(){
 			$query = 
 				"SELECT bugs.Name as 'Bug_Name', bugs.RID as 'RID', sections.Name as 'Section_Name', sections.Color as 'Colour', sections.Slug as 'Section_Slug'
@@ -182,6 +183,7 @@
 			return $queryResult;
 		}
 
+		//send a verification email for verify account
 		public function sendVerificationEmail(){
 			$salt = Users::VERIFY_SALT;
 			$code = md5($this->email . $salt);
@@ -207,6 +209,7 @@
 			return mail($to, $subject, $messageHTML, $headers);
 		}
 
+		//send email to user with link to password verification page
 		public function sendPasswordEmail(){
 			$hash = md5($this->username . self::PASSWORD_SALT);
 

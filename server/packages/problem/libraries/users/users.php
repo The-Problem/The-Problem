@@ -114,6 +114,7 @@
 
 		}
 
+		//checks whether a password is the correct password for a user
 		public static function checkPassword($username, $password){
 			$passwordQuery = "SELECT Username, Password FROM users WHERE Username = ?";
 			$passwordHashResult = Connection::query($passwordQuery, "s", array($username));

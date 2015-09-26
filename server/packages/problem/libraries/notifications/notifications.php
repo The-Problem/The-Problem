@@ -1,4 +1,5 @@
 <?php
+	//Library for accessing notifications
 	class Notifications {
 		const TYPE_ASSIGNMENT = 0;
 		const TYPE_SECTION = 1;
@@ -9,11 +10,14 @@
 
 		private static $bugStatus = array('DELETED', 'OPEN', 'CLOSED', 'DUPLICATE', 'WIP');
 
+		//returns array listing notifications for user logged in as objects
+		//order and time range may be selected through $settings array
 		public static function get($settings){
 
 			//get notification data as associative array from database depending on arguments
 			$currentUser = $_SESSION['username'];
 
+			//create queries depending on settings
 			if ($settings['time']){
 				if ($settings['before']){
 					//return the first $limit number of notifications before $time
@@ -35,8 +39,7 @@
 			
 			}
 
-			//loop through notification data from create html
-
+			//loop through notification data and process for relevvant information depending on type and push to array before returning
 			$notificationElements = array();
 
 			for ($i = 0; $i < count($queryResult); $i++){
@@ -48,6 +51,8 @@
 
 		}
 
+		//processes through a single notification object from the database
+		//returns object with notification time, message, read, location and section properties
 		private static function processNotification($notification, $profile = false){
 		
 			Library::get('objects');
@@ -61,7 +66,9 @@
 			Library::get('string');
 			$fuzzyTime = String::timeago($notification['Creation_Date']);
 
+			//find more information and process depending on notification type
 			if ($type == self::TYPE_ASSIGNMENT){
+				//when notification is where the user has been assigned a bug
 				$bugInfoQuery = "SELECT bugs.Bug_ID, bugs.Name as 'Bug_Name', sections.Name as 'Section_Name', sections.Slug as 'Section_Slug' FROM bugs LEFT JOIN sections ON bugs.Section_ID = sections.Section_ID WHERE bugs.Object_ID = ?";
 				$bugInfo = Connection::query($bugInfoQuery, "s", array($targetOne))[0];
 				
@@ -76,6 +83,7 @@
 				}
 
 			}else if ($type == self::TYPE_SECTION){
+				//when notification is where a bug has been created in watched section
 				$bugInfoQuery = "SELECT bugs.Bug_ID, bugs.Name as 'Bug_Name', sections.Name as 'Section_Name', sections.Slug as 'Section_Slug' FROM bugs LEFT JOIN sections ON bugs.Section_ID =sections.Section_ID WHERE bugs.Object_ID = ?";
 				$bugInfo = Connection::query($bugInfoQuery, "s", array($targetOne))[0];
 				$bugName = $bugInfo['Bug_Name'];
@@ -88,6 +96,7 @@
 				}
 
 			}else if($type == self::TYPE_BUG){
+				//when notification is where bug status has been changed
 				$bugInfoQuery = "SELECT Status, bugs.Name as Bug_Name, bugs.RID as 'RID', sections.Name as Section_Name, sections.Slug as 'Section_Slug' FROM bugs LEFT JOIN sections ON bugs.Section_ID = sections.Section_ID WHERE bugs.Object_ID = ?";
 				$bugInfo = Connection::query($bugInfoQuery, "s", array($targetOne))[0];
 
@@ -103,9 +112,8 @@
 				if ($profile){
 					$message = "Changed to status of '" . $bugName . "' to " . $bugStatusSting;
 				}
-
-
 			}else if($type == self::TYPE_COMMENT){
+				//when notification is where a comment has been made in a watched bug
 				$commentQuery = 
 				"SELECT comments.Bug_ID as 'Bug_Number', sections.Name as 'Section_Name', sections.Slug as 'Section_Slug', comments.Comment_Text, bugs.RID as 'RID', bugs.Name as 'Bug_Name'
 				FROM comments
@@ -131,6 +139,7 @@
 				
 
 			}else if ($type == self::TYPE_PLUSONE){
+				//when notification is a +1
 				$typeQuery = 
 							"SELECT Object_Type
 							FROM objects
@@ -138,6 +147,7 @@
 				$targetType = Connection::query($typeQuery, "s", array($targetOne))[0]["Object_Type"];
 
 				if ($targetType == Objects::TYPE_BUG){
+					//when a bug is +1'd
 					$bugQuery = 
 								"SELECT bugs.RID as 'RID', bugs.Name as 'Bug_Name', bugs.Bug_ID as 'Bug_ID', sections.Name as 'Section_Name', sections.Slug as 'Section_Slug'
 								FROM bugs
@@ -158,7 +168,7 @@
 					}
 
 				}else if ($targetType == Objects::TYPE_COMMENT){
-
+					//when a comment in a bug is +1'd
 					$commentQuery = 
 									"SELECT Comment_Text, bugs.Name as 'Bug_Name', bugs.Bug_ID as 'Bug_ID', bugs.RID as 'RID', sections.Name as 'Section_Name', sections.slug as 'Section_Slug'
 									FROM comments
@@ -189,6 +199,7 @@
 
 
 			}else if($type == self::TYPE_MENTION){
+				//when notification is where user has been mentioned in a comment
 				$commentQuery =
 								"SELECT Comment_Text, sections.Name as 'Section_Name', sections.Slug as 'Section_Slug'
 								FROM comments
@@ -222,6 +233,7 @@
 
 		}
 
+		//returns notifications to be placed in recent activity in user pages
 		public static function getWhereTriggerIs($username, $limit = 10){
 			$query =
 					"SELECT Triggered_By, Target_One, Target_Two, Creation_Date, IsRead, Type
@@ -241,29 +253,7 @@
 
 		}
 
-		public static function newEvent($type, $triggerUser, $triggerObject){
-			if ($type == self::TYPE_ASSIGNMENT){
-				$insertQuery =
-								"INSERT INTO notifications
-								VALUES 
-								WHERE
-								";
-			}else if ($type == self::TYPE_SECTION){
-
-			}else if ($type == self::TYPE_BUG){
-
-			}else if ($type == self::TYPE_COMMENT){
-
-			}else if ($type == self::TYPE_PLUSONE){
-
-			}else if ($type == self::TYPE_MENTION){
-
-			}else{
-				return false;
-			}
-
-		}
-
+		//shortens string to required length with ellipses on the end
 		private static function shorten($message, $length){
 			$output = $message;
 

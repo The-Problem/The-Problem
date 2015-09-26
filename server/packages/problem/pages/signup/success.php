@@ -1,4 +1,5 @@
 <?php
+//page shown to set user bio when successfully signed up
 class SignupSuccessPage implements IPage{
 	public function __construct(PageInfo &$page){
 	}

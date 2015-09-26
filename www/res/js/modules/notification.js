@@ -1,3 +1,4 @@
+//Javascript for pulling notifications
 LimePHP.register("modules.notification", function() {
 	//get latest 10 notifications
 
@@ -43,6 +44,7 @@ LimePHP.register("modules.notification", function() {
 		}
 	}
 
+	//don't scroll on small screens where notification panel is open
 	function preventScrolling(event){
 		event.preventDefault();
 	}
@@ -56,6 +58,7 @@ LimePHP.register("modules.notification", function() {
 		refreshButton.className = 'sideButton fa fa-refresh fa-spin';
 	}
 
+	//change icon state when refresh is finished
 	function refreshDone(){
 		var refreshButton = document.getElementById('refreshButton');
 		refreshButton.style.color = 'white';
@@ -64,7 +67,6 @@ LimePHP.register("modules.notification", function() {
 	}
 
 	//refresh functions
-
 	function fetchNotifications(){
 		var notificationRequest = LimePHP.request("get", LimePHP.path("ajax/notifications/load"), {"limit": 10}, "json");
 		notificationRequest.success = notificationsArrived;
@@ -90,6 +92,7 @@ LimePHP.register("modules.notification", function() {
 		}
 	}
 
+	//get new notifications since last refresh
 	function refreshNotifications(){
 		showRefreshing();
 
@@ -124,7 +127,7 @@ LimePHP.register("modules.notification", function() {
 		}
 	}
 
-
+	//append a notification to the notification list
 	function addNotification(currentNotification, addToTop){
 		
 		var statHTML = "<span class='timeago' title='" + currentNotification['time'] + "'></span>" + ' - ' + "<a href='" + LimePHP.path('bugs/' + currentNotification['sectionSlug']) + "'>" + currentNotification['sectionName'] + "</a>";

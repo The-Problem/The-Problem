@@ -1,4 +1,5 @@
 <?php
+//log out
 class AjaxUserLogoutPage implements IPage {
     public function __construct(PageInfo &$info) {
     }

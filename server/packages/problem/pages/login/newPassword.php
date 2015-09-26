@@ -1,4 +1,5 @@
 <?php
+//password reset page
 class LoginNewPasswordPage implements IPage{
 	public function __construct(PageInfo &$page){
 	}
@@ -72,6 +73,8 @@ class LoginNewPasswordPage implements IPage{
 			return true;
 		}
 
+		//if there is POST data, validate before changing password
+		//if there is an error, show message to user
 		$currentUser = Users::getUser('current');
 
 		if (isset($_POST['oldPassword'])){

@@ -1,4 +1,5 @@
 <?php
+//returns json object from notification library with requested notifications
 class AjaxNotificationsLoadPage implements IPage {
     public function __construct(PageInfo &$page) {
  

@@ -1,4 +1,5 @@
 <?php
+//page for logging in
 class LoginPage implements IPage{
 	public function __construct(PageInfo &$page){
 	}
@@ -24,6 +25,8 @@ class LoginPage implements IPage{
 	public function body(){
 		Library::get('users');
 
+		//if POST request is received, verify login details to log the user
+		//otherwise show an error message
 		if (isset($_POST['username'])){
 			$username = trim($_POST['username']);
 			$password = $_POST['password'];
