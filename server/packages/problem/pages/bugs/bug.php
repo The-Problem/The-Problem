@@ -73,6 +73,37 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Raw_Description AS Bug_Raw_D
     }
 
     public function body() {
+        // get bug plus ones
+        $userPlus = Connection::query("SELECT COUNT(*) AS plusnum FROM plusones WHERE plusones.Username = ? AND plusones.Object_ID = ?", "si", array($_SESSION["username"], $this->bug["Bug_ObjectID"]));
+        // get bug watches
+        $userFollow = Connection::query("SELECT COUNT(*) AS folnum FROM watchers WHERE watchers.Username = ? AND watchers.Object_ID = ?", "si", array($_SESSION["username"], $this->bug["Bug_ObjectID"]));
+
+
+        // check for plus one change
+        if (array_key_exists('plus', $_GET) || array_key_exists('follow', $_GET)) {
+            // get bug plus ones
+            $plusCheck = Connection::query("SELECT COUNT(*) as num FROM plusones WHERE plusones.Username = ? AND plusones.Object_ID = ?", "si", array($_SESSION["username"], $this->bug["Bug_ObjectID"]));
+            // get bug watches
+            $folCheck = Connection::query("SELECT COUNT(*) as num FROM watchers WHERE watchers.Username = ? AND watchers.Object_ID = ?", "si", array($_SESSION["username"], $this->bug["Bug_ObjectID"]));
+
+            if ($_GET["plus"] != $plusCheck[0]["num"]){
+                if ($_GET["plus"] == 1){
+                    Connection::query("INSERT INTO plusones VALUES (?, ?, ?)", "iss", array($this->bug["Bug_ObjectID"], $_SESSION["username"], date('Y-m-d H:i:s')));
+                } else{
+                    Connection::query("DELETE FROM plusones WHERE Object_ID = ? AND Username = ?", "is", array($this->bug["Bug_ObjectID"], $_SESSION["username"]));
+                }
+                header("Refresh:0");
+            }
+            if ($_GET["follow"] != $folCheck[0]["num"]){
+                if ($_GET["follow"] == 1){
+                    Connection::query("INSERT INTO watchers VALUES (?, ?)", "is", array($this->bug["Bug_ObjectID"], $_SESSION["username"]));
+                } else{
+                    Connection::query("DELETE FROM watchers WHERE Object_ID = ? AND Username = ?", "is", array($this->bug["Bug_ObjectID"], $_SESSION["username"]));
+                }
+                header("Refresh:0");
+            }
+        }
+
         Library::get("objects");
 
         $statuses = array(
@@ -123,10 +154,35 @@ SELECT *, bugs.Description AS Bug_Description, bugs.Raw_Description AS Bug_Raw_D
                 echo "</h4>";
             ?>
 
-            <h3>Assignee</h3>
-            <h4>Ran out</h4>
-            <h3>Notifications</h3>
-            <h4>of time</h4>
+            <h3>Assignees</h3>
+            <h4>
+            <?php
+                Library::get('users');
+                $selectedAssign = Users::getUser(htmlentities($this->bug["Assigned"]));
+                if ($selectedAssign != ""){
+                    echo "<a href='" . Path::getclientfolder("~" . htmlentities($this->bug["Assigned"])) . "'>" . "<img class='profilePicture' title='" . htmlentities($this->bug["Assigned"]) . "' src='" . $selectedAssign->getAvatarLink(40) . "'/></a>";
+                } else {
+                    echo "<i>None have been assigned</i>";
+                }
+            ?>
+            </h4>         
+                <?php
+                if (Objects::permission($this->bug["Bug_ObjectID"], "bug.change-status", $_SESSION["username"], $this->bug["Section_ID"])){
+                    echo '<h3>Notifications</h3><h4>';
+                    if ($userPlus[0]["plusnum"] == 0){
+                        echo '<a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?plus=1"><button type="button" id="plus">' . '<i class="fa fa-thumbs-up"></i> Plus it!</button></a>';
+                    } else {
+                        echo '<a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?plus=0"><button type="button" id="plus">' . '<i class="fa fa-thumbs-down"></i> Plus\'ed!</button></a>';
+                    }
+                    if ($userFollow[0]["folnum"] == 0){
+                        echo '<a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?follow=1"><button type="button" id="plus">' . '<i class="fa fa-bug"></i> Follow!</button></a>';
+                    } else {
+                        echo '<a href="' . Path::getclientfolder("bugs", $this->path[2], $this->path[3]) . '?follow=0"><button type="button" id="plus">' . '<i class="fa fa-bug"></i> Followed!</button></a>';
+                    }
+                    echo '</h4>';
+                }
+                ?>
+            </h4>
                 
             </div>
         </div>

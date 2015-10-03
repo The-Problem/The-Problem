@@ -2,6 +2,13 @@ p{
 	display: inline;
 }
 
+button{
+	display: inline-block;
+	width: 110px;
+	text-decoration: none;
+	margin-right: 10px;
+}
+
 #centerArea{
 	margin: auto;
 	margin-top: 100px;

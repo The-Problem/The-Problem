@@ -60,7 +60,7 @@ class BugsPage implements IPage {
                 $returnval =  "fa-pencil";
             }
 
-            return "<i title='This bug is " . $returnalt . "!' class='fa " . $returnval . " fa-black'></i>" ;
+            return "<i title='This bug is " . $returnalt . "!' class='fa " . $returnval . "'></i>" ;
         }
 
 
@@ -136,9 +136,9 @@ class BugsPage implements IPage {
                             echo "<option value='" . htmlentities($dev["Username"]) . "'>" . htmlentities($dev["Username"]) . "</option>";
                         }
                         ?>
-                </select>
-                <?php if ($current_user[0]["Rank"] >= 4) { ?><a id="permissionsLink" href="<?php echo Path::getclientfolder("admin", "object", $section[0]["Object_ID"]); ?>">Permissions</a><?php } ?>
-                <h6>Hint: Try hovering over the coloured symbols</h6>
+                    </select>
+                    <?php if ($current_user[0]["Rank"] >= 4) { ?><a id="permissionsLink" href="<?php echo Path::getclientfolder("admin", "object", $section[0]["Object_ID"]); ?>">Permissions</a><?php } ?>-->
+                    <h6>Hint: Try hovering over the coloured symbols</h6>
                 </td>
             </tr>
             <?php
