@@ -95,14 +95,34 @@ class BugsPage implements IPage {
 
 <div id="sectionContent">
     <div id="centerArea">
-        <div id="topsection">
+        <!--<div id="topsection">
             <input id="searchBox" type="search" placeholder="What are you looking for?">
             <form action="<?php echo Path::getclientfolder("bugs", $this->section, "new"); ?>"><button type="submit" id="newBug"><i class="fa fa-plus"></i></button></form>
-        </div>
+        </div>-->
         <table id="bugsTable">
             <tr>
                 <td id="toprow">
-                <select id="sort">
+                <i class="fa fa-check fa-green"></i>
+                <h4><?php
+                $opennum = 0;
+                $closenum = 0;
+                $wipnum = 0;
+                foreach ($bugs as $bug){
+                   if ($bug["Status"] == 1){
+                        ++$opennum;
+                   } else if ($bug["Status"] == 2){
+                        ++$closenum;
+                   } else if ($bug["Status"] == 4){
+                        ++$wipnum;
+                   }
+                }
+                echo $opennum . " open";
+                 ?></h4>
+                <i class="fa fa-times"></i>
+                <h4><?php echo $closenum . " closed"; ?></h4>
+                <i class="fa fa-pencil"></i>
+                <h4><?php echo $wipnum . " WiPs"; ?></h4>
+                <!--<select id="sort">
                         <option value="initial" selected="selected" disabled="disabled">Sort</option>
                         <option value="0">None</option>
                         <option value="1">Alphabetical</option>
@@ -136,8 +156,8 @@ class BugsPage implements IPage {
                             echo "<option value='" . htmlentities($dev["Username"]) . "'>" . htmlentities($dev["Username"]) . "</option>";
                         }
                         ?>
-                    </select>
-                    <?php if ($current_user[0]["Rank"] >= 4) { ?><a id="permissionsLink" href="<?php echo Path::getclientfolder("admin", "object", $section[0]["Object_ID"]); ?>">Permissions</a><?php } ?>-->
+                    </select>-->
+                    <?php if ($current_user[0]["Rank"] >= 4) { ?><a id="permissionsLink" href="<?php echo Path::getclientfolder("admin", "object", $section[0]["Object_ID"]); ?>">Permissions</a><?php } ?>
                     <h6>Hint: Try hovering over the coloured symbols</h6>
                 </td>
             </tr>
