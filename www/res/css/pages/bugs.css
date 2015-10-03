@@ -7,15 +7,15 @@ p{
 }
 
 h4{
-	display: inline;
 	color: black;
+	display: inline;
 	line-height: 37px;
 }
 
 h6{
+	color: black;
 	float: right;
 	line-height: 37px;
-	color: black
 }
 
 #sectionHead{
