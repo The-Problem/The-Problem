@@ -95,10 +95,10 @@ class BugsPage implements IPage {
 
 <div id="sectionContent">
     <div id="centerArea">
-        <!--<div id="topsection">
-            <input id="searchBox" type="search" placeholder="What are you looking for?">
+        <div id="topsection">
+            <!--<input id="searchBox" type="search" placeholder="What are you looking for?">-->
             <form action="<?php echo Path::getclientfolder("bugs", $this->section, "new"); ?>"><button type="submit" id="newBug"><i class="fa fa-plus"></i></button></form>
-        </div>-->
+        </div>
         <table id="bugsTable">
             <tr>
                 <td id="toprow">
